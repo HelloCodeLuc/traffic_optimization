@@ -1,4 +1,4 @@
-This is a repository for Timathy and Lucas to work on the Simulator of Urban MObility (SUMO) 
+This is a repository for Timothy and Lucas to work on the Simulator of Urban MObility (SUMO) 
 This will be dedicated to Timathy and Lucas's Science fair project
 
 (Due 01-02-2024)
