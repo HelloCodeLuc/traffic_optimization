@@ -31,3 +31,5 @@ if __name__ == "__main__":
 
     # Run the simulation
     run_sumo_simulation(sumo_binary, sumo_config)
+
+    print ("Finished execution.")
