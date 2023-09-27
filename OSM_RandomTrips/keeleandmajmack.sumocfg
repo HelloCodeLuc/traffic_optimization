@@ -1,0 +1,12 @@
+<configuration>
+
+<input>
+<net-file value="keeleandmajmack.net.xml"/>
+<route-files value="keeleandmajmack.rou.xml"/>
+</input>
+<time>
+<begin value ="0"/>
+<end value="2000"/>
+</time>
+
+</configuration>
