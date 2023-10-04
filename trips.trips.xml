@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2023-10-03 22:55:54.665851 by randomTrips.py v1_18_0+0000-03ecfdea036
+<configuration>
+    <net-file value="OSM_RandomTrips/keeleandmajmack.net.xml"/>
+    <route-file value="output\random_trips_1929.xml"/>
+    <seed value="1929"/>
+    <random value="True"/>
+    <end value="5.0"/>
+</configuration>
+-->
+
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd">
+    <trip id="0" depart="0.00" from="-786894172#2" to="55062735#1"/>
+    <trip id="1" depart="1.00" from="-55062774" to="55062702#1"/>
+    <trip id="2" depart="2.00" from="55062735#2" to="55062718#1"/>
+    <trip id="3" depart="3.00" from="786894172#2" to="-55062715#1"/>
+    <trip id="4" depart="4.00" from="55062747" to="55062735#1"/>
+</routes>

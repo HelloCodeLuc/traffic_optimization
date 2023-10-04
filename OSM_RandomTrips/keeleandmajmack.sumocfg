@@ -1,8 +1,8 @@
 <configuration>
 
 <input>
-<net-file value="keeleandmajmack.net.xml"/>
-<route-files value="keeleandmajmack.rou.xml"/>
+<net-file value="OSM_RandomTrips/keeleandmajmack.net.xml"/>
+<route-files value="OSM_RandomTrips/keeleandmajmack.rou.xml"/>
 </input>
 <time>
 <begin value ="0"/>
