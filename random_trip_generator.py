@@ -18,12 +18,12 @@ def generate_random_trips(trip_file, max_steps, seed):
     subprocess.call(cmd, shell=True)
     print ("DEBUG 2")
 
-def generate_sumo_config(config_file, route_files):
+def generate_sumo_config(config_file, current_directory, route_files):
     # Generate the SUMO configuration file with the given template
     config_template = f"""<configuration>
     <input>
-        <net-file value="OSM_RandomTrips/keeleandmajmack.net.xml"/>
-        <route-files value="{route_files}"/>
+        <net-file value="{current_directory}/OSM_RandomTrips/keeleandmajmack.net.xml"/>
+        <route-files value="{current_directory}/{route_files}"/>
     </input>
     <time>
         <begin value="0"/>
@@ -50,6 +50,8 @@ def run_sumo(config_file):
 
 if __name__ == "__main__":
 
+
+    current_directory = os.getcwd()
     output_folder = "output"
 
     try:
@@ -76,15 +78,19 @@ if __name__ == "__main__":
         #sys.exit(0)
         # Generate SUMO configuration file and update the route-files value
         config_file = os.path.join(output_folder, f"sumo_config_{random_seed}.sumocfg")
-        generate_sumo_config(config_file, route_files=trip_file)
+        generate_sumo_config(config_file, current_directory, route_files=trip_file)
 
         # Set working directory to the output folder for the SUMO simulation
-        os.chdir(output_folder)
+        #os.chdir(output_folder)
 
         # Run the SUMO simulation using the generated configuration file
-        #run_sumo(config_file)
+        run_sumo(config_file)
 
         # Clean up generated files
         print (f"DEBUG : trip_file = {trip_file}")
+        # trip_file = "output\\random_trips_6933.xml"
+        # os.remove(trip_file)
+        # sys.exit(0)
+
         os.remove(trip_file)
         os.remove(config_file)
