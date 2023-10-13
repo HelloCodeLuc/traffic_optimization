@@ -54,12 +54,15 @@ if __name__ == "__main__":
     current_directory = os.getcwd()
     output_folder = "output"
 
-    try:
+    if os.path.exists(output_folder):
+        try:
         # Use shutil.rmtree() to remove the directory and its contents
-        shutil.rmtree(output_folder)
-        print(f'Deleted directory: {output_folder}')
-    except Exception as e:
-        print(f"Error: {e}")
+           shutil.rmtree(output_folder)
+           print(f'Deleted directory: {output_folder}')
+        except Exception as e:
+            print(f"Error: {e}")
+    else:
+        print(f"Directory '{output_folder}' does not exist.")
 
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
