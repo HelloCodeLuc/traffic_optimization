@@ -71,6 +71,8 @@ if __name__ == "__main__":
     max_steps = 5
     #max_steps = 2000  # Change this to the desired number of simulation steps
 
+    output_data_file = os.path.join(output_folder, "output_data.txt")
+
     for run in range(num_runs):
         random_seed = random.randint(1, 10000)  # Use a different random seed for each run
         trip_file = os.path.join(output_folder, f"random_trips_{random_seed}.xml")  # Generate a unique trip file name for each run
@@ -89,6 +91,9 @@ if __name__ == "__main__":
         # Run the SUMO simulation using the generated configuration file
         run_sumo(config_file)
 
+         # Write the iteration number to the output_data file
+        with open(output_data_file, "a") as f:
+            f.write(f"Iteration: {run}\n")
         # Clean up generated files
         print (f"DEBUG : trip_file = {trip_file}")
         # trip_file = "output\\random_trips_6933.xml"
