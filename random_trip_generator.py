@@ -1,4 +1,3 @@
-
 import sys
 import os
 import subprocess
@@ -39,6 +38,7 @@ def run_sumo(config_file):
     sumo_cmd = ["sumo", "-c", config_file]
     traci.start(sumo_cmd)
 
+
     step = 0
     while step < max_steps:
         traci.simulationStep()
@@ -56,20 +56,22 @@ if __name__ == "__main__":
 
     if os.path.exists(output_folder):
         try:
-        # Use shutil.rmtree() to remove the directory and its contents
+           # Use shutil.rmtree() to remove the directory and its contents
            shutil.rmtree(output_folder)
            print(f'Deleted directory: {output_folder}')
         except Exception as e:
-            print(f"Error: {e}")
+           print(f"Error: {e}")
     else:
         print(f"Directory '{output_folder}' does not exist.")
 
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
 
-    num_runs = 1  # Change this to the number of times you want to run the simulation
-    max_steps = 5
+    num_runs = 10  # Change this to the number of times you want to run the simulation
+    max_steps = 20
     #max_steps = 2000  # Change this to the desired number of simulation steps
+
+
 
     output_data_file = os.path.join(output_folder, "output_data.txt")
 
@@ -85,6 +87,7 @@ if __name__ == "__main__":
         config_file = os.path.join(output_folder, f"sumo_config_{random_seed}.sumocfg")
         generate_sumo_config(config_file, current_directory, route_files=trip_file)
 
+
         # Set working directory to the output folder for the SUMO simulation
         #os.chdir(output_folder)
 
@@ -93,12 +96,14 @@ if __name__ == "__main__":
 
          # Write the iteration number to the output_data file
         with open(output_data_file, "a") as f:
-            f.write(f"Iteration: {run}\n")
+            f.write(f"Iteration: {run},")
+            f.write(f"Random Seed: {random_seed},")
+            f.write(f"Trip File: {trip_file},")
+            f.write(f"Configuration File: {config_file}\n")
         # Clean up generated files
         print (f"DEBUG : trip_file = {trip_file}")
-        # trip_file = "output\\random_trips_6933.xml"
-        # os.remove(trip_file)
         # sys.exit(0)
+
 
         os.remove(trip_file)
         os.remove(config_file)
