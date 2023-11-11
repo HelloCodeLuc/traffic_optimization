@@ -71,8 +71,6 @@ if __name__ == "__main__":
     max_steps = 20
     #max_steps = 2000  # Change this to the desired number of simulation steps
 
-
-
     output_data_file = os.path.join(output_folder, "output_data.txt")
 
     for run in range(num_runs):
@@ -86,8 +84,6 @@ if __name__ == "__main__":
         # Generate SUMO configuration file and update the route-files value
         config_file = os.path.join(output_folder, f"sumo_config_{random_seed}.sumocfg")
         generate_sumo_config(config_file, current_directory, route_files=trip_file)
-
-
         # Set working directory to the output folder for the SUMO simulation
         #os.chdir(output_folder)
 
@@ -103,7 +99,6 @@ if __name__ == "__main__":
         # Clean up generated files
         print (f"DEBUG : trip_file = {trip_file}")
         # sys.exit(0)
-
 
         os.remove(trip_file)
         os.remove(config_file)
