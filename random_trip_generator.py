@@ -77,7 +77,7 @@ if __name__ == "__main__":
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
 
-    num_runs = 1  # Change this to the number of times you want to run the simulation
+    num_runs = 10  # Change this to the number of times you want to run the simulation
     max_steps = 20
     #max_steps = 2000  # Change this to the desired number of simulation steps
 
