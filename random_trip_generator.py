@@ -5,6 +5,7 @@ import traci
 import random
 import time
 import shutil
+import argparse
 
 def generate_random_trips(trip_file, max_steps, seed):
     # Run randomtrips.py to generate random trips and save them to a file
@@ -33,11 +34,13 @@ def generate_sumo_config(config_file, current_directory, route_files):
     with open(config_file, 'w') as f:
         f.write(config_template)
 
-def run_sumo(config_file):
+def run_sumo(config_file, gui_opt):
     # Launch SUMO with GUI using the generated configuration file
     sumo_cmd = ["sumo", "-c", config_file]
+    if gui_opt:
+        sumo_cmd = ["sumo-gui", "-c", config_file] 
+ 
     traci.start(sumo_cmd)
-
 
     step = 0
     while step < max_steps:
@@ -49,6 +52,13 @@ def run_sumo(config_file):
 
 
 if __name__ == "__main__":
+
+    parser = argparse.ArgumentParser(description="Run SUMO simulation in batch or GUI mode.")
+    parser.add_argument("--gui", action="store_true", help="Run with GUI")
+
+    args = parser.parse_args()
+
+
 
 
     current_directory = os.getcwd()
@@ -88,7 +98,7 @@ if __name__ == "__main__":
         #os.chdir(output_folder)
 
         # Run the SUMO simulation using the generated configuration file
-        run_sumo(config_file)
+        run_sumo(config_file, args.gui)
 
          # Write the iteration number to the output_data file
         with open(output_data_file, "a") as f:
@@ -102,3 +112,4 @@ if __name__ == "__main__":
 
         os.remove(trip_file)
         os.remove(config_file)
+
