@@ -23,7 +23,7 @@ def generate_sumo_config(config_file, current_directory, route_files):
     # Generate the SUMO configuration file with the given template
     config_template = f"""<configuration>
     <input>
-        <net-file value="{current_directory}/OSM_RandomTrips/keeleandmajmack.net.xml"/>
+        <net-file value="{current_directory}/netedit_test.net.xml"/>
         <route-files value="{current_directory}/{route_files}"/>
     </input>
     <time>
