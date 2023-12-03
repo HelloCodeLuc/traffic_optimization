@@ -7,6 +7,7 @@ import time
 import shutil
 import argparse
 import matplotlib.pyplot as plt
+import argparse
 
 def generate_random_trips(trip_file, max_steps, seed):
     # Run randomtrips.py to generate random trips and save them to a file
@@ -41,6 +42,9 @@ def run_sumo(config_file, gui_opt):
     if gui_opt:
         sumo_cmd = ["sumo-gui", "-c", config_file] 
 
+    if gui_opt:
+        sumo_cmd = ["sumo-gui", "-c", config_file] 
+ 
     traci.start(sumo_cmd)
 
     step = 0
@@ -68,6 +72,13 @@ if __name__ == "__main__":
     parser.add_argument("--gui", action="store_true", help="Run with GUI")
 
     args = parser.parse_args()
+
+    parser = argparse.ArgumentParser(description="Run SUMO simulation in batch or GUI mode.")
+    parser.add_argument("--gui", action="store_true", help="Run with GUI")
+
+    args = parser.parse_args()
+
+
 
 
     current_directory = os.getcwd()
@@ -109,6 +120,8 @@ if __name__ == "__main__":
         # Run the SUMO simulation using the generated configuration file
         run_sumo(config_file,args.gui)
         
+        run_sumo(config_file, args.gui)
+
          # Write the iteration number to the output_data file
         with open(output_data_file, "a") as f:
             f.write(f"Iteration: {run},")
@@ -123,3 +136,4 @@ if __name__ == "__main__":
         os.remove(config_file)
 
     my_plot()
+
