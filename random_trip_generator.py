@@ -6,6 +6,8 @@ import random
 import time
 import shutil
 import argparse
+import matplotlib.pyplot as plt
+import argparse
 
 def generate_random_trips(trip_file, max_steps, seed):
     # Run randomtrips.py to generate random trips and save them to a file
@@ -39,6 +41,9 @@ def run_sumo(config_file, gui_opt):
     sumo_cmd = ["sumo", "-c", config_file]
     if gui_opt:
         sumo_cmd = ["sumo-gui", "-c", config_file] 
+
+    if gui_opt:
+        sumo_cmd = ["sumo-gui", "-c", config_file] 
  
     traci.start(sumo_cmd)
 
@@ -50,8 +55,23 @@ def run_sumo(config_file, gui_opt):
 
     traci.close()
 
+def my_plot():
+    my_array = [2 * i for i in range(1, 51)]
+
+    # Plot the average speeds
+    plt.plot(range(1, 51), my_array, label=f'Run {run}')
+    plt.xlabel('Time Step')
+    plt.ylabel('Average Speed (m/s)')
+    plt.title('Average Speed Over Time')
+    plt.legend()
+    plt.show()
+
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Run SUMO simulation in batch or GUI mode.")
+    parser.add_argument("--gui", action="store_true", help="Run with GUI")
+
+    args = parser.parse_args()
 
     parser = argparse.ArgumentParser(description="Run SUMO simulation in batch or GUI mode.")
     parser.add_argument("--gui", action="store_true", help="Run with GUI")
@@ -98,6 +118,8 @@ if __name__ == "__main__":
         #os.chdir(output_folder)
 
         # Run the SUMO simulation using the generated configuration file
+        run_sumo(config_file,args.gui)
+        
         run_sumo(config_file, args.gui)
 
          # Write the iteration number to the output_data file
@@ -112,4 +134,6 @@ if __name__ == "__main__":
 
         os.remove(trip_file)
         os.remove(config_file)
+
+    my_plot()
 
