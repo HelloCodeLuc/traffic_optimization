@@ -1,4 +1,5 @@
 import sys
+print(sys.path)
 import os
 import subprocess
 import traci
@@ -14,7 +15,7 @@ def generate_random_trips(trip_file, max_steps, seed):
     print ("DEBUG 0")
     #cmd = f"C:/Users/chuny/Desktop/lucas/Python%20Projects/traffic_optimization/randomTrips.py -n OSM_RandomTrips/keeleandmajmack.net.xml -r {trip_file} -e {max_steps} --random -s {seed} -o output/trips.trips.xml"
     randomTrips = r'"C:\Program Files (x86)\Eclipse\Sumo\tools\randomTrips.py"'
-    cmd = f"python {randomTrips} -n OSM_RandomTrips/keeleandmajmack.net.xml -r {trip_file} -e {max_steps} --random -s {seed}"
+    cmd = f"python {randomTrips} -n mynetworks/netedit_test.net.xml -r {trip_file} -e {max_steps} --random -s {seed}"
 
     print (f"DEBUG 1 : randomTrips.py command : {cmd}")
     subprocess.call(cmd, shell=True)
@@ -24,7 +25,7 @@ def generate_sumo_config(config_file, current_directory, route_files):
     # Generate the SUMO configuration file with the given template
     config_template = f"""<configuration>
     <input>
-        <net-file value="{current_directory}/OSM_RandomTrips/keeleandmajmack.net.xml"/>
+        <net-file value="{current_directory}/mynetworks/netedit_test.net.xml"/>
         <route-files value="{current_directory}/{route_files}"/>
     </input>
     <time>
@@ -42,10 +43,8 @@ def run_sumo(config_file, gui_opt):
     if gui_opt:
         sumo_cmd = ["sumo-gui", "-c", config_file] 
 
-    if gui_opt:
-        sumo_cmd = ["sumo-gui", "-c", config_file] 
- 
     traci.start(sumo_cmd)
+    
 
     step = 0
     while step < max_steps:
@@ -97,8 +96,8 @@ if __name__ == "__main__":
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
 
-    num_runs = 10  # Change this to the number of times you want to run the simulation
-    max_steps = 20
+    num_runs = 1  # Change this to the number of times you want to run the simulation
+    max_steps = 5
     #max_steps = 2000  # Change this to the desired number of simulation steps
 
     output_data_file = os.path.join(output_folder, "output_data.txt")
@@ -119,10 +118,8 @@ if __name__ == "__main__":
 
         # Run the SUMO simulation using the generated configuration file
         run_sumo(config_file,args.gui)
-        
-        run_sumo(config_file, args.gui)
 
-         # Write the iteration number to the output_data file
+        # Write the iteration number to the output_data file
         with open(output_data_file, "a") as f:
             f.write(f"Iteration: {run},")
             f.write(f"Random Seed: {random_seed},")
@@ -130,10 +127,9 @@ if __name__ == "__main__":
             f.write(f"Configuration File: {config_file}\n")
         # Clean up generated files
         print (f"DEBUG : trip_file = {trip_file}")
-        # sys.exit(0)
 
         os.remove(trip_file)
         os.remove(config_file)
 
     my_plot()
-
+sys.exit(0)
