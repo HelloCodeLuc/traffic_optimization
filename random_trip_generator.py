@@ -13,7 +13,7 @@ def generate_random_trips(trip_file, max_steps, seed):
     print ("DEBUG 0")
     #cmd = f"C:/Users/chuny/Desktop/lucas/Python%20Projects/traffic_optimization/randomTrips.py -n OSM_RandomTrips/keeleandmajmack.net.xml -r {trip_file} -e {max_steps} --random -s {seed} -o output/trips.trips.xml"
     randomTrips = r'"C:\Program Files (x86)\Eclipse\Sumo\tools\randomTrips.py"'
-    cmd = f"python {randomTrips} -n OSM_RandomTrips/keeleandmajmack.net.xml -r {trip_file} -e {max_steps} --random -s {seed}"
+    cmd = f"python {randomTrips} -n mynetworks/netedit_test.net.xml -r {trip_file} -e {max_steps} --random -s {seed}"
 
     print (f"DEBUG 1 : randomTrips.py command : {cmd}")
     subprocess.call(cmd, shell=True)
@@ -23,7 +23,7 @@ def generate_sumo_config(config_file, current_directory, route_files):
     # Generate the SUMO configuration file with the given template
     config_template = f"""<configuration>
     <input>
-        <net-file value="{current_directory}/netedit_test.net.xml"/>
+        <net-file value="{current_directory}/mynetworks/netedit_test.net.xml"/>
         <route-files value="{current_directory}/{route_files}"/>
     </input>
     <time>
@@ -37,7 +37,7 @@ def generate_sumo_config(config_file, current_directory, route_files):
 
 def run_sumo(config_file):
     # Launch SUMO with GUI using the generated configuration file
-    sumo_cmd = ["sumo", "-c", config_file]
+    sumo_cmd = ["sumo-gui", "-c", config_file]
     traci.start(sumo_cmd)
 
     step = 0
@@ -69,8 +69,8 @@ if __name__ == "__main__":
         os.makedirs(output_folder)
 
     num_runs = 1  # Change this to the number of times you want to run the simulation
-    max_steps = 5
-    #max_steps = 2000  # Change this to the desired number of simulation steps
+    #max_steps = 5
+    max_steps = 2000  # Change this to the desired number of simulation steps
 
     output_data_file = os.path.join(output_folder, "output_data.txt")
 
@@ -98,8 +98,8 @@ if __name__ == "__main__":
         # Clean up generated files
         print (f"DEBUG : trip_file = {trip_file}")
         # trip_file = "output\\random_trips_6933.xml"
-        # os.remove(trip_file)
-        # sys.exit(0)
+        os.remove(trip_file)
+        sys.exit(0)
 
         os.remove(trip_file)
         os.remove(config_file)
