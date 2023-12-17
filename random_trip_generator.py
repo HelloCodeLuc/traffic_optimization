@@ -40,7 +40,11 @@ def generate_sumo_config(config_file, current_directory, route_files):
 def run_sumo(config_file, gui_opt):
     # Launch SUMO with GUI using the generated configuration file
     sumo_cmd = ["sumo", "-c", config_file]
+    if gui_opt:
+        sumo_cmd = ["sumo-gui", "-c", config_file] 
+
     traci.start(sumo_cmd)
+    
 
     step = 0
     while step < max_steps:
@@ -93,8 +97,8 @@ if __name__ == "__main__":
         os.makedirs(output_folder)
 
     num_runs = 1  # Change this to the number of times you want to run the simulation
-    #max_steps = 5
-    max_steps = 2000  # Change this to the desired number of simulation steps
+    max_steps = 5
+    #max_steps = 2000  # Change this to the desired number of simulation steps
 
     output_data_file = os.path.join(output_folder, "output_data.txt")
 
@@ -114,10 +118,8 @@ if __name__ == "__main__":
 
         # Run the SUMO simulation using the generated configuration file
         run_sumo(config_file,args.gui)
-        
-        run_sumo(config_file, args.gui)
 
-         # Write the iteration number to the output_data file
+        # Write the iteration number to the output_data file
         with open(output_data_file, "a") as f:
             f.write(f"Iteration: {run},")
             f.write(f"Random Seed: {random_seed},")
