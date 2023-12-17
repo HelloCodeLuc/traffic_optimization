@@ -1,4 +1,3 @@
-
 import sys
 print(sys.path)
 import os
@@ -7,6 +6,9 @@ import traci
 import random
 import time
 import shutil
+import argparse
+import matplotlib.pyplot as plt
+import argparse
 
 def generate_random_trips(trip_file, max_steps, seed):
     # Run randomtrips.py to generate random trips and save them to a file
@@ -35,9 +37,15 @@ def generate_sumo_config(config_file, current_directory, route_files):
     with open(config_file, 'w') as f:
         f.write(config_template)
 
-def run_sumo(config_file):
+def run_sumo(config_file, gui_opt):
     # Launch SUMO with GUI using the generated configuration file
-    sumo_cmd = ["sumo-gui", "-c", config_file]
+    sumo_cmd = ["sumo", "-c", config_file]
+    if gui_opt:
+        sumo_cmd = ["sumo-gui", "-c", config_file] 
+
+    if gui_opt:
+        sumo_cmd = ["sumo-gui", "-c", config_file] 
+ 
     traci.start(sumo_cmd)
 
     step = 0
@@ -48,8 +56,30 @@ def run_sumo(config_file):
 
     traci.close()
 
+def my_plot():
+    my_array = [2 * i for i in range(1, 51)]
+
+    # Plot the average speeds
+    plt.plot(range(1, 51), my_array, label=f'Run {run}')
+    plt.xlabel('Time Step')
+    plt.ylabel('Average Speed (m/s)')
+    plt.title('Average Speed Over Time')
+    plt.legend()
+    plt.show()
+
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Run SUMO simulation in batch or GUI mode.")
+    parser.add_argument("--gui", action="store_true", help="Run with GUI")
+
+    args = parser.parse_args()
+
+    parser = argparse.ArgumentParser(description="Run SUMO simulation in batch or GUI mode.")
+    parser.add_argument("--gui", action="store_true", help="Run with GUI")
+
+    args = parser.parse_args()
+
+
 
 
     current_directory = os.getcwd()
@@ -57,11 +87,11 @@ if __name__ == "__main__":
 
     if os.path.exists(output_folder):
         try:
-        # Use shutil.rmtree() to remove the directory and its contents
+           # Use shutil.rmtree() to remove the directory and its contents
            shutil.rmtree(output_folder)
            print(f'Deleted directory: {output_folder}')
         except Exception as e:
-            print(f"Error: {e}")
+           print(f"Error: {e}")
     else:
         print(f"Directory '{output_folder}' does not exist.")
 
@@ -85,16 +115,20 @@ if __name__ == "__main__":
         # Generate SUMO configuration file and update the route-files value
         config_file = os.path.join(output_folder, f"sumo_config_{random_seed}.sumocfg")
         generate_sumo_config(config_file, current_directory, route_files=trip_file)
-
         # Set working directory to the output folder for the SUMO simulation
         #os.chdir(output_folder)
 
         # Run the SUMO simulation using the generated configuration file
-        run_sumo(config_file)
+        run_sumo(config_file,args.gui)
+        
+        run_sumo(config_file, args.gui)
 
          # Write the iteration number to the output_data file
         with open(output_data_file, "a") as f:
-            f.write(f"Iteration: {run}\n")
+            f.write(f"Iteration: {run},")
+            f.write(f"Random Seed: {random_seed},")
+            f.write(f"Trip File: {trip_file},")
+            f.write(f"Configuration File: {config_file}\n")
         # Clean up generated files
         print (f"DEBUG : trip_file = {trip_file}")
         # trip_file = "output\\random_trips_6933.xml"
@@ -103,3 +137,6 @@ if __name__ == "__main__":
 
         os.remove(trip_file)
         os.remove(config_file)
+
+    my_plot()
+
