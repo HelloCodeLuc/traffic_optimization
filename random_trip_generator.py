@@ -40,12 +40,6 @@ def generate_sumo_config(config_file, current_directory, route_files):
 def run_sumo(config_file, gui_opt):
     # Launch SUMO with GUI using the generated configuration file
     sumo_cmd = ["sumo", "-c", config_file]
-    if gui_opt:
-        sumo_cmd = ["sumo-gui", "-c", config_file] 
-
-    if gui_opt:
-        sumo_cmd = ["sumo-gui", "-c", config_file] 
- 
     traci.start(sumo_cmd)
 
     step = 0
@@ -131,12 +125,9 @@ if __name__ == "__main__":
             f.write(f"Configuration File: {config_file}\n")
         # Clean up generated files
         print (f"DEBUG : trip_file = {trip_file}")
-        # trip_file = "output\\random_trips_6933.xml"
-        os.remove(trip_file)
-        sys.exit(0)
 
         os.remove(trip_file)
         os.remove(config_file)
 
     my_plot()
-
+sys.exit(0)
