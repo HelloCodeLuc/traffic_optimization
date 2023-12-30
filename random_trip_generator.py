@@ -77,9 +77,6 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-
-
-
     current_directory = os.getcwd()
     output_folder = "output"
 
@@ -97,8 +94,8 @@ if __name__ == "__main__":
         os.makedirs(output_folder)
 
     num_runs = 1  # Change this to the number of times you want to run the simulation
-    max_steps = 5
-    #max_steps = 2000  # Change this to the desired number of simulation steps
+    #max_steps = 5
+    max_steps = 2000  # Change this to the desired number of simulation steps
 
     output_data_file = os.path.join(output_folder, "output_data.txt")
 
