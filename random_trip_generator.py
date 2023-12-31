@@ -74,17 +74,49 @@ def run_sumo(config_file, gui_opt):
 
     # Print the average idle time
     print("Average Idle Time:", average_idle_time )
+    return average_idle_time
 
-def my_plot():
-    my_array = [2 * i for i in range(1, 51)]
+def my_plot(output_data_file):
+    import matplotlib.pyplot as plt
 
-    # Plot the average speeds
-    plt.plot(range(1, 51), my_array, label=f'Run {run}')
-    plt.xlabel('Time Step')
-    plt.ylabel('Average Speed (m/s)')
-    plt.title('Average Speed Over Time')
+    # Read the file and process lines
+    with open(output_data_file, 'r') as file:
+        lines = file.readlines()
+
+    # Count the number of lines
+    num_lines = len(lines)
+    print(f"Number of lines in the file: {num_lines}")
+
+    # Extract and plot Average Idle Times
+    iteration_numbers = []
+    average_idle_times = []
+
+    for index, line in enumerate(lines):
+        # Extract information from each line
+        parts = line.split(',')
+        iteration = index
+        average_idle_time = float(parts[-1].split(':')[1])
+
+        # Append to lists
+        iteration_numbers.append(iteration)
+        average_idle_times.append(average_idle_time)
+
+    # Plotting
+    plt.plot(iteration_numbers, average_idle_times, marker='o')
+    plt.xlabel('Iteration')
+    plt.ylabel('Average Idle Time')
+    plt.title('Average Idle Time Over Iterations')
+    plt.grid(True)
+    plt.xlim(left=0)
     plt.legend()
     plt.show()
+
+    # # Plot the average speeds
+    # plt.plot(range(1, 51), my_array, label=f'Run {run}')
+    # plt.xlabel('Time Step')
+    # plt.ylabel('Average Speed (m/s)')
+    # plt.title('Average Speed Over Time')
+
 
 
 if __name__ == "__main__":
@@ -93,24 +125,20 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    parser = argparse.ArgumentParser(description="Run SUMO simulation in batch or GUI mode.")
-    parser.add_argument("--gui", action="store_true", help="Run with GUI")
-
-    args = parser.parse_args()
-
     current_directory = os.getcwd()
     output_folder = "output"
 
+    '''
     if os.path.exists(output_folder):
         try:
-           # Use shutil.rmtree() to remove the directory and its contents
-           shutil.rmtree(output_folder)
-           print(f'Deleted directory: {output_folder}')
+        # Use shutil.rmtree() to remove the directory and its contents
+        shutil.rmtree(output_folder)
+        print(f'Deleted directory: {output_folder}')
         except Exception as e:
-           print(f"Error: {e}")
+        print(f"Error: {e}")
     else:
         print(f"Directory '{output_folder}' does not exist.")
-
+    '''
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
 
@@ -135,19 +163,19 @@ if __name__ == "__main__":
         #os.chdir(output_folder)
 
         # Run the SUMO simulation using the generated configuration file
-        run_sumo(config_file,args.gui)
+        average_idle_time = run_sumo(config_file,args.gui)
 
         # Write the iteration number to the output_data file
         with open(output_data_file, "a") as f:
-            f.write(f"Iteration: {run},")
             f.write(f"Random Seed: {random_seed},")
             f.write(f"Trip File: {trip_file},")
-            f.write(f"Configuration File: {config_file}\n")
+            f.write(f"Configuration File: {config_file},")
+            f.write(f"Average Idle Time: {average_idle_time}\n")
         # Clean up generated files
         print (f"DEBUG : trip_file = {trip_file}")
 
         os.remove(trip_file)
         os.remove(config_file)
 
-    my_plot()
+    my_plot(output_data_file)
 sys.exit(0)
