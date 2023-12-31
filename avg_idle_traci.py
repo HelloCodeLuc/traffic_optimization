@@ -1,8 +1,13 @@
 import traci
 import traci.constants as tc
+import os
+
+current_directory = os.getcwd()
+
+file_path = os.path.join(current_directory, 'output/sumo_config_9759.sumocfg')
 
 # Connect to SUMO
-traci.start(["sumo", "-c", "C:/Users/chuny/Desktop/OSM_RandomTrips/keeleandmajmack.sumocfg"])
+traci.start(["sumo", "-c", file_path])
 
 # Initialize a dictionary to store idle times for each vehicle
 idle_times = {}

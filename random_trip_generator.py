@@ -15,7 +15,7 @@ def generate_random_trips(trip_file, max_steps, seed):
     print ("DEBUG 0")
     #cmd = f"C:/Users/chuny/Desktop/lucas/Python%20Projects/traffic_optimization/randomTrips.py -n OSM_RandomTrips/keeleandmajmack.net.xml -r {trip_file} -e {max_steps} --random -s {seed} -o output/trips.trips.xml"
     randomTrips = r'"C:\Program Files (x86)\Eclipse\Sumo\tools\randomTrips.py"'
-    cmd = f"python {randomTrips} -n mynetworks/netedit_test.net.xml -r {trip_file} -e {max_steps} --random -s {seed}"
+    cmd = f"python {randomTrips} -n mynetworks/3lights.net.xml -r {trip_file} -e {max_steps} --random -s {seed}"
 
     print (f"DEBUG 1 : randomTrips.py command : {cmd}")
     subprocess.call(cmd, shell=True)
@@ -25,7 +25,7 @@ def generate_sumo_config(config_file, current_directory, route_files):
     # Generate the SUMO configuration file with the given template
     config_template = f"""<configuration>
     <input>
-        <net-file value="{current_directory}/mynetworks/netedit_test.net.xml"/>
+        <net-file value="{current_directory}/mynetworks/3lights.net.xml"/>
         <route-files value="{current_directory}/{route_files}"/>
     </input>
     <time>
