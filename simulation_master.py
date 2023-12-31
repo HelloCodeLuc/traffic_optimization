@@ -1,5 +1,4 @@
 import sys
-print(sys.path)
 import os
 import subprocess
 import traci
@@ -10,22 +9,24 @@ import argparse
 import matplotlib.pyplot as plt
 import argparse
 
-def generate_random_trips(trip_file, max_steps, seed):
-    # Run randomtrips.py to generate random trips and save them to a file
-    print ("DEBUG 0")
+network_selection = "mynetworks/3lights.net.xml"
+num_runs = 1 
+max_steps = 500  
+
+# Run randomtrips.py to generate random trips and save them to a file
+def generate_random_trips(network_selection, trip_file, max_steps, seed):
     #cmd = f"C:/Users/chuny/Desktop/lucas/Python%20Projects/traffic_optimization/randomTrips.py -n OSM_RandomTrips/keeleandmajmack.net.xml -r {trip_file} -e {max_steps} --random -s {seed} -o output/trips.trips.xml"
     randomTrips = r'"C:\Program Files (x86)\Eclipse\Sumo\tools\randomTrips.py"'
-    cmd = f"python {randomTrips} -n mynetworks/3lights.net.xml -r {trip_file} -e {max_steps} --random -s {seed}"
+    cmd = f"python {randomTrips} -n {network_selection} -r {trip_file} -e {max_steps} --random -s {seed}"
 
     print (f"DEBUG 1 : randomTrips.py command : {cmd}")
     subprocess.call(cmd, shell=True)
-    print ("DEBUG 2")
 
-def generate_sumo_config(config_file, current_directory, route_files):
-    # Generate the SUMO configuration file with the given template
+# Generate the SUMO configuration file with the given template
+def generate_sumo_config(network_selection, config_file, current_directory, route_files):
     config_template = f"""<configuration>
     <input>
-        <net-file value="{current_directory}/mynetworks/3lights.net.xml"/>
+        <net-file value="{current_directory}/{network_selection}"/>
         <route-files value="{current_directory}/{route_files}"/>
     </input>
     <time>
@@ -108,16 +109,8 @@ def my_plot(output_data_file):
     plt.title('Average Idle Time Over Iterations')
     plt.grid(True)
     plt.xlim(left=0)
-    plt.legend()
+    plt.legend(loc='lower right')
     plt.show()
-
-    # # Plot the average speeds
-    # plt.plot(range(1, 51), my_array, label=f'Run {run}')
-    # plt.xlabel('Time Step')
-    # plt.ylabel('Average Speed (m/s)')
-    # plt.title('Average Speed Over Time')
-
-
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run SUMO simulation in batch or GUI mode.")
@@ -128,23 +121,8 @@ if __name__ == "__main__":
     current_directory = os.getcwd()
     output_folder = "output"
 
-    '''
-    if os.path.exists(output_folder):
-        try:
-        # Use shutil.rmtree() to remove the directory and its contents
-        shutil.rmtree(output_folder)
-        print(f'Deleted directory: {output_folder}')
-        except Exception as e:
-        print(f"Error: {e}")
-    else:
-        print(f"Directory '{output_folder}' does not exist.")
-    '''
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
-
-    num_runs = 1  # Change this to the number of times you want to run the simulation
-    #max_steps = 5
-    max_steps = 2000  # Change this to the desired number of simulation steps
 
     output_data_file = os.path.join(output_folder, "output_data.txt")
 
@@ -153,14 +131,11 @@ if __name__ == "__main__":
         trip_file = os.path.join(output_folder, f"random_trips_{random_seed}.xml")  # Generate a unique trip file name for each run
         print (f"DEBUG : trip_file = {trip_file}")
         # Generate random trips
-        generate_random_trips(trip_file, max_steps, random_seed)
-        print ("DEBUG 3")
-        #sys.exit(0)
+        generate_random_trips(network_selection, trip_file, max_steps, random_seed)
+
         # Generate SUMO configuration file and update the route-files value
         config_file = os.path.join(output_folder, f"sumo_config_{random_seed}.sumocfg")
-        generate_sumo_config(config_file, current_directory, route_files=trip_file)
-        # Set working directory to the output folder for the SUMO simulation
-        #os.chdir(output_folder)
+        generate_sumo_config(network_selection, config_file, current_directory, route_files=trip_file)
 
         # Run the SUMO simulation using the generated configuration file
         average_idle_time = run_sumo(config_file,args.gui)
