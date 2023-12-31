@@ -1,5 +1,6 @@
 import sys
 import os
+import simulation_lib
 import subprocess
 import traci
 import random
@@ -9,6 +10,8 @@ import argparse
 import matplotlib.pyplot as plt
 import argparse
 
+#TODO put an average line on graph
+#TODO work to move to reference a temp network file with modified timing
 network_selection = "mynetworks/3lights.net.xml"
 num_runs = 1 
 max_steps = 500  
@@ -77,40 +80,8 @@ def run_sumo(config_file, gui_opt):
     print("Average Idle Time:", average_idle_time )
     return average_idle_time
 
-def my_plot(output_data_file):
-    import matplotlib.pyplot as plt
-
-    # Read the file and process lines
-    with open(output_data_file, 'r') as file:
-        lines = file.readlines()
-
-    # Count the number of lines
-    num_lines = len(lines)
-    print(f"Number of lines in the file: {num_lines}")
-
-    # Extract and plot Average Idle Times
-    iteration_numbers = []
-    average_idle_times = []
-
-    for index, line in enumerate(lines):
-        # Extract information from each line
-        parts = line.split(',')
-        iteration = index
-        average_idle_time = float(parts[-1].split(':')[1])
-
-        # Append to lists
-        iteration_numbers.append(iteration)
-        average_idle_times.append(average_idle_time)
-
-    # Plotting
-    plt.plot(iteration_numbers, average_idle_times, marker='o')
-    plt.xlabel('Iteration')
-    plt.ylabel('Average Idle Time')
-    plt.title('Average Idle Time Over Iterations')
-    plt.grid(True)
-    plt.xlim(left=0)
-    plt.legend(loc='lower right')
-    plt.show()
+def network_timings(network_template, target_net_file):
+    shutil.copy(network_template, target_net_file)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run SUMO simulation in batch or GUI mode.")
@@ -125,17 +96,21 @@ if __name__ == "__main__":
         os.makedirs(output_folder)
 
     output_data_file = os.path.join(output_folder, "output_data.txt")
+    parsed_string = network_selection.split("/")[-1]
+    parsed_string_without_extension = parsed_string.rstrip(".net.xml")
+    network_with_timing = os.path.join(output_folder, f"{parsed_string_without_extension}.timing.net.xml")
+    network_timings(network_selection, network_with_timing)
 
     for run in range(num_runs):
         random_seed = random.randint(1, 10000)  # Use a different random seed for each run
         trip_file = os.path.join(output_folder, f"random_trips_{random_seed}.xml")  # Generate a unique trip file name for each run
         print (f"DEBUG : trip_file = {trip_file}")
         # Generate random trips
-        generate_random_trips(network_selection, trip_file, max_steps, random_seed)
+        generate_random_trips(network_with_timing, trip_file, max_steps, random_seed)
 
         # Generate SUMO configuration file and update the route-files value
         config_file = os.path.join(output_folder, f"sumo_config_{random_seed}.sumocfg")
-        generate_sumo_config(network_selection, config_file, current_directory, route_files=trip_file)
+        generate_sumo_config(network_with_timing, config_file, current_directory, route_files=trip_file)
 
         # Run the SUMO simulation using the generated configuration file
         average_idle_time = run_sumo(config_file,args.gui)
@@ -152,5 +127,5 @@ if __name__ == "__main__":
         os.remove(trip_file)
         os.remove(config_file)
 
-    my_plot(output_data_file)
+    simulation_lib.my_plot(output_data_file)
 sys.exit(0)
