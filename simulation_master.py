@@ -1,6 +1,6 @@
 import sys
-print(sys.path)
 import os
+import simulation_lib
 import subprocess
 import traci
 import random
@@ -10,22 +10,26 @@ import argparse
 import matplotlib.pyplot as plt
 import argparse
 
-def generate_random_trips(trip_file, max_steps, seed):
-    # Run randomtrips.py to generate random trips and save them to a file
-    print ("DEBUG 0")
+#TODO put an average line on graph
+#TODO work to move to reference a temp network file with modified timing
+network_selection = "mynetworks/3lights.net.xml"
+num_runs = 1 
+max_steps = 500  
+
+# Run randomtrips.py to generate random trips and save them to a file
+def generate_random_trips(network_selection, trip_file, max_steps, seed):
     #cmd = f"C:/Users/chuny/Desktop/lucas/Python%20Projects/traffic_optimization/randomTrips.py -n OSM_RandomTrips/keeleandmajmack.net.xml -r {trip_file} -e {max_steps} --random -s {seed} -o output/trips.trips.xml"
     randomTrips = r'"C:\Program Files (x86)\Eclipse\Sumo\tools\randomTrips.py"'
-    cmd = f"python {randomTrips} -n mynetworks/netedit_test.net.xml -r {trip_file} -e {max_steps} --random -s {seed}"
+    cmd = f"python {randomTrips} -n {network_selection} -r {trip_file} -e {max_steps} --random -s {seed}"
 
     print (f"DEBUG 1 : randomTrips.py command : {cmd}")
     subprocess.call(cmd, shell=True)
-    print ("DEBUG 2")
 
-def generate_sumo_config(config_file, current_directory, route_files):
-    # Generate the SUMO configuration file with the given template
+# Generate the SUMO configuration file with the given template
+def generate_sumo_config(network_selection, config_file, current_directory, route_files):
     config_template = f"""<configuration>
     <input>
-        <net-file value="{current_directory}/mynetworks/netedit_test.net.xml"/>
+        <net-file value="{current_directory}/{network_selection}"/>
         <route-files value="{current_directory}/{route_files}"/>
     </input>
     <time>
@@ -43,28 +47,41 @@ def run_sumo(config_file, gui_opt):
     if gui_opt:
         sumo_cmd = ["sumo-gui", "-c", config_file] 
 
+    # Initialize a dictionary to store idle times for each vehicle
+    idle_times = {}
+
     traci.start(sumo_cmd)
-    
 
     step = 0
+    simulation_step_size = 1
     while step < max_steps:
         traci.simulationStep()
-        step += 1
-        time.sleep(0.1)
+        step += simulation_step_size
+        #time.sleep(0.1) #TODO 
+
+        # Get the list of vehicles
+        vehicles = traci.vehicle.getIDList()
+
+        # Update idle times
+        for vehicle_id in vehicles:
+            speed = traci.vehicle.getSpeed(vehicle_id)
+            if speed < 5:
+                if vehicle_id not in idle_times:
+                    idle_times[vehicle_id] = 0
+                else:
+                    idle_times[vehicle_id] += simulation_step_size
+
+    # Calculate average idle time
+    average_idle_time = sum(idle_times.values()) / len(idle_times)
 
     traci.close()
 
-def my_plot():
-    my_array = [2 * i for i in range(1, 51)]
+    # Print the average idle time
+    print("Average Idle Time:", average_idle_time )
+    return average_idle_time
 
-    # Plot the average speeds
-    plt.plot(range(1, 51), my_array, label=f'Run {run}')
-    plt.xlabel('Time Step')
-    plt.ylabel('Average Speed (m/s)')
-    plt.title('Average Speed Over Time')
-    plt.legend()
-    plt.show()
-
+def network_timings(network_template, target_net_file):
+    shutil.copy(network_template, target_net_file)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run SUMO simulation in batch or GUI mode.")
@@ -72,64 +89,43 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    parser = argparse.ArgumentParser(description="Run SUMO simulation in batch or GUI mode.")
-    parser.add_argument("--gui", action="store_true", help="Run with GUI")
-
-    args = parser.parse_args()
-
-
-
-
     current_directory = os.getcwd()
     output_folder = "output"
-
-    if os.path.exists(output_folder):
-        try:
-           # Use shutil.rmtree() to remove the directory and its contents
-           shutil.rmtree(output_folder)
-           print(f'Deleted directory: {output_folder}')
-        except Exception as e:
-           print(f"Error: {e}")
-    else:
-        print(f"Directory '{output_folder}' does not exist.")
 
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
 
-    num_runs = 1  # Change this to the number of times you want to run the simulation
-    max_steps = 5
-    #max_steps = 2000  # Change this to the desired number of simulation steps
-
     output_data_file = os.path.join(output_folder, "output_data.txt")
+    parsed_string = network_selection.split("/")[-1]
+    parsed_string_without_extension = parsed_string.rstrip(".net.xml")
+    network_with_timing = os.path.join(output_folder, f"{parsed_string_without_extension}.timing.net.xml")
+    network_timings(network_selection, network_with_timing)
 
     for run in range(num_runs):
         random_seed = random.randint(1, 10000)  # Use a different random seed for each run
         trip_file = os.path.join(output_folder, f"random_trips_{random_seed}.xml")  # Generate a unique trip file name for each run
         print (f"DEBUG : trip_file = {trip_file}")
         # Generate random trips
-        generate_random_trips(trip_file, max_steps, random_seed)
-        print ("DEBUG 3")
-        #sys.exit(0)
+        generate_random_trips(network_with_timing, trip_file, max_steps, random_seed)
+
         # Generate SUMO configuration file and update the route-files value
         config_file = os.path.join(output_folder, f"sumo_config_{random_seed}.sumocfg")
-        generate_sumo_config(config_file, current_directory, route_files=trip_file)
-        # Set working directory to the output folder for the SUMO simulation
-        #os.chdir(output_folder)
+        generate_sumo_config(network_with_timing, config_file, current_directory, route_files=trip_file)
 
         # Run the SUMO simulation using the generated configuration file
-        run_sumo(config_file,args.gui)
+        average_idle_time = run_sumo(config_file,args.gui)
 
         # Write the iteration number to the output_data file
         with open(output_data_file, "a") as f:
-            f.write(f"Iteration: {run},")
             f.write(f"Random Seed: {random_seed},")
             f.write(f"Trip File: {trip_file},")
-            f.write(f"Configuration File: {config_file}\n")
+            f.write(f"Configuration File: {config_file},")
+            f.write(f"Average Idle Time: {average_idle_time}\n")
         # Clean up generated files
         print (f"DEBUG : trip_file = {trip_file}")
 
         os.remove(trip_file)
         os.remove(config_file)
 
-    my_plot()
+    simulation_lib.my_plot(output_data_file)
 sys.exit(0)
