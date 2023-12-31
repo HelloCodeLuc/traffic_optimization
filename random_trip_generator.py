@@ -43,16 +43,37 @@ def run_sumo(config_file, gui_opt):
     if gui_opt:
         sumo_cmd = ["sumo-gui", "-c", config_file] 
 
+    # Initialize a dictionary to store idle times for each vehicle
+    idle_times = {}
+
     traci.start(sumo_cmd)
-    
 
     step = 0
+    simulation_step_size = 1
     while step < max_steps:
         traci.simulationStep()
-        step += 1
-        time.sleep(0.1)
+        step += simulation_step_size
+        #time.sleep(0.1) #TODO 
+
+        # Get the list of vehicles
+        vehicles = traci.vehicle.getIDList()
+
+        # Update idle times
+        for vehicle_id in vehicles:
+            speed = traci.vehicle.getSpeed(vehicle_id)
+            if speed < 5:
+                if vehicle_id not in idle_times:
+                    idle_times[vehicle_id] = 0
+                else:
+                    idle_times[vehicle_id] += simulation_step_size
+
+    # Calculate average idle time
+    average_idle_time = sum(idle_times.values()) / len(idle_times)
 
     traci.close()
+
+    # Print the average idle time
+    print("Average Idle Time:", average_idle_time )
 
 def my_plot():
     my_array = [2 * i for i in range(1, 51)]
