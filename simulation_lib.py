@@ -32,5 +32,4 @@ def my_plot(output_data_file):
     plt.title('Average Idle Time Over Iterations')
     plt.grid(True)
     plt.xlim(left=0)
-    plt.legend(loc='lower right')
     plt.show()
