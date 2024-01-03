@@ -8,11 +8,14 @@ import time
 import shutil
 import argparse
 import matplotlib.pyplot as plt
-import argparse
+import xml.etree.ElementTree as ET
 
+#TODO create the average idle time across all runs for a specific network timings
 #TODO put an average line on graph
 #TODO work to move to reference a temp network file with modified timing
 network_selection = "mynetworks/3lights.net.xml"
+light_names = ["left","middle","right"]
+timing_light_increment = 1
 num_runs = 1 
 max_steps = 500  
 
@@ -80,10 +83,88 @@ def run_sumo(config_file, gui_opt):
     print("Average Idle Time:", average_idle_time )
     return average_idle_time
 
-def network_timings(network_template, target_net_file):
-    shutil.copy(network_template, target_net_file)
+def extract_lines_after_comment(filename, comment_pattern):
+    result = []
+    is_comment_section = False
+
+    with open(filename, 'r') as file:
+        for line in file:
+            # Check if the comment pattern is present in the line
+            if "LUCAS COMMENT" in line and comment_pattern in line:
+                # Start extracting lines after the comment
+                is_comment_section = True
+                continue
+
+            # Check if we are in the comment section
+            if is_comment_section:
+                # Append the line to the result
+                result.append(line.rstrip('\n'))
+
+                # Check if we have extracted 6 lines
+                if len(result) == 6:
+                    break
+
+    return result
+
+def network_timings(network_template, target_net_file, light_names, timing_light_increment):
+    #TODO find current timings of defined light
+    #TODO modify based on defined choice
+    #TODO insert back into file
+    random_light = random.randint(0, len(light_names)-1)   
+    random_direction = random.choice(["up", "down"])
+    print (f"{light_names[random_light]} : {random_direction}")
+
+    comment_pattern = f"{light_names[random_light]}"
+    # Extract the next 6 lines after the comment
+    lines_after_comment = extract_lines_after_comment(network_template, comment_pattern)
+    print("before:")
+    for line in lines_after_comment:
+        print(line)
+    
+    # Print the result
+    modified_lines = []
+    for line in lines_after_comment:
+        #print(line)
+        if 'state="GG' in line:
+            #print("Found green")
+
+            root = ET.fromstring(line)
+            duration = int(root.get('duration'))
+            new_duration = 0
+            if random_direction == "up":
+                new_duration = f"{duration + timing_light_increment}"
+            else:
+                new_duration = f"{duration - timing_light_increment}"
+
+            #print (f"GREEN : from {duration} to {new_duration}")
+            line = line.replace(str(duration), new_duration)
+            # Print the modified string
+
+        elif 'state="rrrGG' in line:
+            #print("Found red")
+
+            root = ET.fromstring(line)
+            duration = int(root.get('duration'))
+            new_duration = 0
+            if random_direction == "up":
+                new_duration = f"{duration - timing_light_increment}"
+            else:
+                new_duration = f"{duration + timing_light_increment}"
+
+            #print (f"RED : from {duration} to {new_duration}")
+            line = line.replace(str(duration), new_duration)
+            # Print the modified string
+        modified_lines.append(line)
+
+    print("after:")
+    for line in modified_lines:
+        print(line)
+
+    sys.exit() 
+    return
 
 if __name__ == "__main__":
+
     parser = argparse.ArgumentParser(description="Run SUMO simulation in batch or GUI mode.")
     parser.add_argument("--gui", action="store_true", help="Run with GUI")
 
@@ -99,7 +180,7 @@ if __name__ == "__main__":
     parsed_string = network_selection.split("/")[-1]
     parsed_string_without_extension = parsed_string.rstrip(".net.xml")
     network_with_timing = os.path.join(output_folder, f"{parsed_string_without_extension}.timing.net.xml")
-    network_timings(network_selection, network_with_timing)
+    network_timings(network_selection, network_with_timing, light_names, timing_light_increment)
 
     for run in range(num_runs):
         random_seed = random.randint(1, 10000)  # Use a different random seed for each run
