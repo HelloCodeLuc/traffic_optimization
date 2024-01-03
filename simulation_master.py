@@ -106,6 +106,24 @@ def extract_lines_after_comment(filename, comment_pattern):
 
     return result
 
+def create_target_netfile(previous_template, comment_pattern, target_net_file, modified_lines):
+    is_comment_section = False
+    with open(f'{target_net_file}.temp', 'w') as WFH:
+
+        with open(previous_template, 'r') as file:
+             for line in file:
+                # Check if the comment pattern is present in the line
+                if "LUCAS COMMENT" in line and comment_pattern in line:
+                    WFH.write(line)
+                    for _ in range(6):
+                        next(file)
+                    for i in range(6):
+                        WFH.write(f'{modified_lines[i]}\n')
+                else: 
+                    WFH.write(line)  
+
+    return
+
 def network_timings(network_template, target_net_file, light_names, timing_light_increment):
     #TODO find current timings of defined light
     #TODO modify based on defined choice
@@ -115,52 +133,61 @@ def network_timings(network_template, target_net_file, light_names, timing_light
     print (f"{light_names[random_light]} : {random_direction}")
 
     comment_pattern = f"{light_names[random_light]}"
-    # Extract the next 6 lines after the comment
-    lines_after_comment = extract_lines_after_comment(network_template, comment_pattern)
-    print("before:")
-    for line in lines_after_comment:
-        print(line)
-    
-    # Print the result
-    modified_lines = []
-    for line in lines_after_comment:
-        #print(line)
-        if 'state="GG' in line:
-            #print("Found green")
 
-            root = ET.fromstring(line)
-            duration = int(root.get('duration'))
-            new_duration = 0
-            if random_direction == "up":
-                new_duration = f"{duration + timing_light_increment}"
-            else:
-                new_duration = f"{duration - timing_light_increment}"
+    if os.path.exists(target_net_file):
 
-            #print (f"GREEN : from {duration} to {new_duration}")
-            line = line.replace(str(duration), new_duration)
-            # Print the modified string
+        # Extract the next 6 lines after the comment
+        lines_after_comment = extract_lines_after_comment(network_template, comment_pattern)
+        print("before:")
+        for line in lines_after_comment:
+            print(line)
+        
+        # Print the result
+        modified_lines = []
+        for line in lines_after_comment:
+            #print(line)
+            if 'state="GG' in line:
+                #print("Found green")
 
-        elif 'state="rrrGG' in line:
-            #print("Found red")
+                root = ET.fromstring(line)
+                duration = int(root.get('duration'))
+                new_duration = 0
+                if random_direction == "up":
+                    new_duration = f"{duration + timing_light_increment}"
+                else:
+                    new_duration = f"{duration - timing_light_increment}"
 
-            root = ET.fromstring(line)
-            duration = int(root.get('duration'))
-            new_duration = 0
-            if random_direction == "up":
-                new_duration = f"{duration - timing_light_increment}"
-            else:
-                new_duration = f"{duration + timing_light_increment}"
+                #print (f"GREEN : from {duration} to {new_duration}")
+                line = line.replace(str(duration), new_duration)
+                # Print the modified string
 
-            #print (f"RED : from {duration} to {new_duration}")
-            line = line.replace(str(duration), new_duration)
-            # Print the modified string
-        modified_lines.append(line)
+            elif 'state="rrrGG' in line:
+                #print("Found red")
 
-    print("after:")
-    for line in modified_lines:
-        print(line)
+                root = ET.fromstring(line)
+                duration = int(root.get('duration'))
+                new_duration = 0
+                if random_direction == "up":
+                    new_duration = f"{duration - timing_light_increment}"
+                else:
+                    new_duration = f"{duration + timing_light_increment}"
 
-    sys.exit() 
+                #print (f"RED : from {duration} to {new_duration}")
+                line = line.replace(str(duration), new_duration)
+                # Print the modified string
+            modified_lines.append(line)
+
+        print("after:")
+        for line in modified_lines:
+            print(line)
+
+        create_target_netfile(network_template, comment_pattern, target_net_file, modified_lines)
+        #sys.exit() 
+
+    else:
+        shutil.copy2(network_template, target_net_file)
+        shutil.copy2(network_template, f'{target_net_file}.temp')
+        
     return
 
 if __name__ == "__main__":
@@ -187,11 +214,11 @@ if __name__ == "__main__":
         trip_file = os.path.join(output_folder, f"random_trips_{random_seed}.xml")  # Generate a unique trip file name for each run
         print (f"DEBUG : trip_file = {trip_file}")
         # Generate random trips
-        generate_random_trips(network_with_timing, trip_file, max_steps, random_seed)
+        generate_random_trips(f'{network_with_timing}.temp', trip_file, max_steps, random_seed)
 
         # Generate SUMO configuration file and update the route-files value
         config_file = os.path.join(output_folder, f"sumo_config_{random_seed}.sumocfg")
-        generate_sumo_config(network_with_timing, config_file, current_directory, route_files=trip_file)
+        generate_sumo_config(f'{network_with_timing}.temp', config_file, current_directory, route_files=trip_file)
 
         # Run the SUMO simulation using the generated configuration file
         average_idle_time = run_sumo(config_file,args.gui)
