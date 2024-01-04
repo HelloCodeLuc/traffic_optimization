@@ -1,7 +1,6 @@
 import sys
 import os
-import simulation_lib
-import subprocess
+import simulation_lib 
 import traci
 import random
 import time
@@ -18,31 +17,7 @@ light_names = ["left","middle","right"]
 timing_light_increment = 1
 num_runs = 1 
 max_steps = 500  
-
-# Run randomtrips.py to generate random trips and save them to a file
-def generate_random_trips(network_selection, trip_file, max_steps, seed):
-    #cmd = f"C:/Users/chuny/Desktop/lucas/Python%20Projects/traffic_optimization/randomTrips.py -n OSM_RandomTrips/keeleandmajmack.net.xml -r {trip_file} -e {max_steps} --random -s {seed} -o output/trips.trips.xml"
-    randomTrips = r'"C:\Program Files (x86)\Eclipse\Sumo\tools\randomTrips.py"'
-    cmd = f"python {randomTrips} -n {network_selection} -r {trip_file} -e {max_steps} --random -s {seed}"
-
-    print (f"DEBUG 1 : randomTrips.py command : {cmd}")
-    subprocess.call(cmd, shell=True)
-
-# Generate the SUMO configuration file with the given template
-def generate_sumo_config(network_selection, config_file, current_directory, route_files):
-    config_template = f"""<configuration>
-    <input>
-        <net-file value="{current_directory}/{network_selection}"/>
-        <route-files value="{current_directory}/{route_files}"/>
-    </input>
-    <time>
-        <begin value="0"/>
-        <end value="2000"/>
-    </time>
-</configuration>"""
-
-    with open(config_file, 'w') as f:
-        f.write(config_template)
+num_networks = 3
 
 def run_sumo(config_file, gui_opt):
     # Launch SUMO with GUI using the generated configuration file
@@ -207,33 +182,42 @@ if __name__ == "__main__":
     parsed_string = network_selection.split("/")[-1]
     parsed_string_without_extension = parsed_string.rstrip(".net.xml")
     network_with_timing = os.path.join(output_folder, f"{parsed_string_without_extension}.timing.net.xml")
-    network_timings(network_selection, network_with_timing, light_names, timing_light_increment)
 
-    for run in range(num_runs):
-        random_seed = random.randint(1, 10000)  # Use a different random seed for each run
-        trip_file = os.path.join(output_folder, f"random_trips_{random_seed}.xml")  # Generate a unique trip file name for each run
-        print (f"DEBUG : trip_file = {trip_file}")
-        # Generate random trips
-        generate_random_trips(f'{network_with_timing}.temp', trip_file, max_steps, random_seed)
+    for net_index in range(num_networks):
+        network_timings(network_selection, network_with_timing, light_names, timing_light_increment)
 
-        # Generate SUMO configuration file and update the route-files value
-        config_file = os.path.join(output_folder, f"sumo_config_{random_seed}.sumocfg")
-        generate_sumo_config(f'{network_with_timing}.temp', config_file, current_directory, route_files=trip_file)
+        for run in range(num_runs):
+            random_seed = random.randint(1, 10000)  # Use a different random seed for each run
+            trip_file = os.path.join(output_folder, f"random_trips_{random_seed}.xml")  # Generate a unique trip file name for each run
+            print (f"DEBUG : trip_file = {trip_file}")
+            # Generate random trips
+            simulation_lib.generate_random_trips(f'{network_with_timing}.temp', trip_file, max_steps, random_seed)
 
-        # Run the SUMO simulation using the generated configuration file
-        average_idle_time = run_sumo(config_file,args.gui)
+            # Generate SUMO configuration file and update the route-files value
+            config_file = os.path.join(output_folder, f"sumo_config_{random_seed}.sumocfg")
+            simulation_lib.generate_sumo_config(f'{network_with_timing}.temp', config_file, current_directory, route_files=trip_file)
 
-        # Write the iteration number to the output_data file
-        with open(output_data_file, "a") as f:
-            f.write(f"Random Seed: {random_seed},")
-            f.write(f"Trip File: {trip_file},")
-            f.write(f"Configuration File: {config_file},")
-            f.write(f"Average Idle Time: {average_idle_time}\n")
-        # Clean up generated files
-        print (f"DEBUG : trip_file = {trip_file}")
+            # Run the SUMO simulation using the generated configuration file
+            average_idle_time = run_sumo(config_file,args.gui)
 
-        os.remove(trip_file)
-        os.remove(config_file)
+            # Write the iteration number to the output_data file
+            with open(output_data_file, "a") as f:
+                f.write(f"Random Seed: {random_seed},")
+                f.write(f"Trip File: {trip_file},")
+                f.write(f"Configuration File: {config_file},")
+                f.write(f"Average Idle Time: {average_idle_time}\n")
+            # Clean up generated files
+            print (f"DEBUG : trip_file = {trip_file}")
+
+            os.remove(trip_file)
+            os.remove(config_file)
+
+        print("Press space to continue...")
+        while True:
+            user_input = input()
+            if user_input.lower() == ' ':
+                break
 
     simulation_lib.my_plot(output_data_file)
+    
 sys.exit(0)
