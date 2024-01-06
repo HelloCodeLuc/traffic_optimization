@@ -8,6 +8,7 @@ import shutil
 import argparse
 import matplotlib.pyplot as plt
 import xml.etree.ElementTree as ET
+import re
 
 #TODO create the average idle time across all runs for a specific network timings
 #TODO put an average line on graph
@@ -165,6 +166,46 @@ def network_timings(network_template, target_net_file, light_names, timing_light
         
     return
 
+def hit_space_to_continue():
+    print("Press space to continue...")
+    while True:
+        user_input = input()
+        if user_input.lower() == ' ':
+            break
+    return
+
+
+
+def calculate_overall_average_for_given_network(output_data_file, network_averages):
+    total = 0.0
+    count = 0
+    with open(output_data_file, "r") as FH:
+        for line in FH:
+            # Check if the comment pattern is present in the line
+            if "Average Idle Time: " in line:
+                print(f"line value:{line}")
+                match = re.search(r'Average Idle Time\: (\d+\.\d+)', line)
+                average_idle_time = float(match.group(1))
+                count += 1
+                print(f"average_idle_time value:{average_idle_time}")
+                total += average_idle_time
+
+    average = total / count 
+
+    prev_best = 0
+
+    if os.path.exists(network_averages):
+        with open(network_averages, 'r') as file:
+            last_line = file.readlines()[-1].strip()
+            match = re.search(r'(\d+\.\d+)', last_line)
+            prev_best = float(match.group(1))
+            print(last_line)   
+
+    if prev_best == 0 or average < prev_best:
+        with open(network_averages, "a") as f:
+            f.write(f"{average}\n")
+
+
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description="Run SUMO simulation in batch or GUI mode.")
@@ -179,6 +220,7 @@ if __name__ == "__main__":
         os.makedirs(output_folder)
 
     output_data_file = os.path.join(output_folder, "output_data.txt")
+    network_averages = os.path.join(output_folder, "network_averages.txt")
     parsed_string = network_selection.split("/")[-1]
     parsed_string_without_extension = parsed_string.rstrip(".net.xml")
     network_with_timing = os.path.join(output_folder, f"{parsed_string_without_extension}.timing.net.xml")
@@ -212,12 +254,12 @@ if __name__ == "__main__":
             os.remove(trip_file)
             os.remove(config_file)
 
-        print("Press space to continue...")
-        while True:
-            user_input = input()
-            if user_input.lower() == ' ':
-                break
+        calculate_overall_average_for_given_network(output_data_file, network_averages)
+        os.remove(output_data_file)
+        hit_space_to_continue()
 
     simulation_lib.my_plot(output_data_file)
+
+
     
 sys.exit(0)

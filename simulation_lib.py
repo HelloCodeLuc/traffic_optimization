@@ -3,7 +3,7 @@ import subprocess
 def my_plot(output_data_file):
     import matplotlib.pyplot as plt
 
-    # Read the file and process lines
+     # Read the file and process lines
     with open(output_data_file, 'r') as file:
         lines = file.readlines()
 
