@@ -1,4 +1,5 @@
 import subprocess
+import traci
 
 def my_plot(output_data_file):
     import matplotlib.pyplot as plt
@@ -33,6 +34,94 @@ def my_plot(output_data_file):
     plt.grid(True)
     plt.xlim(left=0)
     plt.show()
+
+def run_sumo(config_file, gui_opt, max_steps):
+    # Launch SUMO with GUI using the generated configuration file
+    sumo_cmd = ["sumo", "-c", config_file]
+    if gui_opt:
+        sumo_cmd = ["sumo-gui", "-c", config_file] 
+
+    # Initialize a dictionary to store idle times for each vehicle
+    idle_times = {}
+
+    traci.start(sumo_cmd)
+
+    step = 0 
+    simulation_step_size = 1
+    while step < max_steps:
+        traci.simulationStep()
+        step += simulation_step_size
+        #time.sleep(0.1) #TODO 
+
+        # Get the list of vehicles
+        vehicles = traci.vehicle.getIDList()
+
+        # Update idle times
+        for vehicle_id in vehicles:
+            speed = traci.vehicle.getSpeed(vehicle_id)
+            if speed < 5:
+                if vehicle_id not in idle_times:
+                    idle_times[vehicle_id] = 0
+                else:
+                    idle_times[vehicle_id] += simulation_step_size
+
+    # Calculate average idle time
+    average_idle_time = sum(idle_times.values()) / len(idle_times)
+
+    traci.close()
+
+    # Print the average idle time
+    print("Average Idle Time:", average_idle_time )
+    return average_idle_time
+
+def extract_lines_after_comment(filename, comment_pattern):
+    result = []
+    is_comment_section = False
+
+    with open(filename, 'r') as file:
+        for line in file:
+            # Check if the comment pattern is present in the line
+            if "LUCAS COMMENT" in line and comment_pattern in line:
+                # Start extracting lines after the comment
+                is_comment_section = True
+                continue
+
+            # Check if we are in the comment section
+            if is_comment_section:
+                # Append the line to the result
+                result.append(line.rstrip('\n'))
+
+                # Check if we have extracted 6 lines
+                if len(result) == 6:
+                    break
+
+    return result
+
+def create_target_netfile(previous_template, comment_pattern, target_net_file, modified_lines):
+    is_comment_section = False
+    with open(f'{target_net_file}.temp', 'w') as WFH:
+
+        with open(previous_template, 'r') as file:
+             for line in file:
+                # Check if the comment pattern is present in the line
+                if "LUCAS COMMENT" in line and comment_pattern in line:
+                    WFH.write(line)
+                    for _ in range(6):
+                        next(file)
+                    for i in range(6):
+                        WFH.write(f'{modified_lines[i]}\n')
+                else: 
+                    WFH.write(line)  
+
+    return
+
+def hit_space_to_continue():
+    print("Press space to continue...")
+    while True:
+        user_input = input()
+        if user_input.lower() == ' ':
+            break
+    return
 
 # Run randomtrips.py to generate random trips and save them to a file
 def generate_random_trips(network_selection, trip_file, max_steps, seed):

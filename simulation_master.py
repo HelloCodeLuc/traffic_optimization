@@ -1,12 +1,12 @@
 import sys
 import os
 import simulation_lib 
-import traci
+
 import random
 import time
 import shutil
 import argparse
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 import xml.etree.ElementTree as ET
 import re
 
@@ -16,89 +16,9 @@ import re
 network_selection = "mynetworks/3lights.net.xml"
 light_names = ["left","middle","right"]
 timing_light_increment = 1
-num_runs = 1 
+num_runs = 4
 max_steps = 500  
-num_networks = 3
-
-def run_sumo(config_file, gui_opt):
-    # Launch SUMO with GUI using the generated configuration file
-    sumo_cmd = ["sumo", "-c", config_file]
-    if gui_opt:
-        sumo_cmd = ["sumo-gui", "-c", config_file] 
-
-    # Initialize a dictionary to store idle times for each vehicle
-    idle_times = {}
-
-    traci.start(sumo_cmd)
-
-    step = 0
-    simulation_step_size = 1
-    while step < max_steps:
-        traci.simulationStep()
-        step += simulation_step_size
-        #time.sleep(0.1) #TODO 
-
-        # Get the list of vehicles
-        vehicles = traci.vehicle.getIDList()
-
-        # Update idle times
-        for vehicle_id in vehicles:
-            speed = traci.vehicle.getSpeed(vehicle_id)
-            if speed < 5:
-                if vehicle_id not in idle_times:
-                    idle_times[vehicle_id] = 0
-                else:
-                    idle_times[vehicle_id] += simulation_step_size
-
-    # Calculate average idle time
-    average_idle_time = sum(idle_times.values()) / len(idle_times)
-
-    traci.close()
-
-    # Print the average idle time
-    print("Average Idle Time:", average_idle_time )
-    return average_idle_time
-
-def extract_lines_after_comment(filename, comment_pattern):
-    result = []
-    is_comment_section = False
-
-    with open(filename, 'r') as file:
-        for line in file:
-            # Check if the comment pattern is present in the line
-            if "LUCAS COMMENT" in line and comment_pattern in line:
-                # Start extracting lines after the comment
-                is_comment_section = True
-                continue
-
-            # Check if we are in the comment section
-            if is_comment_section:
-                # Append the line to the result
-                result.append(line.rstrip('\n'))
-
-                # Check if we have extracted 6 lines
-                if len(result) == 6:
-                    break
-
-    return result
-
-def create_target_netfile(previous_template, comment_pattern, target_net_file, modified_lines):
-    is_comment_section = False
-    with open(f'{target_net_file}.temp', 'w') as WFH:
-
-        with open(previous_template, 'r') as file:
-             for line in file:
-                # Check if the comment pattern is present in the line
-                if "LUCAS COMMENT" in line and comment_pattern in line:
-                    WFH.write(line)
-                    for _ in range(6):
-                        next(file)
-                    for i in range(6):
-                        WFH.write(f'{modified_lines[i]}\n')
-                else: 
-                    WFH.write(line)  
-
-    return
+num_of_runs_on_network = 3
 
 def network_timings(network_template, target_net_file, light_names, timing_light_increment):
     #TODO find current timings of defined light
@@ -113,7 +33,7 @@ def network_timings(network_template, target_net_file, light_names, timing_light
     if os.path.exists(target_net_file):
 
         # Extract the next 6 lines after the comment
-        lines_after_comment = extract_lines_after_comment(network_template, comment_pattern)
+        lines_after_comment = simulation_lib.extract_lines_after_comment(network_template, comment_pattern)
         print("before:")
         for line in lines_after_comment:
             print(line)
@@ -157,24 +77,12 @@ def network_timings(network_template, target_net_file, light_names, timing_light
         for line in modified_lines:
             print(line)
 
-        create_target_netfile(network_template, comment_pattern, target_net_file, modified_lines)
-        #sys.exit() 
-
+        simulation_lib.create_target_netfile(network_template, comment_pattern, target_net_file, modified_lines)
     else:
         shutil.copy2(network_template, target_net_file)
         shutil.copy2(network_template, f'{target_net_file}.temp')
         
     return
-
-def hit_space_to_continue():
-    print("Press space to continue...")
-    while True:
-        user_input = input()
-        if user_input.lower() == ' ':
-            break
-    return
-
-
 
 def calculate_overall_average_for_given_network(output_data_file, network_averages):
     total = 0.0
@@ -187,7 +95,7 @@ def calculate_overall_average_for_given_network(output_data_file, network_averag
                 match = re.search(r'Average Idle Time\: (\d+\.\d+)', line)
                 average_idle_time = float(match.group(1))
                 count += 1
-                print(f"average_idle_time value:{average_idle_time}")
+                #print(f"average_idle_time value:{average_idle_time}")
                 total += average_idle_time
 
     average = total / count 
@@ -201,9 +109,14 @@ def calculate_overall_average_for_given_network(output_data_file, network_averag
             prev_best = float(match.group(1))
             print(last_line)   
 
+    with open(network_averages, "a") as f:
+        f.write(f"New overall average: {average}\n")
+
     if prev_best == 0 or average < prev_best:
-        with open(network_averages, "a") as f:
-            f.write(f"{average}\n")
+        return 1 
+    else:
+        return 0
+    
 
 
 if __name__ == "__main__":
@@ -216,8 +129,13 @@ if __name__ == "__main__":
     current_directory = os.getcwd()
     output_folder = "output"
 
-    if not os.path.exists(output_folder):
-        os.makedirs(output_folder)
+    if os.path.exists(output_folder):
+        try:
+            shutil.rmtree(output_folder)
+        except OSError as e:
+            print(f'Error removing directory {output_folder}: {e}')
+
+    os.makedirs(output_folder)
 
     output_data_file = os.path.join(output_folder, "output_data.txt")
     network_averages = os.path.join(output_folder, "network_averages.txt")
@@ -225,7 +143,7 @@ if __name__ == "__main__":
     parsed_string_without_extension = parsed_string.rstrip(".net.xml")
     network_with_timing = os.path.join(output_folder, f"{parsed_string_without_extension}.timing.net.xml")
 
-    for net_index in range(num_networks):
+    for net_index in range(num_of_runs_on_network):
         network_timings(network_selection, network_with_timing, light_names, timing_light_increment)
 
         for run in range(num_runs):
@@ -240,7 +158,7 @@ if __name__ == "__main__":
             simulation_lib.generate_sumo_config(f'{network_with_timing}.temp', config_file, current_directory, route_files=trip_file)
 
             # Run the SUMO simulation using the generated configuration file
-            average_idle_time = run_sumo(config_file,args.gui)
+            average_idle_time = simulation_lib.run_sumo(config_file, args.gui, int(max_steps))
 
             # Write the iteration number to the output_data file
             with open(output_data_file, "a") as f:
@@ -254,11 +172,14 @@ if __name__ == "__main__":
             os.remove(trip_file)
             os.remove(config_file)
 
-        calculate_overall_average_for_given_network(output_data_file, network_averages)
+        is_more_efficient = calculate_overall_average_for_given_network(output_data_file, network_averages)
+        if(is_more_efficient):
+            shutil.copy2(f'{network_with_timing}.temp', network_with_timing)
+        
         os.remove(output_data_file)
-        hit_space_to_continue()
+        #simulation_lib.hit_space_to_continue()
 
-    simulation_lib.my_plot(output_data_file)
+    #simulation_lib.my_plot(output_data_file)
 
 
     
