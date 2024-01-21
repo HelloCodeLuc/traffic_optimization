@@ -15,10 +15,10 @@ import re
 #TODO work to move to reference a temp network file with modified timing
 network_selection = "mynetworks/3lights.net.xml"
 light_names = ["left","middle","right"]
-timing_light_increment = 1
-num_runs = 4
-max_steps = 500  
-num_of_runs_on_network = 3
+timing_light_increment = 2
+num_runs = 50
+max_steps = 2000  
+num_of_runs_on_network = 40
 
 def network_timings(network_template, target_net_file, light_names, timing_light_increment):
     #TODO find current timings of defined light
@@ -26,7 +26,7 @@ def network_timings(network_template, target_net_file, light_names, timing_light
     #TODO insert back into file
     random_light = random.randint(0, len(light_names)-1)   
     random_direction = random.choice(["up", "down"])
-    print (f"{light_names[random_light]} : {random_direction}")
+    print (f"Light:{light_names[random_light]} : Green:{random_direction}")
 
     comment_pattern = f"{light_names[random_light]}"
 
@@ -100,24 +100,24 @@ def calculate_overall_average_for_given_network(output_data_file, network_averag
 
     average = total / count 
 
-    prev_best = 0
+    prev_best = 999.999
 
     if os.path.exists(network_averages):
         with open(network_averages, 'r') as file:
-            last_line = file.readlines()[-1].strip()
-            match = re.search(r'(\d+\.\d+)', last_line)
-            prev_best = float(match.group(1))
-            print(last_line)   
-
-    with open(network_averages, "a") as f:
-        f.write(f"New overall average: {average}\n")
+            for line in file:
+                #last_line = file.readlines()[-1].strip()
+                match = re.search(r'(\d+\.\d+)', line)
+                if float(match.group(1)) < prev_best:
+                    prev_best = float(match.group(1))
+    status = "throw"
 
     if prev_best == 0 or average < prev_best:
-        return 1 
-    else:
-        return 0
-    
+        status = "keep"
 
+    with open(network_averages, "a") as f:
+        f.write(f"New overall average: {average}, {status}\n")
+
+    return status
 
 if __name__ == "__main__":
 
@@ -149,7 +149,6 @@ if __name__ == "__main__":
         for run in range(num_runs):
             random_seed = random.randint(1, 10000)  # Use a different random seed for each run
             trip_file = os.path.join(output_folder, f"random_trips_{random_seed}.xml")  # Generate a unique trip file name for each run
-            print (f"DEBUG : trip_file = {trip_file}")
             # Generate random trips
             simulation_lib.generate_random_trips(f'{network_with_timing}.temp', trip_file, max_steps, random_seed)
 
@@ -166,14 +165,12 @@ if __name__ == "__main__":
                 f.write(f"Trip File: {trip_file},")
                 f.write(f"Configuration File: {config_file},")
                 f.write(f"Average Idle Time: {average_idle_time}\n")
-            # Clean up generated files
-            print (f"DEBUG : trip_file = {trip_file}")
 
             os.remove(trip_file)
             os.remove(config_file)
 
         is_more_efficient = calculate_overall_average_for_given_network(output_data_file, network_averages)
-        if(is_more_efficient):
+        if(is_more_efficient == "keep"):
             shutil.copy2(f'{network_with_timing}.temp', network_with_timing)
         
         os.remove(output_data_file)
@@ -182,5 +179,4 @@ if __name__ == "__main__":
     #simulation_lib.my_plot(output_data_file)
 
 
-    
 sys.exit(0)

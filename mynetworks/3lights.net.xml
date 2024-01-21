@@ -244,23 +244,23 @@
 
 <!--LUCAS COMMENT : right-->
     <tlLogic id="J0" type="static" programID="0" offset="0">
-        <phase duration="43" state="GGgrrrGGgrrr"/>
+        <phase duration="38" state="GGgrrrGGgrrr"/>
         <phase duration="3"  state="yyyrrryyyrrr"/>
-        <phase duration="41" state="rrrGGgrrrGGg"/>
+        <phase duration="46" state="rrrGGgrrrGGg"/>
         <phase duration="3"  state="rrryyyrrryyy"/>
     </tlLogic>
 <!--LUCAS COMMENT : left-->
     <tlLogic id="J19" type="static" programID="0" offset="0">
-        <phase duration="12" state="GGgrrrGGgrrr"/>
+        <phase duration="46" state="GGgrrrGGgrrr"/>
         <phase duration="3"  state="yyyrrryyyrrr"/>
-        <phase duration="72" state="rrrGGgrrrGGg"/>
+        <phase duration="38" state="rrrGGgrrrGGg"/>
         <phase duration="3"  state="rrryyyrrryyy"/>
     </tlLogic>
 <!--LUCAS COMMENT : middle-->
     <tlLogic id="J22" type="static" programID="0" offset="0">
-        <phase duration="42" state="GGgrrrGGgrrr"/>
+        <phase duration="50" state="GGgrrrGGgrrr"/>
         <phase duration="3"  state="yyyrrryyyrrr"/>
-        <phase duration="42" state="rrrGGgrrrGGg"/>
+        <phase duration="34" state="rrrGGgrrrGGg"/>
         <phase duration="3"  state="rrryyyrrryyy"/>
     </tlLogic>
 
