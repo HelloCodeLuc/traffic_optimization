@@ -97,11 +97,11 @@ def extract_lines_after_comment(filename, comment_pattern):
 
     return result
 
-def create_target_netfile(previous_template, comment_pattern, target_net_file, modified_lines):
+def create_target_net_xml_temp(comment_pattern, target_net_file, modified_lines):
     is_comment_section = False
     with open(f'{target_net_file}.temp', 'w') as WFH:
 
-        with open(previous_template, 'r') as file:
+        with open(target_net_file, 'r') as file:
              for line in file:
                 # Check if the comment pattern is present in the line
                 if "LUCAS COMMENT" in line and comment_pattern in line:
@@ -112,7 +112,9 @@ def create_target_netfile(previous_template, comment_pattern, target_net_file, m
                         WFH.write(f'{modified_lines[i]}\n')
                 else: 
                     WFH.write(line)  
+        file.close()
 
+    WFH.close()
     return
 
 def hit_space_to_continue():
@@ -149,3 +151,4 @@ def generate_sumo_config(network_selection, config_file, current_directory, rout
 
     with open(config_file, 'w') as f:
         f.write(config_template)
+    f.close()
