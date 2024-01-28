@@ -163,6 +163,13 @@ def calculate_overall_average_for_given_network(output_data_file, network_averag
 
     return status
 
+def return_num_of_cores ():
+    # Method 1: Using the os module
+    num_cores_os = os.cpu_count()
+    print(f"Number of CPU cores (os.cpu_count()): {num_cores_os}")
+    return num_cores_os
+
+
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description="Run SUMO simulation in batch or GUI mode.")
@@ -188,6 +195,9 @@ if __name__ == "__main__":
     network_with_timing = os.path.join(output_folder, f"{parsed_string_without_extension}.timing.net.xml")
     previous_greenlight_timings = {}
 
+    core_count = return_num_of_cores()
+    print(f"Number of CPU cores: {core_count}\n")
+    
     for net_index in range(num_of_runs_on_network):
         greenlight_timings = network_timings(network_selection, network_with_timing, light_names, timing_light_increment, previous_greenlight_timings, network_averages)
 
