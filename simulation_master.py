@@ -1,23 +1,20 @@
 import sys
 import os
 import simulation_lib 
-
 import random
-import time
 import shutil
 import argparse
 #import matplotlib.pyplot as plt
 import xml.etree.ElementTree as ET
 import re
 
-#TODO create the average idle time across all runs for a specific network timings
 #TODO put an average line on graph
-#TODO work to move to reference a temp network file with modified timing
-network_selection = "mynetworks/3lights.net.xml"
-light_names = ["left","middle","right"]
+#network_selection = "mynetworks/3lights.net.xml"
+network_selection = "mynetworks/school.net.xml"
+light_names = ["mcnaughton_keele","barhill_rutherford","ivy_dufferin","keele_barhill","keele_rutherford","mackenzie_dufferin","mackenzie_peter","maurier_dufferin","peter_rutherford","rutherford_dufferin"]
 timing_light_increment = 2
-#num_runs = 50
 num_runs = 1
+# num_runs = 50
 max_steps = 2000  
 num_of_runs_on_network = 40
 
@@ -33,8 +30,9 @@ def network_timings(network_template, target_net_file, light_names, timing_light
 
         while not new_greenlight_timings_unique:
             random_light = random.randint(0, len(light_names)-1)   
-            random_direction = random.choice(["up", "down"])
-            print (f"Light:{light_names[random_light]} : Green:{random_direction}")
+            random_action = random.choice(["green_up", "green_down", "offset_pos", "offset_neg"])
+            random_action = "offset_pos"
+            print (f"Light:{light_names[random_light]} : Action:{random_action}")
             comment_pattern = f"{light_names[random_light]}"
             # Extract the next 6 lines after the comment
             lines_after_comment = simulation_lib.extract_lines_after_comment(target_net_file, comment_pattern)
@@ -46,35 +44,49 @@ def network_timings(network_template, target_net_file, light_names, timing_light
             modified_lines = []
             for line in lines_after_comment:
                 #print(line)
-                if 'state="GG' in line:
-                    #print("Found green")
+                if random_action == "green_up" or random_action == "green_down":
+                    if 'name="green"' in line:
+                        #print("Found green"){
 
-                    root = ET.fromstring(line)
-                    duration = int(root.get('duration'))
-                    new_duration = 0
-                    if random_direction == "up":
-                        new_duration = f"{duration + timing_light_increment}"
-                    else:
-                        new_duration = f"{duration - timing_light_increment}"
+                        root = ET.fromstring(line)
+                        duration = int(root.get('duration'))
+                        new_duration = 0
+                        if random_action == "green_up":
+                            new_duration = f"{duration + timing_light_increment}"
+                        else:
+                            new_duration = f"{duration - timing_light_increment}"
 
-                    #print (f"GREEN : from {duration} to {new_duration}")
-                    line = line.replace(str(duration), new_duration)
-                    # Print the modified string
+                        #print (f"GREEN : from {duration} to {new_duration}")
+                        line = line.replace(str(duration), new_duration)
+                        # Print the modified string}
 
-                elif 'state="rrrGG' in line:
-                    #print("Found red")
+                    elif 'name="red"' in line:
+                        #print("Found red")
 
-                    root = ET.fromstring(line)
-                    duration = int(root.get('duration'))
-                    new_duration = 0
-                    if random_direction == "up":
-                        new_duration = f"{duration - timing_light_increment}"
-                    else:
-                        new_duration = f"{duration + timing_light_increment}"
+                        root = ET.fromstring(line)
+                        duration = int(root.get('duration'))
+                        new_duration = 0
+                        if random_action == "green_up":
+                            new_duration = f"{duration - timing_light_increment}"
+                        else:
+                            new_duration = f"{duration + timing_light_increment}"
 
-                    #print (f"RED : from {duration} to {new_duration}")
-                    line = line.replace(str(duration), new_duration)
-                    # Print the modified string
+                        line = line.replace(str(duration), new_duration)
+                        # Print the modified string
+                elif "offset" in random_action:
+                    if 'offset' in line:
+                        offset_match = re.search(r'offset="(-?\d+)"', line)
+                        offset = 0
+                        if offset_match:
+                            offset = int(offset_match.group(1))
+                        new_offset = 0
+                        if random_action == "offset_pos":
+                            new_offset = f"{offset + timing_light_increment}"
+                        else:
+                            new_offset = f"{offset - timing_light_increment}"
+
+                        line = line.replace(f"offset=\"{offset}\"", f"offset=\"{new_offset}\"")
+                        # Print the modified string
                 modified_lines.append(line)
 
             print("after:")
@@ -85,24 +97,34 @@ def network_timings(network_template, target_net_file, light_names, timing_light
 
             # review the 'state="GG' lines, if not already in hash prev green light setups, continue, else loop back to redo to create timings again.  Maybe also make this green light set a return value and prefix it into each line of network_averages.txt file.
             # maybe when we loop back. put a note in the network_averages.txt that we hit a previous run case.
-            green_light_timings = ""
+            green_light_and_offset_timings = ""
             with open(f'{target_net_file}.temp', 'r') as file:
                 for line in file:
                     if 'state="GG' in line:
                         root = ET.fromstring(line)
                         duration = int(root.get('duration'))
-                        if green_light_timings == "":
-                            green_light_timings = f"{duration}"
+                        if green_light_and_offset_timings == "":
+                            green_light_and_offset_timings = f"{duration}"
                         else:
-                            green_light_timings = (f"{green_light_timings}:{duration}")
+                            green_light_and_offset_timings = (f"{green_light_and_offset_timings}:{duration}")
+                    elif "offset=" in line:
+                        offset_match = re.search(r'offset="(-?\d+)"', line)
+                        offset = 0
+                        if offset_match:
+                            offset = int(offset_match.group(1))
+                        if green_light_and_offset_timings == "":
+                            green_light_and_offset_timings = f"{offset}"
+                        else:
+                            green_light_and_offset_timings = (f"{green_light_and_offset_timings}:{offset}")
+
             file.close()
-            print(f"DEBUG : green_light_timings = {green_light_timings}\n")
-            if green_light_timings not in previous_greenlight_timings:
-                previous_greenlight_timings[green_light_timings] = 1
+            print(f"DEBUG : green_light_timings = {green_light_and_offset_timings}\n")
+            if green_light_and_offset_timings not in previous_greenlight_timings:
+                previous_greenlight_timings[green_light_and_offset_timings] = 1
                 new_greenlight_timings_unique = True
             else:
                 with open(network_averages, "a") as f:
-                    f.write(f"Duplicate New Green Light Timing: {green_light_timings}\n")
+                    f.write(f"Duplicate New Green Light Timing: {green_light_and_offset_timings}\n")
                     num_of_greenlight_duplicates += 1
                     if num_of_greenlight_duplicates == 20:
                         f.write(f"Max number of duplicates of 20 reached, exiting script.\n")
@@ -112,18 +134,27 @@ def network_timings(network_template, target_net_file, light_names, timing_light
     else:
         shutil.copy2(network_template, target_net_file)
         shutil.copy2(network_template, f'{target_net_file}.temp')
-        green_light_timings = ""
+        green_light_and_offset_timings = ""
         with open(f'{target_net_file}.temp', 'r') as file:
             for line in file:
                 if 'state="GG' in line:
                     root = ET.fromstring(line)
                     duration = int(root.get('duration'))
-                    if green_light_timings == "":
-                        green_light_timings = f"{duration}"
+                    if green_light_and_offset_timings == "":
+                        green_light_and_offset_timings = f"{duration}"
                     else:
-                        green_light_timings = (f"{green_light_timings}:{duration}")
+                        green_light_and_offset_timings = (f"{green_light_and_offset_timings}:{duration}")
+                elif "offset=" in line:
+                    offset_match = re.search(r'offset="(-?\d+)"', line)
+                    offset = 0
+                    if offset_match:
+                        offset = int(offset_match.group(1))
+                    if green_light_and_offset_timings == "":
+                        green_light_and_offset_timings = f"{offset}"
+                    else:
+                        green_light_and_offset_timings = (f"{green_light_and_offset_timings}:{offset}")
         file.close()
-    return green_light_timings
+    return green_light_and_offset_timings
 
 def calculate_overall_average_for_given_network(output_data_file, network_averages, greenlight_timings):
     total = 0.0
@@ -173,13 +204,13 @@ if __name__ == "__main__":
     current_directory = os.getcwd()
     output_folder = "output"
 
-    if os.path.exists(output_folder):
-        try:
-            shutil.rmtree(output_folder)
-        except OSError as e:
-            print(f'Error removing directory {output_folder}: {e}')
+    # if os.path.exists(output_folder):
+    #     try:
+    #         shutil.rmtree(output_folder)
+    #     except OSError as e:
+    #         print(f'Error removing directory {output_folder}: {e}')
 
-    os.makedirs(output_folder)
+    #os.makedirs(output_folder)
 
     output_data_file = os.path.join(output_folder, "output_data.txt")
     network_averages = os.path.join(output_folder, "network_averages.txt")
