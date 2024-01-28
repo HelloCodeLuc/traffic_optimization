@@ -1,6 +1,7 @@
 import sys
 import os
 import simulation_lib 
+import concurrent.futures
 import random
 import shutil
 import argparse
@@ -9,9 +10,17 @@ import xml.etree.ElementTree as ET
 import re
 
 #TODO put an average line on graph
-#network_selection = "mynetworks/3lights.net.xml"
-network_selection = "mynetworks/school.net.xml"
-light_names = ["mcnaughton_keele","barhill_rutherford","ivy_dufferin","keele_barhill","keele_rutherford","mackenzie_dufferin","mackenzie_peter","maurier_dufferin","peter_rutherford","rutherford_dufferin"]
+
+network_sel = 1
+network_selection = ""
+light_names = []
+if (network_sel == 0):
+    network_selection = "mynetworks/3lights.net.xml"
+    light_names = ["left","middle","right"]
+elif (network_sel == 1):
+    network_selection = "mynetworks/school.net.xml"
+    light_names = ["mcnaughton_keele","barhill_rutherford","ivy_dufferin","keele_barhill","keele_rutherford","mackenzie_dufferin","mackenzie_peter","maurier_dufferin","peter_rutherford","rutherford_dufferin"]
+    
 timing_light_increment = 2
 num_runs = 1
 # num_runs = 50
@@ -194,6 +203,13 @@ def calculate_overall_average_for_given_network(output_data_file, network_averag
 
     return status
 
+def return_num_of_cores ():
+    # Method 1: Using the os module
+    num_cores_os = os.cpu_count()
+    print(f"Number of CPU cores (os.cpu_count()): {num_cores_os}")
+    return num_cores_os
+
+
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description="Run SUMO simulation in batch or GUI mode.")
@@ -219,6 +235,9 @@ if __name__ == "__main__":
     network_with_timing = os.path.join(output_folder, f"{parsed_string_without_extension}.timing.net.xml")
     previous_greenlight_timings = {}
 
+    core_count = return_num_of_cores()
+    print(f"Number of CPU cores: {core_count}\n")
+
     for net_index in range(num_of_runs_on_network):
         greenlight_timings = network_timings(network_selection, network_with_timing, light_names, timing_light_increment, previous_greenlight_timings, network_averages)
 
@@ -231,6 +250,24 @@ if __name__ == "__main__":
             # Generate SUMO configuration file and update the route-files value
             config_file = os.path.join(output_folder, f"sumo_config_{random_seed}.sumocfg")
             simulation_lib.generate_sumo_config(f'{network_with_timing}.temp', config_file, current_directory, route_files=trip_file)
+
+            # Input data (example)
+            array_of_arrays = [[config_file, args.gui, int(max_steps)]]
+
+            #array_of_arrays = [[config_file, args.gui, int(max_steps)],
+            #                   [config_file, args.gui, int(max_steps)]
+            #                   ]
+            with concurrent.futures.ThreadPoolExecutor(max_workers=core_count) as executor:
+                # Submit the function calls to the executor
+                futures = [executor.submit(simulation_lib.run_sumo, arg[0], arg[1], arg[2]) for arg in array_of_arrays]
+
+                # Wait for all the tasks to complete
+                concurrent.futures.wait(futures)
+
+                # Get the results
+                results = [future.result() for future in futures]
+
+            print(results)
 
             # Run the SUMO simulation using the generated configuration file
             average_idle_time = simulation_lib.run_sumo(config_file, args.gui, int(max_steps))
