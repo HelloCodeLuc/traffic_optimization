@@ -1,5 +1,7 @@
 import subprocess
 import traci
+import os
+import sys
 
 def my_plot(output_data_file):
     import matplotlib.pyplot as plt
@@ -36,16 +38,17 @@ def my_plot(output_data_file):
     plt.show()
 
 def run_sumo(config_file, gui_opt, max_steps):
+    #print(f"DEBUG INSIDE : config_file={config_file}, gui_opt={gui_opt}, max_steps={max_steps}")
+    current_directory = os.getcwd()
+    #print(f"current_directory : {current_directory}")
     # Launch SUMO with GUI using the generated configuration file
-    sumo_cmd = ["sumo", "-c", config_file]
+    sumo_cmd = ["sumo", "-c", f"{config_file}"]
     if gui_opt:
-        sumo_cmd = ["sumo-gui", "-c", config_file] 
+        sumo_cmd = ["sumo-gui", "-c", f"{config_file}"] 
 
     # Initialize a dictionary to store idle times for each vehicle
     idle_times = {}
-
     traci.start(sumo_cmd)
-
     step = 0 
     simulation_step_size = 1
     while step < max_steps:
@@ -72,6 +75,7 @@ def run_sumo(config_file, gui_opt, max_steps):
 
     # Print the average idle time
     print("Average Idle Time:", average_idle_time )
+    os.chdir(current_directory)
     return average_idle_time
 
 def extract_lines_after_comment(filename, comment_pattern):
@@ -148,7 +152,7 @@ def generate_sumo_config(network_selection, config_file, current_directory, rout
         <end value="2000"/>
     </time>
 </configuration>"""
-
+    print (f"DEBUG INSIDE 4 {config_file}")
     with open(config_file, 'w') as f:
         f.write(config_template)
     f.close()

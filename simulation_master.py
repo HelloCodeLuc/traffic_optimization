@@ -1,7 +1,7 @@
 import sys
 import os
 import simulation_lib 
-
+import concurrent.futures
 import random
 import time
 import shutil
@@ -10,14 +10,11 @@ import argparse
 import xml.etree.ElementTree as ET
 import re
 
-#TODO create the average idle time across all runs for a specific network timings
 #TODO put an average line on graph
-#TODO work to move to reference a temp network file with modified timing
 network_selection = "mynetworks/3lights.net.xml"
 light_names = ["left","middle","right"]
 timing_light_increment = 2
-#num_runs = 50
-num_runs = 1
+num_runs = 50
 max_steps = 2000  
 num_of_runs_on_network = 40
 
@@ -197,7 +194,7 @@ if __name__ == "__main__":
 
     core_count = return_num_of_cores()
     print(f"Number of CPU cores: {core_count}\n")
-    
+
     for net_index in range(num_of_runs_on_network):
         greenlight_timings = network_timings(network_selection, network_with_timing, light_names, timing_light_increment, previous_greenlight_timings, network_averages)
 
@@ -210,6 +207,24 @@ if __name__ == "__main__":
             # Generate SUMO configuration file and update the route-files value
             config_file = os.path.join(output_folder, f"sumo_config_{random_seed}.sumocfg")
             simulation_lib.generate_sumo_config(f'{network_with_timing}.temp', config_file, current_directory, route_files=trip_file)
+
+            # Input data (example)
+            array_of_arrays = [[config_file, args.gui, int(max_steps)]]
+
+            #array_of_arrays = [[config_file, args.gui, int(max_steps)],
+            #                   [config_file, args.gui, int(max_steps)]
+            #                   ]
+            with concurrent.futures.ThreadPoolExecutor(max_workers=core_count) as executor:
+                # Submit the function calls to the executor
+                futures = [executor.submit(simulation_lib.run_sumo, arg[0], arg[1], arg[2]) for arg in array_of_arrays]
+
+                # Wait for all the tasks to complete
+                concurrent.futures.wait(futures)
+
+                # Get the results
+                results = [future.result() for future in futures]
+
+            print(results)
 
             # Run the SUMO simulation using the generated configuration file
             average_idle_time = simulation_lib.run_sumo(config_file, args.gui, int(max_steps))
