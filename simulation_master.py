@@ -22,8 +22,8 @@ elif (network_sel == 1):
     light_names = ["mcnaughton_keele","barhill_rutherford","ivy_dufferin","keele_barhill","keele_rutherford","mackenzie_dufferin","mackenzie_peter","maurier_dufferin","peter_rutherford","rutherford_dufferin"]
     
 timing_light_increment = 2
-num_runs = 1
-# num_runs = 50
+#num_runs = 10
+num_runs = 50
 max_steps = 2000  
 num_of_runs_on_network = 40
 
@@ -40,7 +40,7 @@ def network_timings(network_template, target_net_file, light_names, timing_light
         while not new_greenlight_timings_unique:
             random_light = random.randint(0, len(light_names)-1)   
             random_action = random.choice(["green_up", "green_down", "offset_pos", "offset_neg"])
-            random_action = "offset_pos"
+
             print (f"Light:{light_names[random_light]} : Action:{random_action}")
             comment_pattern = f"{light_names[random_light]}"
             # Extract the next 6 lines after the comment
@@ -48,7 +48,7 @@ def network_timings(network_template, target_net_file, light_names, timing_light
             print("before:")
             for line in lines_after_comment:
                 print(line)
-            
+
             # Print the result
             modified_lines = []
             for line in lines_after_comment:
@@ -109,7 +109,7 @@ def network_timings(network_template, target_net_file, light_names, timing_light
             green_light_and_offset_timings = ""
             with open(f'{target_net_file}.temp', 'r') as file:
                 for line in file:
-                    if 'state="GG' in line:
+                    if 'name="green' in line:
                         root = ET.fromstring(line)
                         duration = int(root.get('duration'))
                         if green_light_and_offset_timings == "":
@@ -146,7 +146,7 @@ def network_timings(network_template, target_net_file, light_names, timing_light
         green_light_and_offset_timings = ""
         with open(f'{target_net_file}.temp', 'r') as file:
             for line in file:
-                if 'state="GG' in line:
+                if 'name="green' in line:
                     root = ET.fromstring(line)
                     duration = int(root.get('duration'))
                     if green_light_and_offset_timings == "":
@@ -251,23 +251,23 @@ if __name__ == "__main__":
             config_file = os.path.join(output_folder, f"sumo_config_{random_seed}.sumocfg")
             simulation_lib.generate_sumo_config(f'{network_with_timing}.temp', config_file, current_directory, route_files=trip_file)
 
-            # Input data (example)
-            array_of_arrays = [[config_file, args.gui, int(max_steps)]]
+            # # Input data (example)
+            # array_of_arrays = [[config_file, args.gui, int(max_steps)]]
 
-            #array_of_arrays = [[config_file, args.gui, int(max_steps)],
-            #                   [config_file, args.gui, int(max_steps)]
-            #                   ]
-            with concurrent.futures.ThreadPoolExecutor(max_workers=core_count) as executor:
-                # Submit the function calls to the executor
-                futures = [executor.submit(simulation_lib.run_sumo, arg[0], arg[1], arg[2]) for arg in array_of_arrays]
+            # #array_of_arrays = [[config_file, args.gui, int(max_steps)],
+            # #                   [config_file, args.gui, int(max_steps)]
+            # #                   ]
+            # with concurrent.futures.ThreadPoolExecutor(max_workers=core_count) as executor:
+            #     # Submit the function calls to the executor
+            #     futures = [executor.submit(simulation_lib.run_sumo, arg[0], arg[1], arg[2]) for arg in array_of_arrays]
 
-                # Wait for all the tasks to complete
-                concurrent.futures.wait(futures)
+            #     # Wait for all the tasks to complete
+            #     concurrent.futures.wait(futures)
 
-                # Get the results
-                results = [future.result() for future in futures]
+            #     # Get the results
+            #     results = [future.result() for future in futures]
 
-            print(results)
+            # print(results)
 
             # Run the SUMO simulation using the generated configuration file
             average_idle_time = simulation_lib.run_sumo(config_file, args.gui, int(max_steps))
