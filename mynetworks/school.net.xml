@@ -785,43 +785,49 @@
         <lane id="E6_1" index="1" speed="13.89" length="60.38" shape="-154.03,-38.26 -154.50,-98.64"/>
         <lane id="E6_2" index="2" speed="13.89" length="60.38" shape="-150.83,-38.28 -151.30,-98.67"/>
     </edge>
-
-    <tlLogic id="J13" type="static" programID="0" offset="0">
+    <!--LUCAS COMMENT : keele_barhill -->
+    <tlLogic id="keele_barhill" type="static" programID="0" offset="0">
         <phase duration="42" state="GGGgrrrGGGG" name="green"/>
         <phase duration="3"  state="yyyyrrryyyy"/>
         <phase duration="42" state="rrrrGGGGrrr" name="red"/>
         <phase duration="3"  state="rrrryyyyrrr"/>
     </tlLogic>
+    <!--LUCAS COMMENT : barhill_rutherford -->
     <tlLogic id="barhill_rutherford" type="static" programID="0" offset="0">
         <phase duration="42" state="GGGGGGGgrrr" name="red"/>
         <phase duration="3"  state="yyyyyyyyrrr"/>
         <phase duration="42" state="GrrrrrrrGGG" name="green"/>
         <phase duration="3"  state="yrrrrrrryyy"/>
     </tlLogic>
+    <!--LUCAS COMMENT : ivy_dufferin -->
     <tlLogic id="ivy_dufferin" type="static" programID="0" offset="0">
         <phase duration="42" state="GGGGGGGgrrr" name="green"/>
         <phase duration="3"  state="yyyyyyyyrrr"/>
         <phase duration="42" state="GrrrrrrrGGG" name="red"/>
         <phase duration="3"  state="yrrrrrrryyy"/>
     </tlLogic>
+    <!--LUCAS COMMENT : keele_rutherford -->
     <tlLogic id="keele_rutherford" type="static" programID="0" offset="0">
         <phase duration="42" state="rrrrrGGGGgrrrrrGGGGg" name="red"/>
         <phase duration="3"  state="rrrrryyyyyrrrrryyyyy"/>
         <phase duration="42" state="GGGGgrrrrrGGGGgrrrrr" name="green"/>
         <phase duration="3"  state="yyyyyrrrrryyyyyrrrrr"/>
     </tlLogic>
+    <!--LUCAS COMMENT : mackenzie_dufferin -->
     <tlLogic id="mackenzie_dufferin" type="static" programID="0" offset="0">
         <phase duration="42" state="rrrrrGGGGgrrrrrGGGGg" name="green"/>
         <phase duration="3"  state="rrrrryyyyyrrrrryyyyy"/>
         <phase duration="42" state="GGGGgrrrrrGGGGgrrrrr" name="red"/>
         <phase duration="3"  state="yyyyyrrrrryyyyyrrrrr"/>
     </tlLogic>
+    <!--LUCAS COMMENT : mackenzie_keele -->
     <tlLogic id="mackenzie_keele" type="static" programID="0" offset="0">
         <phase duration="42" state="rrrrrGGGGgrrrrrGGGGg" name="green"/>
         <phase duration="3"  state="rrrrryyyyyrrrrryyyyy"/>
         <phase duration="42" state="GGGGgrrrrrGGGGgrrrrr" name="red"/>
         <phase duration="3"  state="yyyyyrrrrryyyyyrrrrr"/>
     </tlLogic>
+    <!--LUCAS COMMENT : mackenzie_peter -->
     <tlLogic id="mackenzie_peter" type="static" programID="0" offset="0">
         <phase duration="38" state="GGGGgrrrrGGGGgrrr" name="red"/>
         <phase duration="3"  state="yyyyyrrrryyyyyrrr"/>
@@ -830,12 +836,14 @@
         <phase duration="6"  state="rrrrrrrrGrrrrrrrG"/>
         <phase duration="3"  state="rrrrrrrryrrrrrrry"/>
     </tlLogic>
+    <!--LUCAS COMMENT : maurier_dufferin -->
     <tlLogic id="maurier_dufferin" type="static" programID="0" offset="0">
         <phase duration="42" state="GGGGGGGgrrr" name="green"/>
         <phase duration="3"  state="yyyyyyyyrrr"/>
         <phase duration="42" state="GrrrrrrrGGG" name="red"/>
         <phase duration="3"  state="yrrrrrrryyy"/>
     </tlLogic>
+    <!--LUCAS COMMENT : mcnaughton_keele -->
     <tlLogic id="mcnaughton_keele" type="static" programID="0" offset="0">
         <phase duration="38" state="GGGGgrrrrrGGGGgrrrr" name="green"/>
         <phase duration="3"  state="yyyyyrrrrryyyyyrrrr"/>
@@ -844,12 +852,14 @@
         <phase duration="6"  state="rrrrrrrrrGrrrrrrrrG"/>
         <phase duration="3"  state="rrrrrrrrryrrrrrrrry"/>
     </tlLogic>
+    <!--LUCAS COMMENT : peter_rutherford -->
     <tlLogic id="peter_rutherford" type="static" programID="0" offset="0">
         <phase duration="42" state="rrrGGGGGGGg" name="red"/>
         <phase duration="3"  state="rrryyyyyyyy"/>
         <phase duration="42" state="GGGGrrrrrrr" name="green"/>
         <phase duration="3"  state="yyyyrrrrrrr"/>
     </tlLogic>
+    <!--LUCAS COMMENT : rutherford_dufferin -->
     <tlLogic id="rutherford_dufferin" type="static" programID="0" offset="0">
         <phase duration="42" state="GGGGgrrrrrGGGGgrrrrr" name="green"/>
         <phase duration="3"  state="yyyyyrrrrryyyyyrrrrr"/>
@@ -1113,13 +1123,13 @@
     <connection from="-E0" to="E43" fromLane="1" toLane="1" via=":J11_6_1" tl="mcnaughton_keele" linkIndex="7" dir="s" state="o"/>
     <connection from="-E0" to="E43" fromLane="1" toLane="2" via=":J11_6_2" tl="mcnaughton_keele" linkIndex="8" dir="s" state="o"/>
     <connection from="-E0" to="E5" fromLane="1" toLane="2" via=":J11_9_0" tl="mcnaughton_keele" linkIndex="9" dir="l" state="o"/>
-    <connection from="-E10" to="-E6" fromLane="0" toLane="0" via=":J13_4_0" tl="J13" linkIndex="4" dir="r" state="o"/>
-    <connection from="-E10" to="E11" fromLane="0" toLane="1" via=":J13_5_0" tl="J13" linkIndex="5" dir="l" state="o"/>
-    <connection from="-E10" to="E11" fromLane="0" toLane="2" via=":J13_5_1" tl="J13" linkIndex="6" dir="l" state="o"/>
-    <connection from="-E11" to="E10" fromLane="0" toLane="0" via=":J13_7_0" tl="J13" linkIndex="7" dir="r" state="O"/>
-    <connection from="-E11" to="-E6" fromLane="0" toLane="0" via=":J13_8_0" tl="J13" linkIndex="8" dir="s" state="O"/>
-    <connection from="-E11" to="-E6" fromLane="1" toLane="1" via=":J13_8_1" tl="J13" linkIndex="9" dir="s" state="O"/>
-    <connection from="-E11" to="-E6" fromLane="2" toLane="2" via=":J13_8_2" tl="J13" linkIndex="10" dir="s" state="O"/>
+    <connection from="-E10" to="-E6" fromLane="0" toLane="0" via=":J13_4_0" tl="keele_barhill" linkIndex="4" dir="r" state="o"/>
+    <connection from="-E10" to="E11" fromLane="0" toLane="1" via=":J13_5_0" tl="keele_barhill" linkIndex="5" dir="l" state="o"/>
+    <connection from="-E10" to="E11" fromLane="0" toLane="2" via=":J13_5_1" tl="keele_barhill" linkIndex="6" dir="l" state="o"/>
+    <connection from="-E11" to="E10" fromLane="0" toLane="0" via=":J13_7_0" tl="keele_barhill" linkIndex="7" dir="r" state="O"/>
+    <connection from="-E11" to="-E6" fromLane="0" toLane="0" via=":J13_8_0" tl="keele_barhill" linkIndex="8" dir="s" state="O"/>
+    <connection from="-E11" to="-E6" fromLane="1" toLane="1" via=":J13_8_1" tl="keele_barhill" linkIndex="9" dir="s" state="O"/>
+    <connection from="-E11" to="-E6" fromLane="2" toLane="2" via=":J13_8_2" tl="keele_barhill" linkIndex="10" dir="s" state="O"/>
     <connection from="-E12" to="E51" fromLane="0" toLane="0" via=":J25_10_0" tl="keele_rutherford" linkIndex="10" dir="r" state="o"/>
     <connection from="-E12" to="-E11" fromLane="0" toLane="0" via=":J25_11_0" tl="keele_rutherford" linkIndex="11" dir="s" state="o"/>
     <connection from="-E12" to="-E11" fromLane="1" toLane="1" via=":J25_11_1" tl="keele_rutherford" linkIndex="12" dir="s" state="o"/>
@@ -1287,10 +1297,10 @@
     <connection from="E52" to="E24" fromLane="1" toLane="1" via=":J44_7_1" tl="peter_rutherford" linkIndex="8" dir="s" state="O"/>
     <connection from="E52" to="E24" fromLane="2" toLane="2" via=":J44_7_2" tl="peter_rutherford" linkIndex="9" dir="s" state="O"/>
     <connection from="E52" to="-E48" fromLane="2" toLane="0" via=":J44_10_0" tl="peter_rutherford" linkIndex="10" dir="l" state="o"/>
-    <connection from="E6" to="E11" fromLane="0" toLane="0" via=":J13_0_0" tl="J13" linkIndex="0" dir="s" state="O"/>
-    <connection from="E6" to="E11" fromLane="1" toLane="1" via=":J13_0_1" tl="J13" linkIndex="1" dir="s" state="O"/>
-    <connection from="E6" to="E11" fromLane="2" toLane="2" via=":J13_0_2" tl="J13" linkIndex="2" dir="s" state="O"/>
-    <connection from="E6" to="E10" fromLane="2" toLane="0" via=":J13_3_0" tl="J13" linkIndex="3" dir="l" state="o"/>
+    <connection from="E6" to="E11" fromLane="0" toLane="0" via=":J13_0_0" tl="keele_barhill" linkIndex="0" dir="s" state="O"/>
+    <connection from="E6" to="E11" fromLane="1" toLane="1" via=":J13_0_1" tl="keele_barhill" linkIndex="1" dir="s" state="O"/>
+    <connection from="E6" to="E11" fromLane="2" toLane="2" via=":J13_0_2" tl="keele_barhill" linkIndex="2" dir="s" state="O"/>
+    <connection from="E6" to="E10" fromLane="2" toLane="0" via=":J13_3_0" tl="keele_barhill" linkIndex="3" dir="l" state="o"/>
 
     <connection from=":J11_0" to="E43" fromLane="0" toLane="0" dir="r" state="M"/>
     <connection from=":J11_1" to="E5" fromLane="0" toLane="0" dir="s" state="M"/>
