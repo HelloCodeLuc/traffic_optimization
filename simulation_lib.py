@@ -38,7 +38,7 @@ def my_plot(output_data_file):
     plt.show()
 
 def run_sumo(config_file, gui_opt, max_steps, result_queue):
-     current_directory = os.getcwd()
+    current_directory = os.getcwd()
     #print(f"current_directory : {current_directory}")
     # Launch SUMO with GUI using the generated configuration file
     sumo_cmd = ["sumo", "-c", f"{config_file}"]
