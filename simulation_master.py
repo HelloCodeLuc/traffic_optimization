@@ -1,14 +1,14 @@
 import sys
 import os
 import simulation_lib 
-import concurrent.futures
 import random
 import shutil
 import argparse
 #import matplotlib.pyplot as plt
 import xml.etree.ElementTree as ET
 import re
-
+import subprocess
+from multiprocessing import Process, Queue
 #TODO put an average line on graph
 
 network_sel = 1
@@ -24,8 +24,9 @@ elif (network_sel == 1):
 timing_light_increment = 2
 #num_runs = 10
 num_runs = 50
-max_steps = 2000  
+max_steps = 200
 num_of_runs_on_network = 40
+
 
 def network_timings(network_template, target_net_file, light_names, timing_light_increment, previous_greenlight_timings, network_averages):
     #TODO find current timings of defined light
@@ -210,6 +211,7 @@ def return_num_of_cores ():
     return num_cores_os
 
 
+
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description="Run SUMO simulation in batch or GUI mode.")
@@ -251,34 +253,39 @@ if __name__ == "__main__":
             config_file = os.path.join(output_folder, f"sumo_config_{random_seed}.sumocfg")
             simulation_lib.generate_sumo_config(f'{network_with_timing}.temp', config_file, current_directory, route_files=trip_file)
 
-            # # Input data (example)
-            # array_of_arrays = [[config_file, args.gui, int(max_steps)]]
-
-            # #array_of_arrays = [[config_file, args.gui, int(max_steps)],
-            # #                   [config_file, args.gui, int(max_steps)]
-            # #                   ]
-            # with concurrent.futures.ThreadPoolExecutor(max_workers=core_count) as executor:
-            #     # Submit the function calls to the executor
-            #     futures = [executor.submit(simulation_lib.run_sumo, arg[0], arg[1], arg[2]) for arg in array_of_arrays]
-
-            #     # Wait for all the tasks to complete
-            #     concurrent.futures.wait(futures)
-
-            #     # Get the results
-            #     results = [future.result() for future in futures]
-
-            # print(results)
+            # Create a queue to store the results
+            result_queue = Queue()
 
             # Run the SUMO simulation using the generated configuration file
-            average_idle_time = simulation_lib.run_sumo(config_file, args.gui, int(max_steps))
+            # average_idle_time = simulation_lib.run_sumo(config_file, args.gui, int(max_steps))
+            simulation_configs = [config_file, config_file]
+            processes = []
+            average_idle_times_from_batch = []
+
+            # Launch each simulation in a separate process
+            for config in simulation_configs:
+                process = Process(target=simulation_lib.run_sumo, args=(config, args.gui, int(max_steps), result_queue))
+                processes.append(process)
+                process.start()
+
+            # Wait for all processes to finish
+            for process in processes:
+                process.join()
+
+            # Collect results from the queue
+            average_idle_times_from_batch = []
+            while not result_queue.empty():
+                result = result_queue.get()
+                average_idle_times_from_batch.append(result)
 
             # Write the iteration number to the output_data file
             with open(output_data_file, "a") as f:
-                f.write(f"Random Seed: {random_seed},")
-                f.write(f"Trip File: {trip_file},")
-                f.write(f"Configuration File: {config_file},")
-                f.write(f"Average Idle Time: {average_idle_time}\n")
-
+                for idx, average_idle_time in enumerate(average_idle_times_from_batch):
+                    f.write(f"Random Seed: {random_seed},")
+                    f.write(f"Trip File: {trip_file},")
+                    f.write(f"Configuration File: {config_file},")
+                    f.write(f"Average Idle Time: {average_idle_time}\n")
+            #sys.exit()
             os.remove(trip_file)
             os.remove(config_file)
 
@@ -292,4 +299,4 @@ if __name__ == "__main__":
     #simulation_lib.my_plot(output_data_file)
 
 
-sys.exit(0)
+

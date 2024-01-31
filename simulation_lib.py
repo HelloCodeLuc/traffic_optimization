@@ -37,8 +37,8 @@ def my_plot(output_data_file):
     plt.xlim(left=0)
     plt.show()
 
-def run_sumo(config_file, gui_opt, max_steps):
-    #print(f"DEBUG INSIDE : config_file={config_file}, gui_opt={gui_opt}, max_steps={max_steps}")
+def run_sumo(config_file, gui_opt, max_steps, result_queue):
+    #print(f"DEBUG INSIDE <run_sumo> : config_file={config_file}, gui_opt={gui_opt}, max_steps={max_steps}")
     current_directory = os.getcwd()
     #print(f"current_directory : {current_directory}")
     # Launch SUMO with GUI using the generated configuration file
@@ -76,7 +76,7 @@ def run_sumo(config_file, gui_opt, max_steps):
     # Print the average idle time
     print("Average Idle Time:", average_idle_time )
     os.chdir(current_directory)
-    return average_idle_time
+    result_queue.put(average_idle_time)
 
 def extract_lines_after_comment(filename, comment_pattern):
     result = []
