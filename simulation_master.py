@@ -22,8 +22,8 @@ elif (network_sel == 1):
     light_names = ["mcnaughton_keele","barhill_rutherford","ivy_dufferin","keele_barhill","keele_rutherford","mackenzie_dufferin","mackenzie_peter","maurier_dufferin","peter_rutherford","rutherford_dufferin"]
     
 timing_light_increment = 2
-#num_runs = 10
-num_runs = 50
+num_batches = 10
+num_runs_per_batch = 2
 max_steps = 200
 num_of_runs_on_network = 40
 
@@ -243,27 +243,34 @@ if __name__ == "__main__":
     for net_index in range(num_of_runs_on_network):
         greenlight_timings = network_timings(network_selection, network_with_timing, light_names, timing_light_increment, previous_greenlight_timings, network_averages)
 
-        for run in range(num_runs):
-            random_seed = random.randint(1, 10000)  # Use a different random seed for each run
-            trip_file = os.path.join(output_folder, f"random_trips_{random_seed}.xml")  # Generate a unique trip file name for each run
-            # Generate random trips
-            simulation_lib.generate_random_trips(f'{network_with_timing}.temp', trip_file, max_steps, random_seed)
+        for run in range(num_batches):
+            random_seeds = []
+            trip_files = []
+            config_files = []
+            for batch in range(num_runs_per_batch):
+                random_seed = random.randint(1, 10000)  # Use a different random seed for each run
+                trip_file = os.path.join(output_folder, f"random_trips_{random_seed}.xml")  # Generate a unique trip file name for each run
+                # Generate random trips
+                simulation_lib.generate_random_trips(f'{network_with_timing}.temp', trip_file, max_steps, random_seed)
 
-            # Generate SUMO configuration file and update the route-files value
-            config_file = os.path.join(output_folder, f"sumo_config_{random_seed}.sumocfg")
-            simulation_lib.generate_sumo_config(f'{network_with_timing}.temp', config_file, current_directory, route_files=trip_file)
+                # Generate SUMO configuration file and update the route-files value
+                config_file = os.path.join(output_folder, f"sumo_config_{random_seed}.sumocfg")
+                simulation_lib.generate_sumo_config(f'{network_with_timing}.temp', config_file, current_directory, route_files=trip_file)
+                
+                random_seeds.append(random_seed)
+                trip_files.append(trip_file)
+                config_files.append(config_file)
 
             # Create a queue to store the results
             result_queue = Queue()
 
             # Run the SUMO simulation using the generated configuration file
             # average_idle_time = simulation_lib.run_sumo(config_file, args.gui, int(max_steps))
-            simulation_configs = [config_file, config_file]
             processes = []
             average_idle_times_from_batch = []
 
             # Launch each simulation in a separate process
-            for config in simulation_configs:
+            for config in config_files:
                 process = Process(target=simulation_lib.run_sumo, args=(config, args.gui, int(max_steps), result_queue))
                 processes.append(process)
                 process.start()
@@ -281,13 +288,14 @@ if __name__ == "__main__":
             # Write the iteration number to the output_data file
             with open(output_data_file, "a") as f:
                 for idx, average_idle_time in enumerate(average_idle_times_from_batch):
-                    f.write(f"Random Seed: {random_seed},")
-                    f.write(f"Trip File: {trip_file},")
-                    f.write(f"Configuration File: {config_file},")
+                    f.write(f"Random Seed: {random_seeds[idx]},")
+                    f.write(f"Trip File: {trip_files[idx]},")
+                    f.write(f"Configuration File: {config_files[idx]},")
                     f.write(f"Average Idle Time: {average_idle_time}\n")
+                    os.remove(trip_files[idx])
+                    os.remove(config_files[idx])
             #sys.exit()
-            os.remove(trip_file)
-            os.remove(config_file)
+
 
         is_more_efficient = calculate_overall_average_for_given_network(output_data_file, network_averages, greenlight_timings)
         if(is_more_efficient == "keep"):
