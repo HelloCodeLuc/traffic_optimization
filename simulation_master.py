@@ -22,16 +22,15 @@ elif (network_sel == 1):
     light_names = ["mcnaughton_keele","barhill_rutherford","ivy_dufferin","keele_barhill","keele_rutherford","mackenzie_dufferin","mackenzie_peter","maurier_dufferin","peter_rutherford","rutherford_dufferin"]
     
 timing_light_increment = 2
-num_batches = 10
-num_runs_per_batch = 2
-max_steps = 200
-num_of_runs_on_network = 40
+num_batches = 5
+num_runs_per_batch = 10
+max_steps = 2000
+num_of_runs_on_network = 100
 
-
+# find current timings of defined light
+# modify based on defined choice
+# insert back into file
 def network_timings(network_template, target_net_file, light_names, timing_light_increment, previous_greenlight_timings, network_averages):
-    #TODO find current timings of defined light
-    #TODO modify based on defined choice
-    #TODO insert back into file
 
     if os.path.exists(target_net_file):
         
