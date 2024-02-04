@@ -84,10 +84,9 @@ def extract_lines_after_comment(filename, comment_pattern):
     with open(filename, 'r') as file:
         for line in file:
             # Check if the comment pattern is present in the line
-            if "LUCAS COMMENT" in line and comment_pattern in line:
+            if "<tlLogic" in line and comment_pattern in line:
                 # Start extracting lines after the comment
                 is_comment_section = True
-                continue
 
             # Check if we are in the comment section
             if is_comment_section:
@@ -95,7 +94,7 @@ def extract_lines_after_comment(filename, comment_pattern):
                 result.append(line.rstrip('\n'))
 
                 # Check if we have extracted 6 lines
-                if len(result) == 6:
+                if "</tlLogic" in line:
                     break
 
     return result
@@ -103,16 +102,17 @@ def extract_lines_after_comment(filename, comment_pattern):
 def create_target_net_xml_temp(comment_pattern, target_net_file, modified_lines):
     is_comment_section = False
     with open(f'{target_net_file}.temp', 'w') as WFH:
-
+        inside_tlLogic = False
         with open(target_net_file, 'r') as file:
              for line in file:
                 # Check if the comment pattern is present in the line
-                if "LUCAS COMMENT" in line and comment_pattern in line:
-                    WFH.write(line)
-                    for _ in range(6):
-                        next(file)
-                    for i in range(6):
-                        WFH.write(f'{modified_lines[i]}\n')
+                if "<tlLogic" in line and comment_pattern in line:
+                    inside_tlLogic = True
+                elif inside_tlLogic:
+                    if "</tlLogic" in line:
+                        inside_tlLogic = False
+                        for i in range(len(modified_lines)):
+                            WFH.write(f'{modified_lines[i]}\n')
                 else: 
                     WFH.write(line)  
         file.close()

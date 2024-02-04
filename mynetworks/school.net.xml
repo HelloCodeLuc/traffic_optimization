@@ -786,49 +786,42 @@
         <lane id="E6_2" index="2" speed="13.89" length="157.80" shape="-250.32,-38.31 -249.03,-196.10"/>
     </edge>
     
-    <!--LUCAS COMMENT : barhill_rutherford -->
     <tlLogic id="barhill_rutherford" type="static" programID="0" offset="0">
         <phase duration="42" state="GGGGGGGgrrr" name="red"/>
         <phase duration="3"  state="yyyyyyyyrrr"/>
         <phase duration="42" state="GrrrrrrrGGG" name="green"/>
         <phase duration="3"  state="yrrrrrrryyy"/>
     </tlLogic>
-    <!--LUCAS COMMENT : ivy_dufferin -->
     <tlLogic id="ivy_dufferin" type="static" programID="0" offset="0">
         <phase duration="42" state="GGGGGGGgrrr" name="green"/>
         <phase duration="3"  state="yyyyyyyyrrr"/>
         <phase duration="42" state="GrrrrrrrGGG" name="red"/>
         <phase duration="3"  state="yrrrrrrryyy"/>
     </tlLogic>
-    <!--LUCAS COMMENT : keele_barhill -->
     <tlLogic id="keele_barhill" type="static" programID="0" offset="0">
         <phase duration="42" state="GGGgrrrGGGG" name="green"/>
         <phase duration="3"  state="yyyyrrryyyy"/>
         <phase duration="42" state="rrrrGGGGrrr" name="red"/>
         <phase duration="3"  state="rrrryyyyrrr"/>
     </tlLogic>
-    <!--LUCAS COMMENT : keele_rutherford -->
     <tlLogic id="keele_rutherford" type="static" programID="0" offset="0">
         <phase duration="42" state="rrrrrGGGGgrrrrrGGGGg" name="red"/>
         <phase duration="3"  state="rrrrryyyyyrrrrryyyyy"/>
         <phase duration="42" state="GGGGgrrrrrGGGGgrrrrr" name="green"/>
         <phase duration="3"  state="yyyyyrrrrryyyyyrrrrr"/>
     </tlLogic>
-    <!--LUCAS COMMENT : mackenzie_dufferin -->
     <tlLogic id="mackenzie_dufferin" type="static" programID="0" offset="0">
         <phase duration="42" state="rrrrrGGGGgrrrrrGGGGg" name="green"/>
         <phase duration="3"  state="rrrrryyyyyrrrrryyyyy"/>
         <phase duration="42" state="GGGGgrrrrrGGGGgrrrrr" name="red"/>
         <phase duration="3"  state="yyyyyrrrrryyyyyrrrrr"/>
     </tlLogic>
-    <!--LUCAS COMMENT : mackenzie_keele -->
     <tlLogic id="mackenzie_keele" type="static" programID="0" offset="0">
         <phase duration="42" state="rrrrrGGGGgrrrrrGGGGg" name="green"/>
         <phase duration="3"  state="rrrrryyyyyrrrrryyyyy"/>
         <phase duration="42" state="GGGGgrrrrrGGGGgrrrrr" name="red"/>
         <phase duration="3"  state="yyyyyrrrrryyyyyrrrrr"/>
     </tlLogic>
-    <!--LUCAS COMMENT : mackenzie_peter -->
     <tlLogic id="mackenzie_peter" type="static" programID="0" offset="0">
         <phase duration="38" state="GGGGgrrrrGGGGgrrr" name="red"/>
         <phase duration="3"  state="yyyyyrrrryyyyyrrr"/>
@@ -837,14 +830,12 @@
         <phase duration="6"  state="rrrrrrrrGrrrrrrrG"/>
         <phase duration="3"  state="rrrrrrrryrrrrrrry"/>
     </tlLogic>
-    <!--LUCAS COMMENT : maurier_dufferin -->
     <tlLogic id="maurier_dufferin" type="static" programID="0" offset="0">
         <phase duration="42" state="GGGGGGGgrrr" name="green"/>
         <phase duration="3"  state="yyyyyyyyrrr"/>
         <phase duration="42" state="GrrrrrrrGGG" name="red"/>
         <phase duration="3"  state="yrrrrrrryyy"/>
     </tlLogic>
-    <!--LUCAS COMMENT : mcnaughton_keele -->
     <tlLogic id="mcnaughton_keele" type="static" programID="0" offset="0">
         <phase duration="38" state="GGGGgrrrrrGGGGgrrrr" name="green"/>
         <phase duration="3"  state="yyyyyrrrrryyyyyrrrr"/>
@@ -853,14 +844,12 @@
         <phase duration="6"  state="rrrrrrrrrGrrrrrrrrG"/>
         <phase duration="3"  state="rrrrrrrrryrrrrrrrry"/>
     </tlLogic>
-    <!--LUCAS COMMENT : peter_rutherford -->
     <tlLogic id="peter_rutherford" type="static" programID="0" offset="0">
         <phase duration="42" state="rrrGGGGGGGg" name="red"/>
         <phase duration="3"  state="rrryyyyyyyy"/>
         <phase duration="42" state="GGGGrrrrrrr" name="green"/>
         <phase duration="3"  state="yyyyrrrrrrr"/>
     </tlLogic>
-    <!--LUCAS COMMENT : rutherford_dufferin -->
     <tlLogic id="rutherford_dufferin" type="static" programID="0" offset="0">
         <phase duration="42" state="GGGGgrrrrrGGGGgrrrrr" name="green"/>
         <phase duration="3"  state="yyyyyrrrrryyyyyrrrrr"/>

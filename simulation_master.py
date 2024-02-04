@@ -153,6 +153,7 @@ def network_timings(network_template, target_net_file, light_names, timing_light
     else:
         shutil.copy2(network_template, target_net_file)
         shutil.copy2(network_template, f'{target_net_file}.temp')
+
         green_light_and_offset_timings = ""
         with open(f'{target_net_file}.temp', 'r') as file:
             for line in file:
@@ -246,10 +247,10 @@ if __name__ == "__main__":
     output_data_file = os.path.join(output_folder, "output_data.txt")
     network_averages = os.path.join(output_folder, "network_averages.txt")
     parsed_string = network_selection.split("/")[-1]
-    parsed_string_without_extension = parsed_string.rstrip(".net.xml")
+    parsed_string_without_extension = parsed_string.replace(".net.xml", "")
     network_with_timing = os.path.join(output_folder, f"{parsed_string_without_extension}.timing.net.xml")
-    previous_greenlight_timings = {}
 
+    previous_greenlight_timings = {}
     core_count = return_num_of_cores()
     print(f"Number of CPU cores: {core_count}\n")
 
