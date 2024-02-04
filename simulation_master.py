@@ -7,7 +7,6 @@ import argparse
 #import matplotlib.pyplot as plt
 import xml.etree.ElementTree as ET
 import re
-import subprocess
 from multiprocessing import Process, Queue
 #TODO put an average line on graph
 
@@ -25,7 +24,13 @@ timing_light_increment = 2
 num_batches = 5
 num_runs_per_batch = 10
 max_steps = 2000
-num_of_runs_on_network = 100
+num_of_runs_on_network = 1000
+
+debug = 0
+if (debug == 1):
+    num_batches = 1
+    num_runs_per_batch = 1
+    debug_seed = 3920
 
 # find current timings of defined light
 # modify based on defined choice
@@ -39,7 +44,12 @@ def network_timings(network_template, target_net_file, light_names, timing_light
 
         while not new_greenlight_timings_unique:
             random_light = random.randint(0, len(light_names)-1)   
-            random_action = random.choice(["green_up", "green_down", "offset_pos", "offset_neg"])
+            random_action = random.choice(["green_up", "green_down", 
+                                           "green_up", "green_down",
+                                           "green_up", "green_down",
+                                           "green_up", "green_down",
+                                           "green_up", "green_down",
+                                           "offset_pos", "offset_neg"])
 
             print (f"Light:{light_names[random_light]} : Action:{random_action}")
             comment_pattern = f"{light_names[random_light]}"
@@ -215,8 +225,11 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description="Run SUMO simulation in batch or GUI mode.")
     parser.add_argument("--gui", action="store_true", help="Run with GUI")
-
+ 
     args = parser.parse_args()
+    
+    if (debug == 1):
+        args.gui = True
 
     current_directory = os.getcwd()
     output_folder = "output"
@@ -227,7 +240,8 @@ if __name__ == "__main__":
     #     except OSError as e:
     #         print(f'Error removing directory {output_folder}: {e}')
 
-    #os.makedirs(output_folder)
+    if not os.path.exists(output_folder):
+        os.makedirs(output_folder)
 
     output_data_file = os.path.join(output_folder, "output_data.txt")
     network_averages = os.path.join(output_folder, "network_averages.txt")
@@ -240,14 +254,21 @@ if __name__ == "__main__":
     print(f"Number of CPU cores: {core_count}\n")
 
     for net_index in range(num_of_runs_on_network):
-        greenlight_timings = network_timings(network_selection, network_with_timing, light_names, timing_light_increment, previous_greenlight_timings, network_averages)
+        greenlight_timings = ""
+        if (debug == 0):
+            greenlight_timings = network_timings(network_selection, network_with_timing, light_names, timing_light_increment, previous_greenlight_timings, network_averages)
 
         for run in range(num_batches):
             random_seeds = []
             trip_files = []
             config_files = []
             for batch in range(num_runs_per_batch):
-                random_seed = random.randint(1, 10000)  # Use a different random seed for each run
+                random_seed = 0
+                if (debug == 0):
+                    random_seed = random.randint(1, 10000)  # Use a different random seed for each run
+                else:
+                    random_seed = debug_seed
+
                 trip_file = os.path.join(output_folder, f"random_trips_{random_seed}.xml")  # Generate a unique trip file name for each run
                 # Generate random trips
                 simulation_lib.generate_random_trips(f'{network_with_timing}.temp', trip_file, max_steps, random_seed)
@@ -293,7 +314,9 @@ if __name__ == "__main__":
                     f.write(f"Average Idle Time: {average_idle_time}\n")
                     os.remove(trip_files[idx])
                     os.remove(config_files[idx])
-            #sys.exit()
+
+            if (debug == 1):
+                sys.exit()
 
 
         is_more_efficient = calculate_overall_average_for_given_network(output_data_file, network_averages, greenlight_timings)
