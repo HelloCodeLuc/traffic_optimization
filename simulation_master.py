@@ -7,7 +7,6 @@ import argparse
 #import matplotlib.pyplot as plt
 import xml.etree.ElementTree as ET
 import re
-import subprocess
 from multiprocessing import Process, Queue
 #TODO put an average line on graph
 
@@ -25,7 +24,7 @@ timing_light_increment = 2
 num_batches = 5
 num_runs_per_batch = 10
 max_steps = 2000
-num_of_runs_on_network = 100
+num_of_runs_on_network = 1000
 
 # find current timings of defined light
 # modify based on defined choice
@@ -39,7 +38,12 @@ def network_timings(network_template, target_net_file, light_names, timing_light
 
         while not new_greenlight_timings_unique:
             random_light = random.randint(0, len(light_names)-1)   
-            random_action = random.choice(["green_up", "green_down", "offset_pos", "offset_neg"])
+            random_action = random.choice(["green_up", "green_down", 
+                                           "green_up", "green_down",
+                                           "green_up", "green_down",
+                                           "green_up", "green_down",
+                                           "green_up", "green_down",
+                                           "offset_pos", "offset_neg"])
 
             print (f"Light:{light_names[random_light]} : Action:{random_action}")
             comment_pattern = f"{light_names[random_light]}"
@@ -227,7 +231,8 @@ if __name__ == "__main__":
     #     except OSError as e:
     #         print(f'Error removing directory {output_folder}: {e}')
 
-    #os.makedirs(output_folder)
+    if not os.path.exists(output_folder):
+        os.makedirs(output_folder)
 
     output_data_file = os.path.join(output_folder, "output_data.txt")
     network_averages = os.path.join(output_folder, "network_averages.txt")
