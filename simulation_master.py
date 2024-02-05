@@ -35,7 +35,7 @@ if (debug == 1):
 # find current timings of defined light
 # modify based on defined choice
 # insert back into file
-def network_timings(network_template, target_net_file, light_names, timing_light_increment, previous_greenlight_timings, network_averages):
+def network_timings(network_template, target_net_file, light_names, timing_light_increment, previous_greenlight_timings, previous_greenlight_timings_file, network_averages):
 
     if os.path.exists(target_net_file):
         
@@ -138,6 +138,10 @@ def network_timings(network_template, target_net_file, light_names, timing_light
 
             file.close()
             print(f"DEBUG : green_light_timings = {green_light_and_offset_timings}\n")
+            with open(previous_greenlight_timings_file, "a") as f:
+                f.write(f"{green_light_and_offset_timings}")
+            f.close()
+
             if green_light_and_offset_timings not in previous_greenlight_timings:
                 previous_greenlight_timings[green_light_and_offset_timings] = 1
                 new_greenlight_timings_unique = True
@@ -249,15 +253,23 @@ if __name__ == "__main__":
     parsed_string = network_selection.split("/")[-1]
     parsed_string_without_extension = parsed_string.replace(".net.xml", "")
     network_with_timing = os.path.join(output_folder, f"{parsed_string_without_extension}.timing.net.xml")
-
+    
+    previous_greenlight_timings_file = os.path.join(output_folder, "previous_greenlight_timings.txt")
     previous_greenlight_timings = {}
+    if os.path.exists(previous_greenlight_timings_file):
+        with open(previous_greenlight_timings_file, 'r') as file:
+            for line in file:
+                line = line.strip()
+                previous_greenlight_timings[line] = 1
+        file.close()
+
     core_count = return_num_of_cores()
     print(f"Number of CPU cores: {core_count}\n")
 
     for net_index in range(num_of_runs_on_network):
         greenlight_timings = ""
         if (debug == 0):
-            greenlight_timings = network_timings(network_selection, network_with_timing, light_names, timing_light_increment, previous_greenlight_timings, network_averages)
+            greenlight_timings = network_timings(network_selection, network_with_timing, light_names, timing_light_increment, previous_greenlight_timings, previous_greenlight_timings_file, network_averages)
 
         for run in range(num_batches):
             random_seeds = []
@@ -313,9 +325,10 @@ if __name__ == "__main__":
                     f.write(f"Trip File: {trip_files[idx]},")
                     f.write(f"Configuration File: {config_files[idx]},")
                     f.write(f"Average Idle Time: {average_idle_time}\n")
-                    os.remove(trip_files[idx])
-                    os.remove(config_files[idx])
-
+                    if os.path.exists(trip_files[idx]):
+                        os.remove(trip_files[idx]) 
+                    if os.path.exists(config_files[idx]):
+                        os.remove(config_files[idx])
             if (debug == 1):
                 sys.exit()
 
