@@ -1,7 +1,14 @@
 import subprocess
 import traci
 import os
-import sys
+import re
+import numpy as np
+
+def return_num_of_cores ():
+    # Method 1: Using the os module
+    num_cores_os = os.cpu_count()
+    print(f"Number of CPU cores (os.cpu_count()): {num_cores_os}")
+    return num_cores_os
 
 def my_plot(output_data_file):
     import matplotlib.pyplot as plt
@@ -19,14 +26,25 @@ def my_plot(output_data_file):
     average_idle_times = []
 
     for index, line in enumerate(lines):
-        # Extract information from each line
-        parts = line.split(',')
-        iteration = index
-        average_idle_time = float(parts[-1].split(':')[1])
+        if "keep" in line or "throw" in line: 
+            # Extract information from each line
+            pattern = r"New overall average: (\d+\.\d{2})"
 
-        # Append to lists
-        iteration_numbers.append(iteration)
-        average_idle_times.append(average_idle_time)
+            # Use re.search to find the match in the line
+            match = re.search(pattern, line)
+
+            # Check if a match is found and extract the value
+            if match:
+                average_idle_time = match.group(1)
+                print("New overall average:", average_idle_time)
+            else:
+                print("No match found")
+
+            iteration = index
+
+            # Append to lists
+            iteration_numbers.append(iteration)
+            average_idle_times.append(average_idle_time)
 
     # Plotting
     plt.plot(iteration_numbers, average_idle_times, marker='o')
@@ -35,6 +53,9 @@ def my_plot(output_data_file):
     plt.title('Average Idle Time Over Iterations')
     plt.grid(True)
     plt.xlim(left=0)
+    plt.gca().invert_yaxis()
+    # Reduce the number of y-axis labels using np.linspace
+    plt.yticks(np.linspace(0, 150, 10))
     plt.show()
 
 def run_sumo(config_file, gui_opt, max_steps, result_queue):

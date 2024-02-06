@@ -139,7 +139,7 @@ def network_timings(network_template, target_net_file, light_names, timing_light
             file.close()
             print(f"DEBUG : green_light_timings = {green_light_and_offset_timings}\n")
             with open(previous_greenlight_timings_file, "a") as f:
-                f.write(f"{green_light_and_offset_timings}")
+                f.write(f"{green_light_and_offset_timings}\n")
             f.close()
 
             if green_light_and_offset_timings not in previous_greenlight_timings:
@@ -198,7 +198,6 @@ def calculate_overall_average_for_given_network(output_data_file, network_averag
     average = total / count 
 
     prev_best = 999.999
-
     if os.path.exists(network_averages):
         with open(network_averages, 'r') as file:
             for line in file:
@@ -217,13 +216,6 @@ def calculate_overall_average_for_given_network(output_data_file, network_averag
         f.write(f"Green Light Timings: {greenlight_timings}, New overall average: {average}, {status}\n")
 
     return status
-
-def return_num_of_cores ():
-    # Method 1: Using the os module
-    num_cores_os = os.cpu_count()
-    print(f"Number of CPU cores (os.cpu_count()): {num_cores_os}")
-    return num_cores_os
-
 
 
 if __name__ == "__main__":
@@ -253,7 +245,11 @@ if __name__ == "__main__":
     parsed_string = network_selection.split("/")[-1]
     parsed_string_without_extension = parsed_string.replace(".net.xml", "")
     network_with_timing = os.path.join(output_folder, f"{parsed_string_without_extension}.timing.net.xml")
-    
+
+    if (0):    
+        simulation_lib.my_plot(network_averages)
+        sys.exit()
+
     previous_greenlight_timings_file = os.path.join(output_folder, "previous_greenlight_timings.txt")
     previous_greenlight_timings = {}
     if os.path.exists(previous_greenlight_timings_file):
@@ -340,7 +336,7 @@ if __name__ == "__main__":
         os.remove(output_data_file)
         #simulation_lib.hit_space_to_continue()
 
-    #simulation_lib.my_plot(output_data_file)
+
 
 
 
