@@ -1,0 +1,336 @@
+Green Light Timings: 0:42:0:42:0:42:0:42:0:42:0:42:0:37:0:42:0:38:0:42:0:42, New overall average: 116.90766141275513, keep
+Green Light Timings: 0:42:0:42:0:42:0:42:0:42:0:42:0:37:0:44:0:38:0:42:0:42, New overall average: 119.82801893671484, throw
+Green Light Timings: 0:42:0:42:0:42:0:42:0:42:0:42:2:37:0:42:0:38:0:42:0:42, New overall average: 113.27193005064399, keep
+Green Light Timings: 0:42:0:42:0:42:0:42:0:42:0:42:2:37:0:42:0:38:-2:42:0:42, New overall average: 108.07108852802111, keep
+Green Light Timings: 0:42:0:42:0:42:0:42:0:44:0:42:2:37:0:42:0:38:-2:42:0:42, New overall average: 111.61078302988648, throw
+Green Light Timings: 0:42:0:42:0:42:0:42:0:42:0:42:2:37:0:44:0:38:-2:42:0:42, New overall average: 107.3293545641397, keep
+Green Light Timings: 0:42:0:42:0:42:0:42:0:42:0:42:2:37:0:42:0:38:-2:42:0:42, New overall average: 107.99144454698312, throw
+Green Light Timings: 0:40:0:42:0:42:0:42:0:42:0:42:2:37:0:44:0:38:-2:42:0:42, New overall average: 109.29546196919502, throw
+Green Light Timings: 0:42:0:42:2:42:0:42:0:42:0:42:2:37:0:44:0:38:-2:42:0:42, New overall average: 111.34641449115038, throw
+Green Light Timings: 0:42:0:40:0:42:0:42:0:42:0:42:2:37:0:44:0:38:-2:42:0:42, New overall average: 109.5199592252213, throw
+Green Light Timings: 0:42:0:42:0:42:0:40:0:42:0:42:2:37:0:44:0:38:-2:42:0:42, New overall average: 110.58793479654886, throw
+Green Light Timings: 0:42:0:42:0:44:0:42:0:42:0:42:2:37:0:44:0:38:-2:42:0:42, New overall average: 106.24296896576408, keep
+Green Light Timings: 0:42:0:42:0:44:0:42:0:42:0:42:2:35:0:44:0:38:-2:42:0:42, New overall average: 107.08450683190746, throw
+Green Light Timings: 0:42:0:42:0:44:0:42:0:42:0:42:2:37:0:44:0:36:-2:42:0:42, New overall average: 110.02103088707189, throw
+Green Light Timings: 0:42:0:42:0:44:0:42:0:42:0:42:2:37:0:44:0:40:-2:42:0:42, New overall average: 110.43133211615043, throw
+Green Light Timings: 0:42:0:42:0:44:0:42:0:42:0:42:2:37:0:44:0:38:-2:42:-2:42, New overall average: 113.73332336204159, throw
+Green Light Timings: 0:42:0:42:0:44:0:42:0:40:0:42:2:37:0:44:0:38:-2:42:0:42, New overall average: 104.46618708978707, keep
+Green Light Timings: 0:42:0:42:0:44:0:42:0:40:0:42:2:35:0:44:0:38:-2:42:0:42, New overall average: 107.2432292968569, throw
+Green Light Timings: 0:42:0:42:0:44:0:44:0:40:0:42:2:37:0:44:0:38:-2:42:0:42, New overall average: 106.6646089630677, throw
+Green Light Timings: 0:42:0:42:0:42:0:42:0:40:0:42:2:37:0:44:0:38:-2:42:0:42, New overall average: 105.34884852901926, throw
+Duplicate New Green Light Timing: 0:42:0:42:0:42:0:42:0:40:0:42:2:37:0:44:0:38:-2:42:0:42
+Green Light Timings: 0:42:0:42:0:44:0:42:0:40:0:42:2:37:0:44:0:36:-2:42:0:42, New overall average: 109.63629242414106, throw
+Green Light Timings: 0:42:0:42:0:44:0:42:0:40:0:42:2:37:0:44:0:38:-2:42:0:40, New overall average: 109.63601118892574, throw
+Green Light Timings: 0:40:0:42:0:44:0:42:0:40:0:42:2:37:0:44:0:38:-2:42:0:42, New overall average: 109.58150327581002, throw
+Duplicate New Green Light Timing: 0:42:0:42:0:44:0:42:0:40:0:42:2:37:0:44:0:38:-2:42:0:40
+Green Light Timings: 0:42:0:42:0:44:0:42:0:40:0:42:2:37:0:44:0:38:-2:44:0:42, New overall average: 114.635801536048, throw
+Green Light Timings: 0:42:0:42:0:44:0:42:0:40:0:42:2:37:0:44:0:38:-2:42:0:44, New overall average: 108.244093129298, throw
+Duplicate New Green Light Timing: 0:42:0:42:0:44:0:42:0:40:0:42:2:37:0:44:0:38:-2:42:0:40
+Green Light Timings: 0:42:0:42:0:44:0:42:0:40:0:42:2:37:0:44:0:38:-4:42:0:42, New overall average: 94.57528387947879, keep
+Green Light Timings: 0:42:0:42:0:44:0:44:0:40:0:42:2:37:0:44:0:38:-4:42:0:42, New overall average: 101.80248996366007, throw
+Green Light Timings: 0:42:0:42:0:42:0:42:0:40:0:42:2:37:0:44:0:38:-4:42:0:42, New overall average: 98.45294735942286, throw
+Green Light Timings: 0:40:0:42:0:44:0:42:0:40:0:42:2:37:0:44:0:38:-4:42:0:42, New overall average: 98.95475423788231, throw
+Green Light Timings: 0:42:0:42:0:44:0:42:0:38:0:42:2:37:0:44:0:38:-4:42:0:42, New overall average: 97.79810295691081, throw
+Green Light Timings: 0:42:0:42:0:44:0:42:0:40:0:42:2:35:0:44:0:38:-4:42:0:42, New overall average: 101.05998765183321, throw
+Green Light Timings: 0:42:0:42:0:44:0:42:0:42:0:42:2:37:0:44:0:38:-4:42:0:42, New overall average: 98.82387206276873, throw
+Green Light Timings: 0:44:0:42:0:44:0:42:0:40:0:42:2:37:0:44:0:38:-4:42:0:42, New overall average: 97.6472157768313, throw
+Duplicate New Green Light Timing: 0:42:0:42:0:44:0:42:0:38:0:42:2:37:0:44:0:38:-4:42:0:42
+Duplicate New Green Light Timing: 0:42:0:42:0:44:0:42:0:40:0:42:2:35:0:44:0:38:-4:42:0:42
+Duplicate New Green Light Timing: 0:42:0:42:0:44:0:44:0:40:0:42:2:37:0:44:0:38:-4:42:0:42
+Green Light Timings: 0:42:0:40:0:44:0:42:0:40:0:42:2:37:0:44:0:38:-4:42:0:42, New overall average: 103.74222071660353, throw
+Duplicate New Green Light Timing: 0:40:0:42:0:44:0:42:0:40:0:42:2:37:0:44:0:38:-4:42:0:42
+Green Light Timings: 0:42:0:42:0:44:0:42:0:40:0:42:2:39:0:44:0:38:-4:42:0:42, New overall average: 98.63672612270179, throw
+Green Light Timings: 0:42:0:42:0:44:0:42:0:40:0:42:2:37:0:44:0:38:-4:42:-2:42, New overall average: 114.51568634830734, throw
+Green Light Timings: 0:42:0:42:0:44:2:42:0:40:0:42:2:37:0:44:0:38:-4:42:0:42, New overall average: 103.95002249120043, throw
+Green Light Timings: 0:42:0:42:0:44:0:42:0:40:0:42:0:37:0:44:0:38:-4:42:0:42, New overall average: 101.59989786219863, throw
+Green Light Timings: 0:42:0:42:0:44:0:42:0:40:0:42:2:37:0:44:0:38:-4:40:0:42, New overall average: 94.86601860632382, throw
+Green Light Timings: 0:42:0:42:0:44:0:40:0:40:0:42:2:37:0:44:0:38:-4:42:0:42, New overall average: 99.70647036074477, throw
+Green Light Timings: 0:42:0:42:-2:44:0:42:0:40:0:42:2:37:0:44:0:38:-4:42:0:42, New overall average: 97.60779452606937, throw
+Duplicate New Green Light Timing: 0:42:0:42:0:42:0:42:0:40:0:42:2:37:0:44:0:38:-4:42:0:42
+Duplicate New Green Light Timing: 0:42:0:42:0:44:0:44:0:40:0:42:2:37:0:44:0:38:-4:42:0:42
+Green Light Timings: 0:42:0:42:0:44:0:42:0:40:0:42:2:37:0:46:0:38:-4:42:0:42, New overall average: 104.85895573917371, throw
+Green Light Timings: 0:42:0:42:0:44:0:42:0:40:0:42:2:37:0:44:0:38:-4:42:0:40, New overall average: 99.1650164020737, throw
+Duplicate New Green Light Timing: 0:42:0:42:0:44:0:42:0:40:0:42:2:37:0:46:0:38:-4:42:0:42
+Green Light Timings: 0:42:0:42:0:44:0:42:0:40:0:42:2:37:0:44:0:40:-4:42:0:42, New overall average: 99.09611936977899, throw
+Green Light Timings: 0:42:0:42:0:44:0:42:0:40:0:42:2:37:0:44:0:38:-4:42:0:44, New overall average: 98.32444168165048, throw
+Duplicate New Green Light Timing: 0:42:0:42:0:44:0:42:0:40:0:42:2:37:0:44:0:38:-4:42:0:40
+Green Light Timings: 0:42:0:42:0:44:0:42:0:40:0:42:2:37:0:44:0:36:-4:42:0:42, New overall average: 101.3897862122074, throw
+Green Light Timings: 0:42:0:42:0:46:0:42:0:40:0:42:2:37:0:44:0:38:-4:42:0:42, New overall average: 102.36329366824555, throw
+Duplicate New Green Light Timing: 0:42:0:42:0:44:0:42:0:40:0:42:2:37:0:44:0:38:-4:40:0:42
+Duplicate New Green Light Timing: 0:40:0:42:0:44:0:42:0:40:0:42:2:37:0:44:0:38:-4:42:0:42
+Duplicate New Green Light Timing: 0:42:0:42:0:44:0:42:0:40:0:42:2:39:0:44:0:38:-4:42:0:42
+Green Light Timings: 0:42:0:42:0:44:0:42:0:40:0:42:2:37:2:44:0:38:-4:42:0:42, New overall average: 99.24293146770071, throw
+Duplicate New Green Light Timing: 0:42:0:42:0:44:0:42:0:40:0:42:2:35:0:44:0:38:-4:42:0:42
+Duplicate New Green Light Timing: 0:42:0:42:0:44:0:42:0:40:0:42:2:35:0:44:0:38:-4:42:0:42
+Duplicate New Green Light Timing: 0:44:0:42:0:44:0:42:0:40:0:42:2:37:0:44:0:38:-4:42:0:42
+Duplicate New Green Light Timing: 0:42:0:42:0:44:0:42:0:40:0:42:2:35:0:44:0:38:-4:42:0:42
+Duplicate New Green Light Timing: 0:42:0:42:0:44:0:40:0:40:0:42:2:37:0:44:0:38:-4:42:0:42
+Duplicate New Green Light Timing: 0:42:0:42:0:44:0:42:0:38:0:42:2:37:0:44:0:38:-4:42:0:42
+Green Light Timings: 0:42:0:42:0:44:0:42:0:40:0:42:2:37:0:44:2:38:-4:42:0:42, New overall average: 101.22408888727924, throw
+Duplicate New Green Light Timing: 0:42:0:42:0:44:0:42:0:40:0:42:2:37:0:44:0:40:-4:42:0:42
+Duplicate New Green Light Timing: 0:42:0:42:0:44:0:42:0:40:0:42:2:37:0:44:0:38:-4:40:0:42
+Duplicate New Green Light Timing: 0:40:0:42:0:44:0:42:0:40:0:42:2:37:0:44:0:38:-4:42:0:42
+Green Light Timings: 0:42:0:42:0:44:0:42:0:40:0:42:2:37:0:42:0:38:-4:42:0:42, New overall average: 101.54186715323237, throw
+Duplicate New Green Light Timing: 0:42:0:42:0:44:0:42:0:42:0:42:2:37:0:44:0:38:-4:42:0:42
+Duplicate New Green Light Timing: 0:42:0:42:0:44:0:40:0:40:0:42:2:37:0:44:0:38:-4:42:0:42
+Duplicate New Green Light Timing: 0:42:0:42:0:46:0:42:0:40:0:42:2:37:0:44:0:38:-4:42:0:42
+Duplicate New Green Light Timing: 0:42:0:42:0:42:0:42:0:40:0:42:2:37:0:44:0:38:-4:42:0:42
+Duplicate New Green Light Timing: 0:42:0:42:0:44:0:42:0:40:0:42:2:37:0:44:0:38:-4:40:0:42
+Duplicate New Green Light Timing: 0:42:0:42:0:44:0:42:0:40:0:42:2:37:0:44:0:38:-4:42:0:44
+Green Light Timings: 0:42:0:42:0:44:0:42:0:40:0:42:2:37:0:44:0:38:-6:42:0:42, New overall average: 93.9979868104941, keep
+Green Light Timings: 0:42:0:42:0:44:0:40:0:40:0:42:2:37:0:44:0:38:-6:42:0:42, New overall average: 94.43150854773826, throw
+Green Light Timings: 0:42:0:44:0:44:0:42:0:40:0:42:2:37:0:44:0:38:-6:42:0:42, New overall average: 93.90752471232653, keep
+Green Light Timings: 0:42:0:44:-2:44:0:42:0:40:0:42:2:37:0:44:0:38:-6:42:0:42, New overall average: 93.48707419600437, keep
+Green Light Timings: 0:42:0:42:-2:44:0:42:0:40:0:42:2:37:0:44:0:38:-6:42:0:42, New overall average: 96.69319301531628, throw
+Green Light Timings: 0:42:0:44:-2:44:0:42:0:40:0:42:2:35:0:44:0:38:-6:42:0:42, New overall average: 94.54630398146311, throw
+Green Light Timings: 0:42:0:44:-2:44:0:42:0:42:0:42:2:37:0:44:0:38:-6:42:0:42, New overall average: 90.93497010769462, keep
+Green Light Timings: 0:42:0:44:-2:44:0:42:0:42:0:42:2:37:0:44:0:38:-6:42:0:40, New overall average: 94.70392328923687, throw
+Green Light Timings: 0:42:0:44:-2:44:0:42:0:42:0:42:2:39:0:44:0:38:-6:42:0:42, New overall average: 96.0304333945424, throw
+Green Light Timings: 0:42:0:44:-2:44:0:42:0:42:0:42:2:37:0:44:0:40:-6:42:0:42, New overall average: 92.2238197125515, throw
+Green Light Timings: 0:42:0:44:-2:44:0:44:0:42:0:42:2:37:0:44:0:38:-6:42:0:42, New overall average: 95.49304037156759, throw
+Green Light Timings: 0:40:0:44:-2:44:0:42:0:42:0:42:2:37:0:44:0:38:-6:42:0:42, New overall average: 95.81753191367558, throw
+Green Light Timings: 0:42:0:44:-2:44:0:42:0:42:0:42:2:35:0:44:0:38:-6:42:0:42, New overall average: 95.3283193330989, throw
+Green Light Timings: 0:42:0:44:-2:44:0:40:0:42:0:42:2:37:0:44:0:38:-6:42:0:42, New overall average: 92.86081647708151, throw
+Duplicate New Green Light Timing: 0:42:0:44:-2:44:0:42:0:40:0:42:2:37:0:44:0:38:-6:42:0:42
+Green Light Timings: 0:42:0:44:-2:44:0:42:0:42:0:42:2:37:0:44:0:38:-6:40:0:42, New overall average: 92.30939103008795, throw
+Green Light Timings: 0:42:0:44:-2:46:0:42:0:42:0:42:2:37:0:44:0:38:-6:42:0:42, New overall average: 91.35947873317974, throw
+Green Light Timings: 0:42:0:44:-2:44:0:42:0:42:0:42:2:37:-2:44:0:38:-6:42:0:42, New overall average: 96.07102886525048, throw
+Green Light Timings: 0:42:0:44:-2:44:0:42:0:42:0:42:2:37:0:44:0:38:-4:42:0:42, New overall average: 96.70264437705086, throw
+Duplicate New Green Light Timing: 0:42:0:44:-2:44:0:42:0:42:0:42:2:37:0:44:0:40:-6:42:0:42
+Green Light Timings: 0:42:0:44:-2:42:0:42:0:42:0:42:2:37:0:44:0:38:-6:42:0:42, New overall average: 92.11967266637194, throw
+Green Light Timings: 0:42:0:44:-2:44:0:42:0:42:0:42:2:37:0:42:0:38:-6:42:0:42, New overall average: 94.00357092910748, throw
+Duplicate New Green Light Timing: 0:42:0:44:-2:44:0:42:0:42:0:42:2:39:0:44:0:38:-6:42:0:42
+Green Light Timings: 0:42:0:44:-2:44:0:42:0:42:0:42:2:37:0:44:0:38:-6:44:0:42, New overall average: 97.75265564661211, throw
+Duplicate New Green Light Timing: 0:42:0:44:-2:42:0:42:0:42:0:42:2:37:0:44:0:38:-6:42:0:42
+Green Light Timings: 0:42:0:44:-2:44:0:42:0:42:0:42:2:37:0:44:0:38:-6:42:0:44, New overall average: 94.99276979292999, throw
+Duplicate New Green Light Timing: 0:42:0:44:-2:44:0:42:0:42:0:42:2:35:0:44:0:38:-6:42:0:42
+Duplicate New Green Light Timing: 0:42:0:44:-2:42:0:42:0:42:0:42:2:37:0:44:0:38:-6:42:0:42
+Green Light Timings: 0:42:0:44:0:44:0:42:0:42:0:42:2:37:0:44:0:38:-6:42:0:42, New overall average: 91.83396972398073, throw
+Duplicate New Green Light Timing: 0:42:0:44:-2:44:0:40:0:42:0:42:2:37:0:44:0:38:-6:42:0:42
+Green Light Timings: 0:42:0:46:-2:44:0:42:0:42:0:42:2:37:0:44:0:38:-6:42:0:42, New overall average: 92.84698956024567, throw
+Green Light Timings: 0:42:0:44:-2:44:0:42:0:42:0:42:2:37:0:46:0:38:-6:42:0:42, New overall average: 92.69818318091885, throw
+Duplicate New Green Light Timing: 0:42:0:44:-2:44:0:42:0:42:0:42:2:37:0:44:0:40:-6:42:0:42
+Duplicate New Green Light Timing: 0:42:0:44:-2:44:0:40:0:42:0:42:2:37:0:44:0:38:-6:42:0:42
+Duplicate New Green Light Timing: 0:42:0:44:0:44:0:42:0:42:0:42:2:37:0:44:0:38:-6:42:0:42
+Duplicate New Green Light Timing: 0:42:0:44:-2:44:0:42:0:42:0:42:2:39:0:44:0:38:-6:42:0:42
+Duplicate New Green Light Timing: 0:42:0:44:-2:44:0:44:0:42:0:42:2:37:0:44:0:38:-6:42:0:42
+Green Light Timings: 0:42:0:44:-2:44:0:42:0:42:0:42:2:37:0:44:0:38:-6:42:2:42, New overall average: 86.75958890452415, keep
+Green Light Timings: 0:42:0:44:-2:44:0:42:0:42:0:42:2:35:0:44:0:38:-6:42:2:42, New overall average: 90.92183056109857, throw
+Green Light Timings: 0:42:0:42:-2:44:0:42:0:42:0:42:2:37:0:44:0:38:-6:42:2:42, New overall average: 88.73525762356972, throw
+Green Light Timings: 0:42:0:44:-2:44:0:42:0:42:0:42:2:37:0:44:0:38:-6:42:2:40, New overall average: 89.99350188144622, throw
+Green Light Timings: 0:42:-2:44:-2:44:0:42:0:42:0:42:2:37:0:44:0:38:-6:42:2:42, New overall average: 88.24152730053167, throw
+Green Light Timings: 0:42:0:44:-2:44:0:42:0:42:0:42:2:37:0:46:0:38:-6:42:2:42, New overall average: 89.24852405788995, throw
+Green Light Timings: 0:42:0:44:-2:44:0:42:0:42:0:42:2:37:0:44:0:38:-6:42:2:44, New overall average: 91.35958031866045, throw
+Green Light Timings: 0:42:0:44:-2:44:0:42:0:42:0:42:2:37:0:44:2:38:-6:42:2:42, New overall average: 88.90894846844914, throw
+Green Light Timings: 0:42:0:44:-2:44:0:40:0:42:0:42:2:37:0:44:0:38:-6:42:2:42, New overall average: 86.7048519394686, keep
+Green Light Timings: 0:42:0:44:-2:44:0:40:0:42:0:42:2:37:2:44:0:38:-6:42:2:42, New overall average: 86.67926695121815, keep
+Green Light Timings: 0:42:0:44:-2:44:0:40:0:40:0:42:2:37:2:44:0:38:-6:42:2:42, New overall average: 91.02838929223725, throw
+Green Light Timings: 0:42:0:44:-2:44:0:40:0:42:0:42:2:39:2:44:0:38:-6:42:2:42, New overall average: 89.70122477079039, throw
+Green Light Timings: 0:42:0:44:-2:44:0:40:0:42:0:42:2:37:2:44:0:38:-6:44:2:42, New overall average: 93.36956087881184, throw
+Green Light Timings: 0:40:0:44:-2:44:0:40:0:42:0:42:2:37:2:44:0:38:-6:42:2:42, New overall average: 88.56887756375154, throw
+Green Light Timings: 0:42:0:44:-2:44:0:40:0:42:0:42:2:37:2:46:0:38:-6:42:2:42, New overall average: 88.79167619169056, throw
+Green Light Timings: 0:42:0:44:-2:44:0:40:0:44:0:42:2:37:2:44:0:38:-6:42:2:42, New overall average: 90.2256121733498, throw
+Duplicate New Green Light Timing: 0:42:0:44:-2:44:0:40:0:42:0:42:2:37:2:44:0:38:-6:44:2:42
+Green Light Timings: 0:42:0:44:-2:44:0:40:0:42:0:42:2:37:2:44:2:38:-6:42:2:42, New overall average: 90.22397577224659, throw
+Duplicate New Green Light Timing: 0:42:0:44:-2:44:0:40:0:44:0:42:2:37:2:44:0:38:-6:42:2:42
+Green Light Timings: 0:42:0:44:-2:44:0:40:0:42:0:42:2:37:2:44:0:36:-6:42:2:42, New overall average: 89.88681828463697, throw
+Green Light Timings: 0:42:0:44:-2:44:0:40:0:42:0:42:2:37:2:44:0:38:-6:42:2:44, New overall average: 90.04689774670223, throw
+Green Light Timings: -2:42:0:44:-2:44:0:40:0:42:0:42:2:37:2:44:0:38:-6:42:2:42, New overall average: 88.23004836470132, throw
+Green Light Timings: 0:42:0:44:-2:44:0:40:0:42:0:42:2:37:2:42:0:38:-6:42:2:42, New overall average: 91.05951390938985, throw
+Green Light Timings: 0:42:0:44:-2:44:0:40:0:42:0:42:2:37:2:44:0:40:-6:42:2:42, New overall average: 90.12340082256149, throw
+Duplicate New Green Light Timing: 0:42:0:44:-2:44:0:40:0:42:0:42:2:37:2:44:0:36:-6:42:2:42
+Duplicate New Green Light Timing: 0:42:0:44:-2:44:0:40:0:42:0:42:2:37:2:44:0:38:-6:42:2:44
+Green Light Timings: 0:42:0:44:-2:44:0:40:0:40:0:42:2:37:2:44:0:38:-6:42:2:42, New overall average: 89.16717494650962, throw
+Green Light Timings: 0:42:0:44:-2:44:0:40:0:42:0:42:2:37:4:44:0:38:-6:42:2:42, New overall average: 90.9621735170252, throw
+Green Light Timings: 0:42:0:44:-2:42:0:40:0:42:0:42:2:37:2:44:0:38:-6:42:2:42, New overall average: 89.5321426525282, throw
+Duplicate New Green Light Timing: 0:42:0:44:-2:44:0:40:0:42:0:42:2:37:2:46:0:38:-6:42:2:42
+Green Light Timings: 0:44:0:44:-2:44:0:40:0:42:0:42:2:37:2:44:0:38:-6:42:2:42, New overall average: 88.42813648301326, throw
+Duplicate New Green Light Timing: 0:42:0:44:-2:44:0:40:0:42:0:42:2:39:2:44:0:38:-6:42:2:42
+Duplicate New Green Light Timing: 0:44:0:44:-2:44:0:40:0:42:0:42:2:37:2:44:0:38:-6:42:2:42
+Green Light Timings: 2:42:0:44:-2:44:0:40:0:42:0:42:2:37:2:44:0:38:-6:42:2:42, New overall average: 87.95623028599975, throw
+Duplicate New Green Light Timing: 0:42:0:44:-2:44:0:40:0:44:0:42:2:37:2:44:0:38:-6:42:2:42
+Duplicate New Green Light Timing: -2:42:0:44:-2:44:0:40:0:42:0:42:2:37:2:44:0:38:-6:42:2:42
+Duplicate New Green Light Timing: 0:42:0:44:-2:44:0:40:0:42:0:42:2:37:2:44:0:38:-6:42:2:44
+Duplicate New Green Light Timing: 0:42:0:44:-2:44:0:40:0:42:0:42:2:39:2:44:0:38:-6:42:2:42
+Green Light Timings: 0:42:0:46:-2:44:0:40:0:42:0:42:2:37:2:44:0:38:-6:42:2:42, New overall average: 90.0316617436771, throw
+Green Light Timings: 0:42:0:44:-2:44:0:40:0:42:0:42:2:37:2:44:0:38:-6:42:2:40, New overall average: 88.33468152029431, throw
+Duplicate New Green Light Timing: 0:42:0:44:-2:44:0:40:0:42:0:42:2:39:2:44:0:38:-6:42:2:42
+Duplicate New Green Light Timing: 0:42:0:44:-2:44:0:40:0:42:0:42:2:37:2:44:0:40:-6:42:2:42
+Green Light Timings: 0:42:0:44:-2:44:0:40:0:42:0:42:2:37:2:44:0:38:-6:40:2:42, New overall average: 87.13296326350012, throw
+Duplicate New Green Light Timing: 0:42:0:44:-2:44:0:40:0:42:0:42:2:37:2:42:0:38:-6:42:2:42
+Green Light Timings: 0:42:2:44:-2:44:0:40:0:42:0:42:2:37:2:44:0:38:-6:42:2:42, New overall average: 88.68307844769632, throw
+Duplicate New Green Light Timing: 0:42:0:44:-2:44:0:40:0:40:0:42:2:37:2:44:0:38:-6:42:2:42
+Green Light Timings: 0:42:0:44:-2:44:0:40:0:42:0:42:2:37:2:44:0:38:-6:42:4:42, New overall average: 88.76383828677469, throw
+Duplicate New Green Light Timing: 0:42:0:44:-2:44:0:40:0:42:0:42:2:37:2:44:0:38:-6:42:2:44
+Green Light Timings: 0:42:0:44:-2:44:0:42:0:42:0:42:2:37:2:44:0:38:-6:42:2:42, New overall average: 86.62873362853519, keep
+Green Light Timings: 0:40:0:44:-2:44:0:42:0:42:0:42:2:37:2:44:0:38:-6:42:2:42, New overall average: 90.42172425092356, throw
+Green Light Timings: 0:42:0:44:-2:44:0:42:0:42:0:42:2:37:2:44:0:36:-6:42:2:42, New overall average: 90.04628147450516, throw
+Duplicate New Green Light Timing: 0:42:0:44:-2:44:0:42:0:42:0:42:2:37:2:44:0:36:-6:42:2:42
+Green Light Timings: 0:42:0:44:-2:44:0:42:0:42:0:42:2:37:2:44:0:38:-6:42:2:40, New overall average: 90.15847189259293, throw
+Green Light Timings: 0:42:0:44:-2:44:0:44:0:42:0:42:2:37:2:44:0:38:-6:42:2:42, New overall average: 89.4789790773525, throw
+Green Light Timings: 0:42:0:44:-2:44:0:40:0:42:0:42:2:37:2:44:0:38:-6:42:2:42, New overall average: 90.13090369190085, throw
+Green Light Timings: 0:44:0:44:-2:44:0:42:0:42:0:42:2:37:2:44:0:38:-6:42:2:42, New overall average: 89.93559296463907, throw
+Green Light Timings: 0:42:0:44:-2:44:0:42:0:42:0:42:2:37:2:44:0:38:-6:42:2:44, New overall average: 90.6324127561717, throw
+Duplicate New Green Light Timing: 0:42:0:44:-2:44:0:42:0:42:0:42:2:37:2:44:0:38:-6:42:2:44
+Green Light Timings: 0:42:0:44:-2:44:0:42:0:42:0:42:2:37:2:44:0:38:-6:40:2:42, New overall average: 86.18125470548328, keep
+Green Light Timings: 0:42:0:44:-2:44:0:42:0:42:0:42:2:37:2:46:0:38:-6:40:2:42, New overall average: 87.03630350382413, throw
+Green Light Timings: 0:42:0:44:-2:44:0:42:0:42:0:42:2:35:2:44:0:38:-6:40:2:42, New overall average: 87.26844690399095, throw
+Green Light Timings: 0:42:0:44:-2:46:0:42:0:42:0:42:2:37:2:44:0:38:-6:40:2:42, New overall average: 85.88844312020889, keep
+Green Light Timings: 0:42:0:46:-2:46:0:42:0:42:0:42:2:37:2:44:0:38:-6:40:2:42, New overall average: 86.57659233873235, throw
+Green Light Timings: 0:42:0:44:-2:46:0:42:0:42:0:42:2:37:2:44:0:38:-6:40:2:44, New overall average: 88.23411991101497, throw
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:42:0:42:2:37:2:44:0:38:-6:40:2:44
+Green Light Timings: 0:42:0:44:-2:46:0:42:0:40:0:42:2:37:2:44:0:38:-6:40:2:42, New overall average: 86.76863675982722, throw
+Green Light Timings: 0:44:0:44:-2:46:0:42:0:42:0:42:2:37:2:44:0:38:-6:40:2:42, New overall average: 88.33287344456629, throw
+Green Light Timings: 0:42:0:44:-2:46:0:40:0:42:0:42:2:37:2:44:0:38:-6:40:2:42, New overall average: 86.64901519867131, throw
+Green Light Timings: 0:42:0:44:-2:46:0:42:0:42:0:42:2:37:2:44:0:36:-6:40:2:42, New overall average: 87.66850578417468, throw
+Green Light Timings: 0:42:0:44:-2:46:0:42:0:42:0:42:2:37:2:46:0:38:-6:40:2:42, New overall average: 86.98726892517881, throw
+Green Light Timings: 0:42:0:44:-2:46:0:42:2:42:0:42:2:37:2:44:0:38:-6:40:2:42, New overall average: 87.38118030629349, throw
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:42:0:42:2:37:2:44:0:38:-6:40:2:44
+Green Light Timings: 0:42:-2:44:-2:46:0:42:0:42:0:42:2:37:2:44:0:38:-6:40:2:42, New overall average: 91.5254861263529, throw
+Duplicate New Green Light Timing: 0:42:0:46:-2:46:0:42:0:42:0:42:2:37:2:44:0:38:-6:40:2:42
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:40:0:42:2:37:2:44:0:38:-6:40:2:42
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:42:0:42:2:37:2:44:0:36:-6:40:2:42
+Green Light Timings: 0:42:0:44:-2:48:0:42:0:42:0:42:2:37:2:44:0:38:-6:40:2:42, New overall average: 87.95102321731116, throw
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:42:0:42:2:37:2:44:0:38:-6:40:2:44
+Duplicate New Green Light Timing: 0:42:0:46:-2:46:0:42:0:42:0:42:2:37:2:44:0:38:-6:40:2:42
+Green Light Timings: 0:42:0:44:-2:46:0:42:0:44:0:42:2:37:2:44:0:38:-6:40:2:42, New overall average: 87.37660169598908, throw
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:40:0:42:2:37:2:44:0:38:-6:40:2:42
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:40:0:42:2:37:2:44:0:38:-6:40:2:42
+Duplicate New Green Light Timing: 0:42:0:44:-2:44:0:42:0:42:0:42:2:37:2:44:0:38:-6:40:2:42
+Green Light Timings: 0:42:0:44:-2:46:0:42:0:42:0:42:2:37:2:44:0:40:-6:40:2:42, New overall average: 87.64733336727231, throw
+Green Light Timings: 0:42:0:44:-2:46:0:42:0:42:0:42:2:35:2:44:0:38:-6:40:2:42, New overall average: 87.33553784054267, throw
+Green Light Timings: 2:42:0:44:-2:46:0:42:0:42:0:42:2:37:2:44:0:38:-6:40:2:42, New overall average: 87.7453292693575, throw
+Green Light Timings: 0:42:0:44:-2:46:0:42:0:42:0:42:2:37:2:44:0:38:-6:38:2:42, New overall average: 85.36235815543758, keep
+Green Light Timings: 0:42:0:46:-2:46:0:42:0:42:0:42:2:37:2:44:0:38:-6:38:2:42, New overall average: 85.9554464862696, throw
+Green Light Timings: 0:42:0:44:-2:44:0:42:0:42:0:42:2:37:2:44:0:38:-6:38:2:42, New overall average: 85.56883001101512, throw
+Green Light Timings: 0:42:0:44:-2:46:0:42:0:42:0:42:2:35:2:44:0:38:-6:38:2:42, New overall average: 84.3457037241103, keep
+Green Light Timings: 0:42:0:44:-2:46:0:42:0:40:0:42:2:35:2:44:0:38:-6:38:2:42, New overall average: 86.86776042568441, throw
+Green Light Timings: 0:42:0:44:-2:46:0:42:0:42:0:42:2:35:2:46:0:38:-6:38:2:42, New overall average: 85.89444619609036, throw
+Green Light Timings: 0:42:0:44:-2:46:0:40:0:42:0:42:2:35:2:44:0:38:-6:38:2:42, New overall average: 86.8079373637129, throw
+Green Light Timings: 0:42:0:44:-2:46:0:42:0:42:0:42:2:35:2:44:0:38:-6:38:2:40, New overall average: 87.19791817031982, throw
+Green Light Timings: 0:42:0:44:-2:46:0:42:0:44:0:42:2:35:2:44:0:38:-6:38:2:42, New overall average: 86.75339817373188, throw
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:42:0:42:2:35:2:46:0:38:-6:38:2:42
+Green Light Timings: 0:42:0:44:-2:46:0:42:0:42:0:42:2:35:2:44:0:38:-6:38:2:44, New overall average: 86.36736892391836, throw
+Green Light Timings: 0:42:0:44:-2:46:0:42:0:42:0:42:2:35:2:44:0:38:-6:36:2:42, New overall average: 85.7333648698329, throw
+Green Light Timings: 0:42:0:44:-2:46:0:42:0:42:0:42:2:35:2:44:0:40:-6:38:2:42, New overall average: 85.17884317993685, throw
+Green Light Timings: 0:42:0:44:-2:46:0:42:0:42:0:42:2:35:2:42:0:38:-6:38:2:42, New overall average: 87.49767941824268, throw
+Green Light Timings: 0:42:0:44:-2:46:0:42:0:42:0:42:4:35:2:44:0:38:-6:38:2:42, New overall average: 87.37401606084646, throw
+Green Light Timings: 0:42:0:46:-2:46:0:42:0:42:0:42:2:35:2:44:0:38:-6:38:2:42, New overall average: 86.44761974079509, throw
+Green Light Timings: 0:42:0:44:-2:46:0:42:0:42:0:42:2:35:2:44:0:38:-4:38:2:42, New overall average: 88.47676524140523, throw
+Green Light Timings: 0:42:0:44:-2:46:0:44:0:42:0:42:2:35:2:44:0:38:-6:38:2:42, New overall average: 87.63056579975495, throw
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:42:0:42:2:35:2:44:0:38:-6:38:2:44
+Green Light Timings: 0:42:0:44:-2:46:0:42:0:42:0:42:2:35:2:44:0:36:-6:38:2:42, New overall average: 88.17497380246607, throw
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:42:0:42:2:35:2:44:0:40:-6:38:2:42
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:42:0:42:2:37:2:44:0:38:-6:38:2:42
+Green Light Timings: 0:42:0:44:-2:44:0:42:0:42:0:42:2:35:2:44:0:38:-6:38:2:42, New overall average: 88.11126739549937, throw
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:42:0:42:2:35:2:44:0:38:-6:38:2:40
+Green Light Timings: 0:44:0:44:-2:46:0:42:0:42:0:42:2:35:2:44:0:38:-6:38:2:42, New overall average: 85.95553676453913, throw
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:40:0:42:2:35:2:44:0:38:-6:38:2:42
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:42:0:42:2:35:2:44:0:38:-6:38:2:40
+Green Light Timings: 0:42:0:44:-2:48:0:42:0:42:0:42:2:35:2:44:0:38:-6:38:2:42, New overall average: 85.98440342796079, throw
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:42:0:42:2:35:2:42:0:38:-6:38:2:42
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:42:0:42:4:35:2:44:0:38:-6:38:2:42
+Green Light Timings: 0:42:0:44:-2:46:0:42:-2:42:0:42:2:35:2:44:0:38:-6:38:2:42, New overall average: 85.74235399781608, throw
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:42:0:42:2:35:2:44:0:36:-6:38:2:42
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:42:0:42:2:35:2:44:0:36:-6:38:2:42
+Green Light Timings: 0:42:0:44:0:46:0:42:0:42:0:42:2:35:2:44:0:38:-6:38:2:42, New overall average: 87.1345549141785, throw
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:42:0:42:2:35:2:44:0:38:-6:40:2:42
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:42:0:42:2:35:2:44:0:38:-6:38:2:44
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:42:0:42:2:35:2:44:0:38:-6:38:2:40
+Green Light Timings: 0:42:0:44:-2:46:0:42:0:42:0:42:0:35:2:44:0:38:-6:38:2:42, New overall average: 87.54465205840752, throw
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:42:0:42:2:35:2:44:0:38:-6:38:2:40
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:40:0:42:2:35:2:44:0:38:-6:38:2:42
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:42:0:42:2:37:2:44:0:38:-6:38:2:42
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:44:0:42:2:35:2:44:0:38:-6:38:2:42
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:44:0:42:2:35:2:44:0:38:-6:38:2:42
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:44:0:42:2:35:2:44:0:38:-6:38:2:42
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:40:0:42:2:35:2:44:0:38:-6:38:2:42
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:42:0:42:2:37:2:44:0:38:-6:38:2:42
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:42:0:42:2:35:2:44:0:40:-6:38:2:42
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:42:0:42:2:35:2:44:0:38:-6:38:2:44
+Green Light Timings: 2:42:0:44:-2:46:0:42:0:42:0:42:2:35:2:44:0:38:-6:38:2:42, New overall average: 85.55494227420996, throw
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:40:0:42:2:35:2:44:0:38:-6:38:2:42
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:42:0:42:2:35:2:44:0:38:-6:38:2:44
+Green Light Timings: -2:42:0:44:-2:46:0:42:0:42:0:42:2:35:2:44:0:38:-6:38:2:42, New overall average: 86.67639926304778, throw
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:42:0:42:2:35:2:44:0:38:-6:38:2:44
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:42:0:42:2:35:2:46:0:38:-6:38:2:42
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:42:0:42:2:35:2:42:0:38:-6:38:2:42
+Duplicate New Green Light Timing: 0:42:0:44:-2:48:0:42:0:42:0:42:2:35:2:44:0:38:-6:38:2:42
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:40:0:42:0:42:2:35:2:44:0:38:-6:38:2:42
+Green Light Timings: 0:42:0:42:-2:46:0:42:0:42:0:42:2:35:2:44:0:38:-6:38:2:42, New overall average: 85.56121017768969, throw
+Duplicate New Green Light Timing: 0:42:0:44:0:46:0:42:0:42:0:42:2:35:2:44:0:38:-6:38:2:42
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:40:0:42:2:35:2:44:0:38:-6:38:2:42
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:42:0:42:2:35:2:44:0:36:-6:38:2:42
+Green Light Timings: 0:40:0:44:-2:46:0:42:0:42:0:42:2:35:2:44:0:38:-6:38:2:42, New overall average: 85.86019838361466, throw
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:42:0:42:2:35:2:44:0:38:-6:36:2:42
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:42:0:42:2:35:2:44:0:38:-6:38:2:44
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:42:0:42:2:35:2:44:0:38:-6:40:2:42
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:42:0:42:2:35:2:44:0:36:-6:38:2:42
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:40:0:42:2:35:2:44:0:38:-6:38:2:42
+Green Light Timings: 0:42:0:44:-2:46:0:42:0:42:0:42:2:33:2:44:0:38:-6:38:2:42, New overall average: 88.46446639679465, throw
+Duplicate New Green Light Timing: 0:42:0:46:-2:46:0:42:0:42:0:42:2:35:2:44:0:38:-6:38:2:42
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:42:0:42:2:35:2:44:0:38:-6:36:2:42
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:42:0:42:2:33:2:44:0:38:-6:38:2:42
+Duplicate New Green Light Timing: 0:40:0:44:-2:46:0:42:0:42:0:42:2:35:2:44:0:38:-6:38:2:42
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:42:0:42:2:35:2:44:0:38:-6:36:2:42
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:42:0:42:2:35:2:44:0:36:-6:38:2:42
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:42:0:42:2:35:2:44:0:36:-6:38:2:42
+Duplicate New Green Light Timing: 2:42:0:44:-2:46:0:42:0:42:0:42:2:35:2:44:0:38:-6:38:2:42
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:44:0:42:0:42:2:35:2:44:0:38:-6:38:2:42
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:42:0:42:2:35:2:42:0:38:-6:38:2:42
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:42:0:42:2:35:2:46:0:38:-6:38:2:42
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:42:0:42:2:35:2:44:0:38:-6:38:2:40
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:42:0:42:2:37:2:44:0:38:-6:38:2:42
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:42:0:42:2:37:2:44:0:38:-6:38:2:42
+Duplicate New Green Light Timing: 0:42:0:42:-2:46:0:42:0:42:0:42:2:35:2:44:0:38:-6:38:2:42
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:42:0:42:2:35:2:44:0:40:-6:38:2:42
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:42:0:42:2:35:2:44:0:38:-6:36:2:42
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:42:0:42:2:35:2:44:0:38:-6:40:2:42
+Green Light Timings: 0:42:0:44:-2:46:0:42:0:42:0:42:2:35:2:44:0:38:-6:38:4:42, New overall average: 85.38859800728434, throw
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:42:0:42:2:35:2:44:0:38:-6:36:2:42
+Duplicate New Green Light Timing: 0:44:0:44:-2:46:0:42:0:42:0:42:2:35:2:44:0:38:-6:38:2:42
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:42:0:42:2:33:2:44:0:38:-6:38:2:42
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:42:0:42:2:35:2:44:0:36:-6:38:2:42
+Green Light Timings: 0:42:0:44:-2:46:0:42:0:42:0:42:2:35:0:44:0:38:-6:38:2:42, New overall average: 85.23386801322329, throw
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:44:0:42:0:42:2:35:2:44:0:38:-6:38:2:42
+Duplicate New Green Light Timing: 0:42:0:44:-2:44:0:42:0:42:0:42:2:35:2:44:0:38:-6:38:2:42
+Duplicate New Green Light Timing: 0:42:0:44:-2:48:0:42:0:42:0:42:2:35:2:44:0:38:-6:38:2:42
+Duplicate New Green Light Timing: 0:42:0:44:-2:48:0:42:0:42:0:42:2:35:2:44:0:38:-6:38:2:42
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:42:0:42:2:35:2:44:0:38:-4:38:2:42
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:42:0:42:2:33:2:44:0:38:-6:38:2:42
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:44:0:42:2:35:2:44:0:38:-6:38:2:42
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:42:0:42:2:35:2:44:0:38:-4:38:2:42
+Green Light Timings: 0:42:0:44:-2:46:0:42:0:42:0:42:2:35:2:44:2:38:-6:38:2:42, New overall average: 86.27511651860814, throw
+Duplicate New Green Light Timing: 0:44:0:44:-2:46:0:42:0:42:0:42:2:35:2:44:0:38:-6:38:2:42
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:42:0:42:2:35:2:44:0:40:-6:38:2:42
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:44:0:42:0:42:2:35:2:44:0:38:-6:38:2:42
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:42:0:42:2:35:2:46:0:38:-6:38:2:42
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:40:0:42:0:42:2:35:2:44:0:38:-6:38:2:42
+Green Light Timings: 0:42:2:44:-2:46:0:42:0:42:0:42:2:35:2:44:0:38:-6:38:2:42, New overall average: 87.84067436152672, throw
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:40:0:42:0:42:2:35:2:44:0:38:-6:38:2:42
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:42:0:42:2:37:2:44:0:38:-6:38:2:42
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:42:0:42:2:37:2:44:0:38:-6:38:2:42
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:40:0:42:0:42:2:35:2:44:0:38:-6:38:2:42
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:42:0:42:2:35:2:42:0:38:-6:38:2:42
+Green Light Timings: 0:42:0:44:-4:46:0:42:0:42:0:42:2:35:2:44:0:38:-6:38:2:42, New overall average: 86.2724151325163, throw
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:42:0:42:2:35:2:44:0:38:-6:38:2:40
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:42:0:42:2:35:2:44:0:38:-6:38:2:40
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:42:0:42:2:35:2:44:0:38:-6:38:2:40
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:42:0:42:2:35:2:44:0:38:-6:38:2:44
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:44:0:42:2:35:2:44:0:38:-6:38:2:42
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:42:0:42:2:33:2:44:0:38:-6:38:2:42
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:42:0:42:2:35:2:44:0:38:-6:40:2:42
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:42:0:42:4:35:2:44:0:38:-6:38:2:42
+Duplicate New Green Light Timing: 0:42:0:46:-2:46:0:42:0:42:0:42:2:35:2:44:0:38:-6:38:2:42
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:42:0:42:2:35:2:46:0:38:-6:38:2:42
+Duplicate New Green Light Timing: 0:42:0:42:-2:46:0:42:0:42:0:42:2:35:2:44:0:38:-6:38:2:42
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:42:0:42:2:35:2:44:2:38:-6:38:2:42
+Duplicate New Green Light Timing: 0:40:0:44:-2:46:0:42:0:42:0:42:2:35:2:44:0:38:-6:38:2:42
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:42:0:42:4:35:2:44:0:38:-6:38:2:42
+Duplicate New Green Light Timing: 0:42:0:42:-2:46:0:42:0:42:0:42:2:35:2:44:0:38:-6:38:2:42
+Duplicate New Green Light Timing: 0:42:2:44:-2:46:0:42:0:42:0:42:2:35:2:44:0:38:-6:38:2:42
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:44:0:42:0:42:2:35:2:44:0:38:-6:38:2:42
+Duplicate New Green Light Timing: 0:42:2:44:-2:46:0:42:0:42:0:42:2:35:2:44:0:38:-6:38:2:42
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:42:0:42:2:35:2:44:0:38:-6:38:2:40
+Duplicate New Green Light Timing: 0:42:0:44:-2:46:0:42:0:42:0:42:2:35:2:44:0:40:-6:38:2:42
+Max number of duplicates of 20 reached, exiting script.

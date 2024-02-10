@@ -1,7 +1,14 @@
 import subprocess
 import traci
 import os
-import sys
+import re
+import numpy as np
+
+def return_num_of_cores ():
+    # Method 1: Using the os module
+    num_cores_os = os.cpu_count()
+    print(f"Number of CPU cores (os.cpu_count()): {num_cores_os}")
+    return num_cores_os
 
 def my_plot(output_data_file):
     import matplotlib.pyplot as plt
@@ -19,14 +26,25 @@ def my_plot(output_data_file):
     average_idle_times = []
 
     for index, line in enumerate(lines):
-        # Extract information from each line
-        parts = line.split(',')
-        iteration = index
-        average_idle_time = float(parts[-1].split(':')[1])
+        if "keep" in line or "throw" in line: 
+            # Extract information from each line
+            pattern = r"New overall average: (\d+\.\d{2})"
 
-        # Append to lists
-        iteration_numbers.append(iteration)
-        average_idle_times.append(average_idle_time)
+            # Use re.search to find the match in the line
+            match = re.search(pattern, line)
+
+            # Check if a match is found and extract the value
+            if match:
+                average_idle_time = match.group(1)
+                print("New overall average:", average_idle_time)
+            else:
+                print("No match found")
+
+            iteration = index
+
+            # Append to lists
+            iteration_numbers.append(iteration)
+            average_idle_times.append(average_idle_time)
 
     # Plotting
     plt.plot(iteration_numbers, average_idle_times, marker='o')
@@ -35,6 +53,9 @@ def my_plot(output_data_file):
     plt.title('Average Idle Time Over Iterations')
     plt.grid(True)
     plt.xlim(left=0)
+    plt.gca().invert_yaxis()
+    # Reduce the number of y-axis labels using np.linspace
+    plt.yticks(np.linspace(0, 150, 10))
     plt.show()
 
 def run_sumo(config_file, gui_opt, max_steps, result_queue):
@@ -84,10 +105,9 @@ def extract_lines_after_comment(filename, comment_pattern):
     with open(filename, 'r') as file:
         for line in file:
             # Check if the comment pattern is present in the line
-            if "LUCAS COMMENT" in line and comment_pattern in line:
+            if "<tlLogic" in line and comment_pattern in line:
                 # Start extracting lines after the comment
                 is_comment_section = True
-                continue
 
             # Check if we are in the comment section
             if is_comment_section:
@@ -95,7 +115,7 @@ def extract_lines_after_comment(filename, comment_pattern):
                 result.append(line.rstrip('\n'))
 
                 # Check if we have extracted 6 lines
-                if len(result) == 6:
+                if "</tlLogic" in line:
                     break
 
     return result
@@ -103,16 +123,17 @@ def extract_lines_after_comment(filename, comment_pattern):
 def create_target_net_xml_temp(comment_pattern, target_net_file, modified_lines):
     is_comment_section = False
     with open(f'{target_net_file}.temp', 'w') as WFH:
-
+        inside_tlLogic = False
         with open(target_net_file, 'r') as file:
              for line in file:
                 # Check if the comment pattern is present in the line
-                if "LUCAS COMMENT" in line and comment_pattern in line:
-                    WFH.write(line)
-                    for _ in range(6):
-                        next(file)
-                    for i in range(6):
-                        WFH.write(f'{modified_lines[i]}\n')
+                if "<tlLogic" in line and comment_pattern in line:
+                    inside_tlLogic = True
+                elif inside_tlLogic:
+                    if "</tlLogic" in line:
+                        inside_tlLogic = False
+                        for i in range(len(modified_lines)):
+                            WFH.write(f'{modified_lines[i]}\n')
                 else: 
                     WFH.write(line)  
         file.close()

@@ -4,7 +4,6 @@ import simulation_lib
 import random
 import shutil
 import argparse
-#import matplotlib.pyplot as plt
 import xml.etree.ElementTree as ET
 import re
 from multiprocessing import Process, Queue
@@ -26,16 +25,27 @@ num_runs_per_batch = 10
 max_steps = 2000
 num_of_runs_on_network = 1000
 
+output_folder = "output"
+output_data_file = os.path.join(output_folder, "output_data.txt")
+network_averages = os.path.join(output_folder, "network_averages.txt")
+parsed_string = network_selection.split("/")[-1]
+parsed_string_without_extension = parsed_string.replace(".net.xml", "")
+network_with_timing = os.path.join(output_folder, f"{parsed_string_without_extension}.timing.net.xml")
+
 debug = 0
 if (debug == 1):
     num_batches = 1
     num_runs_per_batch = 1
     debug_seed = 3920
 
+if (1):    
+    simulation_lib.my_plot(network_averages)
+    sys.exit()
+
 # find current timings of defined light
 # modify based on defined choice
 # insert back into file
-def network_timings(network_template, target_net_file, light_names, timing_light_increment, previous_greenlight_timings, network_averages):
+def network_timings(network_template, target_net_file, light_names, timing_light_increment, previous_greenlight_timings, previous_greenlight_timings_file, network_averages):
 
     if os.path.exists(target_net_file):
         
@@ -138,6 +148,10 @@ def network_timings(network_template, target_net_file, light_names, timing_light
 
             file.close()
             print(f"DEBUG : green_light_timings = {green_light_and_offset_timings}\n")
+            with open(previous_greenlight_timings_file, "a") as f:
+                f.write(f"{green_light_and_offset_timings}\n")
+            f.close()
+
             if green_light_and_offset_timings not in previous_greenlight_timings:
                 previous_greenlight_timings[green_light_and_offset_timings] = 1
                 new_greenlight_timings_unique = True
@@ -153,6 +167,7 @@ def network_timings(network_template, target_net_file, light_names, timing_light
     else:
         shutil.copy2(network_template, target_net_file)
         shutil.copy2(network_template, f'{target_net_file}.temp')
+
         green_light_and_offset_timings = ""
         with open(f'{target_net_file}.temp', 'r') as file:
             for line in file:
@@ -193,7 +208,6 @@ def calculate_overall_average_for_given_network(output_data_file, network_averag
     average = total / count 
 
     prev_best = 999.999
-
     if os.path.exists(network_averages):
         with open(network_averages, 'r') as file:
             for line in file:
@@ -213,13 +227,6 @@ def calculate_overall_average_for_given_network(output_data_file, network_averag
 
     return status
 
-def return_num_of_cores ():
-    # Method 1: Using the os module
-    num_cores_os = os.cpu_count()
-    print(f"Number of CPU cores (os.cpu_count()): {num_cores_os}")
-    return num_cores_os
-
-
 
 if __name__ == "__main__":
 
@@ -232,31 +239,26 @@ if __name__ == "__main__":
         args.gui = True
 
     current_directory = os.getcwd()
-    output_folder = "output"
-
-    # if os.path.exists(output_folder):
-    #     try:
-    #         shutil.rmtree(output_folder)
-    #     except OSError as e:
-    #         print(f'Error removing directory {output_folder}: {e}')
 
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
 
-    output_data_file = os.path.join(output_folder, "output_data.txt")
-    network_averages = os.path.join(output_folder, "network_averages.txt")
-    parsed_string = network_selection.split("/")[-1]
-    parsed_string_without_extension = parsed_string.rstrip(".net.xml")
-    network_with_timing = os.path.join(output_folder, f"{parsed_string_without_extension}.timing.net.xml")
+    previous_greenlight_timings_file = os.path.join(output_folder, "previous_greenlight_timings.txt")
     previous_greenlight_timings = {}
+    if os.path.exists(previous_greenlight_timings_file):
+        with open(previous_greenlight_timings_file, 'r') as file:
+            for line in file:
+                line = line.strip()
+                previous_greenlight_timings[line] = 1
+        file.close()
 
-    core_count = return_num_of_cores()
+    core_count = simulation_lib.return_num_of_cores()
     print(f"Number of CPU cores: {core_count}\n")
 
     for net_index in range(num_of_runs_on_network):
         greenlight_timings = ""
         if (debug == 0):
-            greenlight_timings = network_timings(network_selection, network_with_timing, light_names, timing_light_increment, previous_greenlight_timings, network_averages)
+            greenlight_timings = network_timings(network_selection, network_with_timing, light_names, timing_light_increment, previous_greenlight_timings, previous_greenlight_timings_file, network_averages)
 
         for run in range(num_batches):
             random_seeds = []
@@ -312,9 +314,10 @@ if __name__ == "__main__":
                     f.write(f"Trip File: {trip_files[idx]},")
                     f.write(f"Configuration File: {config_files[idx]},")
                     f.write(f"Average Idle Time: {average_idle_time}\n")
-                    os.remove(trip_files[idx])
-                    os.remove(config_files[idx])
-
+                    if os.path.exists(trip_files[idx]):
+                        os.remove(trip_files[idx]) 
+                    if os.path.exists(config_files[idx]):
+                        os.remove(config_files[idx])
             if (debug == 1):
                 sys.exit()
 
@@ -326,7 +329,7 @@ if __name__ == "__main__":
         os.remove(output_data_file)
         #simulation_lib.hit_space_to_continue()
 
-    #simulation_lib.my_plot(output_data_file)
+
 
 
 
