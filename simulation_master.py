@@ -4,7 +4,6 @@ import simulation_lib
 import random
 import shutil
 import argparse
-#import matplotlib.pyplot as plt
 import xml.etree.ElementTree as ET
 import re
 from multiprocessing import Process, Queue
@@ -26,11 +25,22 @@ num_runs_per_batch = 10
 max_steps = 2000
 num_of_runs_on_network = 1000
 
+output_folder = "output"
+output_data_file = os.path.join(output_folder, "output_data.txt")
+network_averages = os.path.join(output_folder, "network_averages.txt")
+parsed_string = network_selection.split("/")[-1]
+parsed_string_without_extension = parsed_string.replace(".net.xml", "")
+network_with_timing = os.path.join(output_folder, f"{parsed_string_without_extension}.timing.net.xml")
+
 debug = 0
 if (debug == 1):
     num_batches = 1
     num_runs_per_batch = 1
     debug_seed = 3920
+
+if (1):    
+    simulation_lib.my_plot(network_averages)
+    sys.exit()
 
 # find current timings of defined light
 # modify based on defined choice
@@ -229,26 +239,9 @@ if __name__ == "__main__":
         args.gui = True
 
     current_directory = os.getcwd()
-    output_folder = "output"
-
-    # if os.path.exists(output_folder):
-    #     try:
-    #         shutil.rmtree(output_folder)
-    #     except OSError as e:
-    #         print(f'Error removing directory {output_folder}: {e}')
 
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
-
-    output_data_file = os.path.join(output_folder, "output_data.txt")
-    network_averages = os.path.join(output_folder, "network_averages.txt")
-    parsed_string = network_selection.split("/")[-1]
-    parsed_string_without_extension = parsed_string.replace(".net.xml", "")
-    network_with_timing = os.path.join(output_folder, f"{parsed_string_without_extension}.timing.net.xml")
-
-    if (0):    
-        simulation_lib.my_plot(network_averages)
-        sys.exit()
 
     previous_greenlight_timings_file = os.path.join(output_folder, "previous_greenlight_timings.txt")
     previous_greenlight_timings = {}
@@ -259,7 +252,7 @@ if __name__ == "__main__":
                 previous_greenlight_timings[line] = 1
         file.close()
 
-    core_count = return_num_of_cores()
+    core_count = simulation_lib.return_num_of_cores()
     print(f"Number of CPU cores: {core_count}\n")
 
     for net_index in range(num_of_runs_on_network):
