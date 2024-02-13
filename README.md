@@ -1,7 +1,10 @@
 This is a repository for Timothy and Lucas to work on the Simulator of Urban MObility (SUMO) 
 This will be dedicated to Timothy and Lucas's Science fair project
 
-(Due 01-02-2024)
+Over the past 8 months, Lucas and Timothy have worked tirelessly to create code that will simulate, analyze and improve traffic light timings.
+The benefits are countless, as in toronto, roads are expensive and if we can improve the efficiency of traffic lights to reduce commute time. our goal is to get the time where cars are not moving as close to zero as possible, which makes not only your commute easier but helps reduce emmisions which in turn reduces our carbon footprint.
+
+Deadline : March 4, 2024
 
 SUMO INSTALL:
 1. go to the website https://sumo.dlr.de/docs/Downloads.php and click the download for "sumo-win64-1.18.0.msi"
