@@ -37,8 +37,9 @@ if (debug == 1):
     num_batches = 1
     num_runs_per_batch = 1
     debug_seed = 3920
+    max_steps = 10000
 
-if (1):    
+if (0):    
     simulation_lib.my_plot(network_averages)
     sys.exit()
 
