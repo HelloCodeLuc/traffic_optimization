@@ -18,6 +18,12 @@ if (network_sel == 0):
 elif (network_sel == 1):
     network_selection = "mynetworks/school.net.xml"
     light_names = ["mcnaughton_keele","barhill_rutherford","ivy_dufferin","keele_barhill","keele_rutherford","mackenzie_dufferin","mackenzie_peter","maurier_dufferin","peter_rutherford","rutherford_dufferin"]
+elif (network_sel == 2):
+    network_selection = "city_timings/school.timing.net.xml"
+    light_names = ["mcnaughton_keele","barhill_rutherford","ivy_dufferin","keele_barhill","keele_rutherford","mackenzie_dufferin","mackenzie_peter","maurier_dufferin","peter_rutherford","rutherford_dufferin"]
+elif (network_sel == 3):
+    network_selection = "mynetworks/school-extended.net.xml"
+    light_names = ["mcnaughton_keele","barhill_rutherford","ivy_dufferin","keele_barhill","keele_rutherford","mackenzie_dufferin","mackenzie_peter","maurier_dufferin","peter_rutherford","rutherford_dufferin"]
     
 timing_light_increment = 2
 num_batches = 5
