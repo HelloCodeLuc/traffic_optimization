@@ -9,7 +9,7 @@ import re
 from multiprocessing import Process, Queue
 #TODO put an average line on graph
 
-network_sel = 2
+network_sel = 3
 network_selection = ""
 light_names = []
 if (network_sel == 0):
@@ -19,7 +19,7 @@ elif (network_sel == 1):
     network_selection = "mynetworks/school.net.xml"
     light_names = ["mcnaughton_keele","barhill_rutherford","ivy_dufferin","keele_barhill","keele_rutherford","mackenzie_dufferin","mackenzie_peter","maurier_dufferin","peter_rutherford","rutherford_dufferin"]
 elif (network_sel == 2):
-    network_selection = "city_timings/school.timing.net.xml"
+    network_selection = "mynetworks/school.timing.net.xml"
     light_names = ["mcnaughton_keele","barhill_rutherford","ivy_dufferin","keele_barhill","keele_rutherford","mackenzie_dufferin","mackenzie_peter","maurier_dufferin","peter_rutherford","rutherford_dufferin"]
 elif (network_sel == 3):
     network_selection = "mynetworks/school-extended.net.xml"
@@ -30,6 +30,7 @@ num_batches = 5
 num_runs_per_batch = 10
 max_steps = 2000
 num_of_runs_on_network = 1000
+num_of_greenlight_duplicate_limit = 40
 
 output_folder = "output"
 output_data_file = os.path.join(output_folder, "output_data.txt")
@@ -45,14 +46,14 @@ if (debug == 1):
     debug_seed = 3920
     max_steps = 10000
 
-if (0):    
+if (1):    
     simulation_lib.my_plot(network_averages)
     sys.exit()
 
 # find current timings of defined light
 # modify based on defined choice
 # insert back into file
-def network_timings(network_template, target_net_file, light_names, timing_light_increment, previous_greenlight_timings, previous_greenlight_timings_file, network_averages):
+def network_timings(network_template, target_net_file, light_names, timing_light_increment, previous_greenlight_timings, previous_greenlight_timings_file, network_averages, num_of_greenlight_duplicate_limit):
 
     if os.path.exists(target_net_file):
         
@@ -166,8 +167,8 @@ def network_timings(network_template, target_net_file, light_names, timing_light
                 with open(network_averages, "a") as f:
                     f.write(f"Duplicate New Green Light Timing: {green_light_and_offset_timings}\n")
                     num_of_greenlight_duplicates += 1
-                    if num_of_greenlight_duplicates == 20:
-                        f.write(f"Max number of duplicates of 20 reached, exiting script.\n")
+                    if num_of_greenlight_duplicates == num_of_greenlight_duplicate_limit:
+                        f.write(f"Max number of duplicates of {num_of_greenlight_duplicate_limit} reached, exiting script.\n")
                         sys.exit(0)
                 f.close()
                         
@@ -265,7 +266,7 @@ if __name__ == "__main__":
     for net_index in range(num_of_runs_on_network):
         greenlight_timings = ""
         if (debug == 0):
-            greenlight_timings = network_timings(network_selection, network_with_timing, light_names, timing_light_increment, previous_greenlight_timings, previous_greenlight_timings_file, network_averages)
+            greenlight_timings = network_timings(network_selection, network_with_timing, light_names, timing_light_increment, previous_greenlight_timings, previous_greenlight_timings_file, network_averages, num_of_greenlight_duplicate_limit)
 
         for run in range(num_batches):
             random_seeds = []
