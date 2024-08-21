@@ -1,0 +1,33 @@
+{
+    "roads": [
+      {
+        "id": 1,
+        "start": [100, 100],
+        "end": [400, 100],
+        "lanes": 2
+      },
+      {
+        "id": 2,
+        "start": [250, 50],
+        "end": [250, 150],
+        "lanes": 2
+      }
+    ],
+    "intersections": [
+      {
+        "id": 1,
+        "location": [250, 100],
+        "traffic_lights": [
+          {
+            "id": 1,
+            "state": "green"
+          },
+          {
+            "id": 2,
+            "state": "red"
+          }
+        ]
+      }
+    ]
+  }
+  
