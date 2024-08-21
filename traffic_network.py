@@ -1,59 +1,74 @@
 import json
 import pygame
 
-# Replace with the correct path to your JSON file
-file_path = 'traffic_network.json'
+# Function to load data from JSON file
+def load_data(file_path):
+    try:
+        with open(file_path, 'r') as f:
+            data = json.load(f)
+        return data
+    except FileNotFoundError:
+        print(f"Error: The file '{file_path}' was not found.")
+        exit()
+    except json.JSONDecodeError:
+        print(f"Error: The file '{file_path}' is not a valid JSON file or is empty.")
+        exit()
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}")
+        exit()
 
-# Load the JSON file
-try:
-    with open(file_path, 'r') as f:
-        data = json.load(f)
-except FileNotFoundError:
-    print(f"Error: The file '{file_path}' was not found.")
-    exit()
-except json.JSONDecodeError:
-    print(f"Error: The file '{file_path}' is not a valid JSON file or is empty.")
-    exit()
-except Exception as e:
-    print(f"An unexpected error occurred: {e}")
-    exit()
+# Function to draw nodes on the Pygame screen
+def draw_nodes(screen, nodes, font):
+    WHITE = (255, 255, 255)
+    RED = (255, 0, 0)
+    GREEN = (0, 255, 0)
 
-# Access roads and intersections
-roads = data.get("roads", [])
-intersections = data.get("intersections", [])
+    x_scale = 0.025
+    y_scale = -0.025
 
-# Initialize Pygame
-pygame.init()
-
-# Set up display
-screen = pygame.display.set_mode((600, 600))
-pygame.display.set_caption("Traffic Network")
-
-# Colors
-BLACK = (0, 0, 0)
-WHITE = (255, 255, 255)
-RED = (255, 0, 0)
-GREEN = (0, 255, 0)
-
-# Draw the traffic network
-def draw_traffic_network():
     screen.fill(WHITE)
-    for road in roads:
-        pygame.draw.line(screen, BLACK, tuple(road["start"]), tuple(road["end"]), road["lanes"] * 5)
-    for intersection in intersections:
-        location = tuple(intersection["location"])
-        for light in intersection["traffic_lights"]:
-            color = GREEN if light["state"] == "green" else RED
-            pygame.draw.circle(screen, color, location, 10)
+    for node in nodes:
+        x = int(node["X"] * x_scale + screen.get_width() // 2)
+        y = int(node["Y"] * y_scale + screen.get_height() // 2)
+        
+        # Only print the first node for debugging
+        if node["INTID"] == 1:
+            print(f'Drawing node ID {node["INTID"]} at ({x}, {y})')
 
-# Main loop
-running = True
-while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-
-    draw_traffic_network()
+        color = RED if node["TYPE"] == 1 else GREEN
+        pygame.draw.circle(screen, color, (x, y), 5)
+        text_surface = font.render(f'{node["INTID"]}', True, color)
+        screen.blit(text_surface, (x + 10, y - 10))
     pygame.display.flip()
 
-pygame.quit()
+# Main function to set up Pygame and run the simulation
+def main():
+    # Load node data from JSON file
+    file_path = 'nodes.json'
+    data = load_data(file_path)
+    nodes = data.get("nodes", [])
+    
+    if not nodes:
+        print("Error: No nodes found in the JSON file.")
+        exit()
+
+    # Initialize Pygame
+    pygame.init()
+    screen = pygame.display.set_mode((800, 600))
+    pygame.display.set_caption("Nodes on Cartesian Plane")
+    font = pygame.font.SysFont(None, 24)
+
+    # Main loop
+    running = True
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+
+        draw_nodes(screen, nodes, font)
+
+    pygame.quit()
+
+# Run the main function
+if __name__ == "__main__":
+    main()
