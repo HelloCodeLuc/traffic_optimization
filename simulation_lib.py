@@ -44,7 +44,7 @@ def my_plot(output_data_file):
 
             # Append to lists
             iteration_numbers.append(iteration)
-            average_idle_times.append(average_idle_time)
+            average_idle_times.append(float(average_idle_time))
 
     # Plotting
     plt.plot(iteration_numbers, average_idle_times, marker='o')
@@ -53,9 +53,9 @@ def my_plot(output_data_file):
     plt.title('Average Idle Time Over Iterations')
     plt.grid(True)
     plt.xlim(left=0)
-    plt.gca().invert_yaxis()
+    #plt.gca().invert_yaxis()
     # Reduce the number of y-axis labels using np.linspace
-    plt.yticks(np.linspace(0, 150, 10))
+    plt.yticks(np.linspace(80, 120, 5))
     plt.show()
 
 def run_sumo(config_file, gui_opt, max_steps, result_queue):

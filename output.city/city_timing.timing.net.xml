@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- generated on 2024-02-04 16:11:02 by Eclipse SUMO netedit Version 1.18.0
+<!-- generated on 2024-03-29 21:42:14 by Eclipse SUMO netedit Version 1.19.0
 <configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/neteditConfiguration.xsd">
 
     <input>
-        <sumo-net-file value="C:\Users\Lucas Chan\traffic_optimisation\traffic_optimization_jan28\traffic_optimization\mynetworks\school.net.xml"/>
+        <sumo-net-file value="C:\Users\Lucas\Lucas\traffic_optimization\traffic_optimization\city_timings\school.timing.net.xml"/>
     </input>
 
     <output>
-        <output-file value="C:\Users\Lucas Chan\traffic_optimisation\traffic_optimization_jan28\traffic_optimization\mynetworks\school.net.xml"/>
+        <output-file value="C:\Users\Lucas\Lucas\traffic_optimization\traffic_optimization\city_timings\school.timing.net.xml"/>
     </output>
 
     <processing>
@@ -785,50 +785,48 @@
         <lane id="E6_1" index="1" speed="13.89" length="157.80" shape="-253.52,-38.33 -252.23,-196.13"/>
         <lane id="E6_2" index="2" speed="13.89" length="157.80" shape="-250.32,-38.31 -249.03,-196.10"/>
     </edge>
-    
-    <tlLogic id="barhill_rutherford" type="static" programID="0" offset="0">
-        <phase duration="42" state="GGGGGGGgrrr" name="red"/>
+
+    <tlLogic id="barhill_rutherford" type="static" programID="0" offset="-2">
+        <phase duration="101" state="GGGGGGGgrrr" name="red"/>
         <phase duration="3"  state="yyyyyyyyrrr"/>
-        <phase duration="42" state="GrrrrrrrGGG" name="green"/>
+        <phase duration="24" state="GrrrrrrrGGG" name="green"/>
         <phase duration="3"  state="yrrrrrrryyy"/>
     </tlLogic>
-    <tlLogic id="ivy_dufferin" type="static" programID="0" offset="0">
-        <phase duration="44" state="GGGGGGGgrrr" name="green"/>
+    <tlLogic id="ivy_dufferin" type="static" programID="0" offset="-2">
+        <phase duration="42" state="GGGGGGGgrrr" name="green"/>
         <phase duration="3"  state="yyyyyyyyrrr"/>
-        <phase duration="40" state="GrrrrrrrGGG" name="red"/>
+        <phase duration="42" state="GrrrrrrrGGG" name="red"/>
         <phase duration="3"  state="yrrrrrrryyy"/>
     </tlLogic>
     <tlLogic id="keele_barhill" type="static" programID="0" offset="-2">
-        <phase duration="46" state="GGGgrrrGGGG" name="green"/>
+        <phase duration="48" state="GGGgrrrGGGG" name="green"/>
         <phase duration="3"  state="yyyyrrryyyy"/>
-        <phase duration="38" state="rrrrGGGGrrr" name="red"/>
+        <phase duration="36" state="rrrrGGGGrrr" name="red"/>
         <phase duration="3"  state="rrrryyyyrrr"/>
     </tlLogic>
     <tlLogic id="keele_rutherford" type="static" programID="0" offset="0">
-        <phase duration="42" state="rrrrrGGGGgrrrrrGGGGg" name="red"/>
+        <phase duration="73" state="rrrrrGGGGgrrrrrGGGGg" name="red"/>
         <phase duration="3"  state="rrrrryyyyyrrrrryyyyy"/>
-        <phase duration="42" state="GGGGgrrrrrGGGGgrrrrr" name="green"/>
+        <phase duration="107" state="GGGGgrrrrrGGGGgrrrrr" name="green"/>
         <phase duration="3"  state="yyyyyrrrrryyyyyrrrrr"/>
     </tlLogic>
-    <tlLogic id="mackenzie_dufferin" type="static" programID="0" offset="0">
-        <phase duration="42" state="rrrrrGGGGgrrrrrGGGGg" name="green"/>
+    <tlLogic id="mackenzie_dufferin" type="static" programID="0" offset="2">
+        <phase duration="38" state="rrrrrGGGGgrrrrrGGGGg" name="green"/>
         <phase duration="3"  state="rrrrryyyyyrrrrryyyyy"/>
-        <phase duration="42" state="GGGGgrrrrrGGGGgrrrrr" name="red"/>
+        <phase duration="46" state="GGGGgrrrrrGGGGgrrrrr" name="red"/>
         <phase duration="3"  state="yyyyyrrrrryyyyyrrrrr"/>
     </tlLogic>
     <tlLogic id="mackenzie_keele" type="static" programID="0" offset="0">
-        <phase duration="42" state="rrrrrGGGGgrrrrrGGGGg" name="green"/>
+        <phase duration="47" state="rrrrrGGGGgrrrrrGGGGg" name="green"/>
         <phase duration="3"  state="rrrrryyyyyrrrrryyyyy"/>
-        <phase duration="42" state="GGGGgrrrrrGGGGgrrrrr" name="red"/>
+        <phase duration="105" state="GGGGgrrrrrGGGGgrrrrr" name="red"/>
         <phase duration="3"  state="yyyyyrrrrryyyyyrrrrr"/>
     </tlLogic>
     <tlLogic id="mackenzie_peter" type="static" programID="0" offset="2">
-        <phase duration="40" state="GGGGgrrrrGGGGgrrr" name="red"/>
+        <phase duration="52" state="GGGGgrrrrGGGGgrrr" name="red"/>
         <phase duration="3"  state="yyyyyrrrryyyyyrrr"/>
-        <phase duration="35" state="rrrrrGGGgrrrrrGGg" name="green"/>
+        <phase duration="33" state="rrrrrGGGgrrrrrGGg" name="green"/>
         <phase duration="3"  state="rrrrryyygrrrrryyg"/>
-        <phase duration="6"  state="rrrrrrrrGrrrrrrrG"/>
-        <phase duration="3"  state="rrrrrrrryrrrrrrry"/>
     </tlLogic>
     <tlLogic id="maurier_dufferin" type="static" programID="0" offset="2">
         <phase duration="44" state="GGGGGGGgrrr" name="green"/>
@@ -837,23 +835,21 @@
         <phase duration="3"  state="yrrrrrrryyy"/>
     </tlLogic>
     <tlLogic id="mcnaughton_keele" type="static" programID="0" offset="0">
-        <phase duration="38" state="GGGGgrrrrrGGGGgrrrr" name="green"/>
-        <phase duration="3"  state="yyyyyrrrrryyyyyrrrr"/>
-        <phase duration="37" state="rrrrrGGGGgrrrrrGGGg" name="red"/>
+        <phase duration="46" state="GGGGgrrrrrGGGGgrrrr" name="green"/>
         <phase duration="3"  state="rrrrryyyygrrrrryyyg"/>
-        <phase duration="6"  state="rrrrrrrrrGrrrrrrrrG"/>
+        <phase duration="26" state="rrrrrGGGGgrrrrrGGGg" name="red"/>
         <phase duration="3"  state="rrrrrrrrryrrrrrrrry"/>
     </tlLogic>
-    <tlLogic id="peter_rutherford" type="static" programID="0" offset="-6">
-        <phase duration="46" state="rrrGGGGGGGg" name="red"/>
+    <tlLogic id="peter_rutherford" type="static" programID="0" offset="-4">
+        <phase duration="85" state="rrrGGGGGGGg" name="red"/>
         <phase duration="3"  state="rrryyyyyyyy"/>
-        <phase duration="38" state="GGGGrrrrrrr" name="green"/>
+        <phase duration="36" state="GGGGrrrrrrr" name="green"/>
         <phase duration="3"  state="yyyyrrrrrrr"/>
     </tlLogic>
     <tlLogic id="rutherford_dufferin" type="static" programID="0" offset="2">
-        <phase duration="40" state="GGGGgrrrrrGGGGgrrrrr" name="green"/>
+        <phase duration="80" state="GGGGgrrrrrGGGGgrrrrr" name="green"/>
         <phase duration="3"  state="yyyyyrrrrryyyyyrrrrr"/>
-        <phase duration="44" state="rrrrrGGGGgrrrrrGGGGg" name="red"/>
+        <phase duration="85" state="rrrrrGGGGgrrrrrGGGGg" name="red"/>
         <phase duration="3"  state="rrrrryyyyyrrrrryyyyy"/>
     </tlLogic>
 

@@ -1,5 +1,0 @@
-Random Seed: 3920,Trip File: output\random_trips_3920.xml,Configuration File: output\sumo_config_3920.sumocfg,Average Idle Time: 103.6254
-Random Seed: 3920,Trip File: output\random_trips_3920.xml,Configuration File: output\sumo_config_3920.sumocfg,Average Idle Time: 102.09541908381676
-Random Seed: 3920,Trip File: output\random_trips_3920.xml,Configuration File: output\sumo_config_3920.sumocfg,Average Idle Time: 122.9049904990499
-Random Seed: 3920,Trip File: output\random_trips_3920.xml,Configuration File: output\sumo_config_3920.sumocfg,Average Idle Time: 100.05500550055005
-Random Seed: 3920,Trip File: output\random_trips_3920.xml,Configuration File: output\sumo_config_3920.sumocfg,Average Idle Time: 95.9165
