@@ -1,0 +1,3 @@
+python "C:\Program Files (x86)\Eclipse\Sumo\tools\randomTrips.py" --weights-prefix example -n example.net.xml -r example.rou.xml
+
+        

@@ -35,3 +35,28 @@ Next you need to run the netconvert command.  Open a cmd prompt.
 the net file should be ready.
 
 you may now click the "my_config-file.sumocfg" to run the simulation and confirm it is correct
+
+
+
+   * out
+      * <date>
+         * TRAIN_BLUETOOTH
+         * TRAIN_OPTIMIZATION
+
+   * BLUETOOTH_NETWORK_READER
+      * EXAMPLE 
+          * sample bluetooth report
+
+   * GUI
+        * PLOT
+   * TRAIN_BLUETOOTH
+   * TRAIN_OPTIMIZATION
+      * REFERENCE_DATA
+         * output.city
+         * output.good
+   * TRAIN_COMMON_LIB
+
+   * TRAINING 
+       * SUMO_EXAMPLE
+       * WEIGHTS_EXAMPLE
+       
