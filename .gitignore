@@ -1,4 +1,4 @@
-output
+out
 trips.trips.xml
 __pycache__/
 *.pyc

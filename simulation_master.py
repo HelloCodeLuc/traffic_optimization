@@ -9,23 +9,23 @@ import re
 from multiprocessing import Process, Queue
 #TODO put an average line on graph
 
-network_sel = 4
+network_sel = 3
 network_selection = ""
 light_names = []
 if (network_sel == 0):
-    network_selection = "mynetworks/3lights.net.xml"
+    network_selection = "NETWORKS/3lights.net.xml"
     light_names = ["left","middle","right"]
 elif (network_sel == 1):
-    network_selection = "mynetworks/school.net.xml"
+    network_selection = "NETWORKS/school.net.xml"
     light_names = ["mcnaughton_keele","barhill_rutherford","ivy_dufferin","keele_barhill","keele_rutherford","mackenzie_dufferin","mackenzie_peter","maurier_dufferin","peter_rutherford","rutherford_dufferin"]
 elif (network_sel == 2):
-    network_selection = "mynetworks/school.timing.net.xml"
+    network_selection = "NETWORKS/school.timing.net.xml"
     light_names = ["mcnaughton_keele","barhill_rutherford","ivy_dufferin","keele_barhill","keele_rutherford","mackenzie_dufferin","mackenzie_peter","maurier_dufferin","peter_rutherford","rutherford_dufferin"]
 elif (network_sel == 3):
-    network_selection = "mynetworks/school-extended.net.xml"
+    network_selection = "NETWORKS/school-extended.net.xml"
     light_names = ["mcnaughton_keele","barhill_rutherford","ivy_dufferin","keele_barhill","keele_rutherford","mackenzie_dufferin","mackenzie_peter","maurier_dufferin","peter_rutherford","rutherford_dufferin"]
 elif (network_sel == 4):
-    network_selection = "mynetworks/weight_test.net.xml"
+    network_selection = "NETWORKS/weight_test.net.xml"
     light_names = ["main"]
 
 timing_light_increment = 2
@@ -35,7 +35,7 @@ max_steps = 2000
 num_of_runs_on_network = 1000
 num_of_greenlight_duplicate_limit = 40
 
-output_folder = "output"
+output_folder = "out"
 output_data_file = os.path.join(output_folder, "output_data.txt")
 network_averages = os.path.join(output_folder, "network_averages.txt")
 parsed_string = network_selection.split("/")[-1]
@@ -49,7 +49,7 @@ if (debug == 1):
     debug_seed = 3920
     max_steps = 10000
 
-if (1):    
+if (0):    
     simulation_lib.my_plot(network_averages)
     sys.exit()
 
@@ -255,6 +255,7 @@ if __name__ == "__main__":
         os.makedirs(output_folder)
 
     previous_greenlight_timings_file = os.path.join(output_folder, "previous_greenlight_timings.txt")
+    print(f"previous_greenlight_timings = {previous_greenlight_timings_file}\n")
     previous_greenlight_timings = {}
     if os.path.exists(previous_greenlight_timings_file):
         with open(previous_greenlight_timings_file, 'r') as file:

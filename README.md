@@ -47,16 +47,17 @@ you may now click the "my_config-file.sumocfg" to run the simulation and confirm
       * EXAMPLE 
           * sample bluetooth report
 
-   * GUI
-        * PLOT
+   * CONTROL GUI
+      * PLOT
    * TRAIN_BLUETOOTH
-   * TRAIN_OPTIMIZATION
-      * REFERENCE_DATA
-         * output.city
-         * output.good
+   * TRAIN_OPTIMIZATION 
    * TRAIN_COMMON_LIB
+   * NETWORKS
 
-   * TRAINING 
+   * RESOURCES 
        * SUMO_EXAMPLE
        * WEIGHTS_EXAMPLE
+       * REFERENCE_DATA
+         * output.city
+         * output.good
        
