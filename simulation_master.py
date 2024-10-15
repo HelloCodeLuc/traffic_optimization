@@ -6,6 +6,8 @@ import shutil
 import argparse
 import xml.etree.ElementTree as ET
 import re
+sys.path.append(os.path.join(os.path.dirname(__file__), 'TRAIN_COMMON_LIB'))
+import basic_utilities
 from multiprocessing import Process, Queue
 #TODO put an average line on graph
 
@@ -34,13 +36,15 @@ num_runs_per_batch = 10
 max_steps = 2000
 num_of_runs_on_network = 1000
 num_of_greenlight_duplicate_limit = 40
+# Example usage:
+date = basic_utilities.get_current_datetime()
 
-output_folder = "out"
-output_data_file = os.path.join(output_folder, "output_data.txt")
-network_averages = os.path.join(output_folder, "network_averages.txt")
+output_folder = f"out/{date}"
+output_data_file = os.path.join(output_folder, "TRAIN_OPTIMIZATION/output_data.txt")
+network_averages = os.path.join(output_folder, "TRAIN_OPTIMIZATION/network_averages.txt")
 parsed_string = network_selection.split("/")[-1]
 parsed_string_without_extension = parsed_string.replace(".net.xml", "")
-network_with_timing = os.path.join(output_folder, f"{parsed_string_without_extension}.timing.net.xml")
+network_with_timing = os.path.join(output_folder, f"TRAIN_OPTIMIZATION/{parsed_string_without_extension}.timing.net.xml")
 
 debug = 0
 if (debug == 1):
@@ -253,8 +257,10 @@ if __name__ == "__main__":
 
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
-
-    previous_greenlight_timings_file = os.path.join(output_folder, "previous_greenlight_timings.txt")
+        os.makedirs(f"{output_folder}/TRAIN_OPTIMIZATION")
+        os.makedirs(f"{output_folder}/TRAIN_BLUETOOTH")
+        
+    previous_greenlight_timings_file = os.path.join(output_folder, "TRAIN_OPTIMIZATION/previous_greenlight_timings.txt")
     print(f"previous_greenlight_timings = {previous_greenlight_timings_file}\n")
     previous_greenlight_timings = {}
     if os.path.exists(previous_greenlight_timings_file):
@@ -283,12 +289,12 @@ if __name__ == "__main__":
                 else:
                     random_seed = debug_seed
 
-                trip_file = os.path.join(output_folder, f"random_trips_{random_seed}.xml")  # Generate a unique trip file name for each run
+                trip_file = os.path.join(f"{output_folder}\TRAIN_OPTIMIZATION", f"random_trips_{random_seed}.xml")  # Generate a unique trip file name for each run
                 # Generate random trips
                 simulation_lib.generate_random_trips(f'{network_with_timing}.temp', trip_file, max_steps, random_seed)
 
                 # Generate SUMO configuration file and update the route-files value
-                config_file = os.path.join(output_folder, f"sumo_config_{random_seed}.sumocfg")
+                config_file = os.path.join(f"{output_folder}\TRAIN_OPTIMIZATION", f"sumo_config_{random_seed}.sumocfg")
                 simulation_lib.generate_sumo_config(f'{network_with_timing}.temp', config_file, current_directory, route_files=trip_file)
                 
                 random_seeds.append(random_seed)
