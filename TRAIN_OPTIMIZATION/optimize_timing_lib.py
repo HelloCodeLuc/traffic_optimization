@@ -222,6 +222,8 @@ def optimize_timing_main (output_folder, output_data_file, num_of_runs_on_networ
     core_count = basic_utilities.return_num_of_cores()
     print(f"Number of CPU cores: {core_count}\n")
 
+
+
     for net_index in range(num_of_runs_on_network):
         greenlight_timings = ""
         if (debug == 0):
@@ -239,13 +241,15 @@ def optimize_timing_main (output_folder, output_data_file, num_of_runs_on_networ
                     random_seed = debug_seed
 
                 trip_file = os.path.join(f"{output_folder}\TRAIN_OPTIMIZATION", f"random_trips_{random_seed}.xml")  # Generate a unique trip file name for each run
+                print (f"trip file = {trip_file}")
                 # Generate random trips
                 simulation_lib.generate_random_trips(f'{network_with_timing}.temp', trip_file, max_steps, random_seed)
 
                 # Generate SUMO configuration file and update the route-files value
                 config_file = os.path.join(f"{output_folder}\TRAIN_OPTIMIZATION", f"sumo_config_{random_seed}.sumocfg")
+                print (f"config file = {config_file}")
                 simulation_lib.generate_sumo_config(f'{network_with_timing}.temp', config_file, current_directory, route_files=trip_file)
-                
+
                 random_seeds.append(random_seed)
                 trip_files.append(trip_file)
                 config_files.append(config_file)

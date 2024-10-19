@@ -2,7 +2,7 @@ import subprocess
 import traci
 import os
 import re
-import numpy as np
+
 
 
 
