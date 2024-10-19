@@ -37,6 +37,12 @@ the net file should be ready.
 you may now click the "my_config-file.sumocfg" to run the simulation and confirm it is correct
 
 
+TODO : dismantle simulation_lib.py
+TODO : make simulation batch small and quick and get to plot results quickly
+TODO : get the plot to work
+TODO : move the running of the random_trips script to be from the out/<date>/TRAIN_OPTMIZATION folder, no more trips.trips.xml at the top
+TODO : move the plot to be dynamically part of the GUI
+
 
    * out
       * <date>

@@ -5,6 +5,8 @@ import shutil
 import re
 import argparse
 import random
+sys.path.append(os.path.join(os.path.dirname(__file__), 'TRAIN_COMMON_LIB'))
+import basic_utilities
 import xml.etree.ElementTree as ET
 from multiprocessing import Process, Queue
 
@@ -217,7 +219,7 @@ def optimize_timing_main (output_folder, output_data_file, num_of_runs_on_networ
                 previous_greenlight_timings[line] = 1
         file.close()
 
-    core_count = simulation_lib.return_num_of_cores()
+    core_count = basic_utilities.return_num_of_cores()
     print(f"Number of CPU cores: {core_count}\n")
 
     for net_index in range(num_of_runs_on_network):

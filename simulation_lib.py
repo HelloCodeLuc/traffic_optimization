@@ -4,11 +4,7 @@ import os
 import re
 import numpy as np
 
-def return_num_of_cores ():
-    # Method 1: Using the os module
-    num_cores_os = os.cpu_count()
-    print(f"Number of CPU cores (os.cpu_count()): {num_cores_os}")
-    return num_cores_os
+
 
 def my_plot(output_data_file):
     import matplotlib.pyplot as plt
@@ -141,13 +137,6 @@ def create_target_net_xml_temp(comment_pattern, target_net_file, modified_lines)
     WFH.close()
     return
 
-def hit_space_to_continue():
-    print("Press space to continue...")
-    while True:
-        user_input = input()
-        if user_input.lower() == ' ':
-            break
-    return
 
 # Run randomtrips.py to generate random trips and save them to a file
 def generate_random_trips(network_selection, trip_file, max_steps, seed):

@@ -1,6 +1,6 @@
 import sys
-import os
 import simulation_lib 
+import os
 import shutil
 sys.path.append(os.path.join(os.path.dirname(__file__), 'TRAIN_COMMON_LIB'))
 sys.path.append(os.path.join(os.path.dirname(__file__), 'TRAIN_OPTIMIZATION'))
