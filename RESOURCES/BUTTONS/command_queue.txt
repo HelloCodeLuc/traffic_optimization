@@ -5,3 +5,11 @@ B
 NETWORK_CHANGE : 3lights.net.xml
 B
 C
+NETWORK_CHANGE : city_timing.net.xml
+B
+NETWORK_CHANGE : 3lights.net.xml
+C
+C
+B
+NETWORK_CHANGE : city_timing.net.xml
+C

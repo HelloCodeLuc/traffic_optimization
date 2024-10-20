@@ -7,6 +7,8 @@ import numpy as np
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from time import sleep
 
+import ctypes
+
 # Initialize Pygame
 pygame.init()
 
@@ -14,6 +16,8 @@ pygame.init()
 width, height = 600, 600
 screen = pygame.display.set_mode((width, height))
 pygame.display.set_caption("Button & Plot Example")
+hwnd = ctypes.windll.user32.GetForegroundWindow()
+ctypes.windll.user32.SetWindowPos(hwnd, 0, 100, 100, width, height, 0x0001)
 
 # Define colors
 WHITE = (255, 255, 255)
@@ -43,7 +47,7 @@ dropdown_font = pygame.font.Font(None, 24)  # Smaller font for the dropdown
 
 # Dropdown variables
 dropdown_open = False
-dropdown_rect = pygame.Rect(120, 400, 150, 30)  # Adjusted position for dropdown
+dropdown_rect = pygame.Rect(120, 400, 300, 30)  # Adjusted position for dropdown
 dropdown_options = ["default_network"]
 selected_network = "default_network"
 
@@ -193,6 +197,13 @@ while running:
     screen.fill(WHITE)
     
     for event in pygame.event.get():
+        if event.type == pygame.VIDEORESIZE:
+            # Ignore resize events
+            pass
+        if event.type == pygame.WINDOWRESIZED:
+            # Handle resize event
+            pass
+
         if event.type == pygame.QUIT:
             running = False
             pygame.quit()
