@@ -1,6 +1,6 @@
 import sys
 import os
-import simulation_lib 
+import simulation_lib as simulation_lib 
 
 import random
 import shutil
