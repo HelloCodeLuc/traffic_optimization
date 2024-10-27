@@ -9,57 +9,12 @@ from time import sleep
 
 import ctypes
 
-# # Initialize Pygame
-# pygame.init()
-
-# # Set up the window (Enlarged size)
-# width, height = 600, 600
-# screen = pygame.display.set_mode((width, height))
-# pygame.display.set_caption("Button & Plot Example")
-# hwnd = ctypes.windll.user32.GetForegroundWindow()
-# ctypes.windll.user32.SetWindowPos(hwnd, 0, 100, 100, width, height, 0x0001)
-
-# # Define colors
-# WHITE = (255, 255, 255)
-# BLACK = (0, 0, 0)
-# GRAY = (200, 200, 200)
-# DARK_GRAY = (169, 169, 169)
-# SHADOW = (100, 100, 100)
-# BLUE = (173, 216, 230)
-
-# # Define button properties
-# button_width, button_height = 60, 30
-# buttons = {
-#     "A": pygame.Rect(100, 450, button_width, button_height),
-#     "B": pygame.Rect(170, 450, button_width, button_height),
-#     "C": pygame.Rect(240, 450, button_width, button_height)
-# }
-
-# # Store button click state (for shadow effect)
-# button_pressed = {"A": False, "B": False, "C": False}
-
-# # Store hover state
-# button_hovered = {"A": False, "B": False, "C": False}
-
-# # Define font
-# font = pygame.font.Font(None, 36)
-# dropdown_font = pygame.font.Font(None, 24)  # Smaller font for the dropdown
-
-# # Dropdown variables
-# dropdown_open = False
-# dropdown_rect = pygame.Rect(120, 400, 300, 30)  # Adjusted position for dropdown
-# dropdown_options = ["default_network"]
-# selected_network = "default_network"
-
-# # Define the relative path to the network directory with respect to current working directory
-# current_dir = os.getcwd()
-# network_dir = os.path.join(current_dir, "../../NETWORKS")
 
 # # Path to the output file
 output_file = '../REFERENCE_DATA/output.good/network_averages.txt'
 
 # Function to draw buttons with shadow and hover effect
-def draw_buttons(buttons, button_pressed, button_hovered, screen, font, dropdown_font, SHADOW, GRAY, BLACK):
+def draw_buttons(buttons, button_pressed, button_hovered, screen, font, dropdown_font, SHADOW, GRAY, BLACK, WHITE, DARK_GRAY):
     for label, rect in buttons.items():
         if button_pressed[label]:
             # If button is pressed, draw as if it is pushed down
@@ -80,8 +35,8 @@ def draw_buttons(buttons, button_pressed, button_hovered, screen, font, dropdown
         screen.blit(text, text_rect)
 
 # Function to append to command_queue.txt
-def append_to_queue(command):
-    with open("command_queue.txt", "a") as file:
+def append_to_queue(output_folder, command):
+    with open(f"{output_folder}/command_queue.txt", "a") as file:
         file.write(command + "\n")
 
 # Updated function to load network files with .net.xml extension
@@ -95,7 +50,7 @@ def load_network_files(network_dir):
     return files
 
 # Function to draw dropdown menu
-def draw_dropdown(selected_network, screen, dropdown_open, dropdown_font, dropdown_rect, GRAY, BLACK):
+def draw_dropdown(selected_network, screen, dropdown_open, dropdown_font, dropdown_options, dropdown_rect, GRAY, BLACK):
     # Draw the "Network: " label
     label_text = dropdown_font.render("Network:", True, BLACK)
     screen.blit(label_text, (20, 405))  # Positioned to the left of the dropdown
@@ -177,7 +132,7 @@ def has_file_updated(file_path, last_mod_time):
 def file_modified(file_path, last_modified):
     return os.path.getmtime(file_path) > last_modified
 
-def gui_main():
+def gui_main(output_folder):
 
     # Initialize Pygame
     pygame.init()
@@ -270,7 +225,7 @@ def gui_main():
                 for label, rect in buttons.items():
                     if rect.collidepoint(event.pos):
                         button_pressed[label] = True  # Set button to pressed state
-                        append_to_queue(label)  # Append to the queue file
+                        append_to_queue(output_folder, label)  # Append to the queue file
                 
                 # Handle dropdown click
                 if dropdown_rect.collidepoint(event.pos):
@@ -301,8 +256,8 @@ def gui_main():
         # Draw the plot on the screen
         screen.blit(plot_surface, (50, 50))  # Positioning the plot near the top
 
-        draw_buttons(buttons, button_pressed, button_hovered, screen, font, dropdown_font, SHADOW, GRAY, BLACK)
-        draw_dropdown(selected_network, screen, dropdown_open, dropdown_font, dropdown_rect, GRAY, BLACK)
+        draw_buttons(buttons, button_pressed, button_hovered, screen, font, dropdown_font, SHADOW, GRAY, BLACK, WHITE, DARK_GRAY)
+        draw_dropdown(selected_network, screen, dropdown_open, dropdown_font, dropdown_options, dropdown_rect, GRAY, BLACK)
 
         pygame.display.flip()
 

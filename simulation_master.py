@@ -40,8 +40,10 @@ num_of_runs_on_network = 1000
 num_of_greenlight_duplicate_limit = 40
 # Example usage:
 date = f"{basic_utilities.get_current_datetime()}"
+output_folder = f"out/{date}"
+print (f"{output_folder}\n")
 
-def main_loop(num_batches, num_runs_per_batch, network_selection, max_steps):
+def main_loop(num_batches, num_runs_per_batch, network_selection, max_steps, output_folder):
     if (0):  
         most_recent_subdir = basic_utilities.get_most_recent_subdirectory("out")  
         print(f"The most recent subdirectory is: {most_recent_subdir}")
@@ -52,8 +54,6 @@ def main_loop(num_batches, num_runs_per_batch, network_selection, max_steps):
         basic_utilities.my_plot(network_averages)
         sys.exit()
 
-    output_folder = f"out/{date}"
-    print (f"{output_folder}\n")
 
     output_data_file = os.path.join(output_folder, "TRAIN_OPTIMIZATION/output_data.txt")
     network_averages = os.path.join(output_folder, "TRAIN_OPTIMIZATION/network_averages.txt")
@@ -84,9 +84,9 @@ if __name__ == "__main__":
     # Create a list to store the processes and results
     processes = []
 
-    process = Process(target=main_loop, args=(num_batches, num_runs_per_batch, network_selection, max_steps))
+    process = Process(target=main_loop, args=(num_batches, num_runs_per_batch, network_selection, max_steps, output_folder))
     processes.append(process)
-    process = Process(target=gui_main.gui_main, args=())
+    process = Process(target=gui_main.gui_main, args=(output_folder,))
     processes.append(process)
     for process in processes:
         process.start()
