@@ -12,7 +12,7 @@ import ctypes
 pygame.init()
 
 # Set up the window (Enlarged size)
-width, height = 600, 600
+width, height = 900, 600
 screen = pygame.display.set_mode((width, height))
 pygame.display.set_caption("GUI with Tabs")
 hwnd = ctypes.windll.user32.GetForegroundWindow()
@@ -98,6 +98,9 @@ def my_plot(output_data_file):
 
     # Reduce the number of y-axis labels using np.linspace
     ax.set_yticks(np.linspace(80, 120, 5))
+
+    # Add padding at the bottom for the x-axis label
+    plt.subplots_adjust(bottom=0.2)  # Adjust as needed for enough bottom space
 
     # Create a canvas and draw the figure onto it
     canvas = FigureCanvas(fig)
