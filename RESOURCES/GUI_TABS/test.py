@@ -40,11 +40,11 @@ button_hovered = {"A": False, "B": False, "C": False}
 # Define tabs
 tab_font = pygame.font.Font(None, 28)
 tabs = {
-    "Default": pygame.Rect(10, 10, 180, 40),
-    "Bluetooth Training": pygame.Rect(200, 10, 180, 40),
-    "Sim Optimization": pygame.Rect(390, 10, 180, 40)
+    "Main": pygame.Rect(10, 0, 180, 40),
+    "Bluetooth Training": pygame.Rect(200, 0, 180, 40),
+    "Sim Optimization": pygame.Rect(390, 0, 180, 40)
 }
-current_page = "Default"
+current_page = "Main"
 
 # Define font
 font = pygame.font.Font(None, 36)
@@ -157,14 +157,39 @@ def draw_buttons():
         text_rect = text.get_rect(center=rect.center)
         screen.blit(text, text_rect)
 
-# Function to draw tabs
+# Function to draw tabs with angled sides, wider at the bottom, and a visible line for unselected tabs
 def draw_tabs():
+    # Track the rightmost edge of the last tab
+    last_tab_right_edge = 0
     for label, rect in tabs.items():
-        color = BLUE if label == current_page else GRAY
-        pygame.draw.rect(screen, color, rect)
+        # Determine the color and whether the tab is selected
+        is_selected = label == current_page
+        color = BLUE if is_selected else GRAY
+
+        # Calculate points for an angled, wider-at-bottom tab shape
+        x, y, w, h = rect.x, rect.y, rect.width, rect.height
+        if is_selected:
+            # Points for a selected tab (top slightly narrower)
+            points = [(x - 5, y + h), (x + 5, y), (x + w - 5, y), (x + w + 5, y + h)]
+        else:
+            # Points for an unselected tab with a bottom line
+            points = [(x - 5, y + h), (x + 5, y), (x + w - 5, y), (x + w + 5, y + h)]
+            # Draw a 1-pixel black line at the bottom of unselected tabs
+            pygame.draw.line(screen, BLACK, (x - 5, y + h), (x + w + 5, y + h), 4)
+
+        # Draw the tab shape
+        pygame.draw.polygon(screen, color, points)
+
+        # Draw the tab label text
         text = tab_font.render(label, True, BLACK)
         text_rect = text.get_rect(center=rect.center)
         screen.blit(text, text_rect)
+
+        # Update the right edge of the last tab
+        last_tab_right_edge = max(last_tab_right_edge, x + w + 5)
+
+    # Draw a black line from the bottom-right of the last tab to the right border of the screen
+    pygame.draw.line(screen, BLACK, (last_tab_right_edge, y + h), (width, y + h), 4)
 
 # Function to draw dropdown
 def draw_dropdown():
@@ -185,9 +210,9 @@ def draw_dropdown():
 
 # Main page drawing function
 def draw_page(plot_surface):
-    if current_page == "Default":
+    if current_page == "Main":
         # Draw the plot on the Default page
-        screen.blit(plot_surface, (50, 50))  # Positioning the plot near the top
+        screen.blit(plot_surface, (50, 70))  # Positioning the plot near the top
         draw_buttons()
         draw_dropdown()
     elif current_page == "Bluetooth Training":
@@ -239,8 +264,9 @@ while running:
         if event.type == pygame.MOUSEBUTTONDOWN:
             for label, rect in buttons.items():
                 if rect.collidepoint(event.pos):
-                    button_pressed[label] = True
-                    # Append to the queue file or handle button clicks
+                    button_pressed[label] = True  # Set button to pressed state
+                    append_to_queue(label)  # Append to the queue file
+
             if dropdown_rect.collidepoint(event.pos):
                 dropdown_open = not dropdown_open
             elif dropdown_open:
