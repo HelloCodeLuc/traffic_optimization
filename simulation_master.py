@@ -41,7 +41,6 @@ num_of_greenlight_duplicate_limit = 40
 # Example usage:
 date = f"{basic_utilities.get_current_datetime()}"
 output_folder = f"out/{date}"
-print (f"{output_folder}\n")
 
 def main_loop(num_batches, num_runs_per_batch, network_selection, max_steps, output_folder):
     if (0):  

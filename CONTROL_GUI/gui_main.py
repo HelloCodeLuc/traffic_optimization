@@ -107,7 +107,7 @@ def load_network_files(network_dir):
 
 # Function to draw dropdown menu
 #def draw_dropdown(selected_network, screen, dropdown_open, dropdown_font, dropdown_options, dropdown_rect, GRAY, BLACK):
-def draw_dropdown(dropdown_font, screen, dropdown_rect, dropdown_open, selected_network):
+def draw_dropdown(dropdown_font, dropdown_options, screen, dropdown_rect, dropdown_open, selected_network):
     # Draw the "Network: " label
     label_text = dropdown_font.render("Network:", True, BLACK)
     screen.blit(label_text, (20, 405))  # Positioned to the left of the dropdown
@@ -190,12 +190,12 @@ def file_modified(file_path, last_modified):
     return os.path.getmtime(file_path) > last_modified
 
 # Main page drawing function
-def draw_page(plot_surface, current_page, screen, width, height, font, dropdown_font, dropdown_rect, dropdown_open, selected_network):
+def draw_page(plot_surface, current_page, screen, width, height, font, dropdown_font, dropdown_options, dropdown_rect, dropdown_open, selected_network):
     if current_page == "Main":
         # Draw the plot on the Default page
         screen.blit(plot_surface, (50, 70))  # Positioning the plot near the top
         draw_buttons(screen, font)
-        draw_dropdown(dropdown_font, screen, dropdown_rect, dropdown_open, selected_network)
+        draw_dropdown(dropdown_font, dropdown_options, screen, dropdown_rect, dropdown_open, selected_network)
     elif current_page == "Bluetooth Training":
         # Placeholder for Bluetooth Training page content
         text = font.render("Bluetooth Training Page", True, BLACK)
@@ -216,28 +216,6 @@ def gui_main(output_folder):
     pygame.display.set_caption("TRAFFIC OPTIMIZER")
     hwnd = ctypes.windll.user32.GetForegroundWindow()
     ctypes.windll.user32.SetWindowPos(hwnd, 0, 100, 100, width, height, 0x0001)
-
-    # # Define colors
-    # WHITE = (255, 255, 255)
-    # BLACK = (0, 0, 0)
-    # GRAY = (200, 200, 200)
-    # DARK_GRAY = (169, 169, 169)
-    # SHADOW = (100, 100, 100)
-    # BLUE = (173, 216, 230)
-
-    # # Define button properties
-    # button_width, button_height = 60, 30
-    # buttons = {
-    #     "A": pygame.Rect(100, 450, button_width, button_height),
-    #     "B": pygame.Rect(170, 450, button_width, button_height),
-    #     "C": pygame.Rect(240, 450, button_width, button_height)
-    # }
-
-    # # Store button click state (for shadow effect)
-    # button_pressed = {"A": False, "B": False, "C": False}
-
-    # # Store hover state
-    # button_hovered = {"A": False, "B": False, "C": False}
 
     # Define tabs
     tab_font = pygame.font.Font(None, 28)
@@ -260,11 +238,10 @@ def gui_main(output_folder):
 
     # Define the relative path to the network directory with respect to current working directory
     current_dir = os.getcwd()
-    network_dir = os.path.join(current_dir, "../../NETWORKS")
+    network_dir = os.path.join(current_dir, "NETWORKS")
 
     # Path to the output file
     output_file = '../REFERENCE_DATA/output.good/network_averages.txt'
-
 
 
     running = True
@@ -340,15 +317,9 @@ def gui_main(output_folder):
             else:
                 button_hovered[label] = False
 
-        # Draw the plot on the screen
-        # screen.blit(plot_surface, (50, 50))  # Positioning the plot near the top
-
         # Draw UI components
         draw_tabs(tabs, current_page, screen, tab_font, width )
-        draw_page(plot_surface, current_page, screen, width, height, font, dropdown_font, dropdown_rect, dropdown_open, selected_network)
-  
-        #draw_buttons(buttons, button_pressed, button_hovered, screen, font, dropdown_font, )
-        #draw_dropdown(selected_network, screen, dropdown_open, dropdown_font, dropdown_options, dropdown_rect)
+        draw_page(plot_surface, current_page, screen, width, height, font, dropdown_font, dropdown_options, dropdown_rect, dropdown_open, selected_network)
 
         pygame.display.flip()
 
