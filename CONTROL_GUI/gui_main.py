@@ -9,12 +9,68 @@ from time import sleep
 
 import ctypes
 
+# Define colors
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+GRAY = (200, 200, 200)
+DARK_GRAY = (169, 169, 169)
+SHADOW = (100, 100, 100)
+BLUE = (173, 216, 230)
+
+# Define button properties
+button_width, button_height = 60, 30
+buttons = {
+    "A": pygame.Rect(100, 450, button_width, button_height),
+    "B": pygame.Rect(170, 450, button_width, button_height),
+    "C": pygame.Rect(240, 450, button_width, button_height)
+}
+
+# Store button click state (for shadow effect)
+button_pressed = {"A": False, "B": False, "C": False}
+
+# Store hover state
+button_hovered = {"A": False, "B": False, "C": False}
 
 # # Path to the output file
 output_file = '../REFERENCE_DATA/output.good/network_averages.txt'
 
+# Function to draw tabs with angled sides, wider at the bottom, and a visible line for unselected tabs
+def draw_tabs(tabs, current_page, screen, tab_font, width):
+    # Track the rightmost edge of the last tab
+    last_tab_right_edge = 0
+    for label, rect in tabs.items():
+        # Determine the color and whether the tab is selected
+        is_selected = label == current_page
+        color = BLUE if is_selected else GRAY
+
+        # Calculate points for an angled, wider-at-bottom tab shape
+        x, y, w, h = rect.x, rect.y, rect.width, rect.height
+        if is_selected:
+            # Points for a selected tab (top slightly narrower)
+            points = [(x - 5, y + h), (x + 5, y), (x + w - 5, y), (x + w + 5, y + h)]
+        else:
+            # Points for an unselected tab with a bottom line
+            points = [(x - 5, y + h), (x + 5, y), (x + w - 5, y), (x + w + 5, y + h)]
+            # Draw a 1-pixel black line at the bottom of unselected tabs
+            pygame.draw.line(screen, BLACK, (x - 5, y + h), (x + w + 5, y + h), 4)
+
+        # Draw the tab shape
+        pygame.draw.polygon(screen, color, points)
+
+        # Draw the tab label text
+        text = tab_font.render(label, True, BLACK)
+        text_rect = text.get_rect(center=rect.center)
+        screen.blit(text, text_rect)
+
+        # Update the right edge of the last tab
+        last_tab_right_edge = max(last_tab_right_edge, x + w + 5)
+
+    # Draw a black line from the bottom-right of the last tab to the right border of the screen
+    pygame.draw.line(screen, BLACK, (last_tab_right_edge, y + h), (width, y + h), 4)
+
 # Function to draw buttons with shadow and hover effect
-def draw_buttons(buttons, button_pressed, button_hovered, screen, font, dropdown_font, SHADOW, GRAY, BLACK, WHITE, DARK_GRAY):
+#def draw_buttons(buttons, button_pressed, button_hovered, screen, font, dropdown_font, SHADOW, GRAY, BLACK, WHITE, DARK_GRAY):
+def draw_buttons(screen, font):
     for label, rect in buttons.items():
         if button_pressed[label]:
             # If button is pressed, draw as if it is pushed down
@@ -50,7 +106,8 @@ def load_network_files(network_dir):
     return files
 
 # Function to draw dropdown menu
-def draw_dropdown(selected_network, screen, dropdown_open, dropdown_font, dropdown_options, dropdown_rect, GRAY, BLACK):
+#def draw_dropdown(selected_network, screen, dropdown_open, dropdown_font, dropdown_options, dropdown_rect, GRAY, BLACK):
+def draw_dropdown(dropdown_font, screen, dropdown_rect, dropdown_open, selected_network):
     # Draw the "Network: " label
     label_text = dropdown_font.render("Network:", True, BLACK)
     screen.blit(label_text, (20, 405))  # Positioned to the left of the dropdown
@@ -132,39 +189,64 @@ def has_file_updated(file_path, last_mod_time):
 def file_modified(file_path, last_modified):
     return os.path.getmtime(file_path) > last_modified
 
+# Main page drawing function
+def draw_page(plot_surface, current_page, screen, width, height, font, dropdown_font, dropdown_rect, dropdown_open, selected_network):
+    if current_page == "Main":
+        # Draw the plot on the Default page
+        screen.blit(plot_surface, (50, 70))  # Positioning the plot near the top
+        draw_buttons(screen, font)
+        draw_dropdown(dropdown_font, screen, dropdown_rect, dropdown_open, selected_network)
+    elif current_page == "Bluetooth Training":
+        # Placeholder for Bluetooth Training page content
+        text = font.render("Bluetooth Training Page", True, BLACK)
+        screen.blit(text, (width // 2 - text.get_width() // 2, height // 2))
+    elif current_page == "Sim Optimization":
+        # Placeholder for Sim Optimization page content
+        text = font.render("Sim Optimization Page", True, BLACK)
+        screen.blit(text, (width // 2 - text.get_width() // 2, height // 2))
+
 def gui_main(output_folder):
 
     # Initialize Pygame
     pygame.init()
 
     # Set up the window (Enlarged size)
-    width, height = 600, 600
+    width, height = 900, 600
     screen = pygame.display.set_mode((width, height))
-    pygame.display.set_caption("Button & Plot Example")
+    pygame.display.set_caption("TRAFFIC OPTIMIZER")
     hwnd = ctypes.windll.user32.GetForegroundWindow()
     ctypes.windll.user32.SetWindowPos(hwnd, 0, 100, 100, width, height, 0x0001)
 
-    # Define colors
-    WHITE = (255, 255, 255)
-    BLACK = (0, 0, 0)
-    GRAY = (200, 200, 200)
-    DARK_GRAY = (169, 169, 169)
-    SHADOW = (100, 100, 100)
-    BLUE = (173, 216, 230)
+    # # Define colors
+    # WHITE = (255, 255, 255)
+    # BLACK = (0, 0, 0)
+    # GRAY = (200, 200, 200)
+    # DARK_GRAY = (169, 169, 169)
+    # SHADOW = (100, 100, 100)
+    # BLUE = (173, 216, 230)
 
-    # Define button properties
-    button_width, button_height = 60, 30
-    buttons = {
-        "A": pygame.Rect(100, 450, button_width, button_height),
-        "B": pygame.Rect(170, 450, button_width, button_height),
-        "C": pygame.Rect(240, 450, button_width, button_height)
+    # # Define button properties
+    # button_width, button_height = 60, 30
+    # buttons = {
+    #     "A": pygame.Rect(100, 450, button_width, button_height),
+    #     "B": pygame.Rect(170, 450, button_width, button_height),
+    #     "C": pygame.Rect(240, 450, button_width, button_height)
+    # }
+
+    # # Store button click state (for shadow effect)
+    # button_pressed = {"A": False, "B": False, "C": False}
+
+    # # Store hover state
+    # button_hovered = {"A": False, "B": False, "C": False}
+
+    # Define tabs
+    tab_font = pygame.font.Font(None, 28)
+    tabs = {
+        "Main": pygame.Rect(10, 0, 180, 40),
+        "Bluetooth Training": pygame.Rect(200, 0, 180, 40),
+        "Sim Optimization": pygame.Rect(390, 0, 180, 40)
     }
-
-    # Store button click state (for shadow effect)
-    button_pressed = {"A": False, "B": False, "C": False}
-
-    # Store hover state
-    button_hovered = {"A": False, "B": False, "C": False}
+    current_page = "Main"
 
     # Define font
     font = pygame.font.Font(None, 36)
@@ -239,6 +321,11 @@ def gui_main(output_folder):
                             append_to_queue(f"NETWORK_CHANGE : {selected_network}")  # Append network change to the queue
                             dropdown_open = False  # Close the dropdown
 
+                # Tab switching
+                for label, rect in tabs.items():
+                    if rect.collidepoint(event.pos):
+                        current_page = label
+
             if event.type == pygame.MOUSEBUTTONUP:
                 for label in button_pressed:
                     button_pressed[label] = False  # Reset button to unpressed state
@@ -254,10 +341,14 @@ def gui_main(output_folder):
                 button_hovered[label] = False
 
         # Draw the plot on the screen
-        screen.blit(plot_surface, (50, 50))  # Positioning the plot near the top
+        # screen.blit(plot_surface, (50, 50))  # Positioning the plot near the top
 
-        draw_buttons(buttons, button_pressed, button_hovered, screen, font, dropdown_font, SHADOW, GRAY, BLACK, WHITE, DARK_GRAY)
-        draw_dropdown(selected_network, screen, dropdown_open, dropdown_font, dropdown_options, dropdown_rect, GRAY, BLACK)
+        # Draw UI components
+        draw_tabs(tabs, current_page, screen, tab_font, width )
+        draw_page(plot_surface, current_page, screen, width, height, font, dropdown_font, dropdown_rect, dropdown_open, selected_network)
+  
+        #draw_buttons(buttons, button_pressed, button_hovered, screen, font, dropdown_font, )
+        #draw_dropdown(selected_network, screen, dropdown_open, dropdown_font, dropdown_options, dropdown_rect)
 
         pygame.display.flip()
 
