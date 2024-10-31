@@ -244,16 +244,12 @@ def gui_main(output_folder):
     # Path to the output file
     output_file = '../REFERENCE_DATA/output.good/network_averages.txt'
 
-
     running = True
     dropdown_options.extend(load_network_files(network_dir))  # Load network files into dropdown
 
     # Initialize last modified time for the file
     file_path = 'RESOURCES/REFERENCE_DATA/output.good/network_averages.txt'
     last_modified = os.path.getmtime(file_path)
-
-    # Load the plot as an image surface
-    plot_surface = my_plot(file_path)
 
     # Load the bluetooth plot as an image surface
     bluetooth_plot_surface = bluetooth_map.bluetooth_extract_nodes_edges_create_plot()
@@ -264,7 +260,10 @@ def gui_main(output_folder):
 
     while running:
         screen.fill(WHITE)
-        
+
+        # Load the plot as an image surface
+        plot_surface = my_plot(file_path)
+
         for event in pygame.event.get():
             if event.type == pygame.VIDEORESIZE:
                 # Ignore resize events

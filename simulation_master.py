@@ -44,16 +44,6 @@ date = f"{basic_utilities.get_current_datetime()}"
 output_folder = f"out/{date}"
 
 def main_loop(num_batches, num_runs_per_batch, network_selection, max_steps, output_folder):
-    if (0):  
-        most_recent_subdir = basic_utilities.get_most_recent_subdirectory("out")  
-        print(f"The most recent subdirectory is: {most_recent_subdir}")
-        output_folder = f"out/{most_recent_subdir}"
-        seperator = "/"
-        network_averages = seperator.join([output_folder, "TRAIN_OPTIMIZATION/network_averages.txt"])
-        print(f"The network_averages is: {network_averages}")
-        basic_utilities.my_plot(network_averages)
-        sys.exit()
-
 
     output_data_file = os.path.join(output_folder, "TRAIN_OPTIMIZATION/output_data.txt")
     network_averages = os.path.join(output_folder, "TRAIN_OPTIMIZATION/network_averages.txt")

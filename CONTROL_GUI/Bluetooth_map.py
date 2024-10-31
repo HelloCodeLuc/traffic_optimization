@@ -87,9 +87,6 @@ def bluetooth_plot(edges, lane_speeds, nodes):
 
 def bluetooth_extract_nodes_edges_create_plot():
     # Set up Pygame
-    pygame.init()
-    screen = pygame.display.set_mode((1400, 1400))
-    pygame.display.set_caption("Bluetooth Plot")
 
     # Load XML data and prepare edges, lane_speeds, and nodes
     current_directory = os.getcwd()
@@ -128,19 +125,3 @@ def bluetooth_extract_nodes_edges_create_plot():
     plot_surface = bluetooth_plot(edges, lane_speeds, nodes)
 
     return plot_surface
-
-    # # Main loop to display the plot
-    # running = True
-    # while running:
-    #     for event in pygame.event.get():
-    #         if event.type == pygame.QUIT:
-    #             running = False
-
-    #     screen.fill((255, 255, 255))
-    #     screen.blit(plot_surface, (0, 0))
-    #     pygame.display.flip()
-
-    # pygame.quit()
-
-#if __name__ == "__main__":
-#    bluetooth_extract_nodes_edges_create_plot()
