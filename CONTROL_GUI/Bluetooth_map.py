@@ -93,7 +93,7 @@ def bluetooth_extract_nodes_edges_create_plot():
 
     # Load XML data and prepare edges, lane_speeds, and nodes
     current_directory = os.getcwd()
-    file_path = f'{current_directory}/../NETWORKS/school-extended.net.xml'
+    file_path = f'{current_directory}/NETWORKS/school-extended.net.xml'
 
     try:
         tree = ET.parse(file_path)
@@ -127,18 +127,20 @@ def bluetooth_extract_nodes_edges_create_plot():
     # Generate the plot surface
     plot_surface = bluetooth_plot(edges, lane_speeds, nodes)
 
-    # Main loop to display the plot
-    running = True
-    while running:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
+    return plot_surface
 
-        screen.fill((255, 255, 255))
-        screen.blit(plot_surface, (0, 0))
-        pygame.display.flip()
+    # # Main loop to display the plot
+    # running = True
+    # while running:
+    #     for event in pygame.event.get():
+    #         if event.type == pygame.QUIT:
+    #             running = False
 
-    pygame.quit()
+    #     screen.fill((255, 255, 255))
+    #     screen.blit(plot_surface, (0, 0))
+    #     pygame.display.flip()
 
-if __name__ == "__main__":
-    bluetooth_extract_nodes_edges_create_plot()
+    # pygame.quit()
+
+#if __name__ == "__main__":
+#    bluetooth_extract_nodes_edges_create_plot()

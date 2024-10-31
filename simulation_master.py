@@ -9,6 +9,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), 'CONTROL_GUI'))
 import basic_utilities
 import optimize_timing_lib
 import gui_main
+import bluetooth_map
 from multiprocessing import Process, Queue
 
 #TODO put an average line on graph
