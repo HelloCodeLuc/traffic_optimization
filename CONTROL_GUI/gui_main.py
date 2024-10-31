@@ -7,7 +7,7 @@ import numpy as np
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from time import sleep
 import ctypes
-import bluetooth_map
+import Bluetooth_map
 
 # Define colors
 WHITE = (255, 255, 255)
@@ -252,7 +252,7 @@ def gui_main(output_folder):
     last_modified = os.path.getmtime(file_path)
 
     # Load the bluetooth plot as an image surface
-    bluetooth_plot_surface = bluetooth_map.bluetooth_extract_nodes_edges_create_plot()
+    bluetooth_plot_surface = Bluetooth_map.bluetooth_extract_nodes_edges_create_plot()
 
     # Set up a timer event to check for file modifications
     FILE_MODIFIED_EVENT = pygame.USEREVENT + 1
