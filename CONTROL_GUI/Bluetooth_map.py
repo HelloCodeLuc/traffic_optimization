@@ -3,6 +3,29 @@ import matplotlib.pyplot as plt
 from collections import defaultdict
 import os
 
+
+# Function to calculate average speed for a lane
+def calculate_average_speed(speeds):
+    avg_speed_dir1 = sum(speeds['dir1']) / len(speeds['dir1']) if speeds['dir1'] else 0
+    avg_speed_dir2 = sum(speeds['dir2']) / len(speeds['dir2']) if speeds['dir2'] else 0
+    return {'dir1': avg_speed_dir1, 'dir2': avg_speed_dir2}
+
+# Function to map speeds to colors
+def get_color_by_speed(speed):
+    if 20 <= speed < 30:
+        return 'blue'
+    elif 30 <= speed < 40:
+        return 'green'
+    elif 40 <= speed < 50:
+        return 'yellow'
+    elif 50 <= speed < 60:
+        return 'red'
+    elif speed >= 60:
+        return 'gray'
+    elif speed < 20:
+        return 'brown'
+    return 'black'  # Default color if no match
+
 # Get the current working directory
 current_directory = os.getcwd()
 
@@ -10,7 +33,7 @@ current_directory = os.getcwd()
 print("Current Working Directory:", current_directory)
 
 # Parse the XML file
-file_path = r'(current_directory)\..\NETWORKS\school-extended.net.xml'
+file_path = f'{current_directory}/../NETWORKS/school-extended.net.xml'
 
 try:
     tree = ET.parse(file_path)
@@ -48,27 +71,6 @@ for edge in root.findall(".//edge"):
                 # Debug: Check if the speeds are correctly added
                 print(f"Edge: {edge_id}, Direction 1 Speeds: {lane_speeds[edge_id]['dir1']}, Direction 2 Speeds: {lane_speeds[edge_id]['dir2']}")
 
-# Function to calculate average speed for a lane
-def calculate_average_speed(speeds):
-    avg_speed_dir1 = sum(speeds['dir1']) / len(speeds['dir1']) if speeds['dir1'] else 0
-    avg_speed_dir2 = sum(speeds['dir2']) / len(speeds['dir2']) if speeds['dir2'] else 0
-    return {'dir1': avg_speed_dir1, 'dir2': avg_speed_dir2}
-
-# Function to map speeds to colors
-def get_color_by_speed(speed):
-    if 20 <= speed < 30:
-        return 'blue'
-    elif 30 <= speed < 40:
-        return 'green'
-    elif 40 <= speed < 50:
-        return 'yellow'
-    elif 50 <= speed < 60:
-        return 'red'
-    elif speed >= 60:
-        return 'gray'
-    elif speed < 20:
-        return 'brown'
-    return 'black'  # Default color if no match
 
 # Create the plot
 plt.figure(figsize=(14, 14))  # Adjust the figure size for better visibility
