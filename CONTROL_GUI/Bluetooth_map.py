@@ -1,8 +1,9 @@
 import xml.etree.ElementTree as ET
 import matplotlib.pyplot as plt
+from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from collections import defaultdict
 import os
-
+import pygame
 
 # Function to calculate average speed for a lane
 def calculate_average_speed(speeds):
@@ -26,106 +27,118 @@ def get_color_by_speed(speed):
         return 'brown'
     return 'black'  # Default color if no match
 
-# Get the current working directory
-current_directory = os.getcwd()
+def bluetooth_plot(edges, lane_speeds, nodes):
+    # Initialize a new figure and canvas
+    fig, ax = plt.subplots(figsize=(14, 14))
+    
+    # Define the roads of interest
+    roads_of_interest = ['rutherford', 'dufferin']
+    
+    # Plot roads with color based on average speed for specified roads
+    for edge in edges:
+        edge_coords = edge[:2]
+        edge_id = edge[2]
 
-# Print the current working directory
-print("Current Working Directory:", current_directory)
+        if any(road in edge_id.lower() for road in roads_of_interest):
+            avg_speeds = calculate_average_speed(lane_speeds[edge_id])
 
-# Parse the XML file
-file_path = f'{current_directory}/../NETWORKS/school-extended.net.xml'
+            # Coordinates for road segment
+            x_values = [edge_coords[0][0], edge_coords[1][0]]
+            y_values = [edge_coords[0][1], edge_coords[1][1]]
 
-try:
-    tree = ET.parse(file_path)
-    root = tree.getroot()
-except Exception as e:
-    print(f"An error occurred: {e}")
-    exit()
+            # Direction 1
+            road_color_dir1 = get_color_by_speed(avg_speeds['dir1'])
+            ax.plot(x_values, y_values, color=road_color_dir1, linewidth=6)
 
-# Initialize lists for nodes, edges, and lane speeds
-nodes = []
-edges = []
-lane_speeds = defaultdict(lambda: {'dir1': [], 'dir2': []})
+            # Direction 2 (offset for visual separation)
+            offset_x = 0.05
+            x_values_dir2 = [x + offset_x for x in x_values]
+            road_color_dir2 = get_color_by_speed(avg_speeds['dir2'])
+            ax.plot(x_values_dir2, y_values, color=road_color_dir2, linewidth=6)
 
-# Extract nodes, edges, and lane speeds from the XML file
-for edge in root.findall(".//edge"):
-    edge_id = edge.get('id')
-    for lane in edge.findall(".//lane"):
-        shape = lane.get('shape')
-        speed = float(lane.get('speed'))
-        if shape:
-            points = shape.split(' ')
-            node_coords = [tuple(map(float, point.split(','))) for point in points]
-            nodes.extend(node_coords)
+    # Draw connections based on common nodes
+    node_connections = defaultdict(list)
+    for edge in edges:
+        node_connections[edge[0]].append(edge)
+        node_connections[edge[1]].append(edge)
 
-            # Store each consecutive pair of coordinates as an edge
-            for i in range(len(node_coords) - 1):
-                edges.append((node_coords[i], node_coords[i + 1], edge_id))  # Include edge_id
+    for node, connected_edges in node_connections.items():
+        for connected_edge in connected_edges:
+            ax.plot([node[0], connected_edge[1][0]], [node[1], connected_edge[1][1]], color='gray', linestyle='--', linewidth=1)
 
-                # Simulating lane directionality with odd/even logic for demo purposes
-                if len(edges) % 2 == 0:
-                    lane_speeds[edge_id]['dir1'].append(speed)
-                else:
-                    lane_speeds[edge_id]['dir2'].append(speed)
+    # Plot nodes
+    for node in nodes:
+        ax.scatter(node[0], node[1], color='blue', s=50)
 
-                # Debug: Check if the speeds are correctly added
-                print(f"Edge: {edge_id}, Direction 1 Speeds: {lane_speeds[edge_id]['dir1']}, Direction 2 Speeds: {lane_speeds[edge_id]['dir2']}")
+    # Set limits and labels
+    ax.set_xlim(min([node[0] for node in nodes]) - 2, max([node[0] for node in nodes]) + 2)
+    ax.set_ylim(min([node[1] for node in nodes]) - 2, max([node[1] for node in nodes]) + 2)
+    ax.set_xlabel('X Coordinate')
+    ax.set_ylabel('Y Coordinate')
+    ax.set_title('Road Network with Average Speed Color Coding for Rutherford and Dufferin')
+    ax.grid(True)
 
+    # Convert Matplotlib figure to Pygame surface
+    canvas = FigureCanvas(fig)
+    canvas.draw()
+    plot_surface = pygame.image.fromstring(canvas.tostring_rgb(), canvas.get_width_height(), "RGB")
+    plt.close(fig)
+    return plot_surface
 
-# Create the plot
-plt.figure(figsize=(14, 14))  # Adjust the figure size for better visibility
+def bluetooth_extract_nodes_edges_create_plot():
+    # Set up Pygame
+    pygame.init()
+    screen = pygame.display.set_mode((1400, 1400))
+    pygame.display.set_caption("Bluetooth Plot")
 
-# Define the roads of interest
-roads_of_interest = ['rutherford', 'dufferin']
+    # Load XML data and prepare edges, lane_speeds, and nodes
+    current_directory = os.getcwd()
+    file_path = f'{current_directory}/../NETWORKS/school-extended.net.xml'
 
-# Plot the roads with color based on average speed for specified roads
-for edge in edges:
-    edge_coords = edge[:2]  # Get coordinates
-    edge_id = edge[2]  # Get edge ID
+    try:
+        tree = ET.parse(file_path)
+        root = tree.getroot()
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        exit()
 
-    # Only process roads of interest
-    if any(road in edge_id.lower() for road in roads_of_interest):
-        avg_speeds = calculate_average_speed(lane_speeds[edge_id])
-        print(f"Average speeds for edge {edge_id}: {avg_speeds}")  # Debug: Print average speeds
+    nodes = []
+    edges = []
+    lane_speeds = defaultdict(lambda: {'dir1': [], 'dir2': []})
 
-        # Extract coordinates for both ends of the road segment
-        x_values = [edge_coords[0][0], edge_coords[1][0]]
-        y_values = [edge_coords[0][1], edge_coords[1][1]]
+    for edge in root.findall(".//edge"):
+        edge_id = edge.get('id')
+        for lane in edge.findall(".//lane"):
+            shape = lane.get('shape')
+            speed = float(lane.get('speed'))
+            if shape:
+                points = shape.split(' ')
+                node_coords = [tuple(map(float, point.split(','))) for point in points]
+                nodes.extend(node_coords)
 
-        # Plot direction 1
-        road_color_dir1 = get_color_by_speed(avg_speeds['dir1'])
-        print(f"Road color for direction 1 of {edge_id}: {road_color_dir1}")  # Debug: Check color for direction 1
-        plt.plot(x_values, y_values, color=road_color_dir1, linewidth=6)  # Direction 1
+                for i in range(len(node_coords) - 1):
+                    edges.append((node_coords[i], node_coords[i + 1], edge_id))
 
-        # Plot direction 2 (slightly offset for visual distinction)
-        offset_x = 0.05  # Adjust this value for better visual separation
-        x_values_dir2 = [x + offset_x for x in x_values]
-        road_color_dir2 = get_color_by_speed(avg_speeds['dir2'])
-        print(f"Road color for direction 2 of {edge_id}: {road_color_dir2}")  # Debug: Check color for direction 2
-        plt.plot(x_values_dir2, y_values, color=road_color_dir2, linewidth=6)  # Direction 2
+                    if len(edges) % 2 == 0:
+                        lane_speeds[edge_id]['dir1'].append(speed)
+                    else:
+                        lane_speeds[edge_id]['dir2'].append(speed)
 
-# Create connections between roads based on common nodes
-node_connections = defaultdict(list)
-for edge in edges:
-    node_connections[edge[0]].append(edge)
-    node_connections[edge[1]].append(edge)
+    # Generate the plot surface
+    plot_surface = bluetooth_plot(edges, lane_speeds, nodes)
 
-# Optionally visualize connections (for debugging or checking)
-for node, connected_edges in node_connections.items():
-    for connected_edge in connected_edges:
-        plt.plot([node[0], connected_edge[1][0]], [node[1], connected_edge[1][1]], color='gray', linestyle='--', linewidth=1)  # Draw connection lines
+    # Main loop to display the plot
+    running = True
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
 
-# Plot nodes
-for node in nodes:
-    plt.scatter(node[0], node[1], color='blue', s=50)  # Larger dots for nodes
+        screen.fill((255, 255, 255))
+        screen.blit(plot_surface, (0, 0))
+        pygame.display.flip()
 
-# Set limits to zoom out and fit the entire network
-plt.xlim(min([node[0] for node in nodes]) - 2, max([node[0] for node in nodes]) + 2)  # Increased padding
-plt.ylim(min([node[1] for node in nodes]) - 2, max([node[1] for node in nodes]) + 2)  # Increased padding
+    pygame.quit()
 
-# Customize the plot
-plt.xlabel('X Coordinate')
-plt.ylabel('Y Coordinate')
-plt.title('Road Network with Average Speed Color Coding for Rutherford and Dufferin')
-plt.grid(True)
-plt.show()
+if __name__ == "__main__":
+    bluetooth_extract_nodes_edges_create_plot()
