@@ -6,8 +6,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from time import sleep
-
 import ctypes
+import bluetooth_map
 
 # Define colors
 WHITE = (255, 255, 255)
@@ -190,10 +190,11 @@ def file_modified(file_path, last_modified):
     return os.path.getmtime(file_path) > last_modified
 
 # Main page drawing function
-def draw_page(plot_surface, current_page, screen, width, height, font, dropdown_font, dropdown_options, dropdown_rect, dropdown_open, selected_network):
+def draw_page(plot_surface, bluetooth_plot_surface, current_page, screen, width, height, font, dropdown_font, dropdown_options, dropdown_rect, dropdown_open, selected_network):
     if current_page == "Main":
         # Draw the plot on the Default page
         screen.blit(plot_surface, (50, 70))  # Positioning the plot near the top
+        screen.blit(bluetooth_plot_surface, (50, 200))
         draw_buttons(screen, font)
         draw_dropdown(dropdown_font, dropdown_options, screen, dropdown_rect, dropdown_open, selected_network)
     elif current_page == "Bluetooth Training":
@@ -253,6 +254,9 @@ def gui_main(output_folder):
 
     # Load the plot as an image surface
     plot_surface = my_plot(file_path)
+
+    # Load the bluetooth plot as an image surface
+    bluetooth_plot_surface = bluetooth_map.bluetooth_extract_nodes_edges_create_plot()
 
     # Set up a timer event to check for file modifications
     FILE_MODIFIED_EVENT = pygame.USEREVENT + 1
@@ -319,7 +323,7 @@ def gui_main(output_folder):
 
         # Draw UI components
         draw_tabs(tabs, current_page, screen, tab_font, width )
-        draw_page(plot_surface, current_page, screen, width, height, font, dropdown_font, dropdown_options, dropdown_rect, dropdown_open, selected_network)
+        draw_page(plot_surface, bluetooth_plot_surface, current_page, screen, width, height, font, dropdown_font, dropdown_options, dropdown_rect, dropdown_open, selected_network)
 
         pygame.display.flip()
 
