@@ -6,54 +6,6 @@ import re
 
 
 
-def my_plot(output_data_file):
-    import matplotlib.pyplot as plt
-
-     # Read the file and process lines
-    with open(output_data_file, 'r') as file:
-        lines = file.readlines()
-
-    # Count the number of lines
-    num_lines = len(lines)
-    print(f"Number of lines in the file: {num_lines}")
-
-    # Extract and plot Average Idle Times
-    iteration_numbers = []
-    average_idle_times = []
-
-    for index, line in enumerate(lines):
-        if "keep" in line or "throw" in line: 
-            # Extract information from each line
-            pattern = r"New overall average: (\d+\.\d{2})"
-
-            # Use re.search to find the match in the line
-            match = re.search(pattern, line)
-
-            # Check if a match is found and extract the value
-            if match:
-                average_idle_time = match.group(1)
-                print("New overall average:", average_idle_time)
-            else:
-                print("No match found")
-
-            iteration = index
-
-            # Append to lists
-            iteration_numbers.append(iteration)
-            average_idle_times.append(float(average_idle_time))
-
-    # Plotting
-    plt.plot(iteration_numbers, average_idle_times, marker='o')
-    plt.xlabel('Iteration')
-    plt.ylabel('Average Idle Time')
-    plt.title('Average Idle Time Over Iterations')
-    plt.grid(True)
-    plt.xlim(left=0)
-    #plt.gca().invert_yaxis()
-    # Reduce the number of y-axis labels using np.linspace
-    plt.yticks(np.linspace(80, 120, 5))
-    plt.show()
-
 def run_sumo(config_file, gui_opt, max_steps, result_queue):
     current_directory = os.getcwd()
     #print(f"current_directory : {current_directory}")
@@ -144,6 +96,8 @@ def generate_random_trips(network_selection, trip_file, max_steps, seed):
     #cmd = f"C:/Users/chuny/Desktop/lucas/Python%20Projects/traffic_optimization/randomTrips.py -n OSM_RandomTrips/keeleandmajmack.net.xml -r {trip_file} -e {max_steps} --random -s {seed} -o out/trips.trips.xml"
     randomTrips = r'"C:\Program Files (x86)\Eclipse\Sumo\tools\randomTrips.py"'
     cmd = f"python {randomTrips} -n {network_selection} -r {trip_file} -e {max_steps} --random -s {seed}"
+
+    print (f"This is the CMD line {cmd}")
 
     if (debug):print (f"DEBUG <generate_random_trips> : randomTrips.py command : {cmd}")
 

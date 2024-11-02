@@ -1,12 +1,16 @@
 import sys
-import simulation_lib 
+import simulation_lib as simulation_lib 
 import os
 import shutil
 import time
 sys.path.append(os.path.join(os.path.dirname(__file__), 'TRAIN_COMMON_LIB'))
 sys.path.append(os.path.join(os.path.dirname(__file__), 'TRAIN_OPTIMIZATION'))
+sys.path.append(os.path.join(os.path.dirname(__file__), 'CONTROL_GUI'))
 import basic_utilities
 import optimize_timing_lib
+import gui_main
+import Bluetooth_map
+from multiprocessing import Process, Queue
 
 #TODO put an average line on graph
 
@@ -37,23 +41,9 @@ num_of_runs_on_network = 1000
 num_of_greenlight_duplicate_limit = 40
 # Example usage:
 date = f"{basic_utilities.get_current_datetime()}"
+output_folder = f"out/{date}"
 
-
-
-if __name__ == "__main__":
-
-    if (0):  
-        most_recent_subdir = basic_utilities.get_most_recent_subdirectory("out")  
-        print(f"The most recent subdirectory is: {most_recent_subdir}")
-        output_folder = f"out/{most_recent_subdir}"
-        seperator = "/"
-        network_averages = seperator.join([output_folder, "TRAIN_OPTIMIZATION/network_averages.txt"])
-        print(f"The network_averages is: {network_averages}")
-        basic_utilities.my_plot(network_averages)
-        sys.exit()
-
-    output_folder = f"out/{date}"
-    print (f"{output_folder}\n")
+def main_loop(num_batches, num_runs_per_batch, network_selection, max_steps, output_folder):
 
     output_data_file = os.path.join(output_folder, "TRAIN_OPTIMIZATION/output_data.txt")
     network_averages = os.path.join(output_folder, "TRAIN_OPTIMIZATION/network_averages.txt")
@@ -68,16 +58,29 @@ if __name__ == "__main__":
         debug_seed = 3920
         max_steps = 10000
 
-
-
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
         os.makedirs(f"{output_folder}/TRAIN_OPTIMIZATION")
         os.makedirs(f"{output_folder}/TRAIN_BLUETOOTH")
 
-
-
-
         optimize_timing_lib.optimize_timing_main (output_folder, output_data_file, num_of_runs_on_network, num_batches, num_runs_per_batch, network_selection, 
                                                 max_steps, network_with_timing, light_names, timing_light_increment, network_averages, 
                                                 num_of_greenlight_duplicate_limit, debug)
+
+
+
+if __name__ == "__main__":
+
+    # Create a list to store the processes and results
+    processes = []
+
+    process = Process(target=main_loop, args=(num_batches, num_runs_per_batch, network_selection, max_steps, output_folder))
+    processes.append(process)
+    process = Process(target=gui_main.gui_main, args=(output_folder,))
+    processes.append(process)
+    for process in processes:
+        process.start()
+   
+    # Wait for all processes to finish (optional)
+    for process in processes:
+        process.join()

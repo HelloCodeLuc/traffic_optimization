@@ -1,4 +1,4 @@
-import simulation_lib
+import simulation_lib as simulation_lib
 import sys
 import os
 import shutil
