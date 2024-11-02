@@ -97,6 +97,8 @@ def generate_random_trips(network_selection, trip_file, max_steps, seed):
     randomTrips = r'"C:\Program Files (x86)\Eclipse\Sumo\tools\randomTrips.py"'
     cmd = f"python {randomTrips} -n {network_selection} -r {trip_file} -e {max_steps} --random -s {seed}"
 
+    print (f"This is the CMD line {cmd}")
+
     if (debug):print (f"DEBUG <generate_random_trips> : randomTrips.py command : {cmd}")
 
     subprocess.call(cmd, shell=True)
