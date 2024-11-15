@@ -18,6 +18,7 @@ BLUE = (0, 0, 255)
 # Define points
 point1 = (200, 150)
 point2 = (600, 450)
+point3 = (100, 200)
 road_width = 10  # Width of the road (includes both lanes)
 
 def draw_two_way_road(screen, p1, p2, road_width):
@@ -60,7 +61,7 @@ while running:
     
     # Draw the two-way road
     draw_two_way_road(screen, point1, point2, road_width)
-    
+    draw_two_way_road(screen, point1, point3, road_width)    
     # Update the display
     pygame.display.flip()
 
