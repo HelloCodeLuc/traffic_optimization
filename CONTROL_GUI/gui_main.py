@@ -20,16 +20,16 @@ BLUE = (173, 216, 230)
 # Define button properties
 button_width, button_height = 60, 30
 buttons = {
-    "A": pygame.Rect(100, 450, button_width, button_height),
+    "RUN": pygame.Rect(100, 450, button_width, button_height),
     "B": pygame.Rect(170, 450, button_width, button_height),
     "C": pygame.Rect(240, 450, button_width, button_height)
 }
 
 # Store button click state (for shadow effect)
-button_pressed = {"A": False, "B": False, "C": False}
+button_pressed = {"RUN": False, "B": False, "C": False}
 
 # Store hover state
-button_hovered = {"A": False, "B": False, "C": False}
+button_hovered = {"RUN": False, "B": False, "C": False}
 
 # # Path to the output file
 output_file = '../REFERENCE_DATA/output.good/network_averages.txt'
@@ -194,7 +194,7 @@ def draw_page(plot_surface, bluetooth_plot_surface, current_page, screen, width,
     if current_page == "Main":
         # Draw the plot on the Default page
         screen.blit(plot_surface, (50, 70))  # Positioning the plot near the top
-        screen.blit(bluetooth_plot_surface, (50, 200))
+        #screen.blit(bluetooth_plot_surface, (50, 200))
         draw_buttons(screen, font)
         draw_dropdown(dropdown_font, dropdown_options, screen, dropdown_rect, dropdown_open, selected_network)
     elif current_page == "Bluetooth Training":
