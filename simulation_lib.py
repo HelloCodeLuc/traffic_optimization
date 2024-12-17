@@ -2,11 +2,12 @@ import subprocess
 import traci
 import os
 import re
+import csv
 
 
 
 
-def run_sumo(config_file, gui_opt, max_steps, result_queue):
+def run_sumo(config_file, gui_opt, max_steps, result_queue, average_speed_n_steps, out_dir):
     current_directory = os.getcwd()
     #print(f"current_directory : {current_directory}")
     # Launch SUMO with GUI using the generated configuration file
@@ -19,10 +20,25 @@ def run_sumo(config_file, gui_opt, max_steps, result_queue):
     traci.start(sumo_cmd)
     step = 0 
     simulation_step_size = 1
+    all_edges = traci.edge.getIDList()
+
+    # Initialize a dictionary to store arrays of average speeds for each edge
+    edge_speeds = {}
+
     while step < max_steps:
         traci.simulationStep()
         step += simulation_step_size
         #time.sleep(0.1) #TODO 
+        #
+        if step > (max_steps-average_speed_n_steps):
+            for edge_id in all_edges:
+                if not edge_id.startswith(":"):
+                    # Get the average speed for the edge at this simulation step
+                    avg_speed = traci.edge.getLastStepMeanSpeed(edge_id)             
+                    # Add the speed to the hash of arrays
+                if edge_id not in edge_speeds:
+                    edge_speeds[edge_id] = []  # Initialize the array for this edge
+                edge_speeds[edge_id].append(avg_speed)
 
         # Get the list of vehicles
         vehicles = traci.vehicle.getIDList()
@@ -35,6 +51,22 @@ def run_sumo(config_file, gui_opt, max_steps, result_queue):
                     idle_times[vehicle_id] = 0
                 else:
                     idle_times[vehicle_id] += simulation_step_size
+
+    # Write the collected average speed data to a CSV file
+    output_file = f"{out_dir}/GUI_average_speeds.csv"
+    with open(output_file, mode='w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow(["Edge ID", "Average Speed (m/s)"])  # Write header
+
+        for edge_id, speeds in edge_speeds.items():
+            # Exclude junctions (edges with IDs starting with ':')
+            if not edge_id.startswith(":"):
+                # Calculate the average speed for the edge and round to the nearest thousandth
+                if speeds:  # Check to avoid division by zero
+                    average_speed = round(sum(speeds) / len(speeds), 3)
+                else:
+                    average_speed = 0
+                writer.writerow([edge_id, average_speed])  # Write edge and its average speed
 
     # Calculate average idle time
     average_idle_time = sum(idle_times.values()) / len(idle_times)

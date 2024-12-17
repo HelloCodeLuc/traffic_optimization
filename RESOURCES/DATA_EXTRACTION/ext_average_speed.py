@@ -1,6 +1,7 @@
 import traci
 import sumolib
 from collections import deque
+import csv
 
 # Start SUMO with TraCI
 sumoBinary = sumolib.checkBinary('sumo-gui')  # or 'sumo' for command-line version
@@ -50,5 +51,24 @@ try:
     for edge_id, speeds in edge_speeds.items():
         print(f"{edge_id}: {speeds}")
 
+    # Write the collected data to a CSV file
+    output_file = "out/average_speeds.csv"
+    with open(output_file, mode='w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow(["Edge ID", "Average Speed (m/s)"])  # Write header
+
+        for edge_id, speeds in edge_speeds.items():
+            # Exclude junctions (edges with IDs starting with ':')
+            if not edge_id.startswith(":"):
+                # Calculate the average speed for the edge and round to the nearest thousandth
+                if speeds:  # Check to avoid division by zero
+                    average_speed = round(sum(speeds) / len(speeds), 3)
+                else:
+                    average_speed = 0
+                writer.writerow([edge_id, average_speed])  # Write edge and its average speed
+
+    print(f"Data successfully written to {output_file}")
+
 finally:
     traci.close()
+

@@ -1,6 +1,6 @@
 <configuration>
     <input>
-        <net-file value="simple_network.timing.net.xml.temp"/>
+        <net-file value="simple_network.timing.net.xml"/>
         <route-files value="random_trips_1355.xml"/>
     </input>
     <time>
