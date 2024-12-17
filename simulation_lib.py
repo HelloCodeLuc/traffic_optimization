@@ -6,7 +6,7 @@ import re
 
 
 
-def run_sumo(config_file, gui_opt, max_steps, result_queue):
+def run_sumo(config_file, gui_opt, max_steps, result_queue, average_speed_n_steps):
     current_directory = os.getcwd()
     #print(f"current_directory : {current_directory}")
     # Launch SUMO with GUI using the generated configuration file
@@ -19,10 +19,25 @@ def run_sumo(config_file, gui_opt, max_steps, result_queue):
     traci.start(sumo_cmd)
     step = 0 
     simulation_step_size = 1
+    all_edges = traci.edge.getIDList()
+
+    # Initialize a dictionary to store arrays of average speeds for each edge
+    edge_speeds = {}
+
     while step < max_steps:
         traci.simulationStep()
         step += simulation_step_size
         #time.sleep(0.1) #TODO 
+        #
+        if step > (max_steps-average_speed_n_steps):
+            for edge_id in all_edges:
+                if not edge_id.startswith(":"):
+                    # Get the average speed for the edge at this simulation step
+                    avg_speed = traci.edge.getLastStepMeanSpeed(edge_id)             
+                    # Add the speed to the hash of arrays
+                if edge_id not in edge_speeds:
+                    edge_speeds[edge_id] = []  # Initialize the array for this edge
+                edge_speeds[edge_id].append(avg_speed)
 
         # Get the list of vehicles
         vehicles = traci.vehicle.getIDList()
