@@ -240,13 +240,13 @@ def optimize_timing_main (output_folder, output_data_file, num_of_runs_on_networ
                 else:
                     random_seed = debug_seed
 
-                trip_file = os.path.join(f"{output_folder}\TRAIN_OPTIMIZATION", f"random_trips_{random_seed}.xml")  # Generate a unique trip file name for each run
+                trip_file = os.path.join(f"{output_folder}/TRAIN_OPTIMIZATION", f"random_trips_{random_seed}.xml")  # Generate a unique trip file name for each run
                 print (f"trip file = {trip_file}")
                 # Generate random trips
                 simulation_lib.generate_random_trips(f'{network_with_timing}.temp', trip_file, max_steps, random_seed)
 
                 # Generate SUMO configuration file and update the route-files value
-                config_file = os.path.join(f"{output_folder}\TRAIN_OPTIMIZATION", f"sumo_config_{random_seed}.sumocfg")
+                config_file = os.path.join(f"{output_folder}/TRAIN_OPTIMIZATION", f"sumo_config_{random_seed}.sumocfg")
                 print (f"config file = {config_file}")
                 simulation_lib.generate_sumo_config(f'{network_with_timing}.temp', config_file, current_directory, route_files=trip_file)
 
@@ -264,7 +264,7 @@ def optimize_timing_main (output_folder, output_data_file, num_of_runs_on_networ
 
             # Launch each simulation in a separate process
             for config in config_files:
-                process = Process(target=simulation_lib.run_sumo, args=(config, args.gui, int(max_steps), result_queue, average_speed_n_steps))
+                process = Process(target=simulation_lib.run_sumo, args=(config, args.gui, int(max_steps), result_queue, average_speed_n_steps, f"{output_folder}/TRAIN_OPTIMIZATION"))
                 processes.append(process)
                 process.start()
 

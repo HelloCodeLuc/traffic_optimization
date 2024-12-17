@@ -2,6 +2,8 @@ import os
 import re
 import numpy as np
 from datetime import datetime
+import xml.etree.ElementTree as ET
+import csv
 
 def get_current_datetime():
     # Get the current date and time
@@ -86,3 +88,25 @@ def my_plot(output_data_file):
     # Reduce the number of y-axis labels using np.linspace
     plt.yticks(np.linspace(80, 120, 5))
     plt.show()
+
+def extract_network_junctions(network_file, output_csv_file):
+    tree = ET.parse(network_file)
+    root = tree.getroot()
+
+    # Open CSV file for writing
+    with open(output_csv_file, mode='w', newline='') as csvfile:
+        csv_writer = csv.writer(csvfile)
+        # Write the header row
+        csv_writer.writerow(['Junction ID', 'X Coordinate', 'Y Coordinate'])
+
+        # Iterate over all 'junction' elements in the XML
+        for junction in root.findall('junction'):
+            junction_id = junction.get('id')
+            x_coord = junction.get('x')
+            y_coord = junction.get('y')
+
+            # Write to CSV if x and y exist
+            if x_coord and y_coord:
+                csv_writer.writerow([junction_id, x_coord, y_coord])
+    
+    print(f"Coordinates extracted and saved to {output_csv_file}")
