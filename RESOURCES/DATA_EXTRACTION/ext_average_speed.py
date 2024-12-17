@@ -71,3 +71,4 @@ try:
 
 finally:
     traci.close()
+
