@@ -195,6 +195,14 @@ def calculate_overall_average_for_given_network(output_data_file, network_averag
 
     return status
 
+def read_commands(file_path):
+    """Reads the command from the specified file."""
+    try:
+        with open(file_path, "r") as file:
+            return file.read().strip()
+    except FileNotFoundError:
+        return None
+
 def optimize_timing_main (output_folder, output_data_file, num_of_runs_on_network, num_batches, num_runs_per_batch, network_selection, max_steps, 
              network_with_timing, light_names, timing_light_increment, network_averages, num_of_greenlight_duplicate_limit, average_speed_n_steps, debug):
     

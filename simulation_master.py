@@ -40,6 +40,7 @@ max_steps = 2000
 num_of_runs_on_network = 1000
 num_of_greenlight_duplicate_limit = 40
 average_speed_n_steps = 20
+trigger_command = "RUN"
 # Example usage:
 date = f"{basic_utilities.get_current_datetime()}"
 output_folder = f"out/{date}"
@@ -59,7 +60,10 @@ def main_loop(num_batches, num_runs_per_batch, network_selection, max_steps, out
         debug_seed = 3920
         max_steps = 10000
 
-    optimize_timing_lib.optimize_timing_main (output_folder, output_data_file, num_of_runs_on_network, num_batches, num_runs_per_batch, network_selection, 
+    while True:
+        command = optimize_timing_lib.read_commands(f"{output_folder}/command_queue.txt")
+        if command == trigger_command:
+            optimize_timing_lib.optimize_timing_main (output_folder, output_data_file, num_of_runs_on_network, num_batches, num_runs_per_batch, network_selection, 
                                             max_steps, network_with_timing, light_names, timing_light_increment, network_averages, 
                                             num_of_greenlight_duplicate_limit, average_speed_n_steps, debug)
 
@@ -79,9 +83,9 @@ if __name__ == "__main__":
     # Create a list to store the processes and results
     processes = []
 
-    process = Process(target=main_loop, args=(num_batches, num_runs_per_batch, network_selection, max_steps, output_folder))
-    processes.append(process)
     process = Process(target=gui_main.gui_main, args=(output_folder,))
+    processes.append(process)
+    process = Process(target=main_loop, args=(num_batches, num_runs_per_batch, network_selection, max_steps, output_folder))
     processes.append(process)
     for process in processes:
         process.start()
