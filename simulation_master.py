@@ -14,7 +14,7 @@ from multiprocessing import Process, Queue
 
 #TODO put an average line on graph
 
-network_sel = 3
+network_sel = 5
 network_selection = ""
 light_names = []
 if (network_sel == 0):
@@ -31,6 +31,9 @@ elif (network_sel == 3):
     light_names = ["mcnaughton_keele","barhill_rutherford","ivy_dufferin","keele_barhill","keele_rutherford","mackenzie_dufferin","mackenzie_peter","maurier_dufferin","peter_rutherford","rutherford_dufferin"]
 elif (network_sel == 4):
     network_selection = "NETWORKS/weight_test.net.xml"
+    light_names = ["main"]
+elif (network_sel == 5):
+    network_selection = "NETWORKS/simple_network.net.xml"
     light_names = ["main"]
 
 timing_light_increment = 2
