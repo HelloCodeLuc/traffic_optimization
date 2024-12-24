@@ -39,7 +39,7 @@ elif (network_sel == 5):
 timing_light_increment = 2
 num_batches = 1
 num_runs_per_batch = 2
-max_steps = 2000
+max_steps = 200
 num_of_runs_on_network = 1000
 num_of_greenlight_duplicate_limit = 40
 average_speed_n_steps = 20

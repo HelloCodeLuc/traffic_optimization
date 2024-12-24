@@ -199,7 +199,9 @@ def read_commands(file_path):
     """Reads the command from the specified file."""
     try:
         with open(file_path, "r") as file:
-            return file.read().strip()
+            command = file.read().strip()  # Read and strip the content
+        os.remove(file_path)  # Delete the file
+        return command
     except FileNotFoundError:
         return None
 
