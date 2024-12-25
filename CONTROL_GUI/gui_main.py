@@ -70,7 +70,7 @@ def draw_tabs(tabs, current_page, screen, tab_font, width):
 
 # Function to draw buttons with shadow and hover effect
 #def draw_buttons(buttons, button_pressed, button_hovered, screen, font, dropdown_font, SHADOW, GRAY, BLACK, WHITE, DARK_GRAY):
-def draw_buttons(screen, font):
+def draw_buttons(screen, font, simulation_state):
     for label, rect in buttons.items():
         if button_pressed[label]:
             # If button is pressed, draw as if it is pushed down
@@ -86,7 +86,13 @@ def draw_buttons(screen, font):
             pygame.draw.rect(screen, WHITE, rect, 3)  # White outline
         
         # Render the text label
-        text = font.render(label, True, BLACK)
+        if label == "RUN":
+            if simulation_state == "RUN":
+                text = font.render("STOP", True, BLACK)
+            else:
+                text = font.render("RUN", True, BLACK)
+        else:
+            text = font.render(label, True, BLACK)
         text_rect = text.get_rect(center=rect.center)
         screen.blit(text, text_rect)
 
@@ -190,12 +196,12 @@ def file_modified(file_path, last_modified):
     return os.path.getmtime(file_path) > last_modified
 
 # Main page drawing function
-def draw_page(plot_surface, bluetooth_plot_surface, current_page, screen, width, height, font, dropdown_font, dropdown_options, dropdown_rect, dropdown_open, selected_network):
+def draw_page(plot_surface, bluetooth_plot_surface, current_page, screen, width, height, font, dropdown_font, dropdown_options, dropdown_rect, dropdown_open, selected_network, simulation_state):
     if current_page == "Main":
         # Draw the plot on the Default page
         screen.blit(plot_surface, (50, 70))  # Positioning the plot near the top
         #screen.blit(bluetooth_plot_surface, (50, 200))
-        draw_buttons(screen, font)
+        draw_buttons(screen, font, simulation_state)
         draw_dropdown(dropdown_font, dropdown_options, screen, dropdown_rect, dropdown_open, selected_network)
     elif current_page == "Bluetooth Training":
         # Placeholder for Bluetooth Training page content
@@ -247,6 +253,7 @@ def gui_main(output_folder):
     running = True
     dropdown_options.extend(load_network_files(network_dir))  # Load network files into dropdown
 
+    simulation_state = "STOP"
     # Initialize last modified time for the file
     file_path = 'RESOURCES/REFERENCE_DATA/output.good/network_averages.txt'
     last_modified = os.path.getmtime(file_path)
@@ -286,8 +293,15 @@ def gui_main(output_folder):
             if event.type == pygame.MOUSEBUTTONDOWN:
                 for label, rect in buttons.items():
                     if rect.collidepoint(event.pos):
+                        queue_message = label
+                        if label == "RUN":
+                            if simulation_state == "RUN":
+                                simulation_state = "STOP"
+                            else:
+                                simulation_state = "RUN"
+                            queue_message = simulation_state
                         button_pressed[label] = True  # Set button to pressed state
-                        append_to_queue(output_folder, label)  # Append to the queue file
+                        append_to_queue(output_folder, queue_message)  # Append to the queue file
                 
                 # Handle dropdown click
                 if dropdown_rect.collidepoint(event.pos):
@@ -322,7 +336,7 @@ def gui_main(output_folder):
 
         # Draw UI components
         draw_tabs(tabs, current_page, screen, tab_font, width )
-        draw_page(plot_surface, bluetooth_plot_surface, current_page, screen, width, height, font, dropdown_font, dropdown_options, dropdown_rect, dropdown_open, selected_network)
+        draw_page(plot_surface, bluetooth_plot_surface, current_page, screen, width, height, font, dropdown_font, dropdown_options, dropdown_rect, dropdown_open, selected_network, simulation_state)
 
         pygame.display.flip()
 
