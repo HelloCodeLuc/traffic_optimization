@@ -98,7 +98,7 @@ def draw_buttons(screen, font, simulation_state):
 
 # Function to append to command_queue.txt
 def append_to_queue(output_folder, command):
-    with open(f"{output_folder}/command_queue.txt", "a") as file:
+    with open(f"{output_folder}/command_queue.txt", "w") as file:
         file.write(command + "\n")
 
 # Updated function to load network files with .net.xml extension
