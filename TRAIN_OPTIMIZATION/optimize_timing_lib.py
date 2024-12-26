@@ -302,10 +302,32 @@ def optimize_timing_main (output_folder, output_data_file, num_of_runs_on_networ
             if (debug == 1):
                 sys.exit()
 
-
         is_more_efficient = calculate_overall_average_for_given_network(output_data_file, network_averages, greenlight_timings)
         if(is_more_efficient == "keep"):
             shutil.copy2(f'{network_with_timing}.temp', network_with_timing)
-        
+                
         os.remove(output_data_file)
+
+        if check_queue_has_command("STOP", f"{output_folder}/command_queue.txt", 1): 
+            print(">> Execution interrupted")
+            break
         #simulation_lib.hit_space_to_continue()
+
+def check_queue_has_command (command, queue_file, delete_control):
+    if os.path.exists(queue_file):
+        found = 0
+        with open(queue_file, "r") as f:
+            for line in f:
+                line = line.strip()
+                if line == "STOP":
+                    found = 1
+        f.close()
+        if found == 1:
+            if (delete_control == 1):
+                print(f">> Removing {queue_file}")
+                os.remove(queue_file) 
+            return True
+        else:
+            return False
+    else:
+        return False

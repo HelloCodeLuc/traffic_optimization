@@ -195,6 +195,34 @@ def has_file_updated(file_path, last_mod_time):
 def file_modified(file_path, last_modified):
     return os.path.getmtime(file_path) > last_modified
 
+def find_latest_directory(base_folder):
+    """
+    Find the latest directory under the specified base folder.
+
+    Parameters:
+        base_folder (str): The path to the base folder.
+
+    Returns:
+        str: The path to the latest directory, or None if no directories are found.
+    """
+    if not os.path.exists(base_folder):
+        print(f"The folder '{base_folder}' does not exist.")
+        return None
+
+    # List all directories in the base folder
+    directories = [
+        os.path.join(base_folder, d) for d in os.listdir(base_folder)
+        if os.path.isdir(os.path.join(base_folder, d))
+    ]
+
+    if not directories:
+        print(f"No directories found in '{base_folder}'.")
+        return None
+
+    # Find the latest directory by modification time
+    latest_directory = max(directories, key=os.path.getmtime)
+    return latest_directory
+
 # Main page drawing function
 def draw_page(plot_surface, bluetooth_plot_surface, current_page, screen, width, height, font, dropdown_font, dropdown_options, dropdown_rect, dropdown_open, selected_network, simulation_state):
     if current_page == "Main":
@@ -212,7 +240,7 @@ def draw_page(plot_surface, bluetooth_plot_surface, current_page, screen, width,
         text = font.render("Sim Optimization Page", True, BLACK)
         screen.blit(text, (width // 2 - text.get_width() // 2, height // 2))
 
-def gui_main(output_folder):
+def gui_main():
 
     # Initialize Pygame
     pygame.init()
@@ -266,6 +294,7 @@ def gui_main(output_folder):
     pygame.time.set_timer(FILE_MODIFIED_EVENT, 100)  # Check every 100ms
 
     while running:
+        latest_output_dir = find_latest_directory("out")
         screen.fill(WHITE)
 
         # Load the plot as an image surface
@@ -301,7 +330,7 @@ def gui_main(output_folder):
                                 simulation_state = "RUN"
                             queue_message = simulation_state
                         button_pressed[label] = True  # Set button to pressed state
-                        append_to_queue(output_folder, queue_message)  # Append to the queue file
+                        append_to_queue(latest_output_dir, queue_message)  # Append to the queue file
                 
                 # Handle dropdown click
                 if dropdown_rect.collidepoint(event.pos):
