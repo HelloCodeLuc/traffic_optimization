@@ -129,7 +129,11 @@ def network_timings(network_template, target_net_file, light_names, timing_light
                     if num_of_greenlight_duplicates == num_of_greenlight_duplicate_limit:
                         f.write(f"Max number of duplicates of {num_of_greenlight_duplicate_limit} reached, exiting script.\n")
                         print(f"Max number of duplicates of {num_of_greenlight_duplicate_limit} reached, exiting script.\n")
-                        sys.exit(0)
+
+                        with open("out/command_queue.txt", "w") as f:
+                            f.write("MAX")
+                        break
+                        #sys.exit(0)
                 f.close()
                         
     else:
@@ -206,8 +210,10 @@ def read_commands(file_path):
         return None
 
 def optimize_timing_main (output_folder, output_data_file, num_of_runs_on_network, num_batches, num_runs_per_batch, network_selection, max_steps, 
-             network_with_timing, light_names, timing_light_increment, network_averages, num_of_greenlight_duplicate_limit, average_speed_n_steps, debug):
+             network_with_timing, light_names, timing_light_increment, network_averages, num_of_greenlight_duplicate_limit, average_speed_n_steps):
     
+    debug = 0
+
     parser = argparse.ArgumentParser(description="Run SUMO simulation in batch or GUI mode.")
     parser.add_argument("--gui", action="store_true", help="Run with GUI")
  
@@ -308,8 +314,11 @@ def optimize_timing_main (output_folder, output_data_file, num_of_runs_on_networ
                 
         os.remove(output_data_file)
 
-        if check_queue_has_command("STOP", f"{output_folder}/command_queue.txt", 1): 
+        if check_queue_has_command("STOP", "out/command_queue.txt", 1): 
             print(">> Execution interrupted")
+            break
+        if check_queue_has_command("MAX", "out/command_queue.txt", 1): 
+            print(">> Max duplicate timings reached")
             break
         #simulation_lib.hit_space_to_continue()
 
@@ -319,7 +328,7 @@ def check_queue_has_command (command, queue_file, delete_control):
         with open(queue_file, "r") as f:
             for line in f:
                 line = line.strip()
-                if line == "STOP":
+                if line == command:
                     found = 1
         f.close()
         if found == 1:

@@ -97,8 +97,8 @@ def draw_buttons(screen, font, simulation_state):
         screen.blit(text, text_rect)
 
 # Function to append to command_queue.txt
-def append_to_queue(output_folder, command):
-    with open(f"{output_folder}/command_queue.txt", "w") as file:
+def append_to_queue(command):
+    with open("out/command_queue.txt", "w") as file:
         file.write(command + "\n")
 
 # Updated function to load network files with .net.xml extension
@@ -216,7 +216,7 @@ def find_latest_directory(base_folder):
     ]
 
     if not directories:
-        print(f"No directories found in '{base_folder}'.")
+        #print(f"No directories found in '{base_folder}'.")
         return None
 
     # Find the latest directory by modification time
@@ -330,7 +330,7 @@ def gui_main():
                                 simulation_state = "RUN"
                             queue_message = simulation_state
                         button_pressed[label] = True  # Set button to pressed state
-                        append_to_queue(latest_output_dir, queue_message)  # Append to the queue file
+                        append_to_queue(queue_message)  # Append to the queue file
                 
                 # Handle dropdown click
                 if dropdown_rect.collidepoint(event.pos):

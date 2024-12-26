@@ -46,52 +46,51 @@ start_command = "RUN"
 stop_command = "STOP"
 simulation_state = "RUN"
 # Example usage:
-date = f"{basic_utilities.get_current_datetime()}"
-output_folder = f"out/{date}"
 
-def main_loop(num_batches, num_runs_per_batch, network_selection, max_steps, output_folder):
 
-    output_data_file = os.path.join(output_folder, "TRAIN_OPTIMIZATION/output_data.txt")
-    network_averages = os.path.join(output_folder, "TRAIN_OPTIMIZATION/network_averages.txt")
-    parsed_string = network_selection.split("/")[-1]
-    parsed_string_without_extension = parsed_string.replace(".net.xml", "")
-    network_with_timing = os.path.join(output_folder, f"TRAIN_OPTIMIZATION/{parsed_string_without_extension}.timing.net.xml")
-
-    debug = 0
-    if (debug == 1):
-        num_batches = 1
-        num_runs_per_batch = 1
-        debug_seed = 3920
-        max_steps = 10000
+def main_loop(num_batches, num_runs_per_batch, network_selection, max_steps):
 
     while True:
-        command = optimize_timing_lib.read_commands(f"{output_folder}/command_queue.txt")
+        command = optimize_timing_lib.read_commands("out/command_queue.txt")
         if command == start_command:
+            date = f"{basic_utilities.get_current_datetime()}"
+            output_folder = f"out/{date}"
+
+            if not os.path.exists(output_folder):
+                os.makedirs(output_folder)
+                os.makedirs(f"{output_folder}/TRAIN_OPTIMIZATION")
+                os.makedirs(f"{output_folder}/TRAIN_BLUETOOTH")
+
+            # Input and output file paths
+            output_csv_file = f'{output_folder}/GUI_junction_coordinates.csv'
+            # Run the function
+            basic_utilities.extract_network_junctions(network_selection, output_csv_file)
+
+            output_data_file = os.path.join(output_folder, "TRAIN_OPTIMIZATION/output_data.txt")
+            network_averages = os.path.join(output_folder, "TRAIN_OPTIMIZATION/network_averages.txt")
+            parsed_string = network_selection.split("/")[-1]
+            parsed_string_without_extension = parsed_string.replace(".net.xml", "")
+            network_with_timing = os.path.join(output_folder, f"TRAIN_OPTIMIZATION/{parsed_string_without_extension}.timing.net.xml")
+
             optimize_timing_lib.optimize_timing_main (output_folder, output_data_file, num_of_runs_on_network, num_batches, num_runs_per_batch, network_selection, 
                                             max_steps, network_with_timing, light_names, timing_light_increment, network_averages, 
-                                            num_of_greenlight_duplicate_limit, average_speed_n_steps, debug)
+                                            num_of_greenlight_duplicate_limit, average_speed_n_steps)
         command = "STOP"
         #print(">> Back to main")
         #time.sleep(5)
 
 
 if __name__ == "__main__":
-    if not os.path.exists(output_folder):
-        os.makedirs(output_folder)
-        os.makedirs(f"{output_folder}/TRAIN_OPTIMIZATION")
-        os.makedirs(f"{output_folder}/TRAIN_BLUETOOTH")
 
-    # Input and output file paths
-    output_csv_file = f'{output_folder}/GUI_junction_coordinates.csv'
-    # Run the function
-    basic_utilities.extract_network_junctions(network_selection, output_csv_file)
+    if not os.path.exists("out"):
+        os.makedirs("out")
 
     # Create a list to store the processes and results
     processes = []
 
     process = Process(target=gui_main.gui_main, args=())
     processes.append(process)
-    process = Process(target=main_loop, args=(num_batches, num_runs_per_batch, network_selection, max_steps, output_folder))
+    process = Process(target=main_loop, args=(num_batches, num_runs_per_batch, network_selection, max_steps))
     processes.append(process)
     for process in processes:
         process.start()
