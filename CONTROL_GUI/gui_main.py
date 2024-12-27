@@ -277,16 +277,10 @@ def gui_main():
     current_dir = os.getcwd()
     network_dir = os.path.join(current_dir, "NETWORKS")
 
-    # Path to the output file
-    output_file = '../REFERENCE_DATA/output.good/network_averages.txt'
-
     running = True
     dropdown_options.extend(load_network_files(network_dir))  # Load network files into dropdown
 
     simulation_state = "STOP"
-    # Initialize last modified time for the file
-    file_path = 'RESOURCES/REFERENCE_DATA/output.good/network_averages.txt'
-    last_modified = os.path.getmtime(file_path)
 
     # Load the bluetooth plot as an image surface
     bluetooth_plot_surface = Bluetooth_map.bluetooth_extract_nodes_edges_create_plot()
@@ -296,7 +290,29 @@ def gui_main():
     pygame.time.set_timer(FILE_MODIFIED_EVENT, 100)  # Check every 100ms
 
     while running:
+        if not os.path.exists("out"):
+            os.makedirs("out")
+            # Define the path to the 'dummy' directory
+            path = os.path.join('out', 'dummy')
+            # Create the directory
+            os.makedirs(path, exist_ok=True)  
+            # Define the path to the 'dummy' directory
+            path = os.path.join('out', 'dummy', 'TRAIN_OPTIMIZATION')
+            # Create the directory
+            os.makedirs(path, exist_ok=True)  
+            
         latest_output_dir = find_latest_directory("out")
+
+        # Path to the output file
+        output_file = f'..\\{latest_output_dir}\\TRAIN_OPTIMIZATION\\network_averages.txt'
+        # Initialize last modified time for the file
+        file_path = f'{latest_output_dir}\\TRAIN_OPTIMIZATION\\network_averages.txt'
+
+        if not os.path.exists(file_path):
+            open(file_path, 'a').close()
+
+        last_modified = os.path.getmtime(file_path)
+
         screen.fill(WHITE)
 
         # Load the plot as an image surface

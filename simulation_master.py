@@ -82,8 +82,8 @@ def main_loop(num_batches, num_runs_per_batch, network_selection, max_steps):
 
 if __name__ == "__main__":
 
-    if not os.path.exists("out"):
-        os.makedirs("out")
+    #if not os.path.exists("out"):
+    #    os.makedirs("out")
 
     # Create a list to store the processes and results
     processes = []
