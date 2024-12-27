@@ -262,3 +262,21 @@ def run_sumo(config_file, gui_opt, max_steps, result_queue, average_speed_n_step
     os.chdir(current_directory)
     result_queue.put(average_idle_time)
 
+def check_queue_has_command (command, queue_file, delete_control):
+    if os.path.exists(queue_file):
+        found = 0
+        with open(queue_file, "r") as f:
+            for line in f:
+                line = line.strip()
+                if line == command:
+                    found = 1
+        f.close()
+        if found == 1:
+            if (delete_control == 1):
+                print(f">> Removing {queue_file}")
+                os.remove(queue_file) 
+            return True
+        else:
+            return False
+    else:
+        return False

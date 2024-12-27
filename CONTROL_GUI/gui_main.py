@@ -8,6 +8,8 @@ from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from time import sleep
 import ctypes
 import Bluetooth_map
+sys.path.append(os.path.join(os.path.dirname(__file__), 'TRAIN_COMMON_LIB'))
+import basic_utilities
 
 # Define colors
 WHITE = (255, 255, 255)
@@ -363,6 +365,8 @@ def gui_main():
             else:
                 button_hovered[label] = False
 
+        #if basic_utilities.check_queue_has_command("MAX", "out/command_queue.txt", 0): 
+        #    simulation_state = "STOP"
         # Draw UI components
         draw_tabs(tabs, current_page, screen, tab_font, width )
         draw_page(plot_surface, bluetooth_plot_surface, current_page, screen, width, height, font, dropdown_font, dropdown_options, dropdown_rect, dropdown_open, selected_network, simulation_state)

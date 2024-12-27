@@ -131,7 +131,7 @@ def network_timings(network_template, target_net_file, light_names, timing_light
                         print(f"Max number of duplicates of {num_of_greenlight_duplicate_limit} reached, exiting script.\n")
 
                         with open("out/command_queue.txt", "w") as f:
-                            f.write("MAX")
+                            f.write("STOP")
                         break
                         #sys.exit(0)
                 f.close()
@@ -314,29 +314,10 @@ def optimize_timing_main (output_folder, output_data_file, num_of_runs_on_networ
                 
         os.remove(output_data_file)
 
-        if check_queue_has_command("STOP", "out/command_queue.txt", 1): 
+        if basic_utilities.check_queue_has_command("STOP", "out/command_queue.txt", 1): 
             print(">> Execution interrupted")
             break
-        if check_queue_has_command("MAX", "out/command_queue.txt", 1): 
-            print(">> Max duplicate timings reached")
-            break
+        # if basic_utilities.check_queue_has_command("MAX", "out/command_queue.txt", 0): 
+        #     print(">> Max duplicate timings reached")
+        #     break
         #simulation_lib.hit_space_to_continue()
-
-def check_queue_has_command (command, queue_file, delete_control):
-    if os.path.exists(queue_file):
-        found = 0
-        with open(queue_file, "r") as f:
-            for line in f:
-                line = line.strip()
-                if line == command:
-                    found = 1
-        f.close()
-        if found == 1:
-            if (delete_control == 1):
-                print(f">> Removing {queue_file}")
-                os.remove(queue_file) 
-            return True
-        else:
-            return False
-    else:
-        return False
