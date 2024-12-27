@@ -44,7 +44,7 @@ num_of_greenlight_duplicate_limit = 40
 average_speed_n_steps = 20
 start_command = "RUN"
 stop_command = "STOP"
-simulation_state = "RUN"
+#simulation_state = "RUN"
 # Example usage:
 
 
@@ -75,7 +75,7 @@ def main_loop(num_batches, num_runs_per_batch, network_selection, max_steps):
             optimize_timing_lib.optimize_timing_main (output_folder, output_data_file, num_of_runs_on_network, num_batches, num_runs_per_batch, network_selection, 
                                             max_steps, network_with_timing, light_names, timing_light_increment, network_averages, 
                                             num_of_greenlight_duplicate_limit, average_speed_n_steps)
-        command = "STOP"
+            command = "STOP"
         #print(">> Back to main")
         #time.sleep(5)
 
