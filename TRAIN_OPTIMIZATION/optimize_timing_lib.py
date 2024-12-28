@@ -1,4 +1,3 @@
-import simulation_lib as simulation_lib
 import sys
 import os
 import shutil
@@ -32,7 +31,7 @@ def network_timings(network_template, target_net_file, light_names, timing_light
             print (f"Light:{light_names[random_light]} : Action:{random_action}")
             comment_pattern = f"{light_names[random_light]}"
             # Extract the next 6 lines after the comment
-            lines_after_comment = simulation_lib.extract_lines_after_comment(target_net_file, comment_pattern)
+            lines_after_comment = basic_utilities.extract_lines_after_comment(target_net_file, comment_pattern)
             print("before:")
             for line in lines_after_comment:
                 print(line)
@@ -90,7 +89,7 @@ def network_timings(network_template, target_net_file, light_names, timing_light
             for line in modified_lines:
                 print(line)
 
-            simulation_lib.create_target_net_xml_temp(comment_pattern, target_net_file, modified_lines)
+            basic_utilities.create_target_net_xml_temp(comment_pattern, target_net_file, modified_lines)
 
             # review the 'state="GG' lines, if not already in hash prev green light setups, continue, else loop back to redo to create timings again.  Maybe also make this green light set a return value and prefix it into each line of network_averages.txt file.
             # maybe when we loop back. put a note in the network_averages.txt that we hit a previous run case.
@@ -129,7 +128,12 @@ def network_timings(network_template, target_net_file, light_names, timing_light
                     num_of_greenlight_duplicates += 1
                     if num_of_greenlight_duplicates == num_of_greenlight_duplicate_limit:
                         f.write(f"Max number of duplicates of {num_of_greenlight_duplicate_limit} reached, exiting script.\n")
-                        sys.exit(0)
+                        print(f"Max number of duplicates of {num_of_greenlight_duplicate_limit} reached, exiting script.\n")
+
+                        with open("out/command_queue.txt", "w") as f:
+                            f.write("STOP")
+                        break
+                        #sys.exit(0)
                 f.close()
                         
     else:
@@ -195,9 +199,21 @@ def calculate_overall_average_for_given_network(output_data_file, network_averag
 
     return status
 
+def read_commands(file_path):
+    """Reads the command from the specified file."""
+    try:
+        with open(file_path, "r") as file:
+            command = file.read().strip()  # Read and strip the content
+        os.remove(file_path)  # Delete the file
+        return command
+    except FileNotFoundError:
+        return None
+
 def optimize_timing_main (output_folder, output_data_file, num_of_runs_on_network, num_batches, num_runs_per_batch, network_selection, max_steps, 
-             network_with_timing, light_names, timing_light_increment, network_averages, num_of_greenlight_duplicate_limit, average_speed_n_steps, debug):
+             network_with_timing, light_names, timing_light_increment, network_averages, num_of_greenlight_duplicate_limit, average_speed_n_steps):
     
+    debug = 0
+
     parser = argparse.ArgumentParser(description="Run SUMO simulation in batch or GUI mode.")
     parser.add_argument("--gui", action="store_true", help="Run with GUI")
  
@@ -243,12 +259,12 @@ def optimize_timing_main (output_folder, output_data_file, num_of_runs_on_networ
                 trip_file = os.path.join(f"{output_folder}/TRAIN_OPTIMIZATION", f"random_trips_{random_seed}.xml")  # Generate a unique trip file name for each run
                 print (f"trip file = {trip_file}")
                 # Generate random trips
-                simulation_lib.generate_random_trips(f'{network_with_timing}.temp', trip_file, max_steps, random_seed)
+                basic_utilities.generate_random_trips(f'{network_with_timing}.temp', trip_file, max_steps, random_seed)
 
                 # Generate SUMO configuration file and update the route-files value
                 config_file = os.path.join(f"{output_folder}/TRAIN_OPTIMIZATION", f"sumo_config_{random_seed}.sumocfg")
                 print (f"config file = {config_file}")
-                simulation_lib.generate_sumo_config(f'{network_with_timing}.temp', config_file, current_directory, route_files=trip_file)
+                basic_utilities.generate_sumo_config(f'{network_with_timing}.temp', config_file, current_directory, route_files=trip_file)
 
                 random_seeds.append(random_seed)
                 trip_files.append(trip_file)
@@ -258,13 +274,13 @@ def optimize_timing_main (output_folder, output_data_file, num_of_runs_on_networ
             result_queue = Queue()
 
             # Run the SUMO simulation using the generated configuration file
-            # average_idle_time = simulation_lib.run_sumo(config_file, args.gui, int(max_steps))
+            # average_idle_time = basic_utilities.run_sumo(config_file, args.gui, int(max_steps))
             processes = []
             average_idle_times_from_batch = []
 
             # Launch each simulation in a separate process
             for config in config_files:
-                process = Process(target=simulation_lib.run_sumo, args=(config, args.gui, int(max_steps), result_queue, average_speed_n_steps, f"{output_folder}/TRAIN_OPTIMIZATION"))
+                process = Process(target=basic_utilities.run_sumo, args=(config, args.gui, int(max_steps), result_queue, average_speed_n_steps, f"{output_folder}/TRAIN_OPTIMIZATION"))
                 processes.append(process)
                 process.start()
 
@@ -292,10 +308,16 @@ def optimize_timing_main (output_folder, output_data_file, num_of_runs_on_networ
             if (debug == 1):
                 sys.exit()
 
-
         is_more_efficient = calculate_overall_average_for_given_network(output_data_file, network_averages, greenlight_timings)
         if(is_more_efficient == "keep"):
             shutil.copy2(f'{network_with_timing}.temp', network_with_timing)
-        
+                
         os.remove(output_data_file)
+
+        if basic_utilities.check_queue_has_command("STOP", "out/command_queue.txt", 1): 
+            print(">> Execution interrupted")
+            break
+        # if basic_utilities.check_queue_has_command("MAX", "out/command_queue.txt", 0): 
+        #     print(">> Max duplicate timings reached")
+        #     break
         #simulation_lib.hit_space_to_continue()

@@ -8,6 +8,8 @@ from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from time import sleep
 import ctypes
 import Bluetooth_map
+sys.path.append(os.path.join(os.path.dirname(__file__), 'TRAIN_COMMON_LIB'))
+import basic_utilities
 
 # Define colors
 WHITE = (255, 255, 255)
@@ -70,7 +72,7 @@ def draw_tabs(tabs, current_page, screen, tab_font, width):
 
 # Function to draw buttons with shadow and hover effect
 #def draw_buttons(buttons, button_pressed, button_hovered, screen, font, dropdown_font, SHADOW, GRAY, BLACK, WHITE, DARK_GRAY):
-def draw_buttons(screen, font):
+def draw_buttons(screen, font, simulation_state):
     for label, rect in buttons.items():
         if button_pressed[label]:
             # If button is pressed, draw as if it is pushed down
@@ -86,13 +88,19 @@ def draw_buttons(screen, font):
             pygame.draw.rect(screen, WHITE, rect, 3)  # White outline
         
         # Render the text label
-        text = font.render(label, True, BLACK)
+        if label == "RUN":
+            if simulation_state == "RUN":
+                text = font.render("STOP", True, BLACK)
+            else:
+                text = font.render("RUN", True, BLACK)
+        else:
+            text = font.render(label, True, BLACK)
         text_rect = text.get_rect(center=rect.center)
         screen.blit(text, text_rect)
 
 # Function to append to command_queue.txt
-def append_to_queue(output_folder, command):
-    with open(f"{output_folder}/command_queue.txt", "a") as file:
+def append_to_queue(command):
+    with open("out/command_queue.txt", "w") as file:
         file.write(command + "\n")
 
 # Updated function to load network files with .net.xml extension
@@ -189,13 +197,41 @@ def has_file_updated(file_path, last_mod_time):
 def file_modified(file_path, last_modified):
     return os.path.getmtime(file_path) > last_modified
 
+def find_latest_directory(base_folder):
+    """
+    Find the latest directory under the specified base folder.
+
+    Parameters:
+        base_folder (str): The path to the base folder.
+
+    Returns:
+        str: The path to the latest directory, or None if no directories are found.
+    """
+    if not os.path.exists(base_folder):
+        print(f"The folder '{base_folder}' does not exist.")
+        return None
+
+    # List all directories in the base folder
+    directories = [
+        os.path.join(base_folder, d) for d in os.listdir(base_folder)
+        if os.path.isdir(os.path.join(base_folder, d))
+    ]
+
+    if not directories:
+        #print(f"No directories found in '{base_folder}'.")
+        return None
+
+    # Find the latest directory by modification time
+    latest_directory = max(directories, key=os.path.getmtime)
+    return latest_directory
+
 # Main page drawing function
-def draw_page(plot_surface, bluetooth_plot_surface, current_page, screen, width, height, font, dropdown_font, dropdown_options, dropdown_rect, dropdown_open, selected_network):
+def draw_page(plot_surface, bluetooth_plot_surface, current_page, screen, width, height, font, dropdown_font, dropdown_options, dropdown_rect, dropdown_open, selected_network, simulation_state):
     if current_page == "Main":
         # Draw the plot on the Default page
         screen.blit(plot_surface, (50, 70))  # Positioning the plot near the top
         #screen.blit(bluetooth_plot_surface, (50, 200))
-        draw_buttons(screen, font)
+        draw_buttons(screen, font, simulation_state)
         draw_dropdown(dropdown_font, dropdown_options, screen, dropdown_rect, dropdown_open, selected_network)
     elif current_page == "Bluetooth Training":
         # Placeholder for Bluetooth Training page content
@@ -206,7 +242,7 @@ def draw_page(plot_surface, bluetooth_plot_surface, current_page, screen, width,
         text = font.render("Sim Optimization Page", True, BLACK)
         screen.blit(text, (width // 2 - text.get_width() // 2, height // 2))
 
-def gui_main(output_folder):
+def gui_main():
 
     # Initialize Pygame
     pygame.init()
@@ -241,15 +277,10 @@ def gui_main(output_folder):
     current_dir = os.getcwd()
     network_dir = os.path.join(current_dir, "NETWORKS")
 
-    # Path to the output file
-    output_file = '../REFERENCE_DATA/output.good/network_averages.txt'
-
     running = True
     dropdown_options.extend(load_network_files(network_dir))  # Load network files into dropdown
 
-    # Initialize last modified time for the file
-    file_path = 'RESOURCES/REFERENCE_DATA/output.good/network_averages.txt'
-    last_modified = os.path.getmtime(file_path)
+    simulation_state = "STOP"
 
     # Load the bluetooth plot as an image surface
     bluetooth_plot_surface = Bluetooth_map.bluetooth_extract_nodes_edges_create_plot()
@@ -259,6 +290,29 @@ def gui_main(output_folder):
     pygame.time.set_timer(FILE_MODIFIED_EVENT, 100)  # Check every 100ms
 
     while running:
+        if not os.path.exists("out"):
+            os.makedirs("out")
+            # Define the path to the 'dummy' directory
+            path = os.path.join('out', 'dummy')
+            # Create the directory
+            os.makedirs(path, exist_ok=True)  
+            # Define the path to the 'dummy' directory
+            path = os.path.join('out', 'dummy', 'TRAIN_OPTIMIZATION')
+            # Create the directory
+            os.makedirs(path, exist_ok=True)  
+            
+        latest_output_dir = find_latest_directory("out")
+
+        # Path to the output file
+        output_file = f'..\\{latest_output_dir}\\TRAIN_OPTIMIZATION\\network_averages.txt'
+        # Initialize last modified time for the file
+        file_path = f'{latest_output_dir}\\TRAIN_OPTIMIZATION\\network_averages.txt'
+
+        if not os.path.exists(file_path):
+            open(file_path, 'a').close()
+
+        last_modified = os.path.getmtime(file_path)
+
         screen.fill(WHITE)
 
         # Load the plot as an image surface
@@ -286,8 +340,15 @@ def gui_main(output_folder):
             if event.type == pygame.MOUSEBUTTONDOWN:
                 for label, rect in buttons.items():
                     if rect.collidepoint(event.pos):
+                        queue_message = label
+                        if label == "RUN":
+                            if simulation_state == "RUN":
+                                simulation_state = "STOP"
+                            else:
+                                simulation_state = "RUN"
+                            queue_message = simulation_state
                         button_pressed[label] = True  # Set button to pressed state
-                        append_to_queue(output_folder, label)  # Append to the queue file
+                        append_to_queue(queue_message)  # Append to the queue file
                 
                 # Handle dropdown click
                 if dropdown_rect.collidepoint(event.pos):
@@ -320,9 +381,11 @@ def gui_main(output_folder):
             else:
                 button_hovered[label] = False
 
+        #if basic_utilities.check_queue_has_command("MAX", "out/command_queue.txt", 0): 
+        #    simulation_state = "STOP"
         # Draw UI components
         draw_tabs(tabs, current_page, screen, tab_font, width )
-        draw_page(plot_surface, bluetooth_plot_surface, current_page, screen, width, height, font, dropdown_font, dropdown_options, dropdown_rect, dropdown_open, selected_network)
+        draw_page(plot_surface, bluetooth_plot_surface, current_page, screen, width, height, font, dropdown_font, dropdown_options, dropdown_rect, dropdown_open, selected_network, simulation_state)
 
         pygame.display.flip()
 
