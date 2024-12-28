@@ -13,7 +13,7 @@ from multiprocessing import Process, Queue
 
 #TODO put an average line on graph
 
-network_sel = 5
+network_sel = 3
 network_selection = ""
 light_names = []
 if (network_sel == 0):
