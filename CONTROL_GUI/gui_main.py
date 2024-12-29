@@ -270,8 +270,8 @@ def gui_main():
     # Dropdown variables
     dropdown_open = False
     dropdown_rect = pygame.Rect(120, 400, 300, 30)  # Adjusted position for dropdown
-    dropdown_options = ["default_network"]
-    selected_network = "default_network"
+    dropdown_options = ["--Select Network--"]
+    selected_network = "--Select Network--"
 
     # Define the relative path to the network directory with respect to current working directory
     current_dir = os.getcwd()
@@ -341,14 +341,18 @@ def gui_main():
                 for label, rect in buttons.items():
                     if rect.collidepoint(event.pos):
                         queue_message = label
-                        if label == "RUN":
-                            if simulation_state == "RUN":
-                                simulation_state = "STOP"
-                            else:
-                                simulation_state = "RUN"
-                            queue_message = simulation_state
-                        button_pressed[label] = True  # Set button to pressed state
-                        append_to_queue(queue_message)  # Append to the queue file
+                        if label == "RUN" :
+                            if not selected_network == "--Select Network--":
+                                if simulation_state == "RUN":
+                                    simulation_state = "STOP"
+                                else:
+                                    simulation_state = "RUN"
+                                queue_message = simulation_state
+                                button_pressed[label] = True  # Set button to pressed state
+                                append_to_queue(queue_message)  # Append to the queue file
+                        else:
+                            button_pressed[label] = True  # Set button to pressed state
+                            append_to_queue(queue_message)  # Append to the queue file
                 
                 # Handle dropdown click
                 if dropdown_rect.collidepoint(event.pos):

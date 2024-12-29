@@ -1,0 +1,9 @@
+from,to,Average Speed (m/s)
+J1,main,0.009
+J2,main,0.123
+J3,main,2.225
+J5,main,9.24
+main,J1,13.38
+main,J2,12.927
+main,J3,12.72
+main,J5,13.89

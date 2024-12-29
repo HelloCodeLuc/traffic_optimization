@@ -13,27 +13,26 @@ from multiprocessing import Process, Queue
 
 #TODO put an average line on graph
 
-network_sel = 3
 network_selection = ""
 light_names = []
-if (network_sel == 0):
-    network_selection = "NETWORKS/3lights.net.xml"
-    light_names = ["left","middle","right"]
-elif (network_sel == 1):
-    network_selection = "NETWORKS/school.net.xml"
-    light_names = ["mcnaughton_keele","barhill_rutherford","ivy_dufferin","keele_barhill","keele_rutherford","mackenzie_dufferin","mackenzie_peter","maurier_dufferin","peter_rutherford","rutherford_dufferin"]
-elif (network_sel == 2):
-    network_selection = "NETWORKS/school.timing.net.xml"
-    light_names = ["mcnaughton_keele","barhill_rutherford","ivy_dufferin","keele_barhill","keele_rutherford","mackenzie_dufferin","mackenzie_peter","maurier_dufferin","peter_rutherford","rutherford_dufferin"]
-elif (network_sel == 3):
-    network_selection = "NETWORKS/school-extended.net.xml"
-    light_names = ["mcnaughton_keele","barhill_rutherford","ivy_dufferin","keele_barhill","keele_rutherford","mackenzie_dufferin","mackenzie_peter","maurier_dufferin","peter_rutherford","rutherford_dufferin"]
-elif (network_sel == 4):
-    network_selection = "NETWORKS/weight_test.net.xml"
-    light_names = ["main"]
-elif (network_sel == 5):
-    network_selection = "NETWORKS/simple_network.net.xml"
-    light_names = ["main"]
+
+light_name_data = {
+    "3lights.net.xml": ["left", "middle", "right"],
+    "city_timing.net.xml": ["mcnaughton_keele", "barhill_rutherford", "ivy_dufferin",
+            "keele_barhill", "keele_rutherford", "mackenzie_dufferin",
+            "mackenzie_peter", "maurier_dufferin", "peter_rutherford",
+            "rutherford_dufferin"],
+    "school-extended.net.xml": ["mcnaughton_keele", "barhill_rutherford", "ivy_dufferin",
+            "keele_barhill", "keele_rutherford", "mackenzie_dufferin",
+            "mackenzie_peter", "maurier_dufferin", "peter_rutherford",
+            "rutherford_dufferin"],
+    "school.net.xml": ["mcnaughton_keele", "barhill_rutherford", "ivy_dufferin",
+            "keele_barhill", "keele_rutherford", "mackenzie_dufferin",
+            "mackenzie_peter", "maurier_dufferin", "peter_rutherford",
+            "rutherford_dufferin"],
+    "weight_test.net.xml": ["main"],
+    "simple_network.net.xml": ["main"]
+    }
 
 timing_light_increment = 2
 num_batches = 1
@@ -44,39 +43,45 @@ num_of_greenlight_duplicate_limit = 40
 average_speed_n_steps = 20
 start_command = "RUN"
 stop_command = "STOP"
-# Example usage:
 
 
 def main_loop(num_batches, num_runs_per_batch, network_selection, max_steps):
 
     while True:
         command = optimize_timing_lib.read_commands("out/command_queue.txt")
-        if command == start_command:
-            date = f"{basic_utilities.get_current_datetime()}"
-            output_folder = f"out/{date}"
+        if command is not None:
+            if "NETWORK_CHANGE" in command:
+                network_name = command.split(":")[1].strip()
+                network_selection = f"NETWORKS/{network_name}"
+                light_names = light_name_data[network_name]
+                print(network_name)
+                print(light_names)
+            elif command == start_command:
+                date = f"{basic_utilities.get_current_datetime()}"
+                output_folder = f"out/{date}"
 
-            if not os.path.exists(output_folder):
-                os.makedirs(output_folder)
-                os.makedirs(f"{output_folder}/TRAIN_OPTIMIZATION")
-                os.makedirs(f"{output_folder}/TRAIN_BLUETOOTH")
+                if not os.path.exists(output_folder):
+                    os.makedirs(output_folder)
+                    os.makedirs(f"{output_folder}/TRAIN_OPTIMIZATION")
+                    os.makedirs(f"{output_folder}/TRAIN_BLUETOOTH")
 
-            # Input and output file paths
-            csv_file_edges = f'{output_folder}/GUI_edges.csv'
-            csv_file_junctions = f'{output_folder}/GUI_junction_coordinates.csv'
-            # Run the function
-            basic_utilities.extract_network_edges(network_selection, csv_file_edges)
-            basic_utilities.extract_network_junctions(network_selection, csv_file_junctions)
+                # Input and output file paths
+                csv_file_edges = f'{output_folder}/GUI_edges.csv'
+                csv_file_junctions = f'{output_folder}/GUI_junction_coordinates.csv'
+                # Run the function
+                basic_utilities.extract_network_edges(network_selection, csv_file_edges)
+                basic_utilities.extract_network_junctions(network_selection, csv_file_junctions)
 
-            output_data_file = os.path.join(output_folder, "TRAIN_OPTIMIZATION/output_data.txt")
-            network_averages = os.path.join(output_folder, "TRAIN_OPTIMIZATION/network_averages.txt")
-            parsed_string = network_selection.split("/")[-1]
-            parsed_string_without_extension = parsed_string.replace(".net.xml", "")
-            network_with_timing = os.path.join(output_folder, f"TRAIN_OPTIMIZATION/{parsed_string_without_extension}.timing.net.xml")
+                output_data_file = os.path.join(output_folder, "TRAIN_OPTIMIZATION/output_data.txt")
+                network_averages = os.path.join(output_folder, "TRAIN_OPTIMIZATION/network_averages.txt")
+                parsed_string = network_selection.split("/")[-1]
+                parsed_string_without_extension = parsed_string.replace(".net.xml", "")
+                network_with_timing = os.path.join(output_folder, f"TRAIN_OPTIMIZATION/{parsed_string_without_extension}.timing.net.xml")
 
-            optimize_timing_lib.optimize_timing_main (output_folder, output_data_file, num_of_runs_on_network, num_batches, num_runs_per_batch, network_selection, 
-                                            max_steps, network_with_timing, light_names, timing_light_increment, network_averages, 
-                                            num_of_greenlight_duplicate_limit, average_speed_n_steps)
-            command = "STOP"
+                optimize_timing_lib.optimize_timing_main (output_folder, output_data_file, num_of_runs_on_network, num_batches, num_runs_per_batch, network_selection, 
+                                                max_steps, network_with_timing, light_names, timing_light_increment, network_averages, 
+                                                num_of_greenlight_duplicate_limit, average_speed_n_steps)
+                command = "STOP"
         #print(">> Back to main")
         #time.sleep(5)
 
