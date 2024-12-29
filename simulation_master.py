@@ -44,7 +44,6 @@ num_of_greenlight_duplicate_limit = 40
 average_speed_n_steps = 20
 start_command = "RUN"
 stop_command = "STOP"
-#simulation_state = "RUN"
 # Example usage:
 
 
@@ -62,9 +61,11 @@ def main_loop(num_batches, num_runs_per_batch, network_selection, max_steps):
                 os.makedirs(f"{output_folder}/TRAIN_BLUETOOTH")
 
             # Input and output file paths
-            output_csv_file = f'{output_folder}/GUI_junction_coordinates.csv'
+            csv_file_edges = f'{output_folder}/GUI_edges.csv'
+            csv_file_junctions = f'{output_folder}/GUI_junction_coordinates.csv'
             # Run the function
-            basic_utilities.extract_network_junctions(network_selection, output_csv_file)
+            basic_utilities.extract_network_edges(network_selection, csv_file_edges)
+            basic_utilities.extract_network_junctions(network_selection, csv_file_junctions)
 
             output_data_file = os.path.join(output_folder, "TRAIN_OPTIMIZATION/output_data.txt")
             network_averages = os.path.join(output_folder, "TRAIN_OPTIMIZATION/network_averages.txt")

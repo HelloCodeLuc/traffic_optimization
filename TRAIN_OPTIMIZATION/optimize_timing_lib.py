@@ -264,7 +264,7 @@ def optimize_timing_main (output_folder, output_data_file, num_of_runs_on_networ
                 # Generate SUMO configuration file and update the route-files value
                 config_file = os.path.join(f"{output_folder}/TRAIN_OPTIMIZATION", f"sumo_config_{random_seed}.sumocfg")
                 print (f"config file = {config_file}")
-                basic_utilities.generate_sumo_config(f'{network_with_timing}.temp', config_file, current_directory, route_files=trip_file)
+                basic_utilities.generate_sumo_config(f'{network_with_timing}.temp', config_file, current_directory, max_steps, trip_file)
 
                 random_seeds.append(random_seed)
                 trip_files.append(trip_file)
