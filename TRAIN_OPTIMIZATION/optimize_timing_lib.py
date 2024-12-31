@@ -203,12 +203,17 @@ def calculate_overall_average_for_given_network(output_data_file, network_averag
 def read_commands(file_path):
     """Reads the command from the specified file."""
     try:
+        done_read = 0
+        command = ""
         with open(file_path, "r") as file:
             line = file.read()
-            command = line.strip()  # Read and strip the content
-            print(f"From line: {line}, Read the command: {command}")
-        time.sleep(1)
-        os.remove(file_path)  # Delete the file
+            if line.strip():
+                command = line.strip()  # Read and strip the content
+                print(f"From line: {line.strip()}, Read the command: {command}")
+                done_read = 1
+                #time.sleep(1)
+        if done_read == 1:
+            os.remove(file_path)  # Delete the file
         return command
     except FileNotFoundError:
         return None
