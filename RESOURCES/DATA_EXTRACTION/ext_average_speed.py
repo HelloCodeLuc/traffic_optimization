@@ -55,16 +55,16 @@ try:
     output_file = "out/average_speeds.csv"
     with open(output_file, mode='w', newline='') as file:
         writer = csv.writer(file)
-        writer.writerow(["Edge ID", "Average Speed (m/s)"])  # Write header
+        writer.writerow(["Edge ID", "Average Speed (km/h)"])  # Write header
 
         for edge_id, speeds in edge_speeds.items():
             # Exclude junctions (edges with IDs starting with ':')
             if not edge_id.startswith(":"):
                 # Calculate the average speed for the edge and round to the nearest thousandth
                 if speeds:  # Check to avoid division by zero
-                    average_speed = round(sum(speeds) / len(speeds), 3)
+                    average_speed = round(sum(speeds) / len(speeds), 3)*3.6
                 else:
-                    average_speed = 0
+                    average_speed = 50
                 writer.writerow([edge_id, average_speed])  # Write edge and its average speed
 
     print(f"Data successfully written to {output_file}")

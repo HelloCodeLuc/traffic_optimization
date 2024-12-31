@@ -3,6 +3,7 @@ import os
 import shutil
 import re
 import argparse
+import time
 import random
 sys.path.append(os.path.join(os.path.dirname(__file__), 'TRAIN_COMMON_LIB'))
 import basic_utilities
@@ -203,7 +204,10 @@ def read_commands(file_path):
     """Reads the command from the specified file."""
     try:
         with open(file_path, "r") as file:
-            command = file.read().strip()  # Read and strip the content
+            line = file.read()
+            command = line.strip()  # Read and strip the content
+            print(f"From line: {line}, Read the command: {command}")
+        time.sleep(1)
         os.remove(file_path)  # Delete the file
         return command
     except FileNotFoundError:
@@ -238,7 +242,7 @@ def optimize_timing_main (output_folder, output_data_file, num_of_runs_on_networ
     core_count = basic_utilities.return_num_of_cores()
     print(f"Number of CPU cores: {core_count}\n")
 
-
+    speed_limit = basic_utilities.extract_speeds_from_edges(network_selection)
 
     for net_index in range(num_of_runs_on_network):
         greenlight_timings = ""
@@ -280,7 +284,7 @@ def optimize_timing_main (output_folder, output_data_file, num_of_runs_on_networ
 
             # Launch each simulation in a separate process
             for config in config_files:
-                process = Process(target=basic_utilities.run_sumo, args=(config, args.gui, int(max_steps), result_queue, average_speed_n_steps, f"{output_folder}/TRAIN_OPTIMIZATION"))
+                process = Process(target=basic_utilities.run_sumo, args=(config, args.gui, int(max_steps), result_queue, average_speed_n_steps, f"{output_folder}/TRAIN_OPTIMIZATION", speed_limit))
                 processes.append(process)
                 process.start()
 

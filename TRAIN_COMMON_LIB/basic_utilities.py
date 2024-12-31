@@ -239,8 +239,33 @@ def extract_lines_after_comment(filename, comment_pattern):
 
     return result
 
+def extract_speeds_from_edges(xml_file):
+    # Parse the XML file
+    tree = ET.parse(xml_file)
+    root = tree.getroot()
 
-def run_sumo(config_file, gui_opt, max_steps, result_queue, average_speed_n_steps, out_dir):
+    # Dictionary to store speed values associated with edge IDs
+    edge_speeds = {}
+
+    # Iterate through all the <edge> elements in the XML
+    for edge in root.findall(".//edge"):
+        edge_id = edge.attrib.get('id')  # Get the edge ID
+        edge_function = edge.attrib.get("function", "")
+        
+        # Skip processing if function="internal"
+        if edge_function == "internal":
+            continue
+        
+        # Find the lane within the current edge element
+        lane = edge.find(".//lane")
+        if lane is not None:
+            speed = lane.attrib.get("speed")  # Get the speed attribute
+            if speed:
+                edge_speeds[edge_id] = round(float(speed)*3.6, 3)
+                print(edge_id, edge_speeds[edge_id])
+    return edge_speeds
+
+def run_sumo(config_file, gui_opt, max_steps, result_queue, average_speed_n_steps, out_dir, speed_limit):
     current_directory = os.getcwd()
     #print(f"current_directory : {current_directory}")
     # Launch SUMO with GUI using the generated configuration file
@@ -254,6 +279,7 @@ def run_sumo(config_file, gui_opt, max_steps, result_queue, average_speed_n_step
     step = 0 
     simulation_step_size = 1
     all_edges = traci.edge.getIDList()
+    edge_max_speed = {}
 
     # Initialize a dictionary to store arrays of average speeds for each edge
     edge_speeds = {}
@@ -267,7 +293,7 @@ def run_sumo(config_file, gui_opt, max_steps, result_queue, average_speed_n_step
             for edge_id in all_edges:
                 if not edge_id.startswith(":"):
                     # Get the average speed for the edge at this simulation step
-                    avg_speed = traci.edge.getLastStepMeanSpeed(edge_id)             
+                    avg_speed = traci.edge.getLastStepMeanSpeed(edge_id)
                     # Add the speed to the hash of arrays
                 if edge_id not in edge_speeds:
                     edge_speeds[edge_id] = []  # Initialize the array for this edge
@@ -292,18 +318,21 @@ def run_sumo(config_file, gui_opt, max_steps, result_queue, average_speed_n_step
     output_file = f"{out_dir}/GUI_average_speeds.csv"
     with open(output_file, mode='w', newline='') as file:
         writer = csv.writer(file)
-        writer.writerow(["from", "to", "Average Speed (m/s)"])  # Write header
+        writer.writerow(["Edge ID", "from", "to","Speed Limit (km/h)", "Average Speed (km/h)"])  # Write header
 
         for edge_id, speeds in edge_speeds.items():
             # Exclude junctions (edges with IDs starting with ':')
             if not edge_id.startswith(":"):
                 # Calculate the average speed for the edge and round to the nearest thousandth
                 if speeds:  # Check to avoid division by zero
-                    average_speed = round(sum(speeds) / len(speeds), 3)
+                    #average_speed = ((sum(speeds) *3.6)/ len(speeds), 3)
+                    average_speed_mps = sum(speeds) / len(speeds)  # Average speed in m/s
+                    average_speed_kph = round(average_speed_mps * 3.6, 3)  # Convert to km/h
+                    #round(average_speed, 2)
                 else:
-                    average_speed = 0
+                    average_speed = edge_max_speed[edge_id]
                 (from_junction, to_junction) = edges[edge_id]
-                writer.writerow([from_junction, to_junction, average_speed])  # Write edge and its average speed
+                writer.writerow([edge_id, from_junction, to_junction, speed_limit[edge_id], average_speed_kph])  # Write edge and its average speed
 
     # Calculate average idle time
     average_idle_time = sum(idle_times.values()) / len(idle_times)
