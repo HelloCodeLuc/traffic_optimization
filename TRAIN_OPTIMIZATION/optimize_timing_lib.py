@@ -324,7 +324,7 @@ def optimize_timing_main (output_folder, output_data_file, num_of_runs_on_networ
         os.remove(output_data_file)
 
         if basic_utilities.check_queue_has_command("STOP", "out/command_queue.txt", 1): 
-            print(">> Execution interrupted")
+            print(">> Execution interrupted (OPTIMIZATION)")
             break
         # if basic_utilities.check_queue_has_command("MAX", "out/command_queue.txt", 0): 
         #     print(">> Max duplicate timings reached")

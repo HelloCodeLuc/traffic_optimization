@@ -171,7 +171,7 @@ def my_plot(output_data_file):
     ax.set_xlim(left=0)
 
     # Reduce the number of y-axis labels using np.linspace
-    ax.set_yticks(np.linspace(80, 120, 5))
+    ax.set_yticks(np.linspace(0, 120, 5))
 
     # Create a canvas and draw the figure onto it
     canvas = FigureCanvas(fig)
@@ -228,13 +228,15 @@ def find_latest_directory(base_folder):
     return latest_directory
 
 # Main page drawing function
-def draw_page(plot_surface, bluetooth_plot_surface, current_page, screen, width, height, font, dropdown_font, dropdown_options, dropdown_rect, dropdown_open, selected_network, simulation_state):
+def draw_page(plot_surface, bluetooth_plot_surface, current_page, screen, width, height, font, dropdown_font, dropdown_options, dropdown_rect, dropdown_open, selected_network, simulation_state, phase):
     if current_page == "Main":
         # Draw the plot on the Default page
         screen.blit(plot_surface, (50, 70))  # Positioning the plot near the top
         #screen.blit(bluetooth_plot_surface, (50, 200))
         draw_buttons(screen, font, simulation_state)
         draw_dropdown(dropdown_font, dropdown_options, screen, dropdown_rect, dropdown_open, selected_network)
+        text = font.render(f"Phase: {phase}", True, BLACK)
+        screen.blit(text, (100, 500))
     elif current_page == "Bluetooth Training":
         # Placeholder for Bluetooth Training page content
         text = font.render("Bluetooth Training Page", True, BLACK)
@@ -244,7 +246,7 @@ def draw_page(plot_surface, bluetooth_plot_surface, current_page, screen, width,
         text = font.render("Sim Optimization Page", True, BLACK)
         screen.blit(text, (width // 2 - text.get_width() // 2, height // 2))
 
-def gui_main():
+def gui_main(phase):
 
     # Initialize Pygame
     pygame.init()
@@ -391,7 +393,7 @@ def gui_main():
         #    simulation_state = "STOP"
         # Draw UI components
         draw_tabs(tabs, current_page, screen, tab_font, width )
-        draw_page(plot_surface, bluetooth_plot_surface, current_page, screen, width, height, font, dropdown_font, dropdown_options, dropdown_rect, dropdown_open, selected_network, simulation_state)
+        draw_page(plot_surface, bluetooth_plot_surface, current_page, screen, width, height, font, dropdown_font, dropdown_options, dropdown_rect, dropdown_open, selected_network, simulation_state, phase)
 
         pygame.display.flip()
 

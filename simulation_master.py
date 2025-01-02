@@ -5,6 +5,8 @@ import time
 sys.path.append(os.path.join(os.path.dirname(__file__), 'TRAIN_COMMON_LIB'))
 sys.path.append(os.path.join(os.path.dirname(__file__), 'TRAIN_OPTIMIZATION'))
 sys.path.append(os.path.join(os.path.dirname(__file__), 'CONTROL_GUI'))
+sys.path.append(os.path.join(os.path.dirname(__file__), 'TRAIN_BLUETOOTH'))
+import bluetooth_lib
 import basic_utilities
 import optimize_timing_lib
 import gui_main
@@ -43,9 +45,9 @@ num_of_greenlight_duplicate_limit = 40
 average_speed_n_steps = 20
 start_command = "RUN"
 stop_command = "STOP"
+phase = "start"
 
-
-def main_loop(num_batches, num_runs_per_batch, network_selection, max_steps):
+def main_loop(num_batches, num_runs_per_batch, network_selection, max_steps, phase):
 
     while True:
         command = optimize_timing_lib.read_commands("out/command_queue.txt")
@@ -71,7 +73,11 @@ def main_loop(num_batches, num_runs_per_batch, network_selection, max_steps):
                 # Run the function
                 basic_utilities.extract_network_edges(network_selection, csv_file_edges)
                 basic_utilities.extract_network_junctions(network_selection, csv_file_junctions)
+               
+                phase = "bluetooth"
+                bluetooth_lib.bluetooth_training()
 
+                phase = "optimize"
                 output_data_file = os.path.join(output_folder, "TRAIN_OPTIMIZATION/output_data.txt")
                 network_averages = os.path.join(output_folder, "TRAIN_OPTIMIZATION/network_averages.txt")
                 parsed_string = network_selection.split("/")[-1]
@@ -82,8 +88,6 @@ def main_loop(num_batches, num_runs_per_batch, network_selection, max_steps):
                                                 max_steps, network_with_timing, light_names, timing_light_increment, network_averages, 
                                                 num_of_greenlight_duplicate_limit, average_speed_n_steps)
                 command = "STOP"
-        #print(">> Back to main")
-        #time.sleep(5)
 
 
 if __name__ == "__main__":
@@ -94,9 +98,9 @@ if __name__ == "__main__":
     # Create a list to store the processes and results
     processes = []
 
-    process = Process(target=gui_main.gui_main, args=())
+    process = Process(target=gui_main.gui_main, args=(phase, ))
     processes.append(process)
-    process = Process(target=main_loop, args=(num_batches, num_runs_per_batch, network_selection, max_steps))
+    process = Process(target=main_loop, args=(num_batches, num_runs_per_batch, network_selection, max_steps, phase))
     processes.append(process)
     for process in processes:
         process.start()
