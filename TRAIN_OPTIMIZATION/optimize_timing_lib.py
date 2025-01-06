@@ -254,6 +254,9 @@ def optimize_timing_main (output_folder, output_data_file, num_of_runs_on_networ
         if (debug == 0):
             greenlight_timings = network_timings(network_selection, network_with_timing, light_names, timing_light_increment, previous_greenlight_timings, previous_greenlight_timings_file, network_averages, num_of_greenlight_duplicate_limit)
 
+
+
+
         for run in range(num_batches):
             random_seeds = []
             trip_files = []
@@ -316,6 +319,11 @@ def optimize_timing_main (output_folder, output_data_file, num_of_runs_on_networ
                         os.remove(config_files[idx])
             if (debug == 1):
                 sys.exit()
+
+
+
+
+                
 
         is_more_efficient = calculate_overall_average_for_given_network(output_data_file, network_averages, greenlight_timings)
         if(is_more_efficient == "keep"):

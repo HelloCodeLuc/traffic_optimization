@@ -73,15 +73,16 @@ def main_loop(num_batches, num_runs_per_batch, network_selection, max_steps, pha
                 # Run the function
                 basic_utilities.extract_network_edges(network_selection, csv_file_edges)
                 basic_utilities.extract_network_junctions(network_selection, csv_file_junctions)
-               
+
+                parsed_string = network_selection.split("/")[-1]
+                parsed_string_without_extension = parsed_string.replace(".net.xml", "")
+                bluetooth_network_with_timing = os.path.join(output_folder, f"TRAIN_BLUETOOTH/{parsed_string_without_extension}.timing.net.xml")
                 phase = "bluetooth"
-                bluetooth_lib.bluetooth_training()
+                bluetooth_lib.bluetooth_training(output_folder, network_selection, bluetooth_network_with_timing)
 
                 phase = "optimize"
                 output_data_file = os.path.join(output_folder, "TRAIN_OPTIMIZATION/output_data.txt")
                 network_averages = os.path.join(output_folder, "TRAIN_OPTIMIZATION/network_averages.txt")
-                parsed_string = network_selection.split("/")[-1]
-                parsed_string_without_extension = parsed_string.replace(".net.xml", "")
                 network_with_timing = os.path.join(output_folder, f"TRAIN_OPTIMIZATION/{parsed_string_without_extension}.timing.net.xml")
 
                 optimize_timing_lib.optimize_timing_main (output_folder, output_data_file, num_of_runs_on_network, num_batches, num_runs_per_batch, network_selection, 
