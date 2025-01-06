@@ -3,12 +3,10 @@ import os
 import shutil
 import re
 import argparse
-import time
 import random
 sys.path.append(os.path.join(os.path.dirname(__file__), 'TRAIN_COMMON_LIB'))
 import basic_utilities
 import xml.etree.ElementTree as ET
-from multiprocessing import Process, Queue
 
 # find current timings of defined light
 # modify based on defined choice
@@ -218,6 +216,8 @@ def read_commands(file_path):
     except FileNotFoundError:
         return None
 
+
+
 def optimize_timing_main (output_folder, output_data_file, num_of_runs_on_network, num_batches, num_runs_per_batch, network_selection, max_steps, 
              network_with_timing, light_names, timing_light_increment, network_averages, num_of_greenlight_duplicate_limit, average_speed_n_steps):
     
@@ -254,76 +254,7 @@ def optimize_timing_main (output_folder, output_data_file, num_of_runs_on_networ
         if (debug == 0):
             greenlight_timings = network_timings(network_selection, network_with_timing, light_names, timing_light_increment, previous_greenlight_timings, previous_greenlight_timings_file, network_averages, num_of_greenlight_duplicate_limit)
 
-
-
-
-        for run in range(num_batches):
-            random_seeds = []
-            trip_files = []
-            config_files = []
-            for batch in range(num_runs_per_batch):
-                random_seed = 0
-                if (debug == 0):
-                    random_seed = random.randint(1, 10000)  # Use a different random seed for each run
-                else:
-                    random_seed = debug_seed
-
-                trip_file = os.path.join(f"{output_folder}/TRAIN_OPTIMIZATION", f"random_trips_{random_seed}.xml")  # Generate a unique trip file name for each run
-                print (f"trip file = {trip_file}")
-                # Generate random trips
-                basic_utilities.generate_random_trips(f'{network_with_timing}.temp', trip_file, max_steps, random_seed)
-
-                # Generate SUMO configuration file and update the route-files value
-                config_file = os.path.join(f"{output_folder}/TRAIN_OPTIMIZATION", f"sumo_config_{random_seed}.sumocfg")
-                print (f"config file = {config_file}")
-                basic_utilities.generate_sumo_config(f'{network_with_timing}.temp', config_file, current_directory, max_steps, trip_file)
-
-                random_seeds.append(random_seed)
-                trip_files.append(trip_file)
-                config_files.append(config_file)
-
-            # Create a queue to store the results
-            result_queue = Queue()
-
-            # Run the SUMO simulation using the generated configuration file
-            # average_idle_time = basic_utilities.run_sumo(config_file, args.gui, int(max_steps))
-            processes = []
-            average_idle_times_from_batch = []
-
-            # Launch each simulation in a separate process
-            for config in config_files:
-                process = Process(target=basic_utilities.run_sumo, args=(config, args.gui, int(max_steps), result_queue, average_speed_n_steps, f"{output_folder}/TRAIN_OPTIMIZATION", speed_limit))
-                processes.append(process)
-                process.start()
-
-            # Wait for all processes to finish
-            for process in processes:
-                process.join()
-
-            # Collect results from the queue
-            average_idle_times_from_batch = []
-            while not result_queue.empty():
-                result = result_queue.get()
-                average_idle_times_from_batch.append(result)
-
-            # Write the iteration number to the output_data file
-            with open(output_data_file, "a") as f:
-                for idx, average_idle_time in enumerate(average_idle_times_from_batch):
-                    f.write(f"Random Seed: {random_seeds[idx]},")
-                    f.write(f"Trip File: {trip_files[idx]},")
-                    f.write(f"Configuration File: {config_files[idx]},")
-                    f.write(f"Average Idle Time: {average_idle_time}\n")
-                    if os.path.exists(trip_files[idx]):
-                        os.remove(trip_files[idx]) 
-                    if os.path.exists(config_files[idx]):
-                        os.remove(config_files[idx])
-            if (debug == 1):
-                sys.exit()
-
-
-
-
-                
+        basic_utilities.batched_run_sumo(num_batches, num_runs_per_batch, output_folder, network_with_timing, max_steps, current_directory, average_speed_n_steps, speed_limit, output_data_file, args, debug)
 
         is_more_efficient = calculate_overall_average_for_given_network(output_data_file, network_averages, greenlight_timings)
         if(is_more_efficient == "keep"):
