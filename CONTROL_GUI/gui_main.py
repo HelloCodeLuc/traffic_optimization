@@ -102,6 +102,8 @@ def draw_buttons(screen, font, simulation_state):
 def append_to_queue(command):
     with open("out/command_queue.txt", "w") as file:
         file.write(command + "\n")
+    with open("out/command_queue_last.txt", "w") as file:
+        file.write(command + "\n")
 
 # Updated function to load network files with .net.xml extension
 def load_network_files(network_dir):
@@ -169,7 +171,7 @@ def my_plot(output_data_file):
     ax.set_xlim(left=0)
 
     # Reduce the number of y-axis labels using np.linspace
-    ax.set_yticks(np.linspace(80, 120, 5))
+    ax.set_yticks(np.linspace(0, 120, 5))
 
     # Create a canvas and draw the figure onto it
     canvas = FigureCanvas(fig)
@@ -226,13 +228,15 @@ def find_latest_directory(base_folder):
     return latest_directory
 
 # Main page drawing function
-def draw_page(plot_surface, bluetooth_plot_surface, current_page, screen, width, height, font, dropdown_font, dropdown_options, dropdown_rect, dropdown_open, selected_network, simulation_state):
+def draw_page(plot_surface, bluetooth_plot_surface, current_page, screen, width, height, font, dropdown_font, dropdown_options, dropdown_rect, dropdown_open, selected_network, simulation_state, phase):
     if current_page == "Main":
         # Draw the plot on the Default page
         screen.blit(plot_surface, (50, 70))  # Positioning the plot near the top
         #screen.blit(bluetooth_plot_surface, (50, 200))
         draw_buttons(screen, font, simulation_state)
         draw_dropdown(dropdown_font, dropdown_options, screen, dropdown_rect, dropdown_open, selected_network)
+        text = font.render(f"Phase: {phase}", True, BLACK)
+        screen.blit(text, (100, 500))
     elif current_page == "Bluetooth Training":
         # Placeholder for Bluetooth Training page content
         text = font.render("Bluetooth Training Page", True, BLACK)
@@ -242,7 +246,7 @@ def draw_page(plot_surface, bluetooth_plot_surface, current_page, screen, width,
         text = font.render("Sim Optimization Page", True, BLACK)
         screen.blit(text, (width // 2 - text.get_width() // 2, height // 2))
 
-def gui_main():
+def gui_main(phase):
 
     # Initialize Pygame
     pygame.init()
@@ -270,8 +274,8 @@ def gui_main():
     # Dropdown variables
     dropdown_open = False
     dropdown_rect = pygame.Rect(120, 400, 300, 30)  # Adjusted position for dropdown
-    dropdown_options = ["default_network"]
-    selected_network = "default_network"
+    dropdown_options = ["--Select Network--"]
+    selected_network = "--Select Network--"
 
     # Define the relative path to the network directory with respect to current working directory
     current_dir = os.getcwd()
@@ -341,14 +345,18 @@ def gui_main():
                 for label, rect in buttons.items():
                     if rect.collidepoint(event.pos):
                         queue_message = label
-                        if label == "RUN":
-                            if simulation_state == "RUN":
-                                simulation_state = "STOP"
-                            else:
-                                simulation_state = "RUN"
-                            queue_message = simulation_state
-                        button_pressed[label] = True  # Set button to pressed state
-                        append_to_queue(queue_message)  # Append to the queue file
+                        if label == "RUN" :
+                            if not selected_network == "--Select Network--":
+                                if simulation_state == "RUN":
+                                    simulation_state = "STOP"
+                                else:
+                                    simulation_state = "RUN"
+                                queue_message = simulation_state
+                                button_pressed[label] = True  # Set button to pressed state
+                                append_to_queue(queue_message)  # Append to the queue file
+                        else:
+                            button_pressed[label] = True  # Set button to pressed state
+                            append_to_queue(queue_message)  # Append to the queue file
                 
                 # Handle dropdown click
                 if dropdown_rect.collidepoint(event.pos):
@@ -385,7 +393,7 @@ def gui_main():
         #    simulation_state = "STOP"
         # Draw UI components
         draw_tabs(tabs, current_page, screen, tab_font, width )
-        draw_page(plot_surface, bluetooth_plot_surface, current_page, screen, width, height, font, dropdown_font, dropdown_options, dropdown_rect, dropdown_open, selected_network, simulation_state)
+        draw_page(plot_surface, bluetooth_plot_surface, current_page, screen, width, height, font, dropdown_font, dropdown_options, dropdown_rect, dropdown_open, selected_network, simulation_state, phase)
 
         pygame.display.flip()
 

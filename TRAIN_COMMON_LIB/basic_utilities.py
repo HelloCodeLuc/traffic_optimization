@@ -6,6 +6,8 @@ import xml.etree.ElementTree as ET
 import csv
 import traci
 import subprocess
+import random
+from multiprocessing import Process, Queue
 
 def get_current_datetime():
     # Get the current date and time
@@ -112,7 +114,57 @@ def extract_network_junctions(network_file, output_csv_file):
                 csv_writer.writerow([junction_id, x_coord, y_coord])
     
     print(f"Coordinates extracted and saved to {output_csv_file}")
+
+def extract_network_edges(network_file, output_csv_file):
+    tree = ET.parse(network_file)
+    root = tree.getroot()
+
+    # Open CSV file for writing
+    with open(output_csv_file, mode='w', newline='') as csvfile:
+        csv_writer = csv.writer(csvfile)
+        # Write the header row
+        csv_writer.writerow(['Edge_ID', 'From', 'To'])
+
+        # Iterate over all 'edges' elements in the XML
+        for edge in root.findall('edge'):
+            edge_id = edge.get('id')
+            from_junction = edge.get('from')
+            to_junction = edge.get('to')
+
+            # Write to CSV if x and y exist
+            if from_junction and to_junction:
+                csv_writer.writerow([edge_id, from_junction, to_junction])
     
+    print(f"Edges extracted and saved to {output_csv_file}")
+
+def read_edge_file(file_path):
+    """
+    Reads an edge file and returns a dictionary indexed by edge IDs.
+
+    :param file_path: Path to the input file.
+    :return: Dictionary with edge IDs as keys and tuples (From, To) as values.
+    """
+    edge_dict = {}
+
+    # Get the directory of the script file
+    script_directory = os.path.dirname(os.path.abspath(__file__))
+
+    # Print the script's directory
+    print("Script's directory:", script_directory)
+
+    with open(file_path, 'r') as file:
+        # Skip the title line
+        next(file)
+
+        # Process each line in the file
+        for line in file:
+            line = line.strip()
+            if line:  # Skip empty lines
+                edge_id, from_junction, to_junction = line.split(',')
+                edge_dict[edge_id] = (from_junction, to_junction)
+
+    return edge_dict
+
 # Run randomtrips.py to generate random trips and save them to a file
 def generate_random_trips(network_selection, trip_file, max_steps, seed):
     debug = 0
@@ -127,7 +179,7 @@ def generate_random_trips(network_selection, trip_file, max_steps, seed):
     subprocess.call(cmd, shell=True)
 
 # Generate the SUMO configuration file with the given template
-def generate_sumo_config(network_selection, config_file, current_directory, route_files):
+def generate_sumo_config(network_selection, config_file, current_directory, max_steps, route_files):
     config_template = f"""<configuration>
     <input>
         <net-file value="{current_directory}/{network_selection}"/>
@@ -135,7 +187,7 @@ def generate_sumo_config(network_selection, config_file, current_directory, rout
     </input>
     <time>
         <begin value="0"/>
-        <end value="2000"/>
+        <end value="{max_steps}"/>
     </time>
 </configuration>"""
     print (f"DEBUG INSIDE 4 {config_file}")
@@ -189,8 +241,33 @@ def extract_lines_after_comment(filename, comment_pattern):
 
     return result
 
+def extract_speeds_from_edges(xml_file):
+    # Parse the XML file
+    tree = ET.parse(xml_file)
+    root = tree.getroot()
 
-def run_sumo(config_file, gui_opt, max_steps, result_queue, average_speed_n_steps, out_dir):
+    # Dictionary to store speed values associated with edge IDs
+    edge_speeds = {}
+
+    # Iterate through all the <edge> elements in the XML
+    for edge in root.findall(".//edge"):
+        edge_id = edge.attrib.get('id')  # Get the edge ID
+        edge_function = edge.attrib.get("function", "")
+        
+        # Skip processing if function="internal"
+        if edge_function == "internal":
+            continue
+        
+        # Find the lane within the current edge element
+        lane = edge.find(".//lane")
+        if lane is not None:
+            speed = lane.attrib.get("speed")  # Get the speed attribute
+            if speed:
+                edge_speeds[edge_id] = round(float(speed)*3.6, 3)
+                print(edge_id, edge_speeds[edge_id])
+    return edge_speeds
+
+def run_sumo(config_file, gui_opt, max_steps, result_queue, average_speed_n_steps, out_dir, speed_limit):
     current_directory = os.getcwd()
     #print(f"current_directory : {current_directory}")
     # Launch SUMO with GUI using the generated configuration file
@@ -204,6 +281,7 @@ def run_sumo(config_file, gui_opt, max_steps, result_queue, average_speed_n_step
     step = 0 
     simulation_step_size = 1
     all_edges = traci.edge.getIDList()
+    edge_max_speed = {}
 
     # Initialize a dictionary to store arrays of average speeds for each edge
     edge_speeds = {}
@@ -217,7 +295,7 @@ def run_sumo(config_file, gui_opt, max_steps, result_queue, average_speed_n_step
             for edge_id in all_edges:
                 if not edge_id.startswith(":"):
                     # Get the average speed for the edge at this simulation step
-                    avg_speed = traci.edge.getLastStepMeanSpeed(edge_id)             
+                    avg_speed = traci.edge.getLastStepMeanSpeed(edge_id)
                     # Add the speed to the hash of arrays
                 if edge_id not in edge_speeds:
                     edge_speeds[edge_id] = []  # Initialize the array for this edge
@@ -235,22 +313,28 @@ def run_sumo(config_file, gui_opt, max_steps, result_queue, average_speed_n_step
                 else:
                     idle_times[vehicle_id] += simulation_step_size
 
+    edges = read_edge_file(f"{out_dir}/../GUI_edges.csv")
+
     #TODO we need to uniquify between bluetooth steps and optimization steps
     # Write the collected average speed data to a CSV file
     output_file = f"{out_dir}/GUI_average_speeds.csv"
     with open(output_file, mode='w', newline='') as file:
         writer = csv.writer(file)
-        writer.writerow(["Edge ID", "Average Speed (m/s)"])  # Write header
+        writer.writerow(["Edge ID", "from", "to","Speed Limit (km/h)", "Average Speed (km/h)"])  # Write header
 
         for edge_id, speeds in edge_speeds.items():
             # Exclude junctions (edges with IDs starting with ':')
             if not edge_id.startswith(":"):
                 # Calculate the average speed for the edge and round to the nearest thousandth
                 if speeds:  # Check to avoid division by zero
-                    average_speed = round(sum(speeds) / len(speeds), 3)
+                    #average_speed = ((sum(speeds) *3.6)/ len(speeds), 3)
+                    average_speed_mps = sum(speeds) / len(speeds)  # Average speed in m/s
+                    average_speed_kph = round(average_speed_mps * 3.6, 3)  # Convert to km/h
+                    #round(average_speed, 2)
                 else:
-                    average_speed = 0
-                writer.writerow([edge_id, average_speed])  # Write edge and its average speed
+                    average_speed = edge_max_speed[edge_id]
+                (from_junction, to_junction) = edges[edge_id]
+                writer.writerow([edge_id, from_junction, to_junction, speed_limit[edge_id], average_speed_kph])  # Write edge and its average speed
 
     # Calculate average idle time
     average_idle_time = sum(idle_times.values()) / len(idle_times)
@@ -280,3 +364,67 @@ def check_queue_has_command (command, queue_file, delete_control):
             return False
     else:
         return False
+
+def batched_run_sumo (num_batches, num_runs_per_batch, output_folder, network_with_timing, max_steps, current_directory, average_speed_n_steps, speed_limit, output_data_file, args, debug):
+    for run in range(num_batches):
+        random_seeds = []
+        trip_files = []
+        config_files = []
+        for batch in range(num_runs_per_batch):
+            random_seed = 0
+            if (debug == 0):
+                random_seed = random.randint(1, 10000)  # Use a different random seed for each run
+            else:
+                random_seed = debug_seed
+
+            trip_file = os.path.join(f"{output_folder}/TRAIN_OPTIMIZATION", f"random_trips_{random_seed}.xml")  # Generate a unique trip file name for each run
+            print (f"trip file = {trip_file}")
+            # Generate random trips
+            generate_random_trips(f'{network_with_timing}.temp', trip_file, max_steps, random_seed)
+
+            # Generate SUMO configuration file and update the route-files value
+            config_file = os.path.join(f"{output_folder}/TRAIN_OPTIMIZATION", f"sumo_config_{random_seed}.sumocfg")
+            print (f"config file = {config_file}")
+            generate_sumo_config(f'{network_with_timing}.temp', config_file, current_directory, max_steps, trip_file)
+
+            random_seeds.append(random_seed)
+            trip_files.append(trip_file)
+            config_files.append(config_file)
+
+        # Create a queue to store the results
+        result_queue = Queue()
+
+        # Run the SUMO simulation using the generated configuration file
+        # average_idle_time = basic_utilities.run_sumo(config_file, args.gui, int(max_steps))
+        processes = []
+        average_idle_times_from_batch = []
+
+        # Launch each simulation in a separate process
+        for config in config_files:
+            process = Process(target=run_sumo, args=(config, args.gui, int(max_steps), result_queue, average_speed_n_steps, f"{output_folder}/TRAIN_OPTIMIZATION", speed_limit))
+            processes.append(process)
+            process.start()
+
+        # Wait for all processes to finish
+        for process in processes:
+            process.join()
+
+        # Collect results from the queue
+        average_idle_times_from_batch = []
+        while not result_queue.empty():
+            result = result_queue.get()
+            average_idle_times_from_batch.append(result)
+
+        # Write the iteration number to the output_data file
+        with open(output_data_file, "a") as f:
+            for idx, average_idle_time in enumerate(average_idle_times_from_batch):
+                f.write(f"Random Seed: {random_seeds[idx]},")
+                f.write(f"Trip File: {trip_files[idx]},")
+                f.write(f"Configuration File: {config_files[idx]},")
+                f.write(f"Average Idle Time: {average_idle_time}\n")
+                if os.path.exists(trip_files[idx]):
+                    os.remove(trip_files[idx]) 
+                if os.path.exists(config_files[idx]):
+                    os.remove(config_files[idx])
+        if (debug == 1):
+            sys.exit()
