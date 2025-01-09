@@ -234,9 +234,9 @@ def draw_page(plot_surface, bluetooth_plot_surface, current_page, screen, width,
         screen.blit(plot_surface, (50, 70))  # Positioning the plot near the top
         #screen.blit(bluetooth_plot_surface, (50, 200))
         draw_buttons(screen, font, simulation_state)
-        draw_dropdown(dropdown_font, dropdown_options, screen, dropdown_rect, dropdown_open, selected_network)
         text = font.render(f"Phase: {phase}", True, BLACK)
         screen.blit(text, (100, 500))
+        draw_dropdown(dropdown_font, dropdown_options, screen, dropdown_rect, dropdown_open, selected_network)
     elif current_page == "Bluetooth Training":
         # Placeholder for Bluetooth Training page content
         text = font.render("Bluetooth Training Page", True, BLACK)
