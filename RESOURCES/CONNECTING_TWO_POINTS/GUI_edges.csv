@@ -1,0 +1,9 @@
+Edge_ID,From,To
+-E0,south,main
+-E1,north,main
+-E2,east,main
+-E3,west,main
+E0,main,south
+E1,main,north
+E2,main,east
+E3,main,west
