@@ -74,18 +74,21 @@ def main_loop(num_batches, num_runs_per_batch, network_selection, max_steps, pha
                 basic_utilities.extract_network_edges(network_selection, csv_file_edges)
                 basic_utilities.extract_network_junctions(network_selection, csv_file_junctions)
 
+                output_data_file = os.path.join(output_folder, "TRAIN_BLUETOOTH/output_data.txt")
                 parsed_string = network_selection.split("/")[-1]
                 parsed_string_without_extension = parsed_string.replace(".net.xml", "")
                 bluetooth_network_with_timing = os.path.join(output_folder, f"TRAIN_BLUETOOTH/{parsed_string_without_extension}.timing.net.xml")
                 phase = "bluetooth"
-                bluetooth_lib.bluetooth_training(output_folder, network_selection, bluetooth_network_with_timing)
+                bluetooth_lib.bluetooth_training(phase, output_folder, network_selection, bluetooth_network_with_timing, num_batches, num_runs_per_batch, max_steps, average_speed_n_steps, output_data_file)
+
+                # sys.exit()
 
                 phase = "optimize"
                 output_data_file = os.path.join(output_folder, "TRAIN_OPTIMIZATION/output_data.txt")
                 network_averages = os.path.join(output_folder, "TRAIN_OPTIMIZATION/network_averages.txt")
                 network_with_timing = os.path.join(output_folder, f"TRAIN_OPTIMIZATION/{parsed_string_without_extension}.timing.net.xml")
 
-                optimize_timing_lib.optimize_timing_main (output_folder, output_data_file, num_of_runs_on_network, num_batches, num_runs_per_batch, network_selection, 
+                optimize_timing_lib.optimize_timing_main (phase, output_folder, output_data_file, num_of_runs_on_network, num_batches, num_runs_per_batch, network_selection, 
                                                 max_steps, network_with_timing, light_names, timing_light_increment, network_averages, 
                                                 num_of_greenlight_duplicate_limit, average_speed_n_steps)
                 command = "STOP"

@@ -267,13 +267,13 @@ def extract_speeds_from_edges(xml_file):
                 print(edge_id, edge_speeds[edge_id])
     return edge_speeds
 
-def run_sumo(config_file, gui_opt, max_steps, result_queue, average_speed_n_steps, out_dir, speed_limit):
+def run_sumo(config_file, max_steps, result_queue, average_speed_n_steps, out_dir, speed_limit):
     current_directory = os.getcwd()
     #print(f"current_directory : {current_directory}")
     # Launch SUMO with GUI using the generated configuration file
     sumo_cmd = ["sumo", "-c", f"{config_file}"]
-    if gui_opt:
-        sumo_cmd = ["sumo-gui", "-c", f"{config_file}"] 
+    # if gui_opt:
+    #     sumo_cmd = ["sumo-gui", "-c", f"{config_file}"] 
 
     # Initialize a dictionary to store idle times for each vehicle
     idle_times = {}
@@ -342,7 +342,7 @@ def run_sumo(config_file, gui_opt, max_steps, result_queue, average_speed_n_step
     traci.close()
 
     # Print the average idle time
-    print(f"DEBUG INSIDE <run_sumo> : config_file={config_file}, gui_opt={gui_opt}, max_steps={max_steps}, Average Idle Time:{average_idle_time}" )
+    print(f"DEBUG INSIDE <run_sumo> : config_file={config_file}, max_steps={max_steps}, Average Idle Time:{average_idle_time}" )
     os.chdir(current_directory)
     result_queue.put(average_idle_time)
 
@@ -365,7 +365,13 @@ def check_queue_has_command (command, queue_file, delete_control):
     else:
         return False
 
-def batched_run_sumo (num_batches, num_runs_per_batch, output_folder, network_with_timing, max_steps, current_directory, average_speed_n_steps, speed_limit, output_data_file, args, debug):
+def batched_run_sumo (phase, num_batches, num_runs_per_batch, output_folder, network_with_timing, max_steps, current_directory, average_speed_n_steps, speed_limit, output_data_file, debug):
+    output_folder_subdir = ""
+    if phase == "bluetooth":
+        output_folder_subdir = "TRAIN_BLUETOOTH"
+    elif phase == "optimize":
+        output_folder_subdir = "TRAIN_OPTIMIZATION"
+
     for run in range(num_batches):
         random_seeds = []
         trip_files = []
@@ -377,13 +383,13 @@ def batched_run_sumo (num_batches, num_runs_per_batch, output_folder, network_wi
             else:
                 random_seed = debug_seed
 
-            trip_file = os.path.join(f"{output_folder}/TRAIN_OPTIMIZATION", f"random_trips_{random_seed}.xml")  # Generate a unique trip file name for each run
+            trip_file = os.path.join(f"{output_folder}/{output_folder_subdir}", f"random_trips_{random_seed}.xml")  # Generate a unique trip file name for each run
             print (f"trip file = {trip_file}")
             # Generate random trips
             generate_random_trips(f'{network_with_timing}.temp', trip_file, max_steps, random_seed)
 
             # Generate SUMO configuration file and update the route-files value
-            config_file = os.path.join(f"{output_folder}/TRAIN_OPTIMIZATION", f"sumo_config_{random_seed}.sumocfg")
+            config_file = os.path.join(f"{output_folder}/{output_folder_subdir}", f"sumo_config_{random_seed}.sumocfg")
             print (f"config file = {config_file}")
             generate_sumo_config(f'{network_with_timing}.temp', config_file, current_directory, max_steps, trip_file)
 
@@ -401,7 +407,7 @@ def batched_run_sumo (num_batches, num_runs_per_batch, output_folder, network_wi
 
         # Launch each simulation in a separate process
         for config in config_files:
-            process = Process(target=run_sumo, args=(config, args.gui, int(max_steps), result_queue, average_speed_n_steps, f"{output_folder}/TRAIN_OPTIMIZATION", speed_limit))
+            process = Process(target=run_sumo, args=(config, int(max_steps), result_queue, average_speed_n_steps, f"{output_folder}/{output_folder_subdir}", speed_limit))
             processes.append(process)
             process.start()
 

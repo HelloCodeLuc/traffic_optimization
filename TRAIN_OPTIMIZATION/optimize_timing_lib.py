@@ -218,18 +218,18 @@ def read_commands(file_path):
 
 
 
-def optimize_timing_main (output_folder, output_data_file, num_of_runs_on_network, num_batches, num_runs_per_batch, network_selection, max_steps, 
+def optimize_timing_main (phase, output_folder, output_data_file, num_of_runs_on_network, num_batches, num_runs_per_batch, network_selection, max_steps, 
              network_with_timing, light_names, timing_light_increment, network_averages, num_of_greenlight_duplicate_limit, average_speed_n_steps):
     
     debug = 0
 
-    parser = argparse.ArgumentParser(description="Run SUMO simulation in batch or GUI mode.")
-    parser.add_argument("--gui", action="store_true", help="Run with GUI")
+    # parser = argparse.ArgumentParser(description="Run SUMO simulation in batch or GUI mode.")
+    # parser.add_argument("--gui", action="store_true", help="Run with GUI")
  
-    args = parser.parse_args()
+    # args = parser.parse_args()
     
-    if (debug == 1):
-        args.gui = True
+    # if (debug == 1):
+    #     args.gui = True
 
     current_directory = os.getcwd()
 
@@ -254,7 +254,7 @@ def optimize_timing_main (output_folder, output_data_file, num_of_runs_on_networ
         if (debug == 0):
             greenlight_timings = network_timings(network_selection, network_with_timing, light_names, timing_light_increment, previous_greenlight_timings, previous_greenlight_timings_file, network_averages, num_of_greenlight_duplicate_limit)
 
-        basic_utilities.batched_run_sumo(num_batches, num_runs_per_batch, output_folder, network_with_timing, max_steps, current_directory, average_speed_n_steps, speed_limit, output_data_file, args, debug)
+        basic_utilities.batched_run_sumo(phase, num_batches, num_runs_per_batch, output_folder, network_with_timing, max_steps, current_directory, average_speed_n_steps, speed_limit, output_data_file, debug)
 
         is_more_efficient = calculate_overall_average_for_given_network(output_data_file, network_averages, greenlight_timings)
         if(is_more_efficient == "keep"):
