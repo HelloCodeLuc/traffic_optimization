@@ -1,64 +1,66 @@
 import pygame
 import math
 import csv 
-# Initialize Pygame
-pygame.init()
+import sys
 
-# Screen settings
-WIDTH, HEIGHT = 800, 600
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Two-Way Road with Directional Colors and Nodes")
+# Function to draw a dot for a node (intersection)
+def draw_node(screen, node_position, node_radius=8):
+    pygame.draw.circle(screen, NODE_COLOR, (int(node_position[0]), int(node_position[1])), node_radius)
 
-# Colors
-BLACK = (0, 0, 0)
-GRAY = (100, 100, 100)
-RED = (255, 0, 0)
-BLUE = (0, 0, 255)
-GREEN = (0, 255, 0)
-BROWN = (139, 69, 19)
-YELLOW = (255, 255, 0)
-NODE_COLOR = (0, 0, 255)  # Blue color for nodes (junctions)
-
-# Initialize an empty dictionary to store junction data
-scaled_positions = {}
-
-# File name
-file_name = "RESOURCES/CONNECTING_TWO_POINTS/GUI_junction_coordinates.csv"
+# Function to read the CSV file and return a list of dictionaries
+def read_edge_data(file_path):
+    edge_data = []
+    with open(file_path, mode='r') as csvfile:
+        reader = csv.DictReader(csvfile)
+        for row in reader:
+            # Convert numerical fields from strings to float
+            edge_data.append({
+                "edge_id": row["Edge ID"],
+                "from_node": row["from"],
+                "to_node": row["to"],
+                "speed_limit": float(row["Speed Limit (km/h)"]),
+                "average_speed": float(row["Average Speed (km/h)"])
+            })
+    return edge_data
 
 # Read the CSV file
-with open(file_name, mode='r') as file:
-    csv_reader = csv.DictReader(file)
+def read_GUI_junction_coordinates(file_name):
+    scaled_positions = {}
+    coordinates = {}
+    with open(file_name, mode='r') as file:
+        csv_reader = csv.DictReader(file)
     
-    for row in csv_reader:
-        # Ignore rows where the Junction ID starts with ':'
-        junction_id = row['Junction ID']
-        if not junction_id.startswith(':'):
-            # Store the X and Y coordinates in the dictionary
-            scaled_positions[junction_id] = (float(row['X Coordinate']), float(row['Y Coordinate']))
+        for row in csv_reader:
+            # Ignore rows where the Junction ID starts with ':'
+            junction_id = row['Junction ID']
+            if not junction_id.startswith(':'):
+                # Store the X and Y coordinates in the dictionary
+                coordinates[junction_id] = (float(row['X Coordinate']), float(row['Y Coordinate']))
 
-# Output the dictionary
-print(scaled_positions)
 
-# Junction Coordinates (scaling to fit screen)
-# scaled_positions = {
-#     "east": (500.00, 0.00),
-#     "main": (300.00, 0.00),
-#     "north": (300.00, 200.00),
-#     "south": (100.00, 0.00),
-#     "west": (300.00, -200.00),
-# }
-
-# Speed data for the roads (Embedded in the code)
-edge_data = [
-    {"edge_id": "-E0", "from_node": "south", "to_node": "main", "speed_limit": 50.004, "average_speed": 0.042},
-    {"edge_id": "-E1", "from_node": "north", "to_node": "main", "speed_limit": 50.004, "average_speed": 1.204},
-    {"edge_id": "-E2", "from_node": "east", "to_node": "main", "speed_limit": 50.004, "average_speed": 14.4},
-    {"edge_id": "-E3", "from_node": "west", "to_node": "main", "speed_limit": 50.004, "average_speed": 16.652},
-    {"edge_id": "E0", "from_node": "main", "to_node": "south", "speed_limit": 50.004, "average_speed": 47.525},
-    {"edge_id": "E1", "from_node": "main", "to_node": "north", "speed_limit": 50.004, "average_speed": 47.361},
-    {"edge_id": "E2", "from_node": "main", "to_node": "east", "speed_limit": 50.004, "average_speed": 44.269},
-    {"edge_id": "E3", "from_node": "main", "to_node": "west", "speed_limit": 50.004, "average_speed": 50.004},
-]
+    """
+    Normalize coordinates such that the x values are shifted left by the smallest x value,
+    and y values are shifted up by the smallest y value.
+    
+    Args:
+        coordinates (dict): A dictionary of coordinates with keys as IDs and values as (x, y) tuples.
+        
+    Returns:
+        dict: The shifted coordinates.
+    """
+    # Extract all x and y values
+    x_values = [coord[0] for coord in coordinates.values()]
+    y_values = [coord[1] for coord in coordinates.values()]
+    
+    # Find the smallest x and y values
+    min_x = min(x_values)
+    min_y = min(y_values)
+    
+    # Shift all coordinates
+    scaled_positions = {
+        key: (x - min_x, y - min_y) for key, (x, y) in coordinates.items()
+    }
+    return scaled_positions
 
 # Function to calculate lane color based on average speed
 def get_speed_color(average_speed):
@@ -94,10 +96,39 @@ def draw_two_way_road(screen, p1, p2, road_width, average_speed, speed_limit):
     # Draw the road lanes with corresponding colors
     pygame.draw.line(screen, color1, lane1_start, lane1_end, road_width)
     pygame.draw.line(screen, color2, lane2_start, lane2_end, road_width)
+    
+# Initialize Pygame
+pygame.init()
 
-# Function to draw a dot for a node (intersection)
-def draw_node(screen, node_position, node_radius=8):
-    pygame.draw.circle(screen, NODE_COLOR, (int(node_position[0]), int(node_position[1])), node_radius)
+# Screen settings
+WIDTH, HEIGHT = 800, 600
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("Two-Way Road with Directional Colors and Nodes")
+
+# Colors
+BLACK = (0, 0, 0)
+GRAY = (100, 100, 100)
+RED = (255, 0, 0)
+BLUE = (0, 0, 255)
+GREEN = (0, 255, 0)
+BROWN = (139, 69, 19)
+YELLOW = (255, 255, 0)
+NODE_COLOR = (0, 0, 255)  # Blue color for nodes (junctions)
+
+# Initialize an empty dictionary to store junction data
+scaled_positions = {}
+
+# File name
+file_name = "RESOURCES/CONNECTING_TWO_POINTS/GUI_junction_coordinates.csv"
+
+scaled_positions = read_GUI_junction_coordinates(file_name)
+
+# Output the dictionary
+print(scaled_positions)
+
+# Example usage
+file_path = "RESOURCES/CONNECTING_TWO_POINTS/GUI_average_speeds.csv"
+edge_data = read_edge_data(file_path)
 
 # Main loop
 running = True
@@ -110,14 +141,14 @@ all_x = [pos[0] for pos in scaled_positions.values()]
 all_y = [pos[1] for pos in scaled_positions.values()]
 
 # Calculate the center (average position)
-center_x = sum(all_x) / len(all_x)
-center_y = sum(all_y) / len(all_y)
+# center_x = sum(all_x) / len(all_x)
+# center_y = sum(all_y) / len(all_y)
 
 # Offset all positions by subtracting the center
-offset_scaled_positions = {
-    key: (value[0] - center_x + WIDTH / 2, value[1] - center_y + HEIGHT / 2)
-    for key, value in scaled_positions.items()
-}
+# offset_scaled_positions = {
+#     key: (value[0] - center_x + WIDTH / 2, value[1] - center_y + HEIGHT / 2)
+#     for key, value in scaled_positions.items()
+# }
 
 while running:
     for event in pygame.event.get():
@@ -131,14 +162,14 @@ while running:
     for edge in edge_data:
         from_node = edge['from_node']
         to_node = edge['to_node']
-        point1 = offset_scaled_positions[from_node]
-        point2 = offset_scaled_positions[to_node]
+        point1 = scaled_positions[from_node]
+        point2 = scaled_positions[to_node]
         average_speed = edge['average_speed']
         speed_limit = edge['speed_limit']
         draw_two_way_road(screen, point1, point2, road_width, average_speed, speed_limit)
     
     # Draw dots for each node (intersection)
-    for node_position in offset_scaled_positions.values():
+    for node_position in scaled_positions.values():
         draw_node(screen, node_position)
     
     # Update the display
