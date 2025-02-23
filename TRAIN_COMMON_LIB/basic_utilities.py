@@ -364,6 +364,37 @@ def check_queue_has_command (command, queue_file, delete_control):
             return False
     else:
         return False
+    
+def calculate_average_difference(file1, file2):
+    speeds1 = read_average_speeds(file1)
+    speeds2 = read_average_speeds(file2)
+
+    common_edges = set(speeds1.keys()) & set(speeds2.keys())
+    if not common_edges:
+        print("No common Edge IDs found between the files.")
+        return None, None
+
+    differences = {edge: abs(speeds1[edge] - speeds2[edge]) for edge in common_edges}
+    average_difference = sum(differences.values()) / len(differences)
+
+    # Identify the edge with the largest discrepancy
+    max_discrepancy_edge = max(differences, key=differences.get)
+    max_discrepancy_value = differences[max_discrepancy_edge]
+
+    return average_difference, max_discrepancy_edge, max_discrepancy_value
+
+def read_average_speeds(filename):
+    average_speeds = {}
+    with open(filename, 'r') as file:
+        reader = csv.DictReader(file)
+        for row in reader:
+            edge_id = row['Edge ID'].strip()
+            try:
+                average_speed = float(row['Average Speed (km/h)'])
+                average_speeds[edge_id] = average_speed
+            except ValueError:
+                continue  # Skip rows with invalid speed data
+    return average_speeds
 
 def batched_run_sumo (phase, num_batches, num_runs_per_batch, output_folder, network_with_timing, max_steps, current_directory, average_speed_n_steps, speed_limit, output_data_file, debug):
     output_folder_subdir = ""

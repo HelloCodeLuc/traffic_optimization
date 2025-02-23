@@ -2,7 +2,9 @@
 loop
     If not first bluetooth run
         Compare weights to bluetooth reference and identify largest delta
-        Make change to simulated network to better align with the bluetooth reference
+        Make randomized change to the edge with highest delta through the weight file to better align with the bluetooth reference
+        if average_speed_difference < average_speed_difference_last
+            
     Else
         Bring reference city network and timing into bluetooth run area
     
@@ -21,7 +23,8 @@ sys.path.append(os.path.join(os.path.dirname(__file__), 'TRAIN_COMMON_LIB'))
 import basic_utilities
 
 def create_ref_at_start(phase, num_batches, num_runs_per_batch, output_folder, bluetooth_network_with_timing, max_steps, current_directory, average_speed_n_steps, speed_limit, output_data_file, debug):
-    basic_utilities.batched_run_sumo(phase, num_batches, num_runs_per_batch, output_folder, bluetooth_network_with_timing, max_steps, current_directory, average_speed_n_steps, speed_limit, output_data_file, debug)
+    basic_utilities.batched_run_sumo(phase, num_batches, num_runs_per_batch, output_folder, bluetooth_network_with_timing, 
+                                     max_steps, current_directory, average_speed_n_steps, speed_limit, output_data_file, debug)
 
 def bluetooth_training(phase, output_folder, network_selection, bluetooth_network_with_timing, num_batches, num_runs_per_batch, max_steps, average_speed_n_steps, output_data_file):
     print(">> In Bluetooth_Training")
@@ -38,8 +41,6 @@ def bluetooth_training(phase, output_folder, network_selection, bluetooth_networ
         shutil.copy2(network_selection, f"{bluetooth_network_with_timing}.temp")
 
     create_ref_at_start(phase, num_batches, num_runs_per_batch, output_folder, bluetooth_network_with_timing, max_steps, current_directory, average_speed_n_steps, speed_limit, output_data_file, debug)
-    
-    #sys.exit()
 
     while True:
         if basic_utilities.check_queue_has_command("STOP", "out/command_queue.txt", 1): 
