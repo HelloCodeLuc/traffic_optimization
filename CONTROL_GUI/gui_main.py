@@ -8,6 +8,7 @@ from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from time import sleep
 import ctypes
 import Bluetooth_map
+import bluetooth_lib
 sys.path.append(os.path.join(os.path.dirname(__file__), 'TRAIN_COMMON_LIB'))
 import basic_utilities
 
@@ -184,6 +185,77 @@ def my_plot(output_data_file):
     
     plt.close(fig)  # Close the figure to free up resources
     return plot_surface
+
+def my_bluetooth(junction_coordinates, scaled_positions):
+    # Colors
+    BLACK = (0, 0, 0)
+    GRAY = (100, 100, 100)
+    RED = (255, 0, 0)
+    BLUE = (0, 0, 255)
+    GREEN = (0, 255, 0)
+    BROWN = (139, 69, 19)
+    YELLOW = (255, 255, 0)
+    NODE_COLOR = (0, 0, 255)  # Blue color for nodes (junctions)
+
+    # Initialize an empty dictionary to store junction data
+    scaled_positions = {}
+
+    # File name
+    file_name = "RESOURCES/CONNECTING_TWO_POINTS/GUI_junction_coordinates.csv"
+
+    scaled_positions = read_GUI_junction_coordinates(file_name)
+
+    # Output the dictionary
+    print(scaled_positions)
+
+    # Example usage
+    file_path = "RESOURCES/CONNECTING_TWO_POINTS/GUI_average_speeds.csv"
+    edge_data = read_edge_data(file_path)
+
+    # Main loop
+    running = True
+
+    # Road width (includes both lanes)
+    road_width = 10
+
+    # Center the diagram by finding the center of the coordinates
+    all_x = [pos[0] for pos in scaled_positions.values()]
+    all_y = [pos[1] for pos in scaled_positions.values()]
+
+    # Calculate the center (average position)
+    # center_x = sum(all_x) / len(all_x)
+    # center_y = sum(all_y) / len(all_y)
+
+    # Offset all positions by subtracting the center
+    # offset_scaled_positions = {
+    #     key: (value[0] - center_x + WIDTH / 2, value[1] - center_y + HEIGHT / 2)
+    #     for key, value in scaled_positions.items()
+    # }
+
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+        
+        # Fill screen with black
+        screen.fill(BLACK)
+        
+        # Loop through each edge and draw the roads with updated speeds and nodes
+        for edge in edge_data:
+            from_node = edge['from_node']
+            to_node = edge['to_node']
+            point1 = scaled_positions[from_node]
+            point2 = scaled_positions[to_node]
+            average_speed = edge['average_speed']
+            speed_limit = edge['speed_limit']
+            draw_two_way_road(screen, point1, point2, road_width, average_speed, speed_limit)
+        
+        # Draw dots for each node (intersection)
+        for node_position in scaled_positions.values():
+            draw_node(screen, node_position)
+        
+        # Update the display
+        pygame.display.flip()
 
 # Function to check if the file has been updated
 def has_file_updated(file_path, last_mod_time):

@@ -10,7 +10,6 @@ import bluetooth_lib
 import basic_utilities
 import optimize_timing_lib
 import gui_main
-import Bluetooth_map
 from multiprocessing import Process, Queue
 
 #TODO put an average line on graph
