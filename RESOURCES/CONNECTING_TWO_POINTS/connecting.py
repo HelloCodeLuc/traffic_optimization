@@ -60,8 +60,11 @@ def get_speed_color(average_speed):
 def draw_two_way_road(ax, p1, p2, road_width, average_speed, speed_limit):
     dx, dy = p2[0] - p1[0], p2[1] - p1[1]
     angle = math.atan2(dy, dx)
-    offset_dx = road_width / 2 * math.sin(angle)
-    offset_dy = road_width / 2 * math.cos(angle)
+    
+    # Increase the lane separation by modifying the offset calculation
+    lane_spacing_factor = 1.5  # Adjust this value to control spacing
+    offset_dx = (road_width * lane_spacing_factor) / 2 * math.sin(angle)
+    offset_dy = (road_width * lane_spacing_factor) / 2 * math.cos(angle)
 
     # Define road edges
     lane1_start = (p1[0] - offset_dx, p1[1] + offset_dy)
