@@ -8,7 +8,7 @@ from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from time import sleep
 import ctypes
 import Bluetooth_map
-import bluetooth_lib
+import bluetooth_gui_lib
 sys.path.append(os.path.join(os.path.dirname(__file__), 'TRAIN_COMMON_LIB'))
 import basic_utilities
 
@@ -186,76 +186,49 @@ def my_plot(output_data_file):
     plt.close(fig)  # Close the figure to free up resources
     return plot_surface
 
-def my_bluetooth(junction_coordinates, scaled_positions):
-    # Colors
-    BLACK = (0, 0, 0)
-    GRAY = (100, 100, 100)
-    RED = (255, 0, 0)
-    BLUE = (0, 0, 255)
-    GREEN = (0, 255, 0)
-    BROWN = (139, 69, 19)
-    YELLOW = (255, 255, 0)
-    NODE_COLOR = (0, 0, 255)  # Blue color for nodes (junctions)
+def my_bluetooth(junction_coordinates_file, average_speeds_file):
 
-    # Initialize an empty dictionary to store junction data
-    scaled_positions = {}
-
-    # File name
+    # # Read input files
+    # scaled_positions = bluetooth_lib.read_GUI_junction_coordinates(junction_coordinates)
+    # edge_data = bluetooth_lib.read_edge_data(scaled_positions)
+    # Read input files
     file_name = "RESOURCES/CONNECTING_TWO_POINTS/GUI_junction_coordinates.csv"
+    junction_coordinates = bluetooth_gui_lib.read_GUI_junction_coordinates(junction_coordinates_file)
 
-    scaled_positions = read_GUI_junction_coordinates(file_name)
-
-    # Output the dictionary
-    print(scaled_positions)
-
-    # Example usage
     file_path = "RESOURCES/CONNECTING_TWO_POINTS/GUI_average_speeds.csv"
-    edge_data = read_edge_data(file_path)
+    edge_data = bluetooth_gui_lib.read_edge_data(average_speeds_file)
 
-    # Main loop
-    running = True
+    # Road width
+    road_width = 8
 
-    # Road width (includes both lanes)
-    road_width = 10
+    # Create Matplotlib figure
+    fig, ax = plt.subplots(figsize=(8, 6))
+    ax.set_aspect('equal')
+    ax.set_facecolor('black')
 
-    # Center the diagram by finding the center of the coordinates
-    all_x = [pos[0] for pos in scaled_positions.values()]
-    all_y = [pos[1] for pos in scaled_positions.values()]
+    # Draw roads and nodes
+    for edge in edge_data:
+        from_node = edge['from_node']
+        to_node = edge['to_node']
+        point1 = junction_coordinates[from_node]
+        point2 = junction_coordinates[to_node]
+        average_speed = edge['average_speed']
+        speed_limit = edge['speed_limit']
+        bluetooth_gui_lib.draw_two_way_road(ax, point1, point2, road_width, average_speed, speed_limit)
 
-    # Calculate the center (average position)
-    # center_x = sum(all_x) / len(all_x)
-    # center_y = sum(all_y) / len(all_y)
+    # Draw nodes
+    for node_position in junction_coordinates.values():
+        bluetooth_gui_lib.draw_node(ax, node_position)
 
-    # Offset all positions by subtracting the center
-    # offset_scaled_positions = {
-    #     key: (value[0] - center_x + WIDTH / 2, value[1] - center_y + HEIGHT / 2)
-    #     for key, value in scaled_positions.items()
-    # }
+    # Remove axis labels and ticks
+    ax.set_xticks([])
+    ax.set_yticks([])
+    ax.set_frame_on(False)
 
-    while running:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
-        
-        # Fill screen with black
-        screen.fill(BLACK)
-        
-        # Loop through each edge and draw the roads with updated speeds and nodes
-        for edge in edge_data:
-            from_node = edge['from_node']
-            to_node = edge['to_node']
-            point1 = scaled_positions[from_node]
-            point2 = scaled_positions[to_node]
-            average_speed = edge['average_speed']
-            speed_limit = edge['speed_limit']
-            draw_two_way_road(screen, point1, point2, road_width, average_speed, speed_limit)
-        
-        # Draw dots for each node (intersection)
-        for node_position in scaled_positions.values():
-            draw_node(screen, node_position)
-        
-        # Update the display
-        pygame.display.flip()
+    # Convert Matplotlib figure to Pygame surface
+    pygame_surface = bluetooth_gui_lib.fig_to_pygame(fig)
+    plt.close(fig)
+    return pygame_surface
 
 # Function to check if the file has been updated
 def has_file_updated(file_path, last_mod_time):
@@ -304,13 +277,13 @@ def draw_page(plot_surface, bluetooth_plot_surface, current_page, screen, width,
     if current_page == "Main":
         # Draw the plot on the Default page
         screen.blit(plot_surface, (50, 70))  # Positioning the plot near the top
-        #screen.blit(bluetooth_plot_surface, (50, 200))
         draw_buttons(screen, font, simulation_state)
         text = font.render(f"Phase: {phase}", True, BLACK)
         screen.blit(text, (100, 500))
         draw_dropdown(dropdown_font, dropdown_options, screen, dropdown_rect, dropdown_open, selected_network)
     elif current_page == "Bluetooth Training":
         # Placeholder for Bluetooth Training page content
+        screen.blit(bluetooth_plot_surface, (50, 200))
         text = font.render("Bluetooth Training Page", True, BLACK)
         screen.blit(text, (width // 2 - text.get_width() // 2, height // 2))
     elif current_page == "Sim Optimization":
@@ -359,7 +332,7 @@ def gui_main(phase):
     simulation_state = "STOP"
 
     # Load the bluetooth plot as an image surface
-    bluetooth_plot_surface = Bluetooth_map.bluetooth_extract_nodes_edges_create_plot()
+    # bluetooth_plot_surface = Bluetooth_map.bluetooth_extract_nodes_edges_create_plot()
 
     # Set up a timer event to check for file modifications
     FILE_MODIFIED_EVENT = pygame.USEREVENT + 1
@@ -393,6 +366,8 @@ def gui_main(phase):
 
         # Load the plot as an image surface
         plot_surface = my_plot(file_path)
+        bluetooth_plot_surface = my_bluetooth("RESOURCES/CONNECTING_TWO_POINTS/GUI_junction_coordinates.csv", 
+                                              "RESOURCES/CONNECTING_TWO_POINTS/GUI_average_speeds.csv")
 
         for event in pygame.event.get():
             if event.type == pygame.VIDEORESIZE:
