@@ -7,22 +7,8 @@ import numpy as np
 from io import BytesIO
 from PIL import Image
 
-def fig_to_pygame(fig):
-    """Convert a Matplotlib figure to a Pygame surface."""
-    buf = BytesIO()
-    fig.savefig(buf, format="PNG")  # Save figure as PNG to buffer
-    buf.seek(0)  # Move to the beginning of the buffer
-
-    # Load the image with PIL and convert to a format pygame supports
-    image = Image.open(buf)
-    mode = image.mode
-    size = image.size
-    data = image.tobytes()
-
-    return pygame.image.fromstring(data, size, mode)  # Convert to pygame surface
-
 # Function to draw a dot for a node using Matplotlib
-def draw_node(ax, node_position, node_radius=12):
+def draw_node(ax, node_position, node_radius=8):
     ax.scatter(node_position[0], node_position[1], s=node_radius**2, color='blue', zorder=2)
 
 # Function to read the CSV file and return a list of dictionaries
@@ -91,6 +77,20 @@ def draw_two_way_road(ax, p1, p2, road_width, average_speed, speed_limit):
     ax.plot([lane1_start[0], lane1_end[0]], [lane1_start[1], lane1_end[1]], color=color1, linewidth=road_width, zorder=1)
     ax.plot([lane2_start[0], lane2_end[0]], [lane2_start[1], lane2_end[1]], color=color2, linewidth=road_width, zorder=1)
 
+def fig_to_pygame(fig):
+    """Convert a Matplotlib figure to a Pygame surface."""
+    buf = BytesIO()
+    fig.savefig(buf, format="PNG")  # Save figure as PNG to buffer
+    buf.seek(0)  # Move to the beginning of the buffer
+
+    # Load the image with PIL and convert to a format pygame supports
+    image = Image.open(buf)
+    mode = image.mode
+    size = image.size
+    data = image.tobytes()
+
+    return pygame.image.fromstring(data, size, mode)  # Convert to pygame surface
+
 # Initialize Pygame
 pygame.init()
 
@@ -107,13 +107,12 @@ file_path = "RESOURCES/CONNECTING_TWO_POINTS/GUI_average_speeds.csv"
 edge_data = read_edge_data(file_path)
 
 # Road width
-road_width = 13
+road_width = 8
 
 # Create Matplotlib figure
 fig, ax = plt.subplots(figsize=(8, 6))
-fig.patch.set_facecolor('black')  # Set figure background to black
 ax.set_aspect('equal')
-ax.set_position([0.06, 0.55, 0.4, 0.4])  #left = 0.05 moves it closer to the left bottom = 0.55 moves it upward width = 0.4, height = 0.4 control the size.
+ax.set_facecolor('black')
 
 # Draw roads and nodes
 for edge in edge_data:
