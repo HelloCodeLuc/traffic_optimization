@@ -252,7 +252,7 @@ def gui_main(phase):
     pygame.init()
 
     # Set up the window (Enlarged size)
-    width, height = 900, 600
+    width, height = 1200, 900
     screen = pygame.display.set_mode((width, height))
     pygame.display.set_caption("TRAFFIC OPTIMIZER")
     hwnd = ctypes.windll.user32.GetForegroundWindow()
