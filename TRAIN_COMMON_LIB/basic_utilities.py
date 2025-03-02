@@ -7,6 +7,8 @@ import csv
 import traci
 import subprocess
 import random
+import glob
+import time
 from multiprocessing import Process, Queue
 
 def get_current_datetime():
@@ -267,85 +269,6 @@ def extract_speeds_from_edges(xml_file):
                 print(edge_id, edge_speeds[edge_id])
     return edge_speeds
 
-def run_sumo(config_file, max_steps, result_queue, average_speed_n_steps, out_dir, speed_limit):
-    current_directory = os.getcwd()
-    #print(f"current_directory : {current_directory}")
-    # Launch SUMO with GUI using the generated configuration file
-    sumo_cmd = ["sumo", "-c", f"{config_file}"]
-    # if gui_opt:
-    #     sumo_cmd = ["sumo-gui", "-c", f"{config_file}"] 
-
-    # Initialize a dictionary to store idle times for each vehicle
-    idle_times = {}
-    traci.start(sumo_cmd)
-    step = 0 
-    simulation_step_size = 1
-    all_edges = traci.edge.getIDList()
-    edge_max_speed = {}
-
-    # Initialize a dictionary to store arrays of average speeds for each edge
-    edge_speeds = {}
-
-    while step < max_steps:
-        traci.simulationStep()
-        step += simulation_step_size
-        #time.sleep(0.1) #TODO 
-        #
-        if step > (max_steps-average_speed_n_steps):
-            for edge_id in all_edges:
-                if not edge_id.startswith(":"):
-                    # Get the average speed for the edge at this simulation step
-                    avg_speed = traci.edge.getLastStepMeanSpeed(edge_id)
-                    # Add the speed to the hash of arrays
-                if edge_id not in edge_speeds:
-                    edge_speeds[edge_id] = []  # Initialize the array for this edge
-                edge_speeds[edge_id].append(avg_speed)
-
-        # Get the list of vehicles
-        vehicles = traci.vehicle.getIDList()
-
-        # Update idle times
-        for vehicle_id in vehicles:
-            speed = traci.vehicle.getSpeed(vehicle_id)
-            if speed < 5:
-                if vehicle_id not in idle_times:
-                    idle_times[vehicle_id] = 0
-                else:
-                    idle_times[vehicle_id] += simulation_step_size
-
-    edges = read_edge_file(f"{out_dir}/../GUI_edges.csv")
-
-    #TODO we need to uniquify between bluetooth steps and optimization steps
-    # Write the collected average speed data to a CSV file
-    output_file = f"{out_dir}/GUI_average_speeds.csv"
-    with open(output_file, mode='w', newline='') as file:
-        writer = csv.writer(file)
-        writer.writerow(["Edge ID", "from", "to","Speed Limit (km/h)", "Average Speed (km/h)"])  # Write header
-
-        for edge_id, speeds in edge_speeds.items():
-            # Exclude junctions (edges with IDs starting with ':')
-            if not edge_id.startswith(":"):
-                # Calculate the average speed for the edge and round to the nearest thousandth
-                if speeds:  # Check to avoid division by zero
-                    #average_speed = ((sum(speeds) *3.6)/ len(speeds), 3)
-                    average_speed_mps = sum(speeds) / len(speeds)  # Average speed in m/s
-                    average_speed_kph = round(average_speed_mps * 3.6, 3)  # Convert to km/h
-                    #round(average_speed, 2)
-                else:
-                    average_speed = edge_max_speed[edge_id]
-                (from_junction, to_junction) = edges[edge_id]
-                writer.writerow([edge_id, from_junction, to_junction, speed_limit[edge_id], average_speed_kph])  # Write edge and its average speed
-
-    # Calculate average idle time
-    average_idle_time = sum(idle_times.values()) / len(idle_times)
-
-    traci.close()
-
-    # Print the average idle time
-    print(f"DEBUG INSIDE <run_sumo> : config_file={config_file}, max_steps={max_steps}, Average Idle Time:{average_idle_time}" )
-    os.chdir(current_directory)
-    result_queue.put(average_idle_time)
-
 def check_queue_has_command (command, queue_file, delete_control):
     if os.path.exists(queue_file):
         found = 0
@@ -396,12 +319,152 @@ def read_average_speeds(filename):
                 continue  # Skip rows with invalid speed data
     return average_speeds
 
+
+# For a given batch, this summarizes the average speed for all edges across all run_sumo runs
+def compute_average_speeds(input_folder, output_file):
+    """
+    Reads multiple CSV files, keeps all columns unchanged, and averages the last column (Average Speed) per edge.
+
+    :param input_folder: Folder containing the input CSV files.
+    :param output_file: Name of the output file where results will be saved.
+    """
+    speed_data = {}  # Dictionary to store sum of speeds and count per edge
+    edge_details = {}  # Stores the first occurrence of each edge's details
+
+    # Get all CSV files in the directory
+    csv_files = glob.glob(os.path.join(input_folder, "*.csv"))
+
+    if not csv_files:
+        print("No CSV files found in the directory.")
+        return
+
+    # Process each CSV file
+    for file in csv_files:
+        with open(file, newline='', encoding='utf-8') as f:
+            reader = csv.reader(f)
+            header = next(reader)  # Read header
+
+            for row in reader:
+                if len(row) < 5:
+                    continue  # Skip malformed rows
+
+                edge_id = row[0]
+                avg_speed = float(row[4])  # Extract last column (Average Speed)
+
+                # Store the first occurrence of each edge's full details (excluding last column)
+                if edge_id not in edge_details:
+                    edge_details[edge_id] = row[:-1]  # Keep everything except last column
+
+                # Sum speeds for averaging
+                if edge_id in speed_data:
+                    speed_data[edge_id]["sum"] += avg_speed
+                    speed_data[edge_id]["count"] += 1
+                else:
+                    speed_data[edge_id] = {"sum": avg_speed, "count": 1}
+        os.remove(file)
+
+    # Write results to output file
+    with open(output_file, "w", newline='', encoding='utf-8') as f:
+        writer = csv.writer(f)
+        writer.writerow(header)  # Write the original header
+
+        for edge_id, data in speed_data.items():
+            avg_speed = data["sum"] / data["count"]
+            writer.writerow(edge_details[edge_id] + [round(avg_speed, 3)])  # Keep all columns and update last one
+
+    print(f"Average speeds written to {output_file}")
+
+
+def run_sumo(config_file, max_steps, result_queue, average_speed_n_steps, out_dir, speed_limit, run_number):
+    current_directory = os.getcwd()
+    #print(f"current_directory : {current_directory}")
+    # Launch SUMO with GUI using the generated configuration file
+    sumo_cmd = ["sumo", "-c", f"{config_file}"]
+    # if gui_opt:
+    #     sumo_cmd = ["sumo-gui", "-c", f"{config_file}"] 
+
+    # Initialize a dictionary to store idle times for each vehicle
+    idle_times = {}
+    traci.start(sumo_cmd)
+    step = 0 
+    simulation_step_size = 1
+    all_edges = traci.edge.getIDList()
+    edge_max_speed = {}
+
+    # Initialize a dictionary to store arrays of average speeds for each edge
+    edge_speeds = {}
+
+    while step < max_steps:
+        traci.simulationStep()
+        step += simulation_step_size
+        #time.sleep(0.1) #TODO 
+        #
+        if step > (max_steps-average_speed_n_steps):
+            for edge_id in all_edges:
+                if not edge_id.startswith(":"):
+                    # Get the average speed for the edge at this simulation step
+                    avg_speed = traci.edge.getLastStepMeanSpeed(edge_id)
+                    # Add the speed to the hash of arrays
+                if edge_id not in edge_speeds:
+                    edge_speeds[edge_id] = []  # Initialize the array for this edge
+                edge_speeds[edge_id].append(avg_speed)
+
+        # Get the list of vehicles
+        vehicles = traci.vehicle.getIDList()
+
+        # Update idle times
+        for vehicle_id in vehicles:
+            speed = traci.vehicle.getSpeed(vehicle_id)
+            if speed < 5:
+                if vehicle_id not in idle_times:
+                    idle_times[vehicle_id] = 0
+                else:
+                    idle_times[vehicle_id] += simulation_step_size
+
+    edges = read_edge_file(f"{out_dir}/../GUI_edges.csv")
+
+    #TODO we need to uniquify between bluetooth steps and optimization steps
+    # Write the collected average speed data to a CSV file
+    if not os.path.exists(f"{out_dir}/GUI_average_speeds_per_run_sumo"):
+        os.makedirs(f"{out_dir}/GUI_average_speeds_per_run_sumo")
+    output_file = f"{out_dir}/GUI_average_speeds_per_run_sumo/GUI_speeds.{run_number}.csv"
+    with open(output_file, mode='w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow(["Edge ID", "from", "to","Speed Limit (km/h)", "Average Speed (km/h)"])  # Write header
+
+        for edge_id, speeds in edge_speeds.items():
+            # Exclude junctions (edges with IDs starting with ':')
+            if not edge_id.startswith(":"):
+                # Calculate the average speed for the edge and round to the nearest thousandth
+                if speeds:  # Check to avoid division by zero
+                    #average_speed = ((sum(speeds) *3.6)/ len(speeds), 3)
+                    average_speed_mps = sum(speeds) / len(speeds)  # Average speed in m/s
+                    average_speed_kph = round(average_speed_mps * 3.6, 3)  # Convert to km/h
+                    #round(average_speed, 2)
+                else:
+                    average_speed = edge_max_speed[edge_id]
+                (from_junction, to_junction) = edges[edge_id]
+                writer.writerow([edge_id, from_junction, to_junction, speed_limit[edge_id], average_speed_kph])  # Write edge and its average speed
+
+    # Calculate average idle time
+    average_idle_time = sum(idle_times.values()) / len(idle_times)
+
+    traci.close()
+
+    # Print the average idle time
+    print(f"DEBUG INSIDE <run_sumo> : config_file={config_file}, max_steps={max_steps}, Average Idle Time:{average_idle_time}" )
+    os.chdir(current_directory)
+    result_queue.put(average_idle_time)
+
+
 def batched_run_sumo (phase, num_batches, num_runs_per_batch, output_folder, network_with_timing, max_steps, current_directory, average_speed_n_steps, speed_limit, output_data_file, debug):
     output_folder_subdir = ""
     if phase == "bluetooth":
         output_folder_subdir = "TRAIN_BLUETOOTH"
     elif phase == "optimize":
         output_folder_subdir = "TRAIN_OPTIMIZATION"
+
+    run_number = 0
 
     for run in range(num_batches):
         random_seeds = []
@@ -438,7 +501,8 @@ def batched_run_sumo (phase, num_batches, num_runs_per_batch, output_folder, net
 
         # Launch each simulation in a separate process
         for config in config_files:
-            process = Process(target=run_sumo, args=(config, int(max_steps), result_queue, average_speed_n_steps, f"{output_folder}/{output_folder_subdir}", speed_limit))
+            run_number = run_number + 1
+            process = Process(target=run_sumo, args=(config, int(max_steps), result_queue, average_speed_n_steps, f"{output_folder}/{output_folder_subdir}", speed_limit, run_number))
             processes.append(process)
             process.start()
 
@@ -453,6 +517,7 @@ def batched_run_sumo (phase, num_batches, num_runs_per_batch, output_folder, net
             average_idle_times_from_batch.append(result)
 
         # Write the iteration number to the output_data file
+        # output_data_file = output_data.txt
         with open(output_data_file, "a") as f:
             for idx, average_idle_time in enumerate(average_idle_times_from_batch):
                 f.write(f"Random Seed: {random_seeds[idx]},")
@@ -463,5 +528,7 @@ def batched_run_sumo (phase, num_batches, num_runs_per_batch, output_folder, net
                     os.remove(trip_files[idx]) 
                 if os.path.exists(config_files[idx]):
                     os.remove(config_files[idx])
+
         if (debug == 1):
             sys.exit()
+    compute_average_speeds(f"{output_folder}/{output_folder_subdir}/GUI_average_speeds_per_run_sumo", f"{output_folder}/{output_folder_subdir}/GUI_average_speeds.csv")
