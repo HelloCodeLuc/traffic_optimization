@@ -10,7 +10,6 @@ import bluetooth_lib
 import basic_utilities
 import optimize_timing_lib
 import gui_main
-import Bluetooth_map
 from multiprocessing import Process, Queue
 
 #TODO put an average line on graph
@@ -37,7 +36,7 @@ light_name_data = {
     }
 
 timing_light_increment = 2
-num_batches = 1
+num_batches = 2
 num_runs_per_batch = 2
 max_steps = 200
 num_of_runs_on_network = 1000
@@ -79,7 +78,9 @@ def main_loop(num_batches, num_runs_per_batch, network_selection, max_steps, pha
                 parsed_string_without_extension = parsed_string.replace(".net.xml", "")
                 bluetooth_network_with_timing = os.path.join(output_folder, f"TRAIN_BLUETOOTH/{parsed_string_without_extension}.timing.net.xml")
                 phase = "bluetooth"
-                bluetooth_lib.bluetooth_training(phase, output_folder, network_selection, bluetooth_network_with_timing, num_batches, num_runs_per_batch, max_steps, average_speed_n_steps, output_data_file)
+                bluetooth_lib.bluetooth_training(phase, bluetooth_network_with_timing, output_folder, output_data_file, num_of_runs_on_network, num_batches, num_runs_per_batch, network_selection, 
+                                                max_steps, bluetooth_network_with_timing, light_names, timing_light_increment,  
+                                                num_of_greenlight_duplicate_limit, average_speed_n_steps)
 
                 # sys.exit()
 
