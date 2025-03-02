@@ -25,7 +25,7 @@ def read_edge_data(file_path):
             })
     return edge_data
 
-# Read the CSV file
+# Read the csv file
 def read_GUI_junction_coordinates(file_name):
     coordinates = {}
     with open(file_name, mode='r') as file:
@@ -35,11 +35,18 @@ def read_GUI_junction_coordinates(file_name):
             if not junction_id.startswith(':'):
                 coordinates[junction_id] = (float(row['X Coordinate']), float(row['Y Coordinate']))
 
-    # Normalize coordinates by shifting
+    # Find the minimum x and y coordinates
     min_x = min(coord[0] for coord in coordinates.values())
     min_y = min(coord[1] for coord in coordinates.values())
 
+    # Shift the coordinates to move the origin to the top-left of the screen
     scaled_positions = {key: (x - min_x, y - min_y) for key, (x, y) in coordinates.items()}
+
+    # Print statements after defining scaled_positions
+    print("Original coordinates:", coordinates)
+    print("Scaled coordinates:", scaled_positions)
+    print(f"Smallest X: {min_x}, Smallest Y: {min_y}")
+
     return scaled_positions
 
 # Function to calculate lane color based on average speed
