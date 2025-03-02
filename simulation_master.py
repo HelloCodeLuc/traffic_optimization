@@ -36,7 +36,7 @@ light_name_data = {
     }
 
 timing_light_increment = 2
-num_batches = 1
+num_batches = 2
 num_runs_per_batch = 2
 max_steps = 200
 num_of_runs_on_network = 1000

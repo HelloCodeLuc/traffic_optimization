@@ -28,7 +28,7 @@ def bluetooth_create_ref_at_start(phase, num_batches, num_runs_per_batch, output
                                      max_steps, current_directory, average_speed_n_steps, speed_limit, output_data_file, debug):
     basic_utilities.batched_run_sumo(phase, num_batches, num_runs_per_batch, output_folder, bluetooth_network_with_timing, 
                                      max_steps, current_directory, average_speed_n_steps, speed_limit, output_data_file, debug)
-    bluetooth_start_network_averages = os.path.join(output_folder, "TRAIN_BLUETOOTH/network_averages.txt")
+    bluetooth_start_network_averages = os.path.join(output_folder, "TRAIN_BLUETOOTH/bluetooth_start_network_averages.txt")
 
 
 def bluetooth_training(phase, bluetooth_network_with_timing, output_folder, output_data_file, num_of_runs_on_network, num_batches, num_runs_per_batch, network_selection, 
