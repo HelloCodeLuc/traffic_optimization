@@ -19,14 +19,21 @@ import sys
 import os
 import time
 import shutil
+# sys.path.append(os.path.join(os.path.dirname(__file__), 'TRAIN_OPTIMIZATION'))
+# import optimize_timing_lib
 sys.path.append(os.path.join(os.path.dirname(__file__), 'TRAIN_COMMON_LIB'))
 import basic_utilities
 
-def create_ref_at_start(phase, num_batches, num_runs_per_batch, output_folder, bluetooth_network_with_timing, max_steps, current_directory, average_speed_n_steps, speed_limit, output_data_file, debug):
+def bluetooth_create_ref_at_start(phase, num_batches, num_runs_per_batch, output_folder, bluetooth_network_with_timing, 
+                                     max_steps, current_directory, average_speed_n_steps, speed_limit, output_data_file, debug):
     basic_utilities.batched_run_sumo(phase, num_batches, num_runs_per_batch, output_folder, bluetooth_network_with_timing, 
                                      max_steps, current_directory, average_speed_n_steps, speed_limit, output_data_file, debug)
+    bluetooth_start_network_averages = os.path.join(output_folder, "TRAIN_BLUETOOTH/network_averages.txt")
 
-def bluetooth_training(phase, output_folder, network_selection, bluetooth_network_with_timing, num_batches, num_runs_per_batch, max_steps, average_speed_n_steps, output_data_file):
+
+def bluetooth_training(phase, bluetooth_network_with_timing, output_folder, output_data_file, num_of_runs_on_network, num_batches, num_runs_per_batch, network_selection, 
+                                                max_steps, network_with_timing, light_names, timing_light_increment, 
+                                                num_of_greenlight_duplicate_limit, average_speed_n_steps):
     print(">> In Bluetooth_Training")
     print(f"Network File: {network_selection}, Output Directory: {output_folder}")
     print(f"Bluetooth Network File: {bluetooth_network_with_timing}")
@@ -40,7 +47,11 @@ def bluetooth_training(phase, output_folder, network_selection, bluetooth_networ
         shutil.copy2(network_selection, bluetooth_network_with_timing)
         shutil.copy2(network_selection, f"{bluetooth_network_with_timing}.temp")
 
-    create_ref_at_start(phase, num_batches, num_runs_per_batch, output_folder, bluetooth_network_with_timing, max_steps, current_directory, average_speed_n_steps, speed_limit, output_data_file, debug)
+    bluetooth_create_ref_at_start(phase, num_batches, num_runs_per_batch, output_folder, bluetooth_network_with_timing, 
+                                     max_steps, current_directory, average_speed_n_steps, speed_limit, output_data_file, debug)
+    # optimize_timing_lib.optimize_timing_main(phase, output_folder, output_data_file, num_of_runs_on_network, num_batches, num_runs_per_batch, network_selection, 
+    #                                             max_steps, network_with_timing, light_names, timing_light_increment, network_averages, 
+    #                                             num_of_greenlight_duplicate_limit, average_speed_n_steps)
 
     while True:
         if basic_utilities.check_queue_has_command("STOP", "out/command_queue.txt", 1): 
