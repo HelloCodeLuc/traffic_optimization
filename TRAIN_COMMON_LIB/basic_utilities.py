@@ -7,6 +7,8 @@ import csv
 import traci
 import subprocess
 import random
+import glob
+import time
 from multiprocessing import Process, Queue
 
 def get_current_datetime():
@@ -267,7 +269,113 @@ def extract_speeds_from_edges(xml_file):
                 print(edge_id, edge_speeds[edge_id])
     return edge_speeds
 
-def run_sumo(config_file, max_steps, result_queue, average_speed_n_steps, out_dir, speed_limit):
+def check_queue_has_command (command, queue_file, delete_control):
+    if os.path.exists(queue_file):
+        found = 0
+        with open(queue_file, "r") as f:
+            for line in f:
+                line = line.strip()
+                if line == command:
+                    found = 1
+        f.close()
+        if found == 1:
+            if (delete_control == 1):
+                print(f">> Removing {queue_file}")
+                os.remove(queue_file) 
+            return True
+        else:
+            return False
+    else:
+        return False
+    
+def calculate_average_difference(file1, file2):
+    speeds1 = read_average_speeds(file1)
+    speeds2 = read_average_speeds(file2)
+
+    common_edges = set(speeds1.keys()) & set(speeds2.keys())
+    if not common_edges:
+        print("No common Edge IDs found between the files.")
+        return None, None
+
+    differences = {edge: abs(speeds1[edge] - speeds2[edge]) for edge in common_edges}
+    average_difference = sum(differences.values()) / len(differences)
+
+    # Identify the edge with the largest discrepancy
+    max_discrepancy_edge = max(differences, key=differences.get)
+    max_discrepancy_value = differences[max_discrepancy_edge]
+
+    return average_difference, max_discrepancy_edge, max_discrepancy_value
+
+def read_average_speeds(filename):
+    average_speeds = {}
+    with open(filename, 'r') as file:
+        reader = csv.DictReader(file)
+        for row in reader:
+            edge_id = row['Edge ID'].strip()
+            try:
+                average_speed = float(row['Average Speed (km/h)'])
+                average_speeds[edge_id] = average_speed
+            except ValueError:
+                continue  # Skip rows with invalid speed data
+    return average_speeds
+
+
+# For a given batch, this summarizes the average speed for all edges across all run_sumo runs
+def compute_average_speeds(input_folder, output_file):
+    """
+    Reads multiple CSV files, keeps all columns unchanged, and averages the last column (Average Speed) per edge.
+
+    :param input_folder: Folder containing the input CSV files.
+    :param output_file: Name of the output file where results will be saved.
+    """
+    speed_data = {}  # Dictionary to store sum of speeds and count per edge
+    edge_details = {}  # Stores the first occurrence of each edge's details
+
+    # Get all CSV files in the directory
+    csv_files = glob.glob(os.path.join(input_folder, "*.csv"))
+
+    if not csv_files:
+        print("No CSV files found in the directory.")
+        return
+
+    # Process each CSV file
+    for file in csv_files:
+        with open(file, newline='', encoding='utf-8') as f:
+            reader = csv.reader(f)
+            header = next(reader)  # Read header
+
+            for row in reader:
+                if len(row) < 5:
+                    continue  # Skip malformed rows
+
+                edge_id = row[0]
+                avg_speed = float(row[4])  # Extract last column (Average Speed)
+
+                # Store the first occurrence of each edge's full details (excluding last column)
+                if edge_id not in edge_details:
+                    edge_details[edge_id] = row[:-1]  # Keep everything except last column
+
+                # Sum speeds for averaging
+                if edge_id in speed_data:
+                    speed_data[edge_id]["sum"] += avg_speed
+                    speed_data[edge_id]["count"] += 1
+                else:
+                    speed_data[edge_id] = {"sum": avg_speed, "count": 1}
+        os.remove(file)
+
+    # Write results to output file
+    with open(output_file, "w", newline='', encoding='utf-8') as f:
+        writer = csv.writer(f)
+        writer.writerow(header)  # Write the original header
+
+        for edge_id, data in speed_data.items():
+            avg_speed = data["sum"] / data["count"]
+            writer.writerow(edge_details[edge_id] + [round(avg_speed, 3)])  # Keep all columns and update last one
+
+    print(f"Average speeds written to {output_file}")
+
+
+def run_sumo(config_file, max_steps, result_queue, average_speed_n_steps, out_dir, speed_limit, run_number):
     current_directory = os.getcwd()
     #print(f"current_directory : {current_directory}")
     # Launch SUMO with GUI using the generated configuration file
@@ -317,7 +425,9 @@ def run_sumo(config_file, max_steps, result_queue, average_speed_n_steps, out_di
 
     #TODO we need to uniquify between bluetooth steps and optimization steps
     # Write the collected average speed data to a CSV file
-    output_file = f"{out_dir}/GUI_average_speeds.csv"
+    if not os.path.exists(f"{out_dir}/GUI_average_speeds_per_run_sumo"):
+        os.makedirs(f"{out_dir}/GUI_average_speeds_per_run_sumo")
+    output_file = f"{out_dir}/GUI_average_speeds_per_run_sumo/GUI_speeds.{run_number}.csv"
     with open(output_file, mode='w', newline='') as file:
         writer = csv.writer(file)
         writer.writerow(["Edge ID", "from", "to","Speed Limit (km/h)", "Average Speed (km/h)"])  # Write header
@@ -346,24 +456,6 @@ def run_sumo(config_file, max_steps, result_queue, average_speed_n_steps, out_di
     os.chdir(current_directory)
     result_queue.put(average_idle_time)
 
-def check_queue_has_command (command, queue_file, delete_control):
-    if os.path.exists(queue_file):
-        found = 0
-        with open(queue_file, "r") as f:
-            for line in f:
-                line = line.strip()
-                if line == command:
-                    found = 1
-        f.close()
-        if found == 1:
-            if (delete_control == 1):
-                print(f">> Removing {queue_file}")
-                os.remove(queue_file) 
-            return True
-        else:
-            return False
-    else:
-        return False
 
 def batched_run_sumo (phase, num_batches, num_runs_per_batch, output_folder, network_with_timing, max_steps, current_directory, average_speed_n_steps, speed_limit, output_data_file, debug):
     output_folder_subdir = ""
@@ -371,6 +463,8 @@ def batched_run_sumo (phase, num_batches, num_runs_per_batch, output_folder, net
         output_folder_subdir = "TRAIN_BLUETOOTH"
     elif phase == "optimize":
         output_folder_subdir = "TRAIN_OPTIMIZATION"
+
+    run_number = 0
 
     for run in range(num_batches):
         random_seeds = []
@@ -407,7 +501,8 @@ def batched_run_sumo (phase, num_batches, num_runs_per_batch, output_folder, net
 
         # Launch each simulation in a separate process
         for config in config_files:
-            process = Process(target=run_sumo, args=(config, int(max_steps), result_queue, average_speed_n_steps, f"{output_folder}/{output_folder_subdir}", speed_limit))
+            run_number = run_number + 1
+            process = Process(target=run_sumo, args=(config, int(max_steps), result_queue, average_speed_n_steps, f"{output_folder}/{output_folder_subdir}", speed_limit, run_number))
             processes.append(process)
             process.start()
 
@@ -422,6 +517,7 @@ def batched_run_sumo (phase, num_batches, num_runs_per_batch, output_folder, net
             average_idle_times_from_batch.append(result)
 
         # Write the iteration number to the output_data file
+        # output_data_file = output_data.txt
         with open(output_data_file, "a") as f:
             for idx, average_idle_time in enumerate(average_idle_times_from_batch):
                 f.write(f"Random Seed: {random_seeds[idx]},")
@@ -432,5 +528,7 @@ def batched_run_sumo (phase, num_batches, num_runs_per_batch, output_folder, net
                     os.remove(trip_files[idx]) 
                 if os.path.exists(config_files[idx]):
                     os.remove(config_files[idx])
+
         if (debug == 1):
             sys.exit()
+    compute_average_speeds(f"{output_folder}/{output_folder_subdir}/GUI_average_speeds_per_run_sumo", f"{output_folder}/{output_folder_subdir}/GUI_average_speeds.csv")
