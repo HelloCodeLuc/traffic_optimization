@@ -32,7 +32,8 @@ light_name_data = {
             "mackenzie_peter", "maurier_dufferin", "peter_rutherford",
             "rutherford_dufferin"],
     "weight_test/weight_test.net.xml": ["main"],
-    "simple_network/simple_network.net.xml": ["main"]
+    "simple_network/simple_network.net.xml": ["main"],
+    "diamond_network/diamond_network.net.xml": []
     }
 
 timing_light_increment = 2
