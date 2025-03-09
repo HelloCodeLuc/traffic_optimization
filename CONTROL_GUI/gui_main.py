@@ -10,7 +10,6 @@ from time import sleep
 import ctypes
 import Bluetooth_map
 import bluetooth_gui_lib
-import shutil
 sys.path.append(os.path.join(os.path.dirname(__file__), 'TRAIN_COMMON_LIB'))
 import basic_utilities
 

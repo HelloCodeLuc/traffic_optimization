@@ -23,7 +23,7 @@ light_name_data = {
             "keele_barhill", "keele_rutherford", "mackenzie_dufferin",
             "mackenzie_peter", "maurier_dufferin", "peter_rutherford",
             "rutherford_dufferin"],
-    "school-extended/school-extended.net.xml": ["mcnaughton_keele", "barhill_rutherford", "ivy_dufferin",
+    "school_extended/school_extended.net.xml": ["mcnaughton_keele", "barhill_rutherford", "ivy_dufferin",
             "keele_barhill", "keele_rutherford", "mackenzie_dufferin",
             "mackenzie_peter", "maurier_dufferin", "peter_rutherford",
             "rutherford_dufferin"],
