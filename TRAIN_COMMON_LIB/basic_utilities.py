@@ -477,8 +477,9 @@ def batched_run_sumo (phase, num_batches, num_runs_per_batch, output_folder, net
         output_folder_subdir = "TRAIN_OPTIMIZATION"
 
     run_number = 0
-    weight_prefix = "NETWORKS/simple_network/example"
-    network_name = os.path.splitext(os.path.splitext(network_selection)[0])[0]
+    network_name = network_selection.split('/')[0]
+    # network_name = os.path.splitext(os.path.splitext(network_selection)[0])[0]
+    weight_prefix = f"NETWORKS/{network_name}/weights"
 
     for run in range(num_batches):
         random_seeds = []
@@ -495,7 +496,9 @@ def batched_run_sumo (phase, num_batches, num_runs_per_batch, output_folder, net
             print (f"trip file = {trip_file}")
             # Generate random trips
             
-            if os.path.exists(f"NETWORKS/{network_name}"):
+            weights_exist = any(f.startswith("weights") for f in os.listdir(network_name))
+
+            if weights_exist:
                 generate_random_trips_weighted(weight_prefix, f'{network_with_timing}.temp', trip_file, max_steps, random_seed)
                 print("DEBUG: Using Weights")
             else:

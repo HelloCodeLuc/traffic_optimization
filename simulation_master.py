@@ -18,21 +18,21 @@ network_selection = ""
 light_names = []
 
 light_name_data = {
-    "3lights.net.xml": ["left", "middle", "right"],
-    "city_timing.net.xml": ["mcnaughton_keele", "barhill_rutherford", "ivy_dufferin",
+    "3lights/3lights.net.xml": ["left", "middle", "right"],
+    "city_timing/city_timing.net.xml": ["mcnaughton_keele", "barhill_rutherford", "ivy_dufferin",
             "keele_barhill", "keele_rutherford", "mackenzie_dufferin",
             "mackenzie_peter", "maurier_dufferin", "peter_rutherford",
             "rutherford_dufferin"],
-    "school-extended.net.xml": ["mcnaughton_keele", "barhill_rutherford", "ivy_dufferin",
+    "school-extended/school-extended.net.xml": ["mcnaughton_keele", "barhill_rutherford", "ivy_dufferin",
             "keele_barhill", "keele_rutherford", "mackenzie_dufferin",
             "mackenzie_peter", "maurier_dufferin", "peter_rutherford",
             "rutherford_dufferin"],
-    "school.net.xml": ["mcnaughton_keele", "barhill_rutherford", "ivy_dufferin",
+    "school/school.net.xml": ["mcnaughton_keele", "barhill_rutherford", "ivy_dufferin",
             "keele_barhill", "keele_rutherford", "mackenzie_dufferin",
             "mackenzie_peter", "maurier_dufferin", "peter_rutherford",
             "rutherford_dufferin"],
-    "weight_test.net.xml": ["main"],
-    "simple_network.net.xml": ["main"]
+    "weight_test/weight_test.net.xml": ["main"],
+    "simple_network/simple_network.net.xml": ["main"]
     }
 
 timing_light_increment = 2

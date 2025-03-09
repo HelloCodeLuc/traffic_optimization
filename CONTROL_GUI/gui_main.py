@@ -109,14 +109,13 @@ def append_to_queue(command):
         file.write(command + "\n")
 
 # Updated function to load network files with .net.xml extension
-def load_network_files(network_dir):
-    files = []
+def load_network_dirs(network_dir):
+    dirs = []
     if os.path.exists(network_dir) and os.path.isdir(network_dir):
         # List all files in the NETWORKS directory
-        for file in os.listdir(network_dir):
-            if file.endswith(".net.xml"):  # Only .net.xml files
-                files.append(file)
-    return files
+        for dir in os.listdir(network_dir):
+            dirs.append(dir)
+    return dirs
 
 # Function to draw dropdown menu
 #def draw_dropdown(selected_network, screen, dropdown_open, dropdown_font, dropdown_options, dropdown_rect, GRAY, BLACK):
@@ -341,25 +340,12 @@ def gui_main(phase, output_dir):
     network_dir = os.path.join(current_dir, "NETWORKS")
 
     running = True
-    dropdown_options.extend(load_network_files(network_dir))  # Load network files into dropdown
+    dropdown_options.extend(load_network_dirs(network_dir))  # Load network files into dropdown
 
     simulation_state = "STOP"
 
-    # Load the bluetooth plot as an image surface
-    # bluetooth_plot_surface = Bluetooth_map.bluetooth_extract_nodes_edges_create_plot()
-
     if not os.path.exists("out"):
         os.makedirs("out")
-        # # Define the path to the 'dummy' directory
-        # path = os.path.join('out', 'dummy')
-        # # Create the directory
-        # os.makedirs(path, exist_ok=True)  
-        # # Define the path to the 'dummy' directory
-        # path = os.path.join('out', 'dummy', 'TRAIN_OPTIMIZATION')
-        # # Create the directory
-        # os.makedirs(path, exist_ok=True)  
-        # shutil.copy("RESOURCES/CONNECTING_TWO_POINTS/GUI_average_speeds.csv", "out/dummy/TRAIN_BLUETOOTH/GUI_average_speeds.txt")
-        # shutil.copy("RESOURCES/CONNECTING_TWO_POINTS/GUI_junction_coordinates.csv", "out/dummy/TRAIN_BLUETOOTH/GUI_junction_coordinates.txt")
 
     # latest_output_dir = find_latest_directory("out")
 
@@ -377,7 +363,7 @@ def gui_main(phase, output_dir):
     plot_surface_bluetooth = None
 
     junction_coords_file = f"{output_dir}\\GUI_junction_coordinates.csv"
-    bluetooth_training_average_speeds_file = f"{output_dir}\TRAIN_BLUETOOTH\GUI_average_speeds.csv"
+    bluetooth_training_current_average_speeds_file = f"{output_dir}\TRAIN_BLUETOOTH\GUI_average_speeds.csv"
     
     while running:
 
@@ -402,10 +388,10 @@ def gui_main(phase, output_dir):
                     if file_modified(network_averages_txt, last_modified_network_averages_txt):
                         last_modified_network_averages_txt = os.path.getmtime(network_averages_txt)
                         plot_surface_optimize_current = my_plot(network_averages_txt)  # Update the plot
-                if os.path.exists(bluetooth_training_average_speeds_file):
-                    if file_modified(bluetooth_training_average_speeds_file, last_modified_GUI_average_speeds):   
-                        last_modified_GUI_average_speeds = os.path.getmtime(bluetooth_training_average_speeds_file)
-                        plot_surface_bluetooth = my_bluetooth(junction_coords_file, bluetooth_training_average_speeds_file)
+                if os.path.exists(bluetooth_training_current_average_speeds_file):
+                    if file_modified(bluetooth_training_current_average_speeds_file, last_modified_GUI_average_speeds):   
+                        last_modified_GUI_average_speeds = os.path.getmtime(bluetooth_training_current_average_speeds_file)
+                        plot_surface_bluetooth = my_bluetooth(junction_coords_file, bluetooth_training_current_average_speeds_file)
                     
             if event.type == pygame.MOUSEBUTTONDOWN:
                 for label, rect in buttons.items():
@@ -432,7 +418,8 @@ def gui_main(phase, output_dir):
                     for i, option in enumerate(dropdown_options):
                         option_rect = pygame.Rect(dropdown_rect.x, dropdown_rect.y + (i + 1) * dropdown_rect.height, dropdown_rect.width, dropdown_rect.height)
                         if option_rect.collidepoint(event.pos):
-                            selected_network = option  # Set the selected network
+                            network_dir = option
+                            selected_network = f"{network_dir}/{network_dir}.net.xml"  # Set the selected network
                             append_to_queue(f"NETWORK_CHANGE : {selected_network}")  # Append network change to the queue
                             dropdown_open = False  # Close the dropdown
 
