@@ -254,7 +254,7 @@ def optimize_timing_main (phase, output_folder, output_data_file, num_of_runs_on
         if (debug == 0):
             greenlight_timings = network_timings(network_selection, network_with_timing, light_names, timing_light_increment, previous_greenlight_timings, previous_greenlight_timings_file, network_averages, num_of_greenlight_duplicate_limit)
 
-        basic_utilities.batched_run_sumo(phase, num_batches, num_runs_per_batch, output_folder, network_with_timing, max_steps, current_directory, average_speed_n_steps, speed_limit, output_data_file, debug)
+        basic_utilities.batched_run_sumo(phase, num_batches, num_runs_per_batch, output_folder, network_with_timing, max_steps, current_directory, average_speed_n_steps, speed_limit, output_data_file, network_selection, debug)
 
         is_more_efficient = calculate_overall_average_for_given_network(output_data_file, network_averages, greenlight_timings)
         if(is_more_efficient == "keep"):

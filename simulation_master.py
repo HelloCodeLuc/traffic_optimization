@@ -46,7 +46,7 @@ start_command = "RUN"
 stop_command = "STOP"
 phase = "start"
 
-def main_loop(num_batches, num_runs_per_batch, network_selection, max_steps, phase):
+def main_loop(num_batches, num_runs_per_batch, network_selection, max_steps, phase, output_folder):
 
     while True:
         command = optimize_timing_lib.read_commands("out/command_queue.txt")
@@ -58,8 +58,6 @@ def main_loop(num_batches, num_runs_per_batch, network_selection, max_steps, pha
                 print(network_name)
                 print(light_names)
             elif command == start_command:
-                date = f"{basic_utilities.get_current_datetime()}"
-                output_folder = f"out/{date}"
 
                 if not os.path.exists(output_folder):
                     os.makedirs(output_folder)
@@ -100,12 +98,15 @@ if __name__ == "__main__":
     #if not os.path.exists("out"):
     #    os.makedirs("out")
 
+    date = f"{basic_utilities.get_current_datetime()}"
+    output_folder = f"out/{date}"
+
     # Create a list to store the processes and results
     processes = []
 
-    process = Process(target=gui_main.gui_main, args=(phase, ))
+    process = Process(target=main_loop, args=(num_batches, num_runs_per_batch, network_selection, max_steps, phase, output_folder))
     processes.append(process)
-    process = Process(target=main_loop, args=(num_batches, num_runs_per_batch, network_selection, max_steps, phase))
+    process = Process(target=gui_main.gui_main, args=(phase, output_folder))
     processes.append(process)
     for process in processes:
         process.start()

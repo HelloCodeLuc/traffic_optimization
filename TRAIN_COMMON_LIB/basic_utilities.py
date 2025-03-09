@@ -469,7 +469,7 @@ def run_sumo(config_file, max_steps, result_queue, average_speed_n_steps, out_di
     result_queue.put(average_idle_time)
 
 
-def batched_run_sumo (phase, num_batches, num_runs_per_batch, output_folder, network_with_timing, max_steps, current_directory, average_speed_n_steps, speed_limit, output_data_file, debug):
+def batched_run_sumo (phase, num_batches, num_runs_per_batch, output_folder, network_with_timing, max_steps, current_directory, average_speed_n_steps, speed_limit, output_data_file, network_selection, debug):
     output_folder_subdir = ""
     if phase == "bluetooth":
         output_folder_subdir = "TRAIN_BLUETOOTH"
@@ -478,6 +478,7 @@ def batched_run_sumo (phase, num_batches, num_runs_per_batch, output_folder, net
 
     run_number = 0
     weight_prefix = "NETWORKS/simple_network/example"
+    network_name = os.path.splitext(os.path.splitext(network_selection)[0])[0]
 
     for run in range(num_batches):
         random_seeds = []
@@ -494,8 +495,9 @@ def batched_run_sumo (phase, num_batches, num_runs_per_batch, output_folder, net
             print (f"trip file = {trip_file}")
             # Generate random trips
             
-            if network_with_timing == "simple_network.timing.net.xml":
+            if os.path.exists(f"NETWORKS/{network_name}"):
                 generate_random_trips_weighted(weight_prefix, f'{network_with_timing}.temp', trip_file, max_steps, random_seed)
+                print("DEBUG: Using Weights")
             else:
                 generate_random_trips(f'{network_with_timing}.temp', trip_file, max_steps, random_seed)
 
