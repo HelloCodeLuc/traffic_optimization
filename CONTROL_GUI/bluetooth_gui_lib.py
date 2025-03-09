@@ -1,7 +1,6 @@
 import pygame
 import math
 import csv
-import sys
 import matplotlib.pyplot as plt
 import numpy as np
 from io import BytesIO
@@ -26,6 +25,7 @@ def read_edge_data(file_path):
             })
     return edge_data
 
+# Read the csv file
 def read_GUI_junction_coordinates(file_name):
     coordinates = {}
     with open(file_name, mode='r') as file:
@@ -99,64 +99,3 @@ def fig_to_pygame(fig):
     data = image.tobytes()
 
     return pygame.image.fromstring(data, size, mode)  # Convert to pygame surface
-
-# Initialize Pygame
-pygame.init()
-
-# Screen settings
-WIDTH, HEIGHT = 800, 600
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Two-Way Road with Directional Colors and Nodes")
-
-# Create Matplotlib figure first
-fig, ax = plt.subplots(figsize=(8, 6))
-ax.set_aspect('equal')
-ax.set_facecolor('black')
-
-# Read input files
-file_name = "RESOURCES/CONNECTING_TWO_POINTS/GUI_junction_coordinates.csv"
-scaled_positions = read_GUI_junction_coordinates(file_name)
-
-file_path = "RESOURCES/CONNECTING_TWO_POINTS/GUI_average_speeds.csv"
-edge_data = read_edge_data(file_path)
-
-# Road width
-road_width = 8
-
-# Draw roads and nodes
-for edge in edge_data:
-    from_node = edge['from_node']
-    to_node = edge['to_node']
-    point1 = scaled_positions[from_node]
-    point2 = scaled_positions[to_node]
-    average_speed = edge['average_speed']
-    speed_limit = edge['speed_limit']
-    draw_two_way_road(ax, point1, point2, road_width, average_speed, speed_limit)
-
-# Draw nodes
-for node_position in scaled_positions.values():
-    draw_node(ax, node_position)
-
-# Remove axis labels and ticks
-ax.set_xticks([])
-ax.set_yticks([])
-ax.set_frame_on(False)
-
-# Convert Matplotlib figure to Pygame surface
-pygame_surface = fig_to_pygame(fig)
-
-# Main loop
-running = True
-while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-
-    # Clear the screen to black before rendering the new frame
-    screen.fill((0, 0, 0))
-
-    # Display the image from Matplotlib
-    screen.blit(pygame_surface, (0, 0))
-    pygame.display.flip()
-
-pygame.quit()
