@@ -1,6 +1,7 @@
 import pygame
 import sys
 import os
+import time
 import re
 import matplotlib.pyplot as plt
 import numpy as np
@@ -202,9 +203,12 @@ def my_bluetooth(junction_coordinates_file, average_speeds_file):
     road_width = 8
 
     # Create Matplotlib figure
-    fig, ax = plt.subplots(figsize=(8, 6))
+    fig, ax = plt.subplots(figsize=(5, 5))
     ax.set_aspect('equal')
     ax.set_facecolor('black')
+
+    # Remove extra padding
+    plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
 
     # Draw roads and nodes
     for edge in edge_data:
@@ -242,7 +246,7 @@ def has_file_updated(file_path, last_mod_time):
 
 # Function to check if the file has been modified
 def file_modified(file_path, last_modified):
-    return os.path.getmtime(file_path) > last_modified
+    return os.path.getmtime(file_path) != last_modified
 
 def find_latest_directory(base_folder):
     """
@@ -334,45 +338,49 @@ def gui_main(phase, output_dir):
     # Load the bluetooth plot as an image surface
     # bluetooth_plot_surface = Bluetooth_map.bluetooth_extract_nodes_edges_create_plot()
 
+    if not os.path.exists("out"):
+        os.makedirs("out")
+        # Define the path to the 'dummy' directory
+        path = os.path.join('out', 'dummy')
+        # Create the directory
+        os.makedirs(path, exist_ok=True)  
+        # Define the path to the 'dummy' directory
+        path = os.path.join('out', 'dummy', 'TRAIN_OPTIMIZATION')
+        # Create the directory
+        os.makedirs(path, exist_ok=True)  
+        
+    latest_output_dir = find_latest_directory("out")
+
+    # Path to the output file
+    output_file = f'..\\{latest_output_dir}\\TRAIN_OPTIMIZATION\\network_averages.txt'
+    # Initialize last modified time for the file
+    file_path = f'{latest_output_dir}\\TRAIN_OPTIMIZATION\\network_averages.txt'
+
     # Set up a timer event to check for file modifications
     FILE_MODIFIED_EVENT = pygame.USEREVENT + 1
     pygame.time.set_timer(FILE_MODIFIED_EVENT, 100)  # Check every 100ms
 
-    while running:
-        if not os.path.exists("out"):
-            os.makedirs("out")
-            # Define the path to the 'dummy' directory
-            path = os.path.join('out', 'dummy')
-            # Create the directory
-            os.makedirs(path, exist_ok=True)  
-            # Define the path to the 'dummy' directory
-            path = os.path.join('out', 'dummy', 'TRAIN_OPTIMIZATION')
-            # Create the directory
-            os.makedirs(path, exist_ok=True)  
-            
-        latest_output_dir = find_latest_directory("out")
+    # Load the plot as an image surface
+    last_modified = os.path.getmtime(file_path)
+    plot_surface = my_plot(file_path)
+    
+    last_modified_GUI_average_speeds = 0
+    #os.path.getmtime("RESOURCES/CONNECTING_TWO_POINTS/GUI_average_speeds.csv")
+    junction_coords_file = f"{latest_output_dir}\\GUI_junction_coordinates.csv"
+    average_speeds_file = f"{latest_output_dir}\TRAIN_BLUETOOTH\GUI_average_speeds.csv"
+    # Load the plot as an image surface
+    plot_surface = my_plot(file_path)
+    if os.path.exists(junction_coords_file) and os.path.exists(average_speeds_file):
+        bluetooth_plot_surface = my_bluetooth(junction_coords_file, average_speeds_file)
+    else:
+        bluetooth_plot_surface = my_bluetooth("NETWORKS/simple_network_junctions.bluetooth.csv", "NETWORKS/simple_network.bluetooth.csv")
 
-        # Path to the output file
-        output_file = f'..\\{latest_output_dir}\\TRAIN_OPTIMIZATION\\network_averages.txt'
-        # Initialize last modified time for the file
-        file_path = f'{latest_output_dir}\\TRAIN_OPTIMIZATION\\network_averages.txt'
+    while running:
 
         if not os.path.exists(file_path):
             open(file_path, 'a').close()
 
-        last_modified = os.path.getmtime(file_path)
-
         screen.fill(WHITE)
-
-        junction_coords_file = f"{latest_output_dir}\\GUI_junction_coordinates.csv"
-        average_speeds_file = f"{latest_output_dir}\TRAIN_BLUETOOTH\GUI_average_speeds.csv"
-        # Load the plot as an image surface
-        plot_surface = my_plot(file_path)
-        if os.path.exists(junction_coords_file) and os.path.exists(average_speeds_file):
-            bluetooth_plot_surface = my_bluetooth(junction_coords_file, 
-                                              average_speeds_file)
-        else:
-            bluetooth_plot_surface = my_bluetooth("NETWORKS/simple_network_junctions.bluetooth.csv", "NETWORKS/simple_network.bluetooth.csv")
 
         for event in pygame.event.get():
             if event.type == pygame.VIDEORESIZE:
@@ -392,7 +400,10 @@ def gui_main(phase, output_dir):
                 if file_modified(file_path, last_modified):
                     last_modified = os.path.getmtime(file_path)
                     plot_surface = my_plot(file_path)  # Update the plot
-            
+                if file_modified(average_speeds_file, last_modified_GUI_average_speeds):   
+                    last_modified_GUI_average_speeds = os.path.getmtime(average_speeds_file)
+                    bluetooth_plot_surface = my_bluetooth(junction_coords_file, average_speeds_file)
+                    
             if event.type == pygame.MOUSEBUTTONDOWN:
                 for label, rect in buttons.items():
                     if rect.collidepoint(event.pos):
