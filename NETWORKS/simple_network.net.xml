@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- generated on 2024-12-30 15:14:08 by Eclipse SUMO netedit Version 1.19.0
+<!-- generated on 2025-03-08 19:34:00 by Eclipse SUMO netedit Version 1.19.0
 <configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/neteditConfiguration.xsd">
 
     <input>
@@ -85,7 +85,7 @@
         <lane id=":main_15_0" index="0" speed="8.00" length="10.13" shape="296.80,-0.96 299.40,0.60 301.05,3.35 301.60,7.20"/>
     </edge>
 
-    <edge id="-E0" from="south" to="main" priority="-1">
+    <edge id="-E0" from="west" to="main" priority="-1">
         <lane id="-E0_0" index="0" speed="13.89" length="192.80" shape="100.00,-1.60 292.80,-1.60"/>
     </edge>
     <edge id="-E1" from="north" to="main" priority="-1">
@@ -94,10 +94,10 @@
     <edge id="-E2" from="east" to="main" priority="-1">
         <lane id="-E2_0" index="0" speed="13.89" length="192.80" shape="500.00,1.60 307.20,1.60"/>
     </edge>
-    <edge id="-E3" from="west" to="main" priority="-1">
+    <edge id="-E3" from="south" to="main" priority="-1">
         <lane id="-E3_0" index="0" speed="13.89" length="192.80" shape="301.60,-200.00 301.60,-7.20"/>
     </edge>
-    <edge id="E0" from="main" to="south" priority="-1">
+    <edge id="E0" from="main" to="west" priority="-1">
         <lane id="E0_0" index="0" speed="13.89" length="192.80" shape="292.80,1.60 100.00,1.60"/>
     </edge>
     <edge id="E1" from="main" to="north" priority="-1">
@@ -106,7 +106,7 @@
     <edge id="E2" from="main" to="east" priority="-1">
         <lane id="E2_0" index="0" speed="13.89" length="192.80" shape="307.20,-1.60 500.00,-1.60"/>
     </edge>
-    <edge id="E3" from="main" to="west" priority="-1">
+    <edge id="E3" from="main" to="south" priority="-1">
         <lane id="E3_0" index="0" speed="13.89" length="192.80" shape="298.40,-7.20 298.40,-200.00"/>
     </edge>
 
@@ -133,8 +133,8 @@
         <request index="11" response="000110111110" foes="000110111110" cont="1"/>
     </junction>
     <junction id="north" type="dead_end" x="300.00" y="200.00" incLanes="E1_0" intLanes="" shape="300.00,200.00 303.20,200.00 300.00,200.00"/>
-    <junction id="south" type="dead_end" x="100.00" y="0.00" incLanes="E0_0" intLanes="" shape="100.00,0.00 100.00,3.20 100.00,0.00"/>
-    <junction id="west" type="dead_end" x="300.00" y="-200.00" incLanes="E3_0" intLanes="" shape="300.00,-200.00 296.80,-200.00 300.00,-200.00"/>
+    <junction id="south" type="dead_end" x="300.00" y="-200.00" incLanes="E3_0" intLanes="" shape="300.00,-200.00 296.80,-200.00 300.00,-200.00"/>
+    <junction id="west" type="dead_end" x="100.00" y="0.00" incLanes="E0_0" intLanes="" shape="100.00,0.00 100.00,3.20 100.00,0.00"/>
 
     <junction id=":main_12_0" type="internal" x="299.04" y="3.20" incLanes=":main_2_0 -E3_0" intLanes=":main_4_0 :main_5_0 :main_6_0 :main_7_0 :main_10_0 :main_11_0"/>
     <junction id=":main_13_0" type="internal" x="303.20" y="0.96" incLanes=":main_5_0 -E0_0" intLanes=":main_1_0 :main_2_0 :main_7_0 :main_8_0 :main_9_0 :main_10_0"/>

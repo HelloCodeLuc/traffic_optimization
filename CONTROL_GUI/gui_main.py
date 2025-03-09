@@ -291,7 +291,7 @@ def draw_page(plot_surface, bluetooth_plot_surface, current_page, screen, width,
         text = font.render("Sim Optimization Page", True, BLACK)
         screen.blit(text, (width // 2 - text.get_width() // 2, height // 2))
 
-def gui_main(phase):
+def gui_main(phase, output_dir):
 
     # Initialize Pygame
     pygame.init()
@@ -364,10 +364,15 @@ def gui_main(phase):
 
         screen.fill(WHITE)
 
+        junction_coords_file = f"{latest_output_dir}\\GUI_junction_coordinates.csv"
+        average_speeds_file = f"{latest_output_dir}\TRAIN_BLUETOOTH\GUI_average_speeds.csv"
         # Load the plot as an image surface
         plot_surface = my_plot(file_path)
-        bluetooth_plot_surface = my_bluetooth("RESOURCES/CONNECTING_TWO_POINTS/GUI_junction_coordinates.csv", 
-                                              "RESOURCES/CONNECTING_TWO_POINTS/GUI_average_speeds.csv")
+        if os.path.exists(junction_coords_file) and os.path.exists(average_speeds_file):
+            bluetooth_plot_surface = my_bluetooth(junction_coords_file, 
+                                              average_speeds_file)
+        else:
+            bluetooth_plot_surface = my_bluetooth("NETWORKS/simple_network_junctions.bluetooth.csv", "NETWORKS/simple_network.bluetooth.csv")
 
         for event in pygame.event.get():
             if event.type == pygame.VIDEORESIZE:
