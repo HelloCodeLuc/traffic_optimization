@@ -202,9 +202,12 @@ def my_bluetooth(junction_coordinates_file, average_speeds_file):
     road_width = 8
 
     # Create Matplotlib figure
-    fig, ax = plt.subplots(figsize=(8, 6))
+    fig, ax = plt.subplots(figsize=(5, 5))
     ax.set_aspect('equal')
     ax.set_facecolor('black')
+    
+    # Remove extra padding
+    plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
 
     # Draw roads and nodes
     for edge in edge_data:

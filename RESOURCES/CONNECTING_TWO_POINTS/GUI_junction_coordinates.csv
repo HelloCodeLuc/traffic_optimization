@@ -1,9 +1,9 @@
 Junction ID,X Coordinate,Y Coordinate
-east,500.00,0.00
+east,600.00,0.00
 main,300.00,0.00
 north,300.00,200.00
-south,100.00,0.00
-west,300.00,-200.00
+west,100.00,0.00
+south,300.00,-200.00
 :main_12_0,299.04,3.20
 :main_13_0,303.20,0.96
 :main_14_0,300.96,-3.20
