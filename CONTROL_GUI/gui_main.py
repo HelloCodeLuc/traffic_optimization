@@ -207,6 +207,10 @@ def my_bluetooth(junction_coordinates_file, average_speeds_file):
     ax.set_aspect('equal')
     ax.set_facecolor('black')
 
+    # Set a black border around the figure
+    fig.patch.set_edgecolor('black')
+    fig.patch.set_linewidth(2)  # Border thickness
+
     # Remove extra padding
     plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
 
@@ -351,8 +355,6 @@ def gui_main(phase):
         
     latest_output_dir = find_latest_directory("out")
 
-    # Path to the output file
-    output_file = f'..\\{latest_output_dir}\\TRAIN_OPTIMIZATION\\network_averages.txt'
     # Initialize last modified time for the file
     file_path = f'{latest_output_dir}\\TRAIN_OPTIMIZATION\\network_averages.txt'
 

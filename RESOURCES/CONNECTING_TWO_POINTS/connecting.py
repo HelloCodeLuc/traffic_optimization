@@ -113,6 +113,10 @@ fig, ax = plt.subplots(figsize=(5, 5))
 ax.set_aspect('equal')
 ax.set_facecolor('black')
 
+# Set a black border around the figure
+fig.patch.set_edgecolor('black')
+fig.patch.set_linewidth(2)  # Border thickness
+
 # Remove extra padding
 plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
 
