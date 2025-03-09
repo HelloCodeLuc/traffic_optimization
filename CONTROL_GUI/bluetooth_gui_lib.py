@@ -42,10 +42,10 @@ def read_GUI_junction_coordinates(file_name):
     # Shift the coordinates to move the origin to the top-left of the screen
     scaled_positions = {key: (x - min_x, y - min_y) for key, (x, y) in coordinates.items()}
 
-    # Print statements after defining scaled_positions
-    print("Original coordinates:", coordinates)
-    print("Scaled coordinates:", scaled_positions)
-    print(f"Smallest X: {min_x}, Smallest Y: {min_y}")
+    # # Print statements after defining scaled_positions
+    # print("Original coordinates:", coordinates)
+    # print("Scaled coordinates:", scaled_positions)
+    # print(f"Smallest X: {min_x}, Smallest Y: {min_y}")
 
     return scaled_positions
 
