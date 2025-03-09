@@ -104,14 +104,17 @@ def fig_to_pygame(fig):
 pygame.init()
 
 # Screen settings
-WIDTH, HEIGHT = 800, 600
+WIDTH, HEIGHT = 500, 500
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Two-Way Road with Directional Colors and Nodes")
 
 # Create Matplotlib figure first
-fig, ax = plt.subplots(figsize=(8, 6))
+fig, ax = plt.subplots(figsize=(5, 5))
 ax.set_aspect('equal')
 ax.set_facecolor('black')
+
+# Remove extra padding
+plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
 
 # Read input files
 file_name = "RESOURCES/CONNECTING_TWO_POINTS/GUI_junction_coordinates.csv"
