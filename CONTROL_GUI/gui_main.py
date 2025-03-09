@@ -10,6 +10,7 @@ from time import sleep
 import ctypes
 import Bluetooth_map
 import bluetooth_gui_lib
+import shutil
 sys.path.append(os.path.join(os.path.dirname(__file__), 'TRAIN_COMMON_LIB'))
 import basic_utilities
 
@@ -24,9 +25,9 @@ BLUE = (173, 216, 230)
 # Define button properties
 button_width, button_height = 60, 30
 buttons = {
-    "RUN": pygame.Rect(100, 450, button_width, button_height),
-    "B": pygame.Rect(170, 450, button_width, button_height),
-    "C": pygame.Rect(240, 450, button_width, button_height)
+    "RUN": pygame.Rect(100, 650, button_width, button_height),
+    "B": pygame.Rect(170, 650, button_width, button_height),
+    "C": pygame.Rect(240, 650, button_width, button_height)
 }
 
 # Store button click state (for shadow effect)
@@ -122,7 +123,7 @@ def load_network_files(network_dir):
 def draw_dropdown(dropdown_font, dropdown_options, screen, dropdown_rect, dropdown_open, selected_network):
     # Draw the "Network: " label
     label_text = dropdown_font.render("Network:", True, BLACK)
-    screen.blit(label_text, (20, 405))  # Positioned to the left of the dropdown
+    screen.blit(label_text, (20, 605))  # Positioned to the left of the dropdown
 
     pygame.draw.rect(screen, GRAY, dropdown_rect)  # Main dropdown button
     text = dropdown_font.render(selected_network, True, BLACK)
@@ -277,17 +278,26 @@ def find_latest_directory(base_folder):
     return latest_directory
 
 # Main page drawing function
-def draw_page(plot_surface, bluetooth_plot_surface, current_page, screen, width, height, font, dropdown_font, dropdown_options, dropdown_rect, dropdown_open, selected_network, simulation_state, phase):
+def draw_page(plot_surface_optimize_current, plot_surface_bluetooth, current_page, screen, width, height, font, dropdown_font, dropdown_options, dropdown_rect, dropdown_open, selected_network, simulation_state, phase):
     if current_page == "Main":
         # Draw the plot on the Default page
-        screen.blit(plot_surface, (50, 70))  # Positioning the plot near the top
+        if plot_surface_optimize_current is not None:
+            screen.blit(plot_surface_optimize_current, (50, 70))  # Positioning the plot near the top
+        else:
+            # Draw black border (outline)
+            pygame.draw.rect(screen, BLACK, (10, 70, 500, 500), 2)
+
         draw_buttons(screen, font, simulation_state)
         text = font.render(f"Phase: {phase}", True, BLACK)
-        screen.blit(text, (100, 500))
+        screen.blit(text, (50, 680))
         draw_dropdown(dropdown_font, dropdown_options, screen, dropdown_rect, dropdown_open, selected_network)
     elif current_page == "Bluetooth Training":
-        # Placeholder for Bluetooth Training page content
-        screen.blit(bluetooth_plot_surface, (50, 200))
+        if plot_surface_bluetooth is not None:
+            screen.blit(plot_surface_bluetooth, (50, 200))
+        else:
+            # Draw black border (outline)
+            pygame.draw.rect(screen, BLACK, (10, 70, 500, 500), 2)
+
         text = font.render("Bluetooth Training Page", True, BLACK)
         screen.blit(text, (width // 2 - text.get_width() // 2, height // 2))
     elif current_page == "Sim Optimization":
@@ -322,7 +332,7 @@ def gui_main(phase, output_dir):
 
     # Dropdown variables
     dropdown_open = False
-    dropdown_rect = pygame.Rect(120, 400, 300, 30)  # Adjusted position for dropdown
+    dropdown_rect = pygame.Rect(120, 600, 300, 30)  # Adjusted position for dropdown
     dropdown_options = ["--Select Network--"]
     selected_network = "--Select Network--"
 
@@ -340,45 +350,36 @@ def gui_main(phase, output_dir):
 
     if not os.path.exists("out"):
         os.makedirs("out")
-        # Define the path to the 'dummy' directory
-        path = os.path.join('out', 'dummy')
-        # Create the directory
-        os.makedirs(path, exist_ok=True)  
-        # Define the path to the 'dummy' directory
-        path = os.path.join('out', 'dummy', 'TRAIN_OPTIMIZATION')
-        # Create the directory
-        os.makedirs(path, exist_ok=True)  
-        
-    latest_output_dir = find_latest_directory("out")
+        # # Define the path to the 'dummy' directory
+        # path = os.path.join('out', 'dummy')
+        # # Create the directory
+        # os.makedirs(path, exist_ok=True)  
+        # # Define the path to the 'dummy' directory
+        # path = os.path.join('out', 'dummy', 'TRAIN_OPTIMIZATION')
+        # # Create the directory
+        # os.makedirs(path, exist_ok=True)  
+        # shutil.copy("RESOURCES/CONNECTING_TWO_POINTS/GUI_average_speeds.csv", "out/dummy/TRAIN_BLUETOOTH/GUI_average_speeds.txt")
+        # shutil.copy("RESOURCES/CONNECTING_TWO_POINTS/GUI_junction_coordinates.csv", "out/dummy/TRAIN_BLUETOOTH/GUI_junction_coordinates.txt")
 
-    # Path to the output file
-    output_file = f'..\\{latest_output_dir}\\TRAIN_OPTIMIZATION\\network_averages.txt'
-    # Initialize last modified time for the file
-    file_path = f'{latest_output_dir}\\TRAIN_OPTIMIZATION\\network_averages.txt'
+    # latest_output_dir = find_latest_directory("out")
+
+    network_averages_txt = f'{output_dir}\\TRAIN_OPTIMIZATION\\network_averages.txt'
 
     # Set up a timer event to check for file modifications
     FILE_MODIFIED_EVENT = pygame.USEREVENT + 1
     pygame.time.set_timer(FILE_MODIFIED_EVENT, 100)  # Check every 100ms
 
     # Load the plot as an image surface
-    last_modified = os.path.getmtime(file_path)
-    plot_surface = my_plot(file_path)
+    last_modified_network_averages_txt = 0
+    plot_surface_optimize_current = None
     
     last_modified_GUI_average_speeds = 0
-    #os.path.getmtime("RESOURCES/CONNECTING_TWO_POINTS/GUI_average_speeds.csv")
-    junction_coords_file = f"{latest_output_dir}\\GUI_junction_coordinates.csv"
-    average_speeds_file = f"{latest_output_dir}\TRAIN_BLUETOOTH\GUI_average_speeds.csv"
-    # Load the plot as an image surface
-    plot_surface = my_plot(file_path)
-    if os.path.exists(junction_coords_file) and os.path.exists(average_speeds_file):
-        bluetooth_plot_surface = my_bluetooth(junction_coords_file, average_speeds_file)
-    else:
-        bluetooth_plot_surface = my_bluetooth("NETWORKS/simple_network_junctions.bluetooth.csv", "NETWORKS/simple_network.bluetooth.csv")
+    plot_surface_bluetooth = None
 
+    junction_coords_file = f"{output_dir}\\GUI_junction_coordinates.csv"
+    bluetooth_training_average_speeds_file = f"{output_dir}\TRAIN_BLUETOOTH\GUI_average_speeds.csv"
+    
     while running:
-
-        if not os.path.exists(file_path):
-            open(file_path, 'a').close()
 
         screen.fill(WHITE)
 
@@ -397,12 +398,14 @@ def gui_main(phase, output_dir):
             
             if event.type == FILE_MODIFIED_EVENT:
                 # Check if the file has been modified
-                if file_modified(file_path, last_modified):
-                    last_modified = os.path.getmtime(file_path)
-                    plot_surface = my_plot(file_path)  # Update the plot
-                if file_modified(average_speeds_file, last_modified_GUI_average_speeds):   
-                    last_modified_GUI_average_speeds = os.path.getmtime(average_speeds_file)
-                    bluetooth_plot_surface = my_bluetooth(junction_coords_file, average_speeds_file)
+                if os.path.exists(network_averages_txt):
+                    if file_modified(network_averages_txt, last_modified_network_averages_txt):
+                        last_modified_network_averages_txt = os.path.getmtime(network_averages_txt)
+                        plot_surface_optimize_current = my_plot(network_averages_txt)  # Update the plot
+                if os.path.exists(bluetooth_training_average_speeds_file):
+                    if file_modified(bluetooth_training_average_speeds_file, last_modified_GUI_average_speeds):   
+                        last_modified_GUI_average_speeds = os.path.getmtime(bluetooth_training_average_speeds_file)
+                        plot_surface_bluetooth = my_bluetooth(junction_coords_file, bluetooth_training_average_speeds_file)
                     
             if event.type == pygame.MOUSEBUTTONDOWN:
                 for label, rect in buttons.items():
@@ -456,7 +459,7 @@ def gui_main(phase, output_dir):
         #    simulation_state = "STOP"
         # Draw UI components
         draw_tabs(tabs, current_page, screen, tab_font, width )
-        draw_page(plot_surface, bluetooth_plot_surface, current_page, screen, width, height, font, dropdown_font, dropdown_options, dropdown_rect, dropdown_open, selected_network, simulation_state, phase)
+        draw_page(plot_surface_optimize_current, plot_surface_bluetooth, current_page, screen, width, height, font, dropdown_font, dropdown_options, dropdown_rect, dropdown_open, selected_network, simulation_state, phase)
 
         pygame.display.flip()
 

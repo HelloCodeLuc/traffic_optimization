@@ -104,9 +104,9 @@ if __name__ == "__main__":
     # Create a list to store the processes and results
     processes = []
 
-    process = Process(target=main_loop, args=(num_batches, num_runs_per_batch, network_selection, max_steps, phase, output_folder))
-    processes.append(process)
     process = Process(target=gui_main.gui_main, args=(phase, output_folder))
+    processes.append(process)
+    process = Process(target=main_loop, args=(num_batches, num_runs_per_batch, network_selection, max_steps, phase, output_folder))
     processes.append(process)
     for process in processes:
         process.start()
