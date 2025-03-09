@@ -349,6 +349,8 @@ def gui_main(phase, output_dir):
             path = os.path.join('out', 'dummy', 'TRAIN_OPTIMIZATION')
             # Create the directory
             os.makedirs(path, exist_ok=True)  
+            with open("out/dummy/TRAIN_OPTIMIZATION/network_averages.txt", "w") as file:
+                file.write("")  # Creates an empty file
             
         latest_output_dir = find_latest_directory("out")
 
