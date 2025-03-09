@@ -180,6 +180,18 @@ def generate_random_trips(network_selection, trip_file, max_steps, seed):
 
     subprocess.call(cmd, shell=True)
 
+def generate_random_trips_weighted(network_selection, trip_file, max_steps, seed, weight_prefix):
+    debug = 0
+    #cmd = f"C:/Users/chuny/Desktop/lucas/Python%20Projects/traffic_optimization/randomTrips.py -n OSM_RandomTrips/keeleandmajmack.net.xml -r {trip_file} -e {max_steps} --random -s {seed} -o out/trips.trips.xml"
+    randomTrips = r'"C:\Program Files (x86)\Eclipse\Sumo\tools\randomTrips.py"'
+    cmd = f"python {randomTrips} --weights-prefix {weight_prefix} -n {network_selection} -r {trip_file} -e {max_steps} --random -s {seed}"
+
+    print (f"This is the CMD line {cmd}")
+
+    if (debug):print (f"DEBUG <generate_random_trips> : randomTrips.py command : {cmd}")
+
+    subprocess.call(cmd, shell=True)
+
 # Generate the SUMO configuration file with the given template
 def generate_sumo_config(network_selection, config_file, current_directory, max_steps, route_files):
     config_template = f"""<configuration>
@@ -465,6 +477,7 @@ def batched_run_sumo (phase, num_batches, num_runs_per_batch, output_folder, net
         output_folder_subdir = "TRAIN_OPTIMIZATION"
 
     run_number = 0
+    weight_prefix = "NETWORKS/simple_network/example"
 
     for run in range(num_batches):
         random_seeds = []
@@ -480,7 +493,11 @@ def batched_run_sumo (phase, num_batches, num_runs_per_batch, output_folder, net
             trip_file = os.path.join(f"{output_folder}/{output_folder_subdir}", f"random_trips_{random_seed}.xml")  # Generate a unique trip file name for each run
             print (f"trip file = {trip_file}")
             # Generate random trips
-            generate_random_trips(f'{network_with_timing}.temp', trip_file, max_steps, random_seed)
+            
+            if network_with_timing == "simple_network.timing.net.xml":
+                generate_random_trips_weighted(weight_prefix, f'{network_with_timing}.temp', trip_file, max_steps, random_seed)
+            else:
+                generate_random_trips(f'{network_with_timing}.temp', trip_file, max_steps, random_seed)
 
             # Generate SUMO configuration file and update the route-files value
             config_file = os.path.join(f"{output_folder}/{output_folder_subdir}", f"sumo_config_{random_seed}.sumocfg")
