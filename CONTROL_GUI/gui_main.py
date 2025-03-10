@@ -296,15 +296,22 @@ def draw_page(figure_width, plot_surface_optimize_start, plot_surface_optimize_c
         draw_dropdown(dropdown_font, dropdown_options, screen, dropdown_rect, dropdown_open, selected_network, figure_width)
     elif current_page == "Bluetooth Training":
         offset = 25
-        offset = 25
-        if plot_surface_bluetooth_current is not None:
-            screen.blit(plot_surface_bluetooth_current, (3*offset + 2*figure_width, 100))
+        if plot_surface_bluetooth_reference is not None:
             screen.blit(plot_surface_bluetooth_reference, (offset, 100))
-            screen.blit(plot_surface_bluetooth_start, (offset + figure_width + offset, 100))
         else:
             # Draw black border (outline)
             pygame.draw.rect(screen, BLACK, (offset, 100, figure_width, figure_width), 2)
+            
+        if plot_surface_bluetooth_start is not None:
+            screen.blit(plot_surface_bluetooth_start, (offset + figure_width + offset, 100))
+        else:
+            # Draw black border (outline)
             pygame.draw.rect(screen, BLACK, (offset + figure_width + offset, 100, figure_width, figure_width), 2)
+
+        if plot_surface_bluetooth_current is not None:
+            screen.blit(plot_surface_bluetooth_current, (3*offset + 2*figure_width, 100))
+        else:
+            # Draw black border (outline)
             pygame.draw.rect(screen, BLACK, (3*offset + 2*figure_width, 100, figure_width, figure_width), 2)
 
         text = font.render("Reference", True, BLACK)
@@ -387,7 +394,7 @@ def gui_main(phase, output_dir):
     while running:
 
         
-        bluetooth_training_reference_average_speeds_file = f"{network_dir}/{network_dir}.bluetooth.csv"
+        bluetooth_training_reference_average_speeds_file = f"NETWORKS/{network_dir}/{network_dir}.bluetooth.csv"
         bluetooth_training_start_average_speeds_file = f"{output_dir}\TRAIN_BLUETOOTH\GUI_average_speeds.start.csv"
         bluetooth_training_current_average_speeds_file = f"{output_dir}\TRAIN_BLUETOOTH\GUI_average_speeds.csv"
 
@@ -415,7 +422,7 @@ def gui_main(phase, output_dir):
                     if file_modified(optimize_current_network_averages_txt, last_modified_optimize_current_network_averages_txt):
                         last_modified_optimize_current_network_averages_txt = os.path.getmtime(optimize_current_network_averages_txt)
                         plot_surface_optimize_current = my_plot(optimize_current_network_averages_txt)  # Update the plot
-                if os.path.exists(bluetooth_training_reference_average_speeds_file):
+                if os.path.exists(bluetooth_training_reference_average_speeds_file) and os.path.exists(junction_coords_file):
                     if file_modified(bluetooth_training_reference_average_speeds_file, last_modified_bluetooth_reference_average_speeds):   
                         last_modified_bluetooth_reference_average_speeds = os.path.getmtime(bluetooth_training_reference_average_speeds_file)
                         plot_surface_bluetooth_reference = my_bluetooth(junction_coords_file, bluetooth_training_reference_average_speeds_file)
