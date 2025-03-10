@@ -298,11 +298,11 @@ def draw_page(figure_width, plot_surface_optimize_start, plot_surface_optimize_c
         screen.blit(text, (50, 680))
         draw_dropdown(dropdown_font, dropdown_options, screen, dropdown_rect, dropdown_open, selected_network)
     elif current_page == "Bluetooth Training":
+        offset = 25
         if plot_surface_bluetooth_current is not None:
-            offset = 25
+            screen.blit(plot_surface_bluetooth_current, (3*offset + 2*figure_width, 100))
             screen.blit(plot_surface_bluetooth_reference, (offset, 100))
             screen.blit(plot_surface_bluetooth_start, (offset + figure_width + offset, 100))
-            screen.blit(plot_surface_bluetooth_current, (3*offset + 2*figure_width, 100))
         else:
             # Draw black border (outline)
             pygame.draw.rect(screen, BLACK, (10, 70, figure_width, figure_width), 2)
@@ -379,11 +379,13 @@ def gui_main(phase, output_dir):
     plot_surface_bluetooth_start = None
     last_modified_bluetooth_current_average_speeds = 0
     plot_surface_bluetooth_current = None
-    bluetooth_training_reference_average_speeds_file = f"{output_dir}\TRAIN_BLUETOOTH\GUI_average_speeds.csv"
-    bluetooth_training_start_average_speeds_file = f"{output_dir}\TRAIN_BLUETOOTH\GUI_average_speeds.csv"
-    bluetooth_training_current_average_speeds_file = f"{output_dir}\TRAIN_BLUETOOTH\GUI_average_speeds.csv"
     
     while running:
+
+        
+        bluetooth_training_reference_average_speeds_file = f"{network_dir}/{network_dir}.bluetooth.csv"
+        bluetooth_training_start_average_speeds_file = f"{output_dir}\TRAIN_BLUETOOTH\GUI_average_speeds.start.csv"
+        bluetooth_training_current_average_speeds_file = f"{output_dir}\TRAIN_BLUETOOTH\GUI_average_speeds.csv"
 
         screen.fill(WHITE)
 
