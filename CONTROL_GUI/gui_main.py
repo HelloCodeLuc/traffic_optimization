@@ -281,7 +281,10 @@ def find_latest_directory(base_folder):
     return latest_directory
 
 # Main page drawing function
-def draw_page(plot_surface_optimize_current, plot_surface_bluetooth, current_page, screen, width, height, font, dropdown_font, dropdown_options, dropdown_rect, dropdown_open, selected_network, simulation_state, phase):
+def draw_page(plot_surface_optimize_start, plot_surface_optimize_current, plot_surface_bluetooth_reference, 
+                  plot_surface_bluetooth_start, plot_surface_bluetooth_current, current_page, screen, width, 
+                  height, font, dropdown_font, dropdown_options, dropdown_rect, dropdown_open, selected_network, 
+                  simulation_state, phase):
     if current_page == "Main":
         # Draw the plot on the Default page
         if plot_surface_optimize_current is not None:
@@ -295,8 +298,8 @@ def draw_page(plot_surface_optimize_current, plot_surface_bluetooth, current_pag
         screen.blit(text, (50, 680))
         draw_dropdown(dropdown_font, dropdown_options, screen, dropdown_rect, dropdown_open, selected_network)
     elif current_page == "Bluetooth Training":
-        if plot_surface_bluetooth is not None:
-            screen.blit(plot_surface_bluetooth, (50, 200))
+        if plot_surface_bluetooth_current is not None:
+            screen.blit(plot_surface_bluetooth_current, (50, 200))
         else:
             # Draw black border (outline)
             pygame.draw.rect(screen, BLACK, (10, 70, 500, 500), 2)
@@ -352,21 +355,28 @@ def gui_main(phase, output_dir):
         os.makedirs("out")
 
     # latest_output_dir = find_latest_directory("out")
-
-    network_averages_txt = f'{output_dir}\\TRAIN_OPTIMIZATION\\network_averages.txt'
+    optimize_start_network_averages_txt = f'{output_dir}\\TRAIN_OPTIMIZATION\\network_averages.txt'
+    optimize_current_network_averages_txt = f'{output_dir}\\TRAIN_OPTIMIZATION\\network_averages.txt'
 
     # Set up a timer event to check for file modifications
     FILE_MODIFIED_EVENT = pygame.USEREVENT + 1
     pygame.time.set_timer(FILE_MODIFIED_EVENT, 100)  # Check every 100ms
 
     # Load the plot as an image surface
-    last_modified_network_averages_txt = 0
+    last_modified_optimize_start_network_averages_txt = 0
+    last_modified_optimize_current_network_averages_txt = 0
+    plot_surface_optimize_start = None
     plot_surface_optimize_current = None
     
-    last_modified_GUI_average_speeds = 0
-    plot_surface_bluetooth = None
-
     junction_coords_file = f"{output_dir}\\GUI_junction_coordinates.csv"
+    last_modified_bluetooth_reference_average_speeds = 0
+    plot_surface_bluetooth_reference = None
+    last_modified_bluetooth_start_average_speeds = 0
+    plot_surface_bluetooth_start = None
+    last_modified_bluetooth_current_average_speeds = 0
+    plot_surface_bluetooth_current = None
+    bluetooth_training_reference_average_speeds_file = f"{output_dir}\TRAIN_BLUETOOTH\GUI_average_speeds.csv"
+    bluetooth_training_start_average_speeds_file = f"{output_dir}\TRAIN_BLUETOOTH\GUI_average_speeds.csv"
     bluetooth_training_current_average_speeds_file = f"{output_dir}\TRAIN_BLUETOOTH\GUI_average_speeds.csv"
     
     while running:
@@ -387,16 +397,27 @@ def gui_main(phase, output_dir):
                 sys.exit()
             
             if event.type == FILE_MODIFIED_EVENT:
-                # Check if the file has been modified
-                if os.path.exists(network_averages_txt):
-                    if file_modified(network_averages_txt, last_modified_network_averages_txt):
-                        last_modified_network_averages_txt = os.path.getmtime(network_averages_txt)
-                        plot_surface_optimize_current = my_plot(network_averages_txt)  # Update the plot
+                if os.path.exists(optimize_start_network_averages_txt):
+                    if file_modified(optimize_start_network_averages_txt, last_modified_optimize_start_network_averages_txt):
+                        last_modified_optimize_start_network_averages_txt = os.path.getmtime(optimize_start_network_averages_txt)
+                        plot_surface_optimize_start = my_plot(optimize_start_network_averages_txt)  # Update the plot
+                if os.path.exists(optimize_current_network_averages_txt):
+                    if file_modified(optimize_current_network_averages_txt, last_modified_optimize_current_network_averages_txt):
+                        last_modified_optimize_current_network_averages_txt = os.path.getmtime(optimize_current_network_averages_txt)
+                        plot_surface_optimize_current = my_plot(optimize_current_network_averages_txt)  # Update the plot
+                if os.path.exists(bluetooth_training_reference_average_speeds_file):
+                    if file_modified(bluetooth_training_reference_average_speeds_file, last_modified_bluetooth_reference_average_speeds):   
+                        last_modified_bluetooth_reference_average_speeds = os.path.getmtime(bluetooth_training_reference_average_speeds_file)
+                        plot_surface_bluetooth_reference = my_bluetooth(junction_coords_file, bluetooth_training_reference_average_speeds_file)
+                if os.path.exists(bluetooth_training_start_average_speeds_file):
+                    if file_modified(bluetooth_training_start_average_speeds_file, last_modified_bluetooth_start_average_speeds):   
+                        last_modified_bluetooth_start_average_speeds = os.path.getmtime(bluetooth_training_start_average_speeds_file)
+                        plot_surface_bluetooth_start = my_bluetooth(junction_coords_file, bluetooth_training_start_average_speeds_file)
                 if os.path.exists(bluetooth_training_current_average_speeds_file):
-                    if file_modified(bluetooth_training_current_average_speeds_file, last_modified_GUI_average_speeds):   
-                        last_modified_GUI_average_speeds = os.path.getmtime(bluetooth_training_current_average_speeds_file)
-                        plot_surface_bluetooth = my_bluetooth(junction_coords_file, bluetooth_training_current_average_speeds_file)
-                    
+                    if file_modified(bluetooth_training_current_average_speeds_file, last_modified_bluetooth_current_average_speeds):   
+                        last_modified_bluetooth_current_average_speeds = os.path.getmtime(bluetooth_training_current_average_speeds_file)
+                        plot_surface_bluetooth_current = my_bluetooth(junction_coords_file, bluetooth_training_current_average_speeds_file)
+
             if event.type == pygame.MOUSEBUTTONDOWN:
                 for label, rect in buttons.items():
                     if rect.collidepoint(event.pos):
@@ -450,7 +471,9 @@ def gui_main(phase, output_dir):
         #    simulation_state = "STOP"
         # Draw UI components
         draw_tabs(tabs, current_page, screen, tab_font, width )
-        draw_page(plot_surface_optimize_current, plot_surface_bluetooth, current_page, screen, width, height, font, dropdown_font, dropdown_options, dropdown_rect, dropdown_open, selected_network, simulation_state, phase)
+        draw_page(plot_surface_optimize_start, plot_surface_optimize_current, plot_surface_bluetooth_reference, 
+                  plot_surface_bluetooth_start, plot_surface_bluetooth_current, current_page, screen, width, 
+                  height, font, dropdown_font, dropdown_options, dropdown_rect, dropdown_open, selected_network, simulation_state, phase)
 
         pygame.display.flip()
 
