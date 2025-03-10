@@ -1,18 +1,13 @@
 import pygame
 import sys
 import os
-import time
 import re
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
-from time import sleep
 import ctypes
-import Bluetooth_map
 import bluetooth_gui_lib
-import shutil
 sys.path.append(os.path.join(os.path.dirname(__file__), 'TRAIN_COMMON_LIB'))
-import basic_utilities
 
 # Define colors
 WHITE = (255, 255, 255)
@@ -22,12 +17,14 @@ DARK_GRAY = (169, 169, 169)
 SHADOW = (100, 100, 100)
 BLUE = (173, 216, 230)
 
+figure_width = 400
+
 # Define button properties
 button_width, button_height = 60, 30
 buttons = {
-    "RUN": pygame.Rect(100, 650, button_width, button_height),
-    "B": pygame.Rect(170, 650, button_width, button_height),
-    "C": pygame.Rect(240, 650, button_width, button_height)
+    "RUN": pygame.Rect(100, figure_width + 100, button_width, button_height),
+    "B": pygame.Rect(170, figure_width + 100, button_width, button_height),
+    "C": pygame.Rect(240, figure_width + 100, button_width, button_height)
 }
 
 # Store button click state (for shadow effect)
@@ -119,10 +116,10 @@ def load_network_dirs(network_dir):
 
 # Function to draw dropdown menu
 #def draw_dropdown(selected_network, screen, dropdown_open, dropdown_font, dropdown_options, dropdown_rect, GRAY, BLACK):
-def draw_dropdown(dropdown_font, dropdown_options, screen, dropdown_rect, dropdown_open, selected_network):
+def draw_dropdown(dropdown_font, dropdown_options, screen, dropdown_rect, dropdown_open, selected_network, figure_width):
     # Draw the "Network: " label
     label_text = dropdown_font.render("Network:", True, BLACK)
-    screen.blit(label_text, (20, 605))  # Positioned to the left of the dropdown
+    screen.blit(label_text, (20, 60))  # Positioned to the left of the dropdown
 
     pygame.draw.rect(screen, GRAY, dropdown_rect)  # Main dropdown button
     text = dropdown_font.render(selected_network, True, BLACK)
@@ -288,27 +285,34 @@ def draw_page(figure_width, plot_surface_optimize_start, plot_surface_optimize_c
     if current_page == "Main":
         # Draw the plot on the Default page
         if plot_surface_optimize_current is not None:
-            screen.blit(plot_surface_optimize_current, (50, 70))  # Positioning the plot near the top
+            screen.blit(plot_surface_optimize_current, (50, 120))  # Positioning the plot near the top
         else:
             # Draw black border (outline)
-            pygame.draw.rect(screen, BLACK, (10, 70, figure_width, figure_width), 2)
+            pygame.draw.rect(screen, BLACK, (10, 120, figure_width, figure_width), 2)
 
         draw_buttons(screen, font, simulation_state)
         text = font.render(f"Phase: {phase}", True, BLACK)
-        screen.blit(text, (50, 680))
-        draw_dropdown(dropdown_font, dropdown_options, screen, dropdown_rect, dropdown_open, selected_network)
+        screen.blit(text, (10, figure_width + 140))
+        draw_dropdown(dropdown_font, dropdown_options, screen, dropdown_rect, dropdown_open, selected_network, figure_width)
     elif current_page == "Bluetooth Training":
+        offset = 25
         if plot_surface_bluetooth_current is not None:
-            offset = 25
             screen.blit(plot_surface_bluetooth_reference, (offset, 100))
             screen.blit(plot_surface_bluetooth_start, (offset + figure_width + offset, 100))
             screen.blit(plot_surface_bluetooth_current, (3*offset + 2*figure_width, 100))
         else:
             # Draw black border (outline)
-            pygame.draw.rect(screen, BLACK, (10, 70, figure_width, figure_width), 2)
+            pygame.draw.rect(screen, BLACK, (offset, 100, figure_width, figure_width), 2)
+            pygame.draw.rect(screen, BLACK, (offset + figure_width + offset, 100, figure_width, figure_width), 2)
+            pygame.draw.rect(screen, BLACK, (3*offset + 2*figure_width, 100, figure_width, figure_width), 2)
 
-        text = font.render("Bluetooth Training Page", True, BLACK)
-        screen.blit(text, (width // 2 - text.get_width() // 2, height // 2))
+        text = font.render("Reference", True, BLACK)
+        screen.blit(text, (offset, 75))
+        text = font.render("Start", True, BLACK)
+        screen.blit(text, (offset + figure_width + offset, 75))
+        text = font.render("Current", True, BLACK)
+        screen.blit(text, (3*offset + 2*figure_width, 75))
+        
     elif current_page == "Sim Optimization":
         # Placeholder for Sim Optimization page content
         text = font.render("Sim Optimization Page", True, BLACK)
@@ -326,7 +330,6 @@ def gui_main(phase, output_dir):
     hwnd = ctypes.windll.user32.GetForegroundWindow()
     ctypes.windll.user32.SetWindowPos(hwnd, 0, 100, 100, width, height, 0x0001)
 
-    figure_width = 400
     # Define tabs
     tab_font = pygame.font.Font(None, 28)
     tabs = {
@@ -337,12 +340,12 @@ def gui_main(phase, output_dir):
     current_page = "Main"
 
     # Define font
-    font = pygame.font.Font(None, 36)
+    font = pygame.font.Font(None, 28)
     dropdown_font = pygame.font.Font(None, 24)  # Smaller font for the dropdown
 
     # Dropdown variables
     dropdown_open = False
-    dropdown_rect = pygame.Rect(120, 600, 300, 30)  # Adjusted position for dropdown
+    dropdown_rect = pygame.Rect(120, 60, 300, 30)  # Adjusted position for dropdown
     dropdown_options = ["--Select Network--"]
     selected_network = "--Select Network--"
 
