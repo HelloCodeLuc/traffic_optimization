@@ -203,7 +203,7 @@ def my_bluetooth(junction_coordinates_file, average_speeds_file):
     road_width = 8
 
     # Create Matplotlib figure
-    fig, ax = plt.subplots(figsize=(5, 5))
+    fig, ax = plt.subplots(figsize=(4, 4))
     ax.set_aspect('equal')
     ax.set_facecolor('black')
 
@@ -281,7 +281,7 @@ def find_latest_directory(base_folder):
     return latest_directory
 
 # Main page drawing function
-def draw_page(plot_surface_optimize_start, plot_surface_optimize_current, plot_surface_bluetooth_reference, 
+def draw_page(figure_width, plot_surface_optimize_start, plot_surface_optimize_current, plot_surface_bluetooth_reference, 
                   plot_surface_bluetooth_start, plot_surface_bluetooth_current, current_page, screen, width, 
                   height, font, dropdown_font, dropdown_options, dropdown_rect, dropdown_open, selected_network, 
                   simulation_state, phase):
@@ -291,7 +291,7 @@ def draw_page(plot_surface_optimize_start, plot_surface_optimize_current, plot_s
             screen.blit(plot_surface_optimize_current, (50, 70))  # Positioning the plot near the top
         else:
             # Draw black border (outline)
-            pygame.draw.rect(screen, BLACK, (10, 70, 500, 500), 2)
+            pygame.draw.rect(screen, BLACK, (10, 70, figure_width, figure_width), 2)
 
         draw_buttons(screen, font, simulation_state)
         text = font.render(f"Phase: {phase}", True, BLACK)
@@ -299,10 +299,13 @@ def draw_page(plot_surface_optimize_start, plot_surface_optimize_current, plot_s
         draw_dropdown(dropdown_font, dropdown_options, screen, dropdown_rect, dropdown_open, selected_network)
     elif current_page == "Bluetooth Training":
         if plot_surface_bluetooth_current is not None:
-            screen.blit(plot_surface_bluetooth_current, (50, 200))
+            offset = 25
+            screen.blit(plot_surface_bluetooth_reference, (offset, 100))
+            screen.blit(plot_surface_bluetooth_start, (offset + figure_width + offset, 100))
+            screen.blit(plot_surface_bluetooth_current, (3*offset + 2*figure_width, 100))
         else:
             # Draw black border (outline)
-            pygame.draw.rect(screen, BLACK, (10, 70, 500, 500), 2)
+            pygame.draw.rect(screen, BLACK, (10, 70, figure_width, figure_width), 2)
 
         text = font.render("Bluetooth Training Page", True, BLACK)
         screen.blit(text, (width // 2 - text.get_width() // 2, height // 2))
@@ -323,6 +326,7 @@ def gui_main(phase, output_dir):
     hwnd = ctypes.windll.user32.GetForegroundWindow()
     ctypes.windll.user32.SetWindowPos(hwnd, 0, 100, 100, width, height, 0x0001)
 
+    figure_width = 400
     # Define tabs
     tab_font = pygame.font.Font(None, 28)
     tabs = {
@@ -471,7 +475,7 @@ def gui_main(phase, output_dir):
         #    simulation_state = "STOP"
         # Draw UI components
         draw_tabs(tabs, current_page, screen, tab_font, width )
-        draw_page(plot_surface_optimize_start, plot_surface_optimize_current, plot_surface_bluetooth_reference, 
+        draw_page(figure_width, plot_surface_optimize_start, plot_surface_optimize_current, plot_surface_bluetooth_reference, 
                   plot_surface_bluetooth_start, plot_surface_bluetooth_current, current_page, screen, width, 
                   height, font, dropdown_font, dropdown_options, dropdown_rect, dropdown_open, selected_network, simulation_state, phase)
 
