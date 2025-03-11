@@ -18,6 +18,7 @@ SHADOW = (100, 100, 100)
 BLUE = (173, 216, 230)
 
 figure_width = 400
+offset = 25
 
 # Define button properties
 button_width, button_height = 60, 30
@@ -295,7 +296,6 @@ def draw_page(figure_width, plot_surface_optimize_start, plot_surface_optimize_c
         screen.blit(text, (10, figure_width + 140))
         draw_dropdown(dropdown_font, dropdown_options, screen, dropdown_rect, dropdown_open, selected_network, figure_width)
     elif current_page == "Bluetooth Training":
-        offset = 25
         if plot_surface_bluetooth_reference is not None:
             screen.blit(plot_surface_bluetooth_reference, (offset, 100))
         else:
@@ -332,8 +332,8 @@ def gui_main(phase, output_dir):
     pygame.init()
 
     # Set up the window (Enlarged size)
-    width, height = 1200, 900
-    screen = pygame.display.set_mode((width, height))
+    width, height = figure_width*3 + offset*4, 900
+    screen = pygame.display.set_mode((width, height), pygame.RESIZABLE)
     pygame.display.set_caption("TRAFFIC OPTIMIZER")
     hwnd = ctypes.windll.user32.GetForegroundWindow()
     ctypes.windll.user32.SetWindowPos(hwnd, 0, 100, 100, width, height, 0x0001)
