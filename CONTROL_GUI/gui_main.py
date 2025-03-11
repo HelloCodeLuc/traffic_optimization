@@ -1,17 +1,13 @@
 import pygame
 import sys
 import os
-import time
 import re
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
-from time import sleep
 import ctypes
-import Bluetooth_map
 import bluetooth_gui_lib
 sys.path.append(os.path.join(os.path.dirname(__file__), 'TRAIN_COMMON_LIB'))
-import basic_utilities
 
 # Define colors
 WHITE = (255, 255, 255)
@@ -21,12 +17,15 @@ DARK_GRAY = (169, 169, 169)
 SHADOW = (100, 100, 100)
 BLUE = (173, 216, 230)
 
+figure_width = 400
+offset = 25
+
 # Define button properties
 button_width, button_height = 60, 30
 buttons = {
-    "RUN": pygame.Rect(100, 650, button_width, button_height),
-    "B": pygame.Rect(170, 650, button_width, button_height),
-    "C": pygame.Rect(240, 650, button_width, button_height)
+    "RUN": pygame.Rect(100, figure_width + 100, button_width, button_height),
+    "B": pygame.Rect(170, figure_width + 100, button_width, button_height),
+    "C": pygame.Rect(240, figure_width + 100, button_width, button_height)
 }
 
 # Store button click state (for shadow effect)
@@ -118,10 +117,10 @@ def load_network_dirs(network_dir):
 
 # Function to draw dropdown menu
 #def draw_dropdown(selected_network, screen, dropdown_open, dropdown_font, dropdown_options, dropdown_rect, GRAY, BLACK):
-def draw_dropdown(dropdown_font, dropdown_options, screen, dropdown_rect, dropdown_open, selected_network):
+def draw_dropdown(dropdown_font, dropdown_options, screen, dropdown_rect, dropdown_open, selected_network, figure_width):
     # Draw the "Network: " label
     label_text = dropdown_font.render("Network:", True, BLACK)
-    screen.blit(label_text, (20, 605))  # Positioned to the left of the dropdown
+    screen.blit(label_text, (20, 60))  # Positioned to the left of the dropdown
 
     pygame.draw.rect(screen, GRAY, dropdown_rect)  # Main dropdown button
     text = dropdown_font.render(selected_network, True, BLACK)
@@ -202,9 +201,13 @@ def my_bluetooth(junction_coordinates_file, average_speeds_file):
     road_width = 8
 
     # Create Matplotlib figure
-    fig, ax = plt.subplots(figsize=(5, 5))
+    fig, ax = plt.subplots(figsize=(4, 4))
     ax.set_aspect('equal')
     ax.set_facecolor('black')
+
+    # Set a black border around the figure
+    fig.patch.set_edgecolor('black')
+    fig.patch.set_linewidth(2)  # Border thickness
 
     # Remove extra padding
     plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
@@ -276,28 +279,48 @@ def find_latest_directory(base_folder):
     return latest_directory
 
 # Main page drawing function
-def draw_page(plot_surface_optimize_current, plot_surface_bluetooth, current_page, screen, width, height, font, dropdown_font, dropdown_options, dropdown_rect, dropdown_open, selected_network, simulation_state, phase):
+def draw_page(figure_width, plot_surface_optimize_start, plot_surface_optimize_current, plot_surface_bluetooth_reference, 
+                  plot_surface_bluetooth_start, plot_surface_bluetooth_current, current_page, screen, width, 
+                  height, font, dropdown_font, dropdown_options, dropdown_rect, dropdown_open, selected_network, 
+                  simulation_state, phase):
     if current_page == "Main":
         # Draw the plot on the Default page
         if plot_surface_optimize_current is not None:
-            screen.blit(plot_surface_optimize_current, (50, 70))  # Positioning the plot near the top
+            screen.blit(plot_surface_optimize_current, (50, 120))  # Positioning the plot near the top
         else:
             # Draw black border (outline)
-            pygame.draw.rect(screen, BLACK, (10, 70, 500, 500), 2)
+            pygame.draw.rect(screen, BLACK, (10, 120, figure_width, figure_width), 2)
 
         draw_buttons(screen, font, simulation_state)
         text = font.render(f"Phase: {phase}", True, BLACK)
-        screen.blit(text, (50, 680))
-        draw_dropdown(dropdown_font, dropdown_options, screen, dropdown_rect, dropdown_open, selected_network)
+        screen.blit(text, (10, figure_width + 140))
+        draw_dropdown(dropdown_font, dropdown_options, screen, dropdown_rect, dropdown_open, selected_network, figure_width)
     elif current_page == "Bluetooth Training":
-        if plot_surface_bluetooth is not None:
-            screen.blit(plot_surface_bluetooth, (50, 200))
+        if plot_surface_bluetooth_reference is not None:
+            screen.blit(plot_surface_bluetooth_reference, (offset, 100))
         else:
             # Draw black border (outline)
-            pygame.draw.rect(screen, BLACK, (10, 70, 500, 500), 2)
+            pygame.draw.rect(screen, BLACK, (offset, 100, figure_width, figure_width), 2)
+            
+        if plot_surface_bluetooth_start is not None:
+            screen.blit(plot_surface_bluetooth_start, (offset + figure_width + offset, 100))
+        else:
+            # Draw black border (outline)
+            pygame.draw.rect(screen, BLACK, (offset + figure_width + offset, 100, figure_width, figure_width), 2)
 
-        text = font.render("Bluetooth Training Page", True, BLACK)
-        screen.blit(text, (width // 2 - text.get_width() // 2, height // 2))
+        if plot_surface_bluetooth_current is not None:
+            screen.blit(plot_surface_bluetooth_current, (3*offset + 2*figure_width, 100))
+        else:
+            # Draw black border (outline)
+            pygame.draw.rect(screen, BLACK, (3*offset + 2*figure_width, 100, figure_width, figure_width), 2)
+
+        text = font.render("Reference", True, BLACK)
+        screen.blit(text, (offset, 75))
+        text = font.render("Start", True, BLACK)
+        screen.blit(text, (offset + figure_width + offset, 75))
+        text = font.render("Current", True, BLACK)
+        screen.blit(text, (3*offset + 2*figure_width, 75))
+        
     elif current_page == "Sim Optimization":
         # Placeholder for Sim Optimization page content
         text = font.render("Sim Optimization Page", True, BLACK)
@@ -309,8 +332,8 @@ def gui_main(phase, output_dir):
     pygame.init()
 
     # Set up the window (Enlarged size)
-    width, height = 1200, 900
-    screen = pygame.display.set_mode((width, height))
+    width, height = figure_width*3 + offset*4, 900
+    screen = pygame.display.set_mode((width, height), pygame.RESIZABLE)
     pygame.display.set_caption("TRAFFIC OPTIMIZER")
     hwnd = ctypes.windll.user32.GetForegroundWindow()
     ctypes.windll.user32.SetWindowPos(hwnd, 0, 100, 100, width, height, 0x0001)
@@ -325,12 +348,12 @@ def gui_main(phase, output_dir):
     current_page = "Main"
 
     # Define font
-    font = pygame.font.Font(None, 36)
+    font = pygame.font.Font(None, 28)
     dropdown_font = pygame.font.Font(None, 24)  # Smaller font for the dropdown
 
     # Dropdown variables
     dropdown_open = False
-    dropdown_rect = pygame.Rect(120, 600, 300, 30)  # Adjusted position for dropdown
+    dropdown_rect = pygame.Rect(120, 60, 300, 30)  # Adjusted position for dropdown
     dropdown_options = ["--Select Network--"]
     selected_network = "--Select Network--"
 
@@ -347,24 +370,33 @@ def gui_main(phase, output_dir):
         os.makedirs("out")
 
     # latest_output_dir = find_latest_directory("out")
-
-    network_averages_txt = f'{output_dir}\\TRAIN_OPTIMIZATION\\network_averages.txt'
+    optimize_start_network_averages_txt = f'{output_dir}\\TRAIN_OPTIMIZATION\\network_averages.txt'
+    optimize_current_network_averages_txt = f'{output_dir}\\TRAIN_OPTIMIZATION\\network_averages.txt'
 
     # Set up a timer event to check for file modifications
     FILE_MODIFIED_EVENT = pygame.USEREVENT + 1
     pygame.time.set_timer(FILE_MODIFIED_EVENT, 100)  # Check every 100ms
 
     # Load the plot as an image surface
-    last_modified_network_averages_txt = 0
+    last_modified_optimize_start_network_averages_txt = 0
+    last_modified_optimize_current_network_averages_txt = 0
+    plot_surface_optimize_start = None
     plot_surface_optimize_current = None
     
-    last_modified_GUI_average_speeds = 0
-    plot_surface_bluetooth = None
-
     junction_coords_file = f"{output_dir}\\GUI_junction_coordinates.csv"
-    bluetooth_training_current_average_speeds_file = f"{output_dir}\TRAIN_BLUETOOTH\GUI_average_speeds.csv"
+    last_modified_bluetooth_reference_average_speeds = 0
+    plot_surface_bluetooth_reference = None
+    last_modified_bluetooth_start_average_speeds = 0
+    plot_surface_bluetooth_start = None
+    last_modified_bluetooth_current_average_speeds = 0
+    plot_surface_bluetooth_current = None
     
     while running:
+
+        
+        bluetooth_training_reference_average_speeds_file = f"NETWORKS/{network_dir}/{network_dir}.bluetooth.csv"
+        bluetooth_training_start_average_speeds_file = f"{output_dir}\TRAIN_BLUETOOTH\GUI_average_speeds.start.csv"
+        bluetooth_training_current_average_speeds_file = f"{output_dir}\TRAIN_BLUETOOTH\GUI_average_speeds.csv"
 
         screen.fill(WHITE)
 
@@ -382,16 +414,27 @@ def gui_main(phase, output_dir):
                 sys.exit()
             
             if event.type == FILE_MODIFIED_EVENT:
-                # Check if the file has been modified
-                if os.path.exists(network_averages_txt):
-                    if file_modified(network_averages_txt, last_modified_network_averages_txt):
-                        last_modified_network_averages_txt = os.path.getmtime(network_averages_txt)
-                        plot_surface_optimize_current = my_plot(network_averages_txt)  # Update the plot
+                if os.path.exists(optimize_start_network_averages_txt):
+                    if file_modified(optimize_start_network_averages_txt, last_modified_optimize_start_network_averages_txt):
+                        last_modified_optimize_start_network_averages_txt = os.path.getmtime(optimize_start_network_averages_txt)
+                        plot_surface_optimize_start = my_plot(optimize_start_network_averages_txt)  # Update the plot
+                if os.path.exists(optimize_current_network_averages_txt):
+                    if file_modified(optimize_current_network_averages_txt, last_modified_optimize_current_network_averages_txt):
+                        last_modified_optimize_current_network_averages_txt = os.path.getmtime(optimize_current_network_averages_txt)
+                        plot_surface_optimize_current = my_plot(optimize_current_network_averages_txt)  # Update the plot
+                if os.path.exists(bluetooth_training_reference_average_speeds_file) and os.path.exists(junction_coords_file):
+                    if file_modified(bluetooth_training_reference_average_speeds_file, last_modified_bluetooth_reference_average_speeds):   
+                        last_modified_bluetooth_reference_average_speeds = os.path.getmtime(bluetooth_training_reference_average_speeds_file)
+                        plot_surface_bluetooth_reference = my_bluetooth(junction_coords_file, bluetooth_training_reference_average_speeds_file)
+                if os.path.exists(bluetooth_training_start_average_speeds_file):
+                    if file_modified(bluetooth_training_start_average_speeds_file, last_modified_bluetooth_start_average_speeds):   
+                        last_modified_bluetooth_start_average_speeds = os.path.getmtime(bluetooth_training_start_average_speeds_file)
+                        plot_surface_bluetooth_start = my_bluetooth(junction_coords_file, bluetooth_training_start_average_speeds_file)
                 if os.path.exists(bluetooth_training_current_average_speeds_file):
-                    if file_modified(bluetooth_training_current_average_speeds_file, last_modified_GUI_average_speeds):   
-                        last_modified_GUI_average_speeds = os.path.getmtime(bluetooth_training_current_average_speeds_file)
-                        plot_surface_bluetooth = my_bluetooth(junction_coords_file, bluetooth_training_current_average_speeds_file)
-                    
+                    if file_modified(bluetooth_training_current_average_speeds_file, last_modified_bluetooth_current_average_speeds):   
+                        last_modified_bluetooth_current_average_speeds = os.path.getmtime(bluetooth_training_current_average_speeds_file)
+                        plot_surface_bluetooth_current = my_bluetooth(junction_coords_file, bluetooth_training_current_average_speeds_file)
+
             if event.type == pygame.MOUSEBUTTONDOWN:
                 for label, rect in buttons.items():
                     if rect.collidepoint(event.pos):
@@ -445,7 +488,9 @@ def gui_main(phase, output_dir):
         #    simulation_state = "STOP"
         # Draw UI components
         draw_tabs(tabs, current_page, screen, tab_font, width )
-        draw_page(plot_surface_optimize_current, plot_surface_bluetooth, current_page, screen, width, height, font, dropdown_font, dropdown_options, dropdown_rect, dropdown_open, selected_network, simulation_state, phase)
+        draw_page(figure_width, plot_surface_optimize_start, plot_surface_optimize_current, plot_surface_bluetooth_reference, 
+                  plot_surface_bluetooth_start, plot_surface_bluetooth_current, current_page, screen, width, 
+                  height, font, dropdown_font, dropdown_options, dropdown_rect, dropdown_open, selected_network, simulation_state, phase)
 
         pygame.display.flip()
 

@@ -79,7 +79,6 @@ def bluetooth_training(phase, bluetooth_network_with_timing, output_folder, outp
         #This is a backdoor for user to initiate stop from GUI
         if basic_utilities.check_queue_has_command("STOP", "out/command_queue.txt", 1): 
             print(">> Execution interrupted (BLUETOOTH)")
-            sys.exit()
         if os.path.exists(bluetooth_csv):
             average_diff, max_discrepancy_edge, max_discrepancy_value = basic_utilities.calculate_average_difference(bluetooth_csv, f"{output_folder}/{output_folder_subdir}/GUI_average_speeds.csv")
             print(f"The average speed difference is: {average_diff:.3f} km/h")

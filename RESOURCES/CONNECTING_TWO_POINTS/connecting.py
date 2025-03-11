@@ -104,14 +104,18 @@ def fig_to_pygame(fig):
 pygame.init()
 
 # Screen settings
-WIDTH, HEIGHT = 500, 500
+WIDTH, HEIGHT = 400, 400
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Two-Way Road with Directional Colors and Nodes")
 
 # Create Matplotlib figure first
-fig, ax = plt.subplots(figsize=(5, 5))
+fig, ax = plt.subplots(figsize=(4, 4))
 ax.set_aspect('equal')
 ax.set_facecolor('black')
+
+# Set a black border around the figure
+fig.patch.set_edgecolor('black')
+fig.patch.set_linewidth(2)  # Border thickness
 
 # Remove extra padding
 plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
