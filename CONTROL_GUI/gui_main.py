@@ -23,9 +23,9 @@ offset = 25
 # Define button properties
 button_width, button_height = 60, 30
 buttons = {
-    "RUN": pygame.Rect(100, figure_width + 100, button_width, button_height),
-    "B": pygame.Rect(170, figure_width + 100, button_width, button_height),
-    "C": pygame.Rect(240, figure_width + 100, button_width, button_height)
+    "RUN": pygame.Rect(2*figure_width + offset*10, offset*2, button_width, button_height),
+    "B": pygame.Rect(2*figure_width + offset*13, offset*2, button_width, button_height),
+    "C": pygame.Rect(2*figure_width + offset*16, offset*2, button_width, button_height)
 }
 
 # Store button click state (for shadow effect)
@@ -279,17 +279,36 @@ def find_latest_directory(base_folder):
     return latest_directory
 
 # Main page drawing function
-def draw_page(figure_width, plot_surface_optimize_start, plot_surface_optimize_current, plot_surface_bluetooth_reference, 
+def draw_page(figure_width, plot_surface_average_idle, plot_surface_optimize_start, plot_surface_optimize_current, plot_surface_bluetooth_reference, 
                   plot_surface_bluetooth_start, plot_surface_bluetooth_current, current_page, screen, width, 
                   height, font, dropdown_font, dropdown_options, dropdown_rect, dropdown_open, selected_network, 
                   simulation_state, phase):
     if current_page == "Main":
-        # Draw the plot on the Default page
-        if plot_surface_optimize_current is not None:
-            screen.blit(plot_surface_optimize_current, (50, 120))  # Positioning the plot near the top
+
+        if plot_surface_bluetooth_reference is not None:
+            screen.blit(plot_surface_bluetooth_reference, (offset, offset*5))
         else:
             # Draw black border (outline)
-            pygame.draw.rect(screen, BLACK, (10, 120, figure_width, figure_width), 2)
+            pygame.draw.rect(screen, BLACK, (offset, offset*5, figure_width, figure_width), 2)
+
+        if plot_surface_bluetooth_current is not None:
+            screen.blit(plot_surface_bluetooth_current, (offset + figure_width + offset, offset*5))
+        else:
+            # Draw black border (outline)
+            pygame.draw.rect(screen, BLACK, (offset + figure_width + offset, offset*5, figure_width, figure_width), 2)
+
+        if plot_surface_optimize_current is not None:
+            screen.blit(plot_surface_optimize_current, (3*offset + 2*figure_width, offset*5))
+        else:
+            # Draw black border (outline)
+            pygame.draw.rect(screen, BLACK, (3*offset + 2*figure_width, offset*5, figure_width, figure_width), 2)
+
+        text = font.render("Bluetooth Reference", True, BLACK)
+        screen.blit(text, (offset, offset*4))
+        text = font.render("Bluetooth Current", True, BLACK)
+        screen.blit(text, (offset + figure_width + offset, offset*4))
+        text = font.render("Optimize Current", True, BLACK)
+        screen.blit(text, (3*offset + 2*figure_width, offset*4))
 
         draw_buttons(screen, font, simulation_state)
         text = font.render(f"Phase: {phase}", True, BLACK)
@@ -322,9 +341,30 @@ def draw_page(figure_width, plot_surface_optimize_start, plot_surface_optimize_c
         screen.blit(text, (3*offset + 2*figure_width, 75))
         
     elif current_page == "Sim Optimization":
-        # Placeholder for Sim Optimization page content
-        text = font.render("Sim Optimization Page", True, BLACK)
-        screen.blit(text, (width // 2 - text.get_width() // 2, height // 2))
+
+        # Draw the plot on the Default page
+        if plot_surface_average_idle is not None:
+            screen.blit(plot_surface_average_idle, (offset, figure_width + offset*5))  
+        else:
+            # Draw black border (outline)
+            pygame.draw.rect(screen, BLACK, (offset, figure_width + offset*5, figure_width, figure_width), 2)
+        
+        if plot_surface_optimize_start is not None:
+            screen.blit(plot_surface_optimize_start, (offset, offset*4))
+        else:
+            # Draw black border (outline)
+            pygame.draw.rect(screen, BLACK, (offset, offset*4, figure_width, figure_width), 2)
+            
+        if plot_surface_optimize_current is not None:
+            screen.blit(plot_surface_optimize_current, (offset + figure_width + offset, offset*4))
+        else:
+            # Draw black border (outline)
+            pygame.draw.rect(screen, BLACK, (offset + figure_width + offset, offset*4, figure_width, figure_width), 2)
+
+        text = font.render("Start", True, BLACK)
+        screen.blit(text, (offset, 75))
+        text = font.render("Current", True, BLACK)
+        screen.blit(text, (offset + figure_width + offset, 75))
 
 def gui_main(phase, output_dir):
 
@@ -369,21 +409,18 @@ def gui_main(phase, output_dir):
     if not os.path.exists("out"):
         os.makedirs("out")
 
-    # latest_output_dir = find_latest_directory("out")
-    optimize_start_network_averages_txt = f'{output_dir}\\TRAIN_OPTIMIZATION\\network_averages.txt'
-    optimize_current_network_averages_txt = f'{output_dir}\\TRAIN_OPTIMIZATION\\network_averages.txt'
-
     # Set up a timer event to check for file modifications
     FILE_MODIFIED_EVENT = pygame.USEREVENT + 1
     pygame.time.set_timer(FILE_MODIFIED_EVENT, 100)  # Check every 100ms
 
     # Load the plot as an image surface
-    last_modified_optimize_start_network_averages_txt = 0
-    last_modified_optimize_current_network_averages_txt = 0
+    last_modified_optimize_network_averages_txt = 0 
+    last_modified_optimize_start_GUI_average_speeds = 0
+    last_modified_optimize_current_GUI_average_speeds = 0
+    plot_surface_average_idle = None
     plot_surface_optimize_start = None
     plot_surface_optimize_current = None
     
-    junction_coords_file = f"{output_dir}\\GUI_junction_coordinates.csv"
     last_modified_bluetooth_reference_average_speeds = 0
     plot_surface_bluetooth_reference = None
     last_modified_bluetooth_start_average_speeds = 0
@@ -392,8 +429,12 @@ def gui_main(phase, output_dir):
     plot_surface_bluetooth_current = None
     
     while running:
+        junction_coords_file = f"{output_dir}\\GUI_junction_coordinates.csv"
 
-        
+        optimize_network_averages_txt = f'{output_dir}\\TRAIN_OPTIMIZATION\\network_averages.txt'
+        optimize_start_GUI_average_speeds = f'{output_dir}\\TRAIN_OPTIMIZATION\\GUI_average_speeds.start.csv'
+        optimize_current_GUI_average_speeds = f'{output_dir}\\TRAIN_OPTIMIZATION\\GUI_average_speeds.csv'
+
         bluetooth_training_reference_average_speeds_file = f"NETWORKS/{network_dir}/{network_dir}.bluetooth.csv"
         bluetooth_training_start_average_speeds_file = f"{output_dir}\TRAIN_BLUETOOTH\GUI_average_speeds.start.csv"
         bluetooth_training_current_average_speeds_file = f"{output_dir}\TRAIN_BLUETOOTH\GUI_average_speeds.csv"
@@ -414,14 +455,18 @@ def gui_main(phase, output_dir):
                 sys.exit()
             
             if event.type == FILE_MODIFIED_EVENT:
-                if os.path.exists(optimize_start_network_averages_txt):
-                    if file_modified(optimize_start_network_averages_txt, last_modified_optimize_start_network_averages_txt):
-                        last_modified_optimize_start_network_averages_txt = os.path.getmtime(optimize_start_network_averages_txt)
-                        plot_surface_optimize_start = my_plot(optimize_start_network_averages_txt)  # Update the plot
-                if os.path.exists(optimize_current_network_averages_txt):
-                    if file_modified(optimize_current_network_averages_txt, last_modified_optimize_current_network_averages_txt):
-                        last_modified_optimize_current_network_averages_txt = os.path.getmtime(optimize_current_network_averages_txt)
-                        plot_surface_optimize_current = my_plot(optimize_current_network_averages_txt)  # Update the plot
+                if os.path.exists(optimize_network_averages_txt):
+                    if file_modified(optimize_network_averages_txt, last_modified_optimize_network_averages_txt):
+                        last_modified_optimize_network_averages_txt = os.path.getmtime(optimize_network_averages_txt)
+                        plot_surface_average_idle = my_plot(optimize_network_averages_txt)  # Update the plot
+                if os.path.exists(optimize_start_GUI_average_speeds):
+                    if file_modified(optimize_start_GUI_average_speeds, last_modified_optimize_start_GUI_average_speeds):
+                        last_modified_optimize_start_GUI_average_speeds = os.path.getmtime(optimize_start_GUI_average_speeds)
+                        plot_surface_optimize_start = my_bluetooth(junction_coords_file, optimize_start_GUI_average_speeds)  # Update the plot
+                if os.path.exists(optimize_current_GUI_average_speeds):
+                    if file_modified(optimize_current_GUI_average_speeds, last_modified_optimize_current_GUI_average_speeds):
+                        last_modified_optimize_current_GUI_average_speeds = os.path.getmtime(optimize_current_GUI_average_speeds)
+                        plot_surface_optimize_current = my_bluetooth(junction_coords_file, optimize_current_GUI_average_speeds)  # Update the plot
                 if os.path.exists(bluetooth_training_reference_average_speeds_file) and os.path.exists(junction_coords_file):
                     if file_modified(bluetooth_training_reference_average_speeds_file, last_modified_bluetooth_reference_average_speeds):   
                         last_modified_bluetooth_reference_average_speeds = os.path.getmtime(bluetooth_training_reference_average_speeds_file)
@@ -488,7 +533,7 @@ def gui_main(phase, output_dir):
         #    simulation_state = "STOP"
         # Draw UI components
         draw_tabs(tabs, current_page, screen, tab_font, width )
-        draw_page(figure_width, plot_surface_optimize_start, plot_surface_optimize_current, plot_surface_bluetooth_reference, 
+        draw_page(figure_width, plot_surface_average_idle, plot_surface_optimize_start, plot_surface_optimize_current, plot_surface_bluetooth_reference, 
                   plot_surface_bluetooth_start, plot_surface_bluetooth_current, current_page, screen, width, 
                   height, font, dropdown_font, dropdown_options, dropdown_rect, dropdown_open, selected_network, simulation_state, phase)
 
