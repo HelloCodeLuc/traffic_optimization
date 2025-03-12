@@ -9,7 +9,9 @@ import subprocess
 import random
 import glob
 import time
+import shutil
 from multiprocessing import Process, Queue
+import fileinput
 
 def get_current_datetime():
     # Get the current date and time
@@ -546,11 +548,41 @@ def batched_run_sumo (phase, num_batches, num_runs_per_batch, output_folder, net
                 f.write(f"Trip File: {trip_files[idx]},")
                 f.write(f"Configuration File: {config_files[idx]},")
                 f.write(f"Average Idle Time: {average_idle_time}\n")
-                if os.path.exists(trip_files[idx]):
-                    os.remove(trip_files[idx]) 
-                if os.path.exists(config_files[idx]):
-                    os.remove(config_files[idx])
+                #if os.path.exists(trip_files[idx]):
+                    #os.remove(trip_files[idx]) 
+                #if os.path.exists(config_files[idx]):
+                    #os.remove(config_files[idx])
 
         if (debug == 1):
             sys.exit()
     compute_average_speeds(f"{output_folder}/{output_folder_subdir}/GUI_average_speeds_per_run_sumo", f"{output_folder}/{output_folder_subdir}/GUI_average_speeds.csv")
+
+def demo_gui (out_ref, networkfile):
+    found = 0
+    number = 0
+    while not found:
+        for filename in os.listdir(out_ref):
+            # print (f"demo_gui:1 {filename}")
+            if filename.startswith("random_trips") and filename.endswith(".xml"):
+                match = re.search(r"random_trips_(\d+)\.xml", filename)
+                number = int(match.group(1))
+                #print (f"demo_gui:1 {out_ref}/sumo_config_{number}.sumocfg")
+                if os.path.exists(f"{out_ref}/sumo_config_{number}.sumocfg"):
+                    os.makedirs(f"{out_ref}/../DEMO", exist_ok=True)
+                    shutil.copy(f"{out_ref}/sumo_config_{number}.sumocfg", f"{out_ref}/../DEMO")
+                    shutil.copy(f"{out_ref}/random_trips_{number}.xml", f"{out_ref}/../DEMO")
+                    shutil.copy(networkfile, f"{out_ref}/../DEMO")
+                    found = 1
+                    break
+        time.sleep(2)      
+    with fileinput.FileInput(f"{out_ref}/../DEMO/sumo_config_{number}.sumocfg", inplace=True) as file:
+        for line in file:
+            modified_line = line.replace("TRAIN_OPTIMIZATION", "DEMO").replace("TRAIN_BLUETOOTH", "DEMO")
+            print(modified_line, end="")  # Print writes back to the file
+
+    # Command to run your SUMO simulation
+    # sumo_command = f"sumo-gui -c {out_ref}/../DEMO/sumo_config_{number}.sumocfg &"
+    sumo_command = ["sumo-gui", "-c", f"{out_ref}/../DEMO/sumo_config_{number}.sumocfg"]
+    # Execute the system call
+    subprocess.Popen(sumo_command)
+    return 

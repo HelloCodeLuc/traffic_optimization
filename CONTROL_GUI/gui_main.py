@@ -24,15 +24,15 @@ offset = 25
 button_width, button_height = 60, 30
 buttons = {
     "RUN": pygame.Rect(2*figure_width + offset*10, offset*2, button_width, button_height),
-    "B": pygame.Rect(2*figure_width + offset*13, offset*2, button_width, button_height),
+    "DEMO": pygame.Rect(2*figure_width + offset*13, offset*2, button_width, button_height),
     "C": pygame.Rect(2*figure_width + offset*16, offset*2, button_width, button_height)
 }
 
 # Store button click state (for shadow effect)
-button_pressed = {"RUN": False, "B": False, "C": False}
+button_pressed = {"RUN": False, "DEMO": False, "C": False}
 
 # Store hover state
-button_hovered = {"RUN": False, "B": False, "C": False}
+button_hovered = {"RUN": False, "DEMO": False, "C": False}
 
 # # Path to the output file
 output_file = '../REFERENCE_DATA/output.good/network_averages.txt'
@@ -493,6 +493,10 @@ def gui_main(phase, output_dir):
                                 queue_message = simulation_state
                                 button_pressed[label] = True  # Set button to pressed state
                                 append_to_queue(queue_message)  # Append to the queue file
+                        elif label == "DEMO" :
+                            queue_message = label
+                            button_pressed[label] = True  # Set button to pressed state
+                            append_to_queue(queue_message)  # Append to the queue file
                         else:
                             button_pressed[label] = True  # Set button to pressed state
                             append_to_queue(queue_message)  # Append to the queue file
