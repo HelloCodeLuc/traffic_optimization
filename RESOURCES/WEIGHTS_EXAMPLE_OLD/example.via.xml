@@ -1,8 +1,12 @@
 <edgedata>
-  <interval begin="0" end="10"/>
-     <!-- <edge id="-E3" value="0.5"/> 
-     <edge id="E2" value="0.5"/>  -->
+  <interval begin="0" end="2000"/>
      <edge id="E4" value="0.5"/> 
+     <edge id="-E4" value="0"/> 
      <edge id="-E1" value="0.5"/> 
+     <edge id="E1" value="0"/> 
+     <edge id="-E2" value="0"/>
+     <edge id="E2" value="0"/>
+     <edge id="-E3" value="0"/>
+     <edge id="E3" value="0"/>
   </interval>
 </edgedata>
