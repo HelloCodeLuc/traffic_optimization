@@ -57,6 +57,13 @@ def main_loop(num_batches, num_runs_per_batch, network_selection, max_steps, pha
                 light_names = light_name_data[network_name]
                 print(network_name)
                 print(light_names)
+            # elif command == "DEMO":
+            #     if os.path.exists(f"{output_folder}/TRAIN_OPTIMIZATION"):
+            #         print ("DEMO_TRAIN_OPTIMIZATION")
+            #         basic_utilities.demo_gui(f"{output_folder}/TRAIN_OPTIMIZATION")
+            #     elif os.path.exists(f"{output_folder}/TRAIN_BLUETOOTH"):
+            #         print ("DEMO_TRAIN_BLUETOOTH")
+            #         basic_utilities.demo_gui(f"{output_folder}/TRAIN_BLUETOOTH")
             elif command == start_command:
 
                 if not os.path.exists(output_folder):
