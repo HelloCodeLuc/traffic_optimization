@@ -143,6 +143,7 @@ for edge in edge_data:
 # Draw nodes
 for node_position in scaled_positions.values():
     draw_node(ax, node_position)
+    ax.text(node_position[0] + 15, node_position[1] + 12, "Gr +2", fontsize=8)
 
 # Remove axis labels and ticks
 ax.set_xticks([])
