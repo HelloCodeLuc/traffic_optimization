@@ -7,6 +7,8 @@ import numpy as np
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 import ctypes
 import bluetooth_gui_lib
+import plot_timing_changes
+
 sys.path.append(os.path.join(os.path.dirname(__file__), 'TRAIN_COMMON_LIB'))
 
 # Define colors
@@ -185,7 +187,10 @@ def my_plot(output_data_file):
     plt.close(fig)  # Close the figure to free up resources
     return plot_surface
 
-def my_bluetooth(junction_coordinates_file, average_speeds_file):
+# plot_surface_bluetooth_current = my_bluetooth(junction_coords_file, bluetooth_training_current_average_speeds_file,
+#                                               network_file, bluetooth_training_network_averages)
+# #
+def my_bluetooth(junction_coordinates_file, average_speeds_file, network_file, bluetooth_training_network_averages):
 
     # # Read input files
     # scaled_positions = bluetooth_lib.read_GUI_junction_coordinates(junction_coordinates)
@@ -223,8 +228,13 @@ def my_bluetooth(junction_coordinates_file, average_speeds_file):
         bluetooth_gui_lib.draw_two_way_road(ax, point1, point2, road_width, average_speed, speed_limit)
 
     # Draw nodes
-    for node_position in junction_coordinates.values():
-        bluetooth_gui_lib.draw_node(ax, node_position)
+    if network_file != "":
+        coord_differences = plot_timing_changes.coordinates_to_diff_of_offset_and_greenlight (network_file, junction_coordinates_file, bluetooth_training_network_averages)
+        for node_position in junction_coordinates.values():
+            bluetooth_gui_lib.draw_node(ax, node_position, coord_differences)
+    else:
+        for node_position in junction_coordinates.values():
+            bluetooth_gui_lib.draw_node(ax, node_position, None)
 
     # Remove axis labels and ticks
     ax.set_xticks([])
@@ -438,6 +448,8 @@ def gui_main(phase, output_dir):
         bluetooth_training_reference_average_speeds_file = f"NETWORKS/{network_dir}/{network_dir}.bluetooth.csv"
         bluetooth_training_start_average_speeds_file = f"{output_dir}\TRAIN_BLUETOOTH\GUI_average_speeds.start.csv"
         bluetooth_training_current_average_speeds_file = f"{output_dir}\TRAIN_BLUETOOTH\GUI_average_speeds.csv"
+        bluetooth_training_network_averages = f"{output_dir}\TRAIN_BLUETOOTH\network_averages.txt"
+        # network_file = f"NETWORKS/{network_dir}/{network_dir}.net.xml"
 
         screen.fill(WHITE)
 
@@ -458,27 +470,30 @@ def gui_main(phase, output_dir):
                 if os.path.exists(optimize_network_averages_txt):
                     if file_modified(optimize_network_averages_txt, last_modified_optimize_network_averages_txt):
                         last_modified_optimize_network_averages_txt = os.path.getmtime(optimize_network_averages_txt)
-                        plot_surface_average_idle = my_plot(optimize_network_averages_txt)  # Update the plot
+                        plot_surface_average_idle = my_plot(optimize_network_averages_txt) 
                 if os.path.exists(optimize_start_GUI_average_speeds):
                     if file_modified(optimize_start_GUI_average_speeds, last_modified_optimize_start_GUI_average_speeds):
                         last_modified_optimize_start_GUI_average_speeds = os.path.getmtime(optimize_start_GUI_average_speeds)
-                        plot_surface_optimize_start = my_bluetooth(junction_coords_file, optimize_start_GUI_average_speeds)  # Update the plot
+                        plot_surface_optimize_start = my_bluetooth(junction_coords_file, optimize_start_GUI_average_speeds, "", "")
                 if os.path.exists(optimize_current_GUI_average_speeds):
                     if file_modified(optimize_current_GUI_average_speeds, last_modified_optimize_current_GUI_average_speeds):
                         last_modified_optimize_current_GUI_average_speeds = os.path.getmtime(optimize_current_GUI_average_speeds)
-                        plot_surface_optimize_current = my_bluetooth(junction_coords_file, optimize_current_GUI_average_speeds)  # Update the plot
+                        plot_surface_optimize_current = my_bluetooth(junction_coords_file, optimize_current_GUI_average_speeds,
+                                                                     selected_network, optimize_network_averages_txt) 
                 if os.path.exists(bluetooth_training_reference_average_speeds_file) and os.path.exists(junction_coords_file):
                     if file_modified(bluetooth_training_reference_average_speeds_file, last_modified_bluetooth_reference_average_speeds):   
                         last_modified_bluetooth_reference_average_speeds = os.path.getmtime(bluetooth_training_reference_average_speeds_file)
-                        plot_surface_bluetooth_reference = my_bluetooth(junction_coords_file, bluetooth_training_reference_average_speeds_file)
+                        plot_surface_bluetooth_reference = my_bluetooth(junction_coords_file, bluetooth_training_reference_average_speeds_file, "", "")
                 if os.path.exists(bluetooth_training_start_average_speeds_file):
                     if file_modified(bluetooth_training_start_average_speeds_file, last_modified_bluetooth_start_average_speeds):   
                         last_modified_bluetooth_start_average_speeds = os.path.getmtime(bluetooth_training_start_average_speeds_file)
-                        plot_surface_bluetooth_start = my_bluetooth(junction_coords_file, bluetooth_training_start_average_speeds_file)
+                        plot_surface_bluetooth_start = my_bluetooth(junction_coords_file, bluetooth_training_start_average_speeds_file, "", "")
                 if os.path.exists(bluetooth_training_current_average_speeds_file):
                     if file_modified(bluetooth_training_current_average_speeds_file, last_modified_bluetooth_current_average_speeds):   
                         last_modified_bluetooth_current_average_speeds = os.path.getmtime(bluetooth_training_current_average_speeds_file)
-                        plot_surface_bluetooth_current = my_bluetooth(junction_coords_file, bluetooth_training_current_average_speeds_file)
+                        plot_surface_bluetooth_current = my_bluetooth(junction_coords_file, bluetooth_training_current_average_speeds_file, "", "")
+                        # plot_surface_bluetooth_current = my_bluetooth(junction_coords_file, bluetooth_training_current_average_speeds_file,
+                        #                                               network_file, bluetooth_training_network_averages)
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 for label, rect in buttons.items():

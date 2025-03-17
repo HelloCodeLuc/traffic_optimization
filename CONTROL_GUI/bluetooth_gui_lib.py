@@ -7,8 +7,25 @@ from io import BytesIO
 from PIL import Image
 
 # Function to draw a dot for a node using Matplotlib
-def draw_node(ax, node_position, node_radius=8):
+def draw_node(ax, node_position, coord_differences, node_radius=8):
     ax.scatter(node_position[0], node_position[1], s=node_radius**2, color='blue', zorder=2)
+    if coord_differences != None:
+        if node_position in coord_differences:
+                # Extract the offset and green light timing difference
+                diff_values = coord_differences[node_position]
+                offset_diff = diff_values["offset_diff"]
+                green_diff = diff_values["green_diff"]
+
+                # Get x, y from node_position
+                x, y = map(float, node_position.split(','))
+
+                # Offset the text position
+                text_x = x + 15
+                text_y = y + 12
+
+                # Display the values on the ax plot
+                ax.text(text_x, text_y, f"O:{offset_diff},\nG:{green_diff}", 
+                        fontsize=10, color="red", ha="center")
 
 # Function to read the CSV file and return a list of dictionaries
 def read_edge_data(file_path):

@@ -120,10 +120,10 @@ def coordinates_to_diff_of_offset_and_greenlight (network_file, network_junction
     return coord_differences
 
 #   with open(file_name, mode='r') as file:
-network_file = "../out/2025_03_15_13_51_49/TRAIN_OPTIMIZATION/school_extended.timing.net.xml.temp"
-network_junction_csv = "../NETWORKS/school_extended/school_extended_junctions.bluetooth.csv"
-network_averages = "../out/2025_03_15_13_51_49/TRAIN_OPTIMIZATION/network_averages.txt"
+# network_file = "../out/2025_03_15_13_51_49/TRAIN_OPTIMIZATION/school_extended.timing.net.xml.temp"
+# network_junction_csv = "../NETWORKS/school_extended/school_extended_junctions.bluetooth.csv"
+# network_averages = "../out/2025_03_15_13_51_49/TRAIN_OPTIMIZATION/network_averages.txt"
 
-coord_differences = coordinates_to_diff_of_offset_and_greenlight (network_file, network_junction_csv, network_averages)
-# Print the final dictionary
-print(coord_differences)
+# coord_differences = coordinates_to_diff_of_offset_and_greenlight (network_file, network_junction_csv, network_averages)
+# # Print the final dictionary
+# print(coord_differences)
