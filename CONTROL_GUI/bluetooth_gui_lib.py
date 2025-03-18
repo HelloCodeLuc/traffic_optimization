@@ -9,23 +9,25 @@ from PIL import Image
 # Function to draw a dot for a node using Matplotlib
 def draw_node(ax, node_position, coord_differences, node_radius=8):
     ax.scatter(node_position[0], node_position[1], s=node_radius**2, color='blue', zorder=2)
+
     if coord_differences != None:
-        if node_position in coord_differences:
-                # Extract the offset and green light timing difference
-                diff_values = coord_differences[node_position]
-                offset_diff = diff_values["offset_diff"]
-                green_diff = diff_values["green_diff"]
+        formatted_position = f"{node_position[0]},{node_position[1]}"
 
-                # Get x, y from node_position
-                x, y = map(float, node_position.split(','))
+        if formatted_position in coord_differences:      
+            # Extract the offset and green light timing difference
+            diff_values = coord_differences[formatted_position]
+            offset_diff = diff_values["offset_diff"]
+            green_diff = diff_values["green_diff"]
 
-                # Offset the text position
-                text_x = x + 15
-                text_y = y + 12
+            # Get x, y from node_position
+            x, y = map(float, node_position)
 
-                # Display the values on the ax plot
-                ax.text(text_x, text_y, f"O:{offset_diff},\nG:{green_diff}", 
-                        fontsize=10, color="red", ha="center")
+            # Offset the text position
+            text_x = x + 15
+            text_y = y + 12
+
+            # Display the values on the ax plot
+            ax.text(text_x, text_y, f"O:{offset_diff},\nG:{green_diff}", fontsize=10, color="red", ha="center")
 
 # Function to read the CSV file and return a list of dictionaries
 def read_edge_data(file_path):
@@ -56,15 +58,7 @@ def read_GUI_junction_coordinates(file_name):
     min_x = min(coord[0] for coord in coordinates.values())
     min_y = min(coord[1] for coord in coordinates.values())
 
-    # Shift the coordinates to move the origin to the top-left of the screen
-    scaled_positions = {key: (x - min_x, y - min_y) for key, (x, y) in coordinates.items()}
-
-    # # Print statements after defining scaled_positions
-    # print("Original coordinates:", coordinates)
-    # print("Scaled coordinates:", scaled_positions)
-    # print(f"Smallest X: {min_x}, Smallest Y: {min_y}")
-
-    return scaled_positions
+    return coordinates
 
 # Function to calculate lane color based on average speed
 def get_speed_color(average_speed):

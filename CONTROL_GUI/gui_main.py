@@ -187,14 +187,9 @@ def my_plot(output_data_file):
     plt.close(fig)  # Close the figure to free up resources
     return plot_surface
 
-# plot_surface_bluetooth_current = my_bluetooth(junction_coords_file, bluetooth_training_current_average_speeds_file,
-#                                               network_file, bluetooth_training_network_averages)
 # #
 def my_bluetooth(junction_coordinates_file, average_speeds_file, network_file, bluetooth_training_network_averages):
 
-    # # Read input files
-    # scaled_positions = bluetooth_lib.read_GUI_junction_coordinates(junction_coordinates)
-    # edge_data = bluetooth_lib.read_edge_data(scaled_positions)
     # Read input files
     file_name = "RESOURCES/CONNECTING_TWO_POINTS/GUI_junction_coordinates.csv"
     junction_coordinates = bluetooth_gui_lib.read_GUI_junction_coordinates(junction_coordinates_file)
@@ -230,6 +225,7 @@ def my_bluetooth(junction_coordinates_file, average_speeds_file, network_file, b
     # Draw nodes
     if network_file != "":
         coord_differences = plot_timing_changes.coordinates_to_diff_of_offset_and_greenlight (f"NETWORKS/{network_file}", junction_coordinates_file, bluetooth_training_network_averages)
+
         for node_position in junction_coordinates.values():
             bluetooth_gui_lib.draw_node(ax, node_position, coord_differences)
     else:
@@ -492,8 +488,6 @@ def gui_main(phase, output_dir):
                     if file_modified(bluetooth_training_current_average_speeds_file, last_modified_bluetooth_current_average_speeds):   
                         last_modified_bluetooth_current_average_speeds = os.path.getmtime(bluetooth_training_current_average_speeds_file)
                         plot_surface_bluetooth_current = my_bluetooth(junction_coords_file, bluetooth_training_current_average_speeds_file, "", "")
-                        # plot_surface_bluetooth_current = my_bluetooth(junction_coords_file, bluetooth_training_current_average_speeds_file,
-                        #                                               network_file, bluetooth_training_network_averages)
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 for label, rect in buttons.items():
