@@ -46,6 +46,8 @@ start_command = "RUN"
 stop_command = "STOP"
 phase = "start"
 weight_prefix = "weights"
+weight_change = 0.1
+weight_accuracy = 2
 
 def main_loop(num_batches, num_runs_per_batch, network_selection, max_steps, phase, output_folder):
 
@@ -86,7 +88,7 @@ def main_loop(num_batches, num_runs_per_batch, network_selection, max_steps, pha
                 phase = "bluetooth"
                 bluetooth_lib.bluetooth_training(phase, bluetooth_network_with_timing, output_folder, output_data_file, num_of_runs_on_network, num_batches, num_runs_per_batch, network_selection, 
                                                 max_steps, bluetooth_network_with_timing, light_names, timing_light_increment,  
-                                                num_of_greenlight_duplicate_limit, average_speed_n_steps, weight_prefix)
+                                                num_of_greenlight_duplicate_limit, average_speed_n_steps, weight_prefix, weight_change, weight_accuracy)
 
                 # sys.exit()
 

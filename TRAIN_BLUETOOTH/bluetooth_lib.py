@@ -20,6 +20,8 @@ import os
 import time
 import shutil
 import csv
+import glob
+import xml.etree.ElementTree as ET
 # sys.path.append(os.path.join(os.path.dirname(__file__), 'TRAIN_OPTIMIZATION'))
 # import optimize_timing_lib
 sys.path.append(os.path.join(os.path.dirname(__file__), 'TRAIN_COMMON_LIB'))
@@ -32,6 +34,58 @@ def bluetooth_create_ref_at_start(phase, num_batches, num_runs_per_batch, output
     basic_utilities.batched_run_sumo(phase, num_batches, num_runs_per_batch, output_folder, bluetooth_network_with_timing, 
                                      max_steps, current_directory, average_speed_n_steps, speed_limit, output_data_file, network_selection, debug)
     shutil.copy(f"{output_folder}/{output_folder_subdir}/GUI_average_speeds.csv", f"{output_folder}/{output_folder_subdir}/GUI_average_speeds.start.csv")
+
+def categorize_edges(network_file):
+    """
+    Categorizes edges in a SUMO network file into source, destination, and via edges.
+    """
+    tree = ET.parse(network_file)
+    root = tree.getroot()
+    
+    outgoing_edges = {}
+    incoming_edges = {}
+    all_edges = set()
+    
+    for edge in root.findall("edge"):
+        edge_id = edge.get("id")
+        if edge_id and not edge_id.startswith(":"):  # Ignore internal edges
+            all_edges.add(edge_id)
+            for lane in edge.findall("lane"):
+                for connection in root.findall("connection"):
+                    if connection.get("from") == edge_id:
+                        outgoing_edges.setdefault(edge_id, set()).add(connection.get("to"))
+                    if connection.get("to") == edge_id:
+                        incoming_edges.setdefault(edge_id, set()).add(connection.get("from"))
+    
+    source_edges = {e for e in all_edges if e not in incoming_edges}
+    destination_edges = {e for e in all_edges if e not in outgoing_edges}
+    via_edges = all_edges - source_edges - destination_edges
+    
+    return source_edges, destination_edges, via_edges
+
+def generate_weight_files(network_file, output_dir, variable):
+    """
+    Generates weight file templates for source, destination, and via edges.
+    """
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+    
+    source_edges, destination_edges, via_edges = categorize_edges(network_file)
+    
+    def write_weight_file(file_name, edges):
+        with open(os.path.join(output_dir, file_name), "w") as f:
+            f.write("<edgedata>\n")
+            f.write("  <interval begin=\"0\" end=\"100\">\n")
+            for edge in edges:
+                f.write(f"    <edge id=\"{edge}\" value=\"1.0\"/>\n")
+            f.write("  </interval>\n")
+            f.write("</edgedata>\n")
+    
+    write_weight_file(f"{variable}.src.xml", source_edges)
+    write_weight_file(f"{variable}.dst.xml", destination_edges)
+    write_weight_file(f"{variable}.via.xml", via_edges)
+    
+    print("Weight files generated in", output_dir)
 
 def read_average_speeds(filename):
     average_speeds = {}
@@ -82,15 +136,30 @@ def modify_edge_weight(directory, file_prefix, direction, target_edge, weight_ch
             for edge in interval.findall("edge"):
                 edge_id = edge.get("id")
                 if edge_id and edge_id.strip() == target_edge:  # Ensure correct match
-                    current_weight = float(edge.get("value", 0))
-                    
-                    # Modify the weight based on direction
+                    raw_value = edge.get("value")  # Extract raw value
+                    if raw_value is None:
+                        print(f"Warning: Edge {edge_id} in {file_path} has no value attribute, defaulting to 0.")
+                        current_weight = 0
+                    else:
+                        try:
+                            current_weight = float(raw_value)
+                        except ValueError:
+                            print(f"Error: Edge {edge_id} in {file_path} has an invalid value '{raw_value}', skipping.")
+                            continue
+
+                    print(f"Found edge: {target_edge} in {file_path}, current weight: {current_weight}")
+
+                    # Modify the weight
                     if direction == "increase":
-                        edge.set("value", str(current_weight + weight_change))
+                        new_weight = current_weight + weight_change
                     elif direction == "decrease":
-                        edge.set("value", str(max(0, current_weight - weight_change)))  # Prevent negative weights
+                        new_weight = max(0, current_weight - weight_change)  # Prevent negative weights
+                    else:
+                        print(f"Error: Unknown direction '{direction}'")
+                        return
                     
-                    print(f"Modified {target_edge} in {file_path}: New weight = {edge.get('value')}")
+                    print(f"Updating edge {target_edge} in {file_path} from {current_weight} to {new_weight}")
+                    edge.set("value", str(new_weight))
                     modified = True
                     break  # Stop after modifying the edge
         
@@ -102,8 +171,9 @@ def modify_edge_weight(directory, file_prefix, direction, target_edge, weight_ch
 
 def bluetooth_training(phase, bluetooth_network_with_timing, output_folder, output_data_file, num_of_runs_on_network, num_batches, num_runs_per_batch, network_selection, 
                                                 max_steps, network_with_timing, light_names, timing_light_increment, 
-                                                num_of_greenlight_duplicate_limit, average_speed_n_steps, weight_prefix):
+                                                num_of_greenlight_duplicate_limit, average_speed_n_steps, weight_prefix, weight_change, weight_accuracy):
     output_folder_subdir = "TRAIN_BLUETOOTH"
+    network_name = os.path.basename(os.path.dirname(network_selection))
 
     print(">> In Bluetooth_Training")
     print(f"Network File: {network_selection}, Output Directory: {output_folder}")
@@ -122,24 +192,40 @@ def bluetooth_training(phase, bluetooth_network_with_timing, output_folder, outp
     else:
         shutil.copy2(network_selection, bluetooth_network_with_timing)
         shutil.copy2(network_selection, f"{bluetooth_network_with_timing}.temp")
-        shutil.copy2()
+
+    if os.path.exists(f"NETWORKS/{network_name}/weights.src"):
+        shutil.copy2(f"NETWORKS/{network_name}/weights.src", f"{output_folder}/TRAIN_BLUETOOTH")
+        shutil.copy2(f"NETWORKS/{network_name}/weights.dst", f"{output_folder}/TRAIN_BLUETOOTH")
+        if os.path.exists(f"NETWORKS/{network_name}/weights.via"):
+            shutil.copy2(f"NETWORKS/{network_name}/weights.via", f"{output_folder}/TRAIN_BLUETOOTH")
+    else:
+        generate_weight_files(network_selection, f"{output_folder}/TRAIN_BLUETOOTH", weight_prefix)
+        generate_weight_files(network_selection, f"NETWORKS/{network_name}", weight_prefix)
 
     bluetooth_create_ref_at_start(phase, num_batches, num_runs_per_batch, output_folder, bluetooth_network_with_timing, 
                                      max_steps, current_directory, average_speed_n_steps, speed_limit, output_data_file, output_folder_subdir, network_selection, debug)
-    # optimize_timing_lib.optimize_timing_main(phase, output_folder, output_data_file, num_of_runs_on_network, num_batches, num_runs_per_batch, network_selection, 
-    #                                             max_steps, network_with_timing, light_names, timing_light_increment, network_averages, 
-    #                                             num_of_greenlight_duplicate_limit, average_speed_n_steps)
+    average_diff, target_edge, max_discrepancy_value, direction, = basic_utilities.calculate_average_difference(bluetooth_csv, f"{output_folder}/{output_folder_subdir}/GUI_average_speeds.csv")
 
     while True:
         #This is a backdoor for user to initiate stop from GUI
         if basic_utilities.check_queue_has_command("STOP", "out/command_queue.txt", 1): 
             print(">> Execution interrupted (BLUETOOTH)")
         if os.path.exists(bluetooth_csv):
-            average_diff, max_discrepancy_edge, max_discrepancy_value = basic_utilities.calculate_average_difference(bluetooth_csv, f"{output_folder}/{output_folder_subdir}/GUI_average_speeds.csv")
+            basic_utilities.batched_run_sumo(phase, num_batches, num_runs_per_batch, output_folder, network_with_timing,
+                                              max_steps, current_directory, average_speed_n_steps, speed_limit, output_data_file, network_selection, debug)
+            average_diff, target_edge, max_discrepancy_value, direction, = basic_utilities.calculate_average_difference(bluetooth_csv, f"{output_folder}/{output_folder_subdir}/GUI_average_speeds.csv")
             print(f"The average speed difference is: {average_diff:.3f} km/h")
-            print(f"The largest discrepancy is on Edge ID '{max_discrepancy_edge}' with a difference of {max_discrepancy_value} km/h")
-            modify_edge_weight(network_selection, weight_prefix, direction, target_edge, weight_change)
-        time.sleep(5)
-        # sys.exit()
-        break
+            print(f"The largest discrepancy is on Edge ID '{target_edge}' with a difference of {max_discrepancy_value} km/h")
+        else:
+            print("DEBUG: No Bluetooth CSV found")
+            sys.exit()
+        if average_diff < weight_accuracy:
+            print("DEBUG: Weight Accuracy Met")
+            break
+        else:
+            modify_edge_weight(f"{output_folder}/TRAIN_BLUETOOTH", weight_prefix, direction, target_edge, weight_change)
+            basic_utilities.batched_run_sumo(phase, num_batches, num_runs_per_batch, output_folder, bluetooth_network_with_timing, 
+                                             max_steps, current_directory, average_speed_n_steps, speed_limit, output_data_file, network_selection, debug)
+            continue
     print(">> Exit Bluetooth_Training")
+    time.sleep(5)

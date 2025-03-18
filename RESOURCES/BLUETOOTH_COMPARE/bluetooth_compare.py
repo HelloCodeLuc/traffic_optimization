@@ -25,19 +25,27 @@ def calculate_average_difference(file1, file2):
         print("No common Edge IDs found between the files.")
         return None, None
 
-    differences = {edge: abs(speeds1[edge] - speeds2[edge]) for edge in common_edges}
-    average_difference = sum(differences.values()) / len(differences)
+    differences = {}
+    for edge in common_edges:
+        difference = speeds1[edge] - speeds2[edge]
+        differences[edge] = difference
 
-    # Identify the edge with the largest discrepancy
-    max_discrepancy_edge = max(differences, key=differences.get)
+    average_difference = sum(abs(d) for d in differences.values()) / len(differences)
+
+    # Identify the edge with the largest discrepancy based on absolute difference
+    max_discrepancy_edge = max(differences, key=lambda edge: abs(differences[edge]))  # Corrected key function
     max_discrepancy_value = differences[max_discrepancy_edge]
 
-    return average_difference, max_discrepancy_edge, max_discrepancy_value
+    # Determine whether the max discrepancy is positive or negative
+    # if the direction is decrease, it means that the bluetooth is running on that edge more cars than the city data. Vice versa if the direction is increase
+    discrepancy_direction = 'decrease' if max_discrepancy_value > 0 else 'increase'
 
-average_diff, max_discrepancy_edge, max_discrepancy_value = calculate_average_difference(file1, file2)
+    return average_difference, (max_discrepancy_edge, max_discrepancy_value, discrepancy_direction)
+
+average_diff, max_discrepancy = calculate_average_difference(file1, file2)
 
 if average_diff is not None:
     print(f"The average speed difference is: {average_diff:.3f} km/h")
-    print(f"The largest discrepancy is on Edge ID '{max_discrepancy_edge}' with a difference of {max_discrepancy_value} km/h")
+    print(f"The largest discrepancy is on Edge ID '{max_discrepancy[0]}' with a difference of {max_discrepancy[1]:.3f} km/h, which is {max_discrepancy[2]}.")
 else:
     print("No common data to compare.")
