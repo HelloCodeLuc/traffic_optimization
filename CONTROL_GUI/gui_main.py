@@ -319,6 +319,12 @@ def draw_page(figure_width, plot_surface_average_idle, plot_surface_optimize_sta
         draw_buttons(screen, font, simulation_state)
         text = font.render(f"Phase: {phase}", True, BLACK)
         screen.blit(text, (10, figure_width + 140))
+        text = font.render(f"TODO - DEMO file snap, then add back cfg cleanup", True, BLACK)
+        screen.blit(text, (10, figure_width + 160))
+        text = font.render(f"TODO - fix the phase to update", True, BLACK)
+        screen.blit(text, (10, figure_width + 180))
+        text = font.render(f"TODO - why is a few lights offset and greenlight timing changes not showing", True, BLACK)
+        screen.blit(text, (10, figure_width + 200))
         draw_dropdown(dropdown_font, dropdown_options, screen, dropdown_rect, dropdown_open, selected_network, figure_width)
     elif current_page == "Bluetooth Training":
         if plot_surface_bluetooth_reference is not None:
