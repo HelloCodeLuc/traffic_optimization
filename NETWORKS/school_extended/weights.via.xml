@@ -1,40 +1,40 @@
 <edgedata>
   <interval begin="0" end="100">
-    <edge id="-E34" value="1.0"/>
-    <edge id="E24" value="1.0"/>
-    <edge id="-E35" value="1.0"/>
-    <edge id="-E48" value="1.0"/>
-    <edge id="-E49" value="1.0"/>
-    <edge id="E50" value="1.0"/>
-    <edge id="E49" value="1.0"/>
-    <edge id="-E11" value="1.0"/>
     <edge id="E6" value="1.0"/>
-    <edge id="-E24" value="1.0"/>
-    <edge id="-E50" value="1.0"/>
-    <edge id="E34" value="1.0"/>
-    <edge id="E11" value="1.0"/>
-    <edge id="E52" value="1.0"/>
-    <edge id="E31" value="1.0"/>
-    <edge id="-E31" value="1.0"/>
+    <edge id="E33" value="1.0"/>
+    <edge id="-E46" value="1.0"/>
     <edge id="-E33" value="1.0"/>
     <edge id="-E51" value="1.0"/>
-    <edge id="E5" value="1.0"/>
-    <edge id="-E10" value="1.0"/>
-    <edge id="E0" value="1.0"/>
-    <edge id="-E32" value="1.0"/>
-    <edge id="-E46" value="1.0"/>
-    <edge id="E35" value="1.0"/>
-    <edge id="-E0" value="1.0"/>
-    <edge id="E10" value="1.0"/>
-    <edge id="E51" value="1.0"/>
-    <edge id="-E6" value="1.0"/>
+    <edge id="E50" value="1.0"/>
     <edge id="E46" value="1.0"/>
-    <edge id="-E47" value="1.0"/>
-    <edge id="E47" value="1.0"/>
-    <edge id="E33" value="1.0"/>
-    <edge id="-E52" value="1.0"/>
-    <edge id="E32" value="1.0"/>
     <edge id="-E5" value="1.0"/>
+    <edge id="-E32" value="1.0"/>
+    <edge id="-E24" value="1.0"/>
+    <edge id="E34" value="1.0"/>
+    <edge id="E51" value="1.0"/>
+    <edge id="E52" value="1.0"/>
+    <edge id="E10" value="1.0"/>
+    <edge id="E24" value="1.0"/>
+    <edge id="E47" value="1.0"/>
+    <edge id="E5" value="1.0"/>
     <edge id="E48" value="1.0"/>
+    <edge id="E0" value="1.0"/>
+    <edge id="E32" value="1.0"/>
+    <edge id="-E11" value="1.0"/>
+    <edge id="-E10" value="1.0"/>
+    <edge id="E11" value="1.0"/>
+    <edge id="-E47" value="1.0"/>
+    <edge id="-E34" value="1.0"/>
+    <edge id="-E31" value="1.0"/>
+    <edge id="E31" value="1.0"/>
+    <edge id="E49" value="1.0"/>
+    <edge id="-E0" value="1.0"/>
+    <edge id="-E52" value="1.0"/>
+    <edge id="-E35" value="1.0"/>
+    <edge id="-E6" value="1.0"/>
+    <edge id="E35" value="1.0"/>
+    <edge id="-E49" value="1.0"/>
+    <edge id="-E50" value="1.0"/>
+    <edge id="-E48" value="1.0"/>
   </interval>
 </edgedata>
