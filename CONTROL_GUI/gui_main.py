@@ -323,7 +323,7 @@ def draw_page(figure_width, plot_surface_average_idle, plot_surface_optimize_sta
         screen.blit(text, (10, figure_width + 160))
         text = font.render(f"TODO - fix the phase to update", True, BLACK)
         screen.blit(text, (10, figure_width + 180))
-        text = font.render(f"TODO - why is a few lights offset and greenlight timing changes not showing", True, BLACK)
+        text = font.render(f"TODO - lucas fix the weight files to not be modified in place", True, BLACK)
         screen.blit(text, (10, figure_width + 200))
         draw_dropdown(dropdown_font, dropdown_options, screen, dropdown_rect, dropdown_open, selected_network, figure_width)
     elif current_page == "Bluetooth Training":
