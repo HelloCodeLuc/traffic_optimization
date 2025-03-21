@@ -11,7 +11,7 @@ def draw_node(ax, node_position, coord_differences, node_radius=8):
     ax.scatter(node_position[0], node_position[1], s=node_radius**2, color='blue', zorder=2)
 
     if coord_differences != None:
-        formatted_position = f"{node_position[0]},{node_position[1]}"
+        formatted_position = f"{node_position[0]:.2f},{node_position[1]:.2f}"
 
         if formatted_position in coord_differences:      
             # Extract the offset and green light timing difference
