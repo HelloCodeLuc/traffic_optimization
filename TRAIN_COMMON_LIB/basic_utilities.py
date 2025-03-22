@@ -1,5 +1,6 @@
 import os
 import re
+import sys
 import numpy as np
 from datetime import datetime
 import xml.etree.ElementTree as ET
@@ -174,7 +175,7 @@ def generate_random_trips(network_selection, trip_file, max_steps, seed):
     debug = 0
     #cmd = f"C:/Users/chuny/Desktop/lucas/Python%20Projects/traffic_optimization/randomTrips.py -n OSM_RandomTrips/keeleandmajmack.net.xml -r {trip_file} -e {max_steps} --random -s {seed} -o out/trips.trips.xml"
     randomTrips = r'"C:\Program Files (x86)\Eclipse\Sumo\tools\randomTrips.py"'
-    cmd = f"python {randomTrips} -n {network_selection} -r {trip_file} -e {max_steps} --random -s {seed}"
+    cmd = f"python {randomTrips} -n {network_selection} -r {trip_file} -e {max_steps} --random -s {seed} -i 1"
 
     print (f"This is the CMD line {cmd}")
 
@@ -186,7 +187,7 @@ def generate_random_trips_weighted(network_selection, trip_file, max_steps, seed
     debug = 0
     #cmd = f"C:/Users/chuny/Desktop/lucas/Python%20Projects/traffic_optimization/randomTrips.py -n OSM_RandomTrips/keeleandmajmack.net.xml -r {trip_file} -e {max_steps} --random -s {seed} -o out/trips.trips.xml"
     randomTrips = r'"C:\Program Files (x86)\Eclipse\Sumo\tools\randomTrips.py"'
-    cmd = f"python {randomTrips} --weights-prefix {weight_prefix} -n {network_selection} -r {trip_file} -e {max_steps} --random -s {seed}"
+    cmd = f"python {randomTrips} --weights-prefix {weight_prefix} -n {network_selection} -r {trip_file} -e {max_steps} --random -s {seed} -i 1"
 
     print (f"This is the CMD line {cmd}")
 
@@ -311,14 +312,22 @@ def calculate_average_difference(file1, file2):
         print("No common Edge IDs found between the files.")
         return None, None
 
-    differences = {edge: abs(speeds1[edge] - speeds2[edge]) for edge in common_edges}
-    average_difference = sum(differences.values()) / len(differences)
+    differences = {}
+    for edge in common_edges:
+        difference = speeds1[edge] - speeds2[edge]
+        differences[edge] = difference
 
-    # Identify the edge with the largest discrepancy
-    max_discrepancy_edge = max(differences, key=differences.get)
+    average_difference = sum(abs(d) for d in differences.values()) / len(differences)
+
+    # Identify the edge with the largest discrepancy based on absolute difference
+    max_discrepancy_edge = max(differences, key=lambda edge: abs(differences[edge]))  # Corrected key function
     max_discrepancy_value = differences[max_discrepancy_edge]
 
-    return average_difference, max_discrepancy_edge, max_discrepancy_value
+    # Determine whether the max discrepancy is positive or negative
+    discrepancy_direction = 'increase' if max_discrepancy_value > 0 else 'decrease'
+    # if the direction is decrease, it means that the bluetooth is running on that edge more cars than the city data. Vice versa if the direction is increase
+
+    return average_difference, max_discrepancy_edge, max_discrepancy_value, discrepancy_direction
 
 def read_average_speeds(filename):
     average_speeds = {}
@@ -481,7 +490,7 @@ def batched_run_sumo (phase, num_batches, num_runs_per_batch, output_folder, net
     run_number = 0
     network_name = network_selection.split('/')[0]
     # network_name = os.path.splitext(os.path.splitext(network_selection)[0])[0]
-    weight_prefix = f"NETWORKS/{network_name}/weights"
+    weight_prefix = f"{output_folder}/TRAIN_BLUETOOTH/weights"
 
     for run in range(num_batches):
         random_seeds = []
@@ -548,14 +557,15 @@ def batched_run_sumo (phase, num_batches, num_runs_per_batch, output_folder, net
                 f.write(f"Trip File: {trip_files[idx]},")
                 f.write(f"Configuration File: {config_files[idx]},")
                 f.write(f"Average Idle Time: {average_idle_time}\n")
-                #if os.path.exists(trip_files[idx]):
-                    #os.remove(trip_files[idx]) 
-                #if os.path.exists(config_files[idx]):
-                    #os.remove(config_files[idx])
+                if os.path.exists(trip_files[idx]):
+                    os.remove(trip_files[idx]) 
+                if os.path.exists(config_files[idx]):
+                    os.remove(config_files[idx])
 
         if (debug == 1):
             sys.exit()
     compute_average_speeds(f"{output_folder}/{output_folder_subdir}/GUI_average_speeds_per_run_sumo", f"{output_folder}/{output_folder_subdir}/GUI_average_speeds.csv")
+
 
 def demo_gui (out_ref, networkfile):
     found = 0

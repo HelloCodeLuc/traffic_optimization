@@ -6,7 +6,7 @@ file_prefix = "example"
 direction = "increase"  # or "decrease"
 target_edge = "-E5"  # The edge you're looking for
 weight_change = 1  # Amount to change the weight by
-directory = os.getcwd()  # Set to current directory
+directory = "RESOURCES/WEIGHTS_TEST"  # Set to current directory
 
 def modify_edge_weight(directory, file_prefix, direction, target_edge, weight_change):
     """
