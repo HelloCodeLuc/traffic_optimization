@@ -570,13 +570,14 @@ def batched_run_sumo (phase, num_batches, num_runs_per_batch, output_folder, net
 def demo_gui (out_ref, networkfile):
     found = 0
     number = 0
+    print(f"{out_ref}, {networkfile}")
     while not found:
         for filename in os.listdir(out_ref):
-            # print (f"demo_gui:1 {filename}")
+            #print (f"demo_gui:1 {filename}")
             if filename.startswith("random_trips") and filename.endswith(".xml"):
                 match = re.search(r"random_trips_(\d+)\.xml", filename)
                 number = int(match.group(1))
-                #print (f"demo_gui:1 {out_ref}/sumo_config_{number}.sumocfg")
+                print (f"demo_gui:1 {out_ref}/sumo_config_{number}.sumocfg")
                 if os.path.exists(f"{out_ref}/sumo_config_{number}.sumocfg"):
                     os.makedirs(f"{out_ref}/../DEMO", exist_ok=True)
                     shutil.copy(f"{out_ref}/sumo_config_{number}.sumocfg", f"{out_ref}/../DEMO")
@@ -592,6 +593,7 @@ def demo_gui (out_ref, networkfile):
 
     # Command to run your SUMO simulation
     # sumo_command = f"sumo-gui -c {out_ref}/../DEMO/sumo_config_{number}.sumocfg &"
+    print ("demo_gui: run sumo-gui")
     sumo_command = ["sumo-gui", "-c", f"{out_ref}/../DEMO/sumo_config_{number}.sumocfg"]
     # Execute the system call
     subprocess.Popen(sumo_command)

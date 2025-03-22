@@ -337,6 +337,8 @@ def draw_page(gui_colour, output_dir, figure_width, plot_surface_average_idle, p
         screen.blit(text, (10, figure_width + 180))
         text = font.render(f"TODO - lucas fix the weight files to not be modified in place", True, BLACK)
         screen.blit(text, (10, figure_width + 200))
+        text = font.render(f"TODO - Tim fix the road colour offset for less overlap", True, BLACK)
+        screen.blit(text, (10, figure_width + 220))
         draw_dropdown(dropdown_font, dropdown_options, screen, dropdown_rect, dropdown_open, selected_network, figure_width)
     elif current_page == "Bluetooth Training":
         if plot_surface_bluetooth_reference is not None:

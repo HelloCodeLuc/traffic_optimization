@@ -72,7 +72,6 @@ def main_loop(num_batches, num_runs_per_batch, network_selection, max_steps, pha
 
                 if not os.path.exists(output_folder):
                     os.makedirs(output_folder)
-                    os.makedirs(f"{output_folder}/TRAIN_OPTIMIZATION")
                     os.makedirs(f"{output_folder}/TRAIN_BLUETOOTH")
 
                 # Input and output file paths
@@ -92,7 +91,7 @@ def main_loop(num_batches, num_runs_per_batch, network_selection, max_steps, pha
                                                 num_of_greenlight_duplicate_limit, average_speed_n_steps, weight_prefix, weight_change, weight_accuracy)
 
                 # sys.exit()
-
+                os.makedirs(f"{output_folder}/TRAIN_OPTIMIZATION")
                 phase = "optimize"
                 output_data_file = os.path.join(output_folder, "TRAIN_OPTIMIZATION/output_data.txt")
                 network_averages = os.path.join(output_folder, "TRAIN_OPTIMIZATION/network_averages.txt")
