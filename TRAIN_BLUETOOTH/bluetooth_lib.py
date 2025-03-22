@@ -193,14 +193,16 @@ def bluetooth_training(phase, bluetooth_network_with_timing, output_folder, outp
         shutil.copy2(network_selection, bluetooth_network_with_timing)
         shutil.copy2(network_selection, f"{bluetooth_network_with_timing}.temp")
 
-    if os.path.exists(f"NETWORKS/{network_name}/weights.src"):
-        shutil.copy2(f"NETWORKS/{network_name}/weights.src", f"{output_folder}/TRAIN_BLUETOOTH")
-        shutil.copy2(f"NETWORKS/{network_name}/weights.dst", f"{output_folder}/TRAIN_BLUETOOTH")
-        if os.path.exists(f"NETWORKS/{network_name}/weights.via"):
-            shutil.copy2(f"NETWORKS/{network_name}/weights.via", f"{output_folder}/TRAIN_BLUETOOTH")
+    if os.path.exists(f"NETWORKS/{network_name}/weights.src.xml"):
+        shutil.copy2(f"NETWORKS/{network_name}/weights.src.xml", f"{output_folder}/TRAIN_BLUETOOTH")
+        shutil.copy2(f"NETWORKS/{network_name}/weights.dst.xml", f"{output_folder}/TRAIN_BLUETOOTH")
+        if os.path.exists(f"NETWORKS/{network_name}/weights.via.xml"):
+            shutil.copy2(f"NETWORKS/{network_name}/weights.via.xml", f"{output_folder}/TRAIN_BLUETOOTH")
     else:
         generate_weight_files(network_selection, f"{output_folder}/TRAIN_BLUETOOTH", weight_prefix)
         generate_weight_files(network_selection, f"NETWORKS/{network_name}", weight_prefix)
+        print("Generated new weight files")
+        # sys.exit()
 
     bluetooth_create_ref_at_start(phase, num_batches, num_runs_per_batch, output_folder, bluetooth_network_with_timing, 
                                      max_steps, current_directory, average_speed_n_steps, speed_limit, output_data_file, output_folder_subdir, network_selection, debug)
