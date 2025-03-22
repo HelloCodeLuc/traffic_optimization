@@ -326,7 +326,7 @@ def calculate_average_difference(file1, file2):
     max_discrepancy_value = differences[max_discrepancy_edge]
 
     # Determine whether the max discrepancy is positive or negative
-    discrepancy_direction = 'increase' if max_discrepancy_value > 0 else 'decrease'
+    discrepancy_direction = 'decrease' if max_discrepancy_value > 0 else 'increase'
     # if the direction is decrease, it means that the bluetooth is running on that edge more cars than the city data. Vice versa if the direction is increase
 
     return average_difference, max_discrepancy_edge, max_discrepancy_value, discrepancy_direction

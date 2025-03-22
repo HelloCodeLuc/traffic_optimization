@@ -48,7 +48,7 @@ stop_command = "STOP"
 phase = "start"
 weight_prefix = "weights"
 weight_change = 0.1
-weight_accuracy = 20
+weight_accuracy = 50
 
 def main_loop(num_batches, num_runs_per_batch, network_selection, max_steps, phase, output_folder):
 
@@ -93,6 +93,7 @@ def main_loop(num_batches, num_runs_per_batch, network_selection, max_steps, pha
                 # sys.exit()
                 os.makedirs(f"{output_folder}/TRAIN_OPTIMIZATION")
                 phase = "optimize"
+                shutil.copy2 (f'{output_folder}/TRAIN_BLUETOOTH/GUI_average_speeds.csv' , f'{output_folder}/TRAIN_OPTIMIZATION/GUI_average_speeds.start.csv')
                 output_data_file = os.path.join(output_folder, "TRAIN_OPTIMIZATION/output_data.txt")
                 network_averages = os.path.join(output_folder, "TRAIN_OPTIMIZATION/network_averages.txt")
                 network_with_timing = os.path.join(output_folder, f"TRAIN_OPTIMIZATION/{parsed_string_without_extension}.timing.net.xml")

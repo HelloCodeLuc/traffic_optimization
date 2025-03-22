@@ -35,7 +35,8 @@ def process_timings(tl_logic_ids, timings_str):
     if not timings_str:
         print("No valid timings found.")
         return
-
+    print(f"tl_logic_ids: {tl_logic_ids}")
+    print(f"timing_str: {timings_str}")
     timings_list = [int(num) for num in timings_str.split(":")]
     timings_dict = {}
 
