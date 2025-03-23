@@ -188,7 +188,7 @@ def my_plot(output_data_file):
     return plot_surface
 
 # #
-def my_bluetooth(junction_coordinates_file, average_speeds_file, network_file, bluetooth_training_network_averages):
+def my_bluetooth(junction_coordinates_file, average_speeds_file, network_file, network_averages):
 
     # Read input files
     file_name = "RESOURCES/CONNECTING_TWO_POINTS/GUI_junction_coordinates.csv"
@@ -224,7 +224,7 @@ def my_bluetooth(junction_coordinates_file, average_speeds_file, network_file, b
 
     # Draw nodes
     if network_file != "":
-        coord_differences = plot_timing_changes.coordinates_to_diff_of_offset_and_greenlight (f"NETWORKS/{network_file}", junction_coordinates_file, bluetooth_training_network_averages)
+        coord_differences = plot_timing_changes.coordinates_to_diff_of_offset_and_greenlight (f"NETWORKS/{network_file}", junction_coordinates_file, network_averages)
 
         for node_position in junction_coordinates.values():
             bluetooth_gui_lib.draw_node(ax, node_position, coord_differences)
