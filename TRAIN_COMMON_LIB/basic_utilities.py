@@ -573,11 +573,11 @@ def demo_gui (out_ref, networkfile):
     print(f"{out_ref}, {networkfile}")
     while not found:
         for filename in os.listdir(out_ref):
-            #print (f"demo_gui:1 {filename}")
+            print (f"demo_gui:1 {filename}")
             if filename.startswith("random_trips") and filename.endswith(".xml"):
                 match = re.search(r"random_trips_(\d+)\.xml", filename)
                 number = int(match.group(1))
-                print (f"demo_gui:1 {out_ref}/sumo_config_{number}.sumocfg")
+                print (f"demo_gui:2 {out_ref}/sumo_config_{number}.sumocfg")
                 if os.path.exists(f"{out_ref}/sumo_config_{number}.sumocfg"):
                     os.makedirs(f"{out_ref}/../DEMO", exist_ok=True)
                     shutil.copy(f"{out_ref}/sumo_config_{number}.sumocfg", f"{out_ref}/../DEMO")
