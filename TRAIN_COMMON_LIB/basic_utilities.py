@@ -600,3 +600,20 @@ def demo_gui (out_ref, networkfile):
     # Execute the system call
     subprocess.Popen(sumo_command)
     return 
+
+def DEMO_SUMO_GUI(weight_prefix, network_selection, max_steps, current_directory, output_folder):
+    generate_random_trips(network_selection, "DEMO_GUI.xml", max_steps, "0101")
+    generate_sumo_config(network_selection, f"{output_folder}/DEMO_GUI.sumocfg", current_directory, max_steps, f"{output_folder}/DEMO_GUI.XML")
+
+    sumo_cmd = ["sumo-gui", "-c", f"{output_folder}/DEMO_GUI.sumocfg"]
+
+    traci.start(sumo_cmd)
+
+    while step < max_steps:
+        traci.simulationStep()
+        step += 1
+        if step > max_steps:
+            break
+
+    print("Exited the loop")
+    traci.close()
