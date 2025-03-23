@@ -77,7 +77,7 @@ def generate_weight_files(network_file, output_dir, variable):
             f.write("<edgedata>\n")
             f.write("  <interval begin=\"0\" end=\"100\">\n")
             for edge in edges:
-                f.write(f"    <edge id=\"{edge}\" value=\"1.0\"/>\n")
+                f.write(f"    <edge id=\"{edge}\" value=\"20.0\"/>\n")
             f.write("  </interval>\n")
             f.write("</edgedata>\n")
     
