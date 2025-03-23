@@ -1,0 +1,6 @@
+<edgedata>
+  <interval begin="0" end="100">
+    <edge id="E2" value="20.0"/>
+    <edge id="-E2" value="20.0"/>
+  </interval>
+</edgedata>

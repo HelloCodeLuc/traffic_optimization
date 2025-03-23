@@ -63,7 +63,7 @@ def categorize_edges(network_file):
     
     return source_edges, destination_edges, via_edges
 
-def generate_weight_files(network_file, output_dir, variable):
+def generate_weight_files(network_file, output_dir, variable, ):
     """
     Generates weight file templates for source, destination, and via edges.
     """
@@ -169,27 +169,25 @@ def modify_edge_weight(directory, file_prefix, direction, target_edge, weight_ch
             print(f"Changes written to {file_path}")
             break  # Stop after modifying the first occurrence of the edge
 
-def bluetooth_training(phase, bluetooth_network_with_timing, output_folder, output_data_file, num_of_runs_on_network, num_batches, num_runs_per_batch, network_selection, 
+def bluetooth_training(phase, bluetooth_network_with_timing, output_folder, output_data_file, max_num_of_runs_on_network, num_batches, num_runs_per_batch, network_selection, 
                                                 max_steps, network_with_timing, light_names, timing_light_increment, 
                                                 num_of_greenlight_duplicate_limit, average_speed_n_steps, weight_prefix, weight_change, weight_accuracy):
     output_folder_subdir = "TRAIN_BLUETOOTH"
     network_name = os.path.basename(os.path.dirname(network_selection))
 
     print(">> In Bluetooth_Training")
-    print(f"Network File: {network_selection}, Output Directory: {output_folder}")
-    print(f"Bluetooth Network File: {bluetooth_network_with_timing}")
+    # print(f"Network File: {network_selection}, Output Directory: {output_folder}")
+    # print(f"Bluetooth Network File: {bluetooth_network_with_timing}")
     
     bluetooth_csv = os.path.splitext(os.path.splitext(network_selection)[0])[0] + ".bluetooth.csv"
     # bluetooth_csv = f"NETWORKS/{filename}.bluetooth.csv"
-    print(f"Bluetooth CSV File: {bluetooth_csv}")
+    # print(f"Bluetooth CSV File: {bluetooth_csv}")
 
     debug = 0
     current_directory = os.getcwd()
     speed_limit = basic_utilities.extract_speeds_from_edges(network_selection)
 
-    if os.path.exists(bluetooth_network_with_timing):
-        print("Bluetooth Network Exists")
-    else:
+    if not os.path.exists(bluetooth_network_with_timing):
         shutil.copy2(network_selection, bluetooth_network_with_timing)
         shutil.copy2(network_selection, f"{bluetooth_network_with_timing}.temp")
 
