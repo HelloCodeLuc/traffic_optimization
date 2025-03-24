@@ -27,7 +27,7 @@ def network_timings(network_template, target_net_file, light_names, timing_light
                                            "green_up", "green_down",
                                            "offset_pos", "offset_neg"])
 
-            print (f"Light:{light_names[random_light]} : Action:{random_action}")
+            # print (f"Light:{light_names[random_light]} : Action:{random_action}")
             comment_pattern = f"{light_names[random_light]}"
             # Extract the next 6 lines after the comment
             lines_after_comment = basic_utilities.extract_lines_after_comment(target_net_file, comment_pattern)
@@ -218,7 +218,7 @@ def read_commands(file_path):
 
 
 
-def optimize_timing_main (phase, output_folder, output_data_file, num_of_runs_on_network, num_batches, num_runs_per_batch, network_selection, max_steps, 
+def optimize_timing_main (phase, output_folder, output_data_file, max_num_of_runs_on_network, num_batches, num_runs_per_batch, network_selection, max_steps, 
              network_with_timing, light_names, timing_light_increment, network_averages, num_of_greenlight_duplicate_limit, average_speed_n_steps):
     
     debug = 0
@@ -249,7 +249,7 @@ def optimize_timing_main (phase, output_folder, output_data_file, num_of_runs_on
 
     speed_limit = basic_utilities.extract_speeds_from_edges(network_selection)
 
-    for net_index in range(num_of_runs_on_network):
+    for net_index in range(max_num_of_runs_on_network):
         greenlight_timings = ""
         if (debug == 0):
             greenlight_timings = network_timings(network_selection, network_with_timing, light_names, timing_light_increment, previous_greenlight_timings, previous_greenlight_timings_file, network_averages, num_of_greenlight_duplicate_limit)
@@ -265,14 +265,16 @@ def optimize_timing_main (phase, output_folder, output_data_file, num_of_runs_on
         if basic_utilities.check_queue_has_command("STOP", "out/command_queue.txt", 1): 
             print(">> Execution interrupted (OPTIMIZATION)")
             break
-        elif basic_utilities.check_queue_has_command("DEMO", "out/command_queue.txt", 1): 
-            if os.path.exists(f"{output_folder}/TRAIN_OPTIMIZATION"):
-                print ("DEMO_TRAIN_OPTIMIZATION")
-                basic_utilities.demo_gui(f"{output_folder}/TRAIN_OPTIMIZATION", f"{network_with_timing}.temp")
-            elif os.path.exists(f"{output_folder}/TRAIN_BLUETOOTH"):
-                print ("DEMO_TRAIN_BLUETOOTH")
-                basic_utilities.demo_gui(f"{output_folder}/TRAIN_BLUETOOTH", f"{network_with_timing}.temp")
-        # if basic_utilities.check_queue_has_command("MAX", "out/command_queue.txt", 0): 
-        #     print(">> Max duplicate timings reached")
-        #     break
-        #simulation_lib.hit_space_to_continue()
+        # elif basic_utilities.check_queue_has_command("DEMO", "out/command_queue.txt", 1): 
+        #     if os.path.exists(f"{output_folder}/TRAIN_OPTIMIZATION"):                  
+        #         # Check if any files start with 'random_trips'  
+        #         random_trip_files = [f for f in os.listdir(f"{output_folder}/TRAIN_OPTIMIZATION") if f.startswith('random_trips')]  
+        #         if random_trip_files:  
+        #             print ("DEMO_TRAIN_OPTIMIZATION")
+        #             basic_utilities.demo_gui(f"{output_folder}/TRAIN_OPTIMIZATION", f"{network_with_timing}.temp")
+        #     elif os.path.exists(f"{output_folder}/TRAIN_BLUETOOTH"):
+        #         # Check if any files start with 'random_trips'  
+        #         random_trip_files = [f for f in os.listdir(f"{output_folder}/TRAIN_BLUETOOTH") if f.startswith('random_trips')]  
+        #         if random_trip_files:  
+        #             print ("DEMO_TRAIN_BLUETOOTH")
+        #             basic_utilities.demo_gui(f"{output_folder}/TRAIN_BLUETOOTH", f"{network_with_timing}.temp")

@@ -59,7 +59,7 @@ def my_plot(output_data_file):
 
     # Count the number of lines
     num_lines = len(lines)
-    print(f"Number of lines in the file: {num_lines}")
+    # print(f"Number of lines in the file: {num_lines}")
 
     # Extract and plot Average Idle Times
     iteration_numbers = []
@@ -118,7 +118,7 @@ def extract_network_junctions(network_file, output_csv_file):
             if x_coord and y_coord:
                 csv_writer.writerow([junction_id, x_coord, y_coord])
     
-    print(f"Coordinates extracted and saved to {output_csv_file}")
+    # print(f"Coordinates extracted and saved to {output_csv_file}")
 
 def extract_network_edges(network_file, output_csv_file):
     tree = ET.parse(network_file)
@@ -140,7 +140,7 @@ def extract_network_edges(network_file, output_csv_file):
             if from_junction and to_junction:
                 csv_writer.writerow([edge_id, from_junction, to_junction])
     
-    print(f"Edges extracted and saved to {output_csv_file}")
+    # print(f"Edges extracted and saved to {output_csv_file}")
 
 def read_edge_file(file_path):
     """
@@ -155,7 +155,7 @@ def read_edge_file(file_path):
     script_directory = os.path.dirname(os.path.abspath(__file__))
 
     # Print the script's directory
-    print("Script's directory:", script_directory)
+    # print("Script's directory:", script_directory)
 
     with open(file_path, 'r') as file:
         # Skip the title line
@@ -175,9 +175,9 @@ def generate_random_trips(network_selection, trip_file, max_steps, seed):
     debug = 0
     #cmd = f"C:/Users/chuny/Desktop/lucas/Python%20Projects/traffic_optimization/randomTrips.py -n OSM_RandomTrips/keeleandmajmack.net.xml -r {trip_file} -e {max_steps} --random -s {seed} -o out/trips.trips.xml"
     randomTrips = r'"C:\Program Files (x86)\Eclipse\Sumo\tools\randomTrips.py"'
-    cmd = f"python {randomTrips} -n {network_selection} -r {trip_file} -e {max_steps} --random -s {seed} -i 1"
+    cmd = f"python {randomTrips} -n {network_selection} -r {trip_file} -e {max_steps} --random -s {seed} -i 1 --verbose"
 
-    print (f"This is the CMD line {cmd}")
+    # print (f"This is the CMD line {cmd}")
 
     if (debug):print (f"DEBUG <generate_random_trips> : randomTrips.py command : {cmd}")
 
@@ -187,9 +187,11 @@ def generate_random_trips_weighted(network_selection, trip_file, max_steps, seed
     debug = 0
     #cmd = f"C:/Users/chuny/Desktop/lucas/Python%20Projects/traffic_optimization/randomTrips.py -n OSM_RandomTrips/keeleandmajmack.net.xml -r {trip_file} -e {max_steps} --random -s {seed} -o out/trips.trips.xml"
     randomTrips = r'"C:\Program Files (x86)\Eclipse\Sumo\tools\randomTrips.py"'
-    cmd = f"python {randomTrips} --weights-prefix {weight_prefix} -n {network_selection} -r {trip_file} -e {max_steps} --random -s {seed} -i 1"
+    # print(weight_prefix)
+    # sys.exit()
+    cmd = f"python {randomTrips} --weights-prefix {weight_prefix} -n {network_selection} -r {trip_file} -e {max_steps} --random -s {seed} -i 1 --verbose"
 
-    print (f"This is the CMD line {cmd}")
+    # print (f"This is the CMD line {cmd}")
 
     if (debug):print (f"DEBUG <generate_random_trips> : randomTrips.py command : {cmd}")
 
@@ -207,7 +209,7 @@ def generate_sumo_config(network_selection, config_file, current_directory, max_
         <end value="{max_steps}"/>
     </time>
 </configuration>"""
-    print (f"DEBUG INSIDE 4 {config_file}")
+    # print (f"DEBUG INSIDE 4 {config_file}")
     with open(config_file, 'w') as f:
         f.write(config_template)
     f.close()
@@ -281,7 +283,7 @@ def extract_speeds_from_edges(xml_file):
             speed = lane.attrib.get("speed")  # Get the speed attribute
             if speed:
                 edge_speeds[edge_id] = round(float(speed)*3.6, 3)
-                print(edge_id, edge_speeds[edge_id])
+                # print(edge_id, edge_speeds[edge_id])
     return edge_speeds
 
 def check_queue_has_command (command, queue_file, delete_control):
@@ -295,7 +297,7 @@ def check_queue_has_command (command, queue_file, delete_control):
         f.close()
         if found == 1:
             if (delete_control == 1):
-                print(f">> Removing {queue_file}")
+                # print(f">> Removing {queue_file}")
                 os.remove(queue_file) 
             return True
         else:
@@ -324,7 +326,7 @@ def calculate_average_difference(file1, file2):
     max_discrepancy_value = differences[max_discrepancy_edge]
 
     # Determine whether the max discrepancy is positive or negative
-    discrepancy_direction = 'increase' if max_discrepancy_value > 0 else 'decrease'
+    discrepancy_direction = 'decrease' if max_discrepancy_value > 0 else 'increase'
     # if the direction is decrease, it means that the bluetooth is running on that edge more cars than the city data. Vice versa if the direction is increase
 
     return average_difference, max_discrepancy_edge, max_discrepancy_value, discrepancy_direction
@@ -395,7 +397,7 @@ def compute_average_speeds(input_folder, output_file):
             avg_speed = data["sum"] / data["count"]
             writer.writerow(edge_details[edge_id] + [round(avg_speed, 3)])  # Keep all columns and update last one
 
-    print(f"Average speeds written to {output_file}")
+    # print(f"Average speeds written to {output_file}")
 
 
 def run_sumo(config_file, max_steps, result_queue, average_speed_n_steps, out_dir, speed_limit, run_number):
@@ -504,20 +506,20 @@ def batched_run_sumo (phase, num_batches, num_runs_per_batch, output_folder, net
                 random_seed = debug_seed
 
             trip_file = os.path.join(f"{output_folder}/{output_folder_subdir}", f"random_trips_{random_seed}.xml")  # Generate a unique trip file name for each run
-            print (f"trip file = {trip_file}")
+            # print (f"trip file = {trip_file}")
             # Generate random trips
             
-            weights_exist = any(f.startswith("weights") for f in os.listdir(network_name))
+            # weights_exist = any(f.startswith("weights") for f in os.listdir(network_name))
+            weights_exist = True
 
             if weights_exist:
-                generate_random_trips_weighted(weight_prefix, f'{network_with_timing}.temp', trip_file, max_steps, random_seed)
+                generate_random_trips_weighted(f'{network_with_timing}.temp', trip_file, max_steps, random_seed, weight_prefix)
                 print("DEBUG: Using Weights")
             else:
                 generate_random_trips(f'{network_with_timing}.temp', trip_file, max_steps, random_seed)
 
             # Generate SUMO configuration file and update the route-files value
             config_file = os.path.join(f"{output_folder}/{output_folder_subdir}", f"sumo_config_{random_seed}.sumocfg")
-            print (f"config file = {config_file}")
             generate_sumo_config(f'{network_with_timing}.temp', config_file, current_directory, max_steps, trip_file)
 
             random_seeds.append(random_seed)
@@ -570,13 +572,14 @@ def batched_run_sumo (phase, num_batches, num_runs_per_batch, output_folder, net
 def demo_gui (out_ref, networkfile):
     found = 0
     number = 0
+    print(f"{out_ref}, {networkfile}")
     while not found:
         for filename in os.listdir(out_ref):
-            # print (f"demo_gui:1 {filename}")
+            print (f"demo_gui:1 {filename}")
             if filename.startswith("random_trips") and filename.endswith(".xml"):
                 match = re.search(r"random_trips_(\d+)\.xml", filename)
                 number = int(match.group(1))
-                #print (f"demo_gui:1 {out_ref}/sumo_config_{number}.sumocfg")
+                print (f"demo_gui:2 {out_ref}/sumo_config_{number}.sumocfg")
                 if os.path.exists(f"{out_ref}/sumo_config_{number}.sumocfg"):
                     os.makedirs(f"{out_ref}/../DEMO", exist_ok=True)
                     shutil.copy(f"{out_ref}/sumo_config_{number}.sumocfg", f"{out_ref}/../DEMO")
@@ -592,7 +595,27 @@ def demo_gui (out_ref, networkfile):
 
     # Command to run your SUMO simulation
     # sumo_command = f"sumo-gui -c {out_ref}/../DEMO/sumo_config_{number}.sumocfg &"
+    print ("demo_gui: run sumo-gui")
     sumo_command = ["sumo-gui", "-c", f"{out_ref}/../DEMO/sumo_config_{number}.sumocfg"]
     # Execute the system call
     subprocess.Popen(sumo_command)
     return 
+
+def demo_sumo_gui(network_selection, max_steps, output_folder):
+    current_directory = os.getcwd()
+    
+    generate_random_trips(f"NETWORKS/{network_selection}", f"{output_folder}/DEMO_GUI.xml", max_steps, "0101")
+    generate_sumo_config(f"NETWORKS/{network_selection}", f"{output_folder}/DEMO_GUI.sumocfg", current_directory, max_steps, f"{output_folder}/DEMO_GUI.XML")
+
+    sumo_cmd = ["sumo-gui", "-c", f"{output_folder}/DEMO_GUI.sumocfg"]
+
+    # traci.start(sumo_cmd)
+
+    # while step < max_steps:
+    #     traci.simulationStep()
+    #     step += 1
+    #     if step > max_steps:
+    #         break
+    subprocess.Popen(sumo_cmd)
+    print("Exited the loop")
+    # traci.close()

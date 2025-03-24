@@ -32,22 +32,23 @@ light_name_data = {
             "mackenzie_peter", "maurier_dufferin", "peter_rutherford",
             "rutherford_dufferin"],
     "weight_test/weight_test.net.xml": ["main"],
-    "simple_network/simple_network.net.xml": ["main"]
+    "simple_network/simple_network.net.xml": ["main_1", "main_2"]
     }
 
+gui_colour = "blue"
 timing_light_increment = 2
-num_batches = 2
-num_runs_per_batch = 2
-max_steps = 200
-num_of_runs_on_network = 1000
+num_batches = 1
+num_runs_per_batch = 6
+max_steps = 1500
+max_num_of_runs_on_network = 1000
 num_of_greenlight_duplicate_limit = 40
 average_speed_n_steps = 20
 start_command = "RUN"
 stop_command = "STOP"
 phase = "start"
 weight_prefix = "weights"
-weight_change = 0.1
-weight_accuracy = 20
+weight_change = 1
+weight_accuracy = 5
 
 def main_loop(num_batches, num_runs_per_batch, network_selection, max_steps, phase, output_folder):
 
@@ -71,7 +72,6 @@ def main_loop(num_batches, num_runs_per_batch, network_selection, max_steps, pha
 
                 if not os.path.exists(output_folder):
                     os.makedirs(output_folder)
-                    os.makedirs(f"{output_folder}/TRAIN_OPTIMIZATION")
                     os.makedirs(f"{output_folder}/TRAIN_BLUETOOTH")
 
                 # Input and output file paths
@@ -86,18 +86,19 @@ def main_loop(num_batches, num_runs_per_batch, network_selection, max_steps, pha
                 parsed_string_without_extension = parsed_string.replace(".net.xml", "")
                 bluetooth_network_with_timing = os.path.join(output_folder, f"TRAIN_BLUETOOTH/{parsed_string_without_extension}.timing.net.xml")
                 phase = "bluetooth"
-                bluetooth_lib.bluetooth_training(phase, bluetooth_network_with_timing, output_folder, output_data_file, num_of_runs_on_network, num_batches, num_runs_per_batch, network_selection, 
+                bluetooth_lib.bluetooth_training(phase, bluetooth_network_with_timing, output_folder, output_data_file, max_num_of_runs_on_network, num_batches, num_runs_per_batch, network_selection, 
                                                 max_steps, bluetooth_network_with_timing, light_names, timing_light_increment,  
                                                 num_of_greenlight_duplicate_limit, average_speed_n_steps, weight_prefix, weight_change, weight_accuracy)
 
                 # sys.exit()
-
+                os.makedirs(f"{output_folder}/TRAIN_OPTIMIZATION")
                 phase = "optimize"
+                shutil.copy2 (f'{output_folder}/TRAIN_BLUETOOTH/GUI_average_speeds.csv' , f'{output_folder}/TRAIN_OPTIMIZATION/GUI_average_speeds.start.csv')
                 output_data_file = os.path.join(output_folder, "TRAIN_OPTIMIZATION/output_data.txt")
                 network_averages = os.path.join(output_folder, "TRAIN_OPTIMIZATION/network_averages.txt")
                 network_with_timing = os.path.join(output_folder, f"TRAIN_OPTIMIZATION/{parsed_string_without_extension}.timing.net.xml")
 
-                optimize_timing_lib.optimize_timing_main (phase, output_folder, output_data_file, num_of_runs_on_network, num_batches, num_runs_per_batch, network_selection, 
+                optimize_timing_lib.optimize_timing_main (phase, output_folder, output_data_file, max_num_of_runs_on_network, num_batches, num_runs_per_batch, network_selection, 
                                                 max_steps, network_with_timing, light_names, timing_light_increment, network_averages, 
                                                 num_of_greenlight_duplicate_limit, average_speed_n_steps)
                 command = "STOP"
@@ -114,7 +115,7 @@ if __name__ == "__main__":
     # Create a list to store the processes and results
     processes = []
 
-    process = Process(target=gui_main.gui_main, args=(phase, output_folder))
+    process = Process(target=gui_main.gui_main, args=(gui_colour, max_steps, output_folder))
     processes.append(process)
     process = Process(target=main_loop, args=(num_batches, num_runs_per_batch, network_selection, max_steps, phase, output_folder))
     processes.append(process)

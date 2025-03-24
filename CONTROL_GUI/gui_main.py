@@ -8,8 +8,8 @@ from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 import ctypes
 import bluetooth_gui_lib
 import plot_timing_changes
-
 sys.path.append(os.path.join(os.path.dirname(__file__), 'TRAIN_COMMON_LIB'))
+import basic_utilities
 
 # Define colors
 WHITE = (255, 255, 255)
@@ -188,7 +188,7 @@ def my_plot(output_data_file):
     return plot_surface
 
 # #
-def my_bluetooth(junction_coordinates_file, average_speeds_file, network_file, bluetooth_training_network_averages):
+def my_bluetooth(junction_coordinates_file, average_speeds_file, network_file, network_averages):
 
     # Read input files
     file_name = "RESOURCES/CONNECTING_TWO_POINTS/GUI_junction_coordinates.csv"
@@ -224,7 +224,7 @@ def my_bluetooth(junction_coordinates_file, average_speeds_file, network_file, b
 
     # Draw nodes
     if network_file != "":
-        coord_differences = plot_timing_changes.coordinates_to_diff_of_offset_and_greenlight (f"NETWORKS/{network_file}", junction_coordinates_file, bluetooth_training_network_averages)
+        coord_differences = plot_timing_changes.coordinates_to_diff_of_offset_and_greenlight (f"NETWORKS/{network_file}", junction_coordinates_file, network_averages)
 
         for node_position in junction_coordinates.values():
             bluetooth_gui_lib.draw_node(ax, node_position, coord_differences)
@@ -285,28 +285,33 @@ def find_latest_directory(base_folder):
     return latest_directory
 
 # Main page drawing function
-def draw_page(figure_width, plot_surface_average_idle, plot_surface_optimize_start, plot_surface_optimize_current, plot_surface_bluetooth_reference, 
+def draw_page(gui_colour, output_dir, figure_width, plot_surface_average_idle, plot_surface_optimize_start, 
+                  plot_surface_optimize_current, plot_surface_bluetooth_reference, 
                   plot_surface_bluetooth_start, plot_surface_bluetooth_current, current_page, screen, width, 
                   height, font, dropdown_font, dropdown_options, dropdown_rect, dropdown_open, selected_network, 
-                  simulation_state, phase):
+                  simulation_state):
+    if gui_colour == "blue":
+        # Draw the white bar at the top (x=0, y=0, width=full screen, height=200)
+        pygame.draw.rect(screen, (175, 238, 238), (0, 40, width, height))
+
     if current_page == "Main":
 
         if plot_surface_bluetooth_reference is not None:
             screen.blit(plot_surface_bluetooth_reference, (offset, offset*5))
         else:
-            # Draw black border (outline)
+            pygame.draw.rect(screen, WHITE, (offset, offset*5, figure_width, figure_width))
             pygame.draw.rect(screen, BLACK, (offset, offset*5, figure_width, figure_width), 2)
 
         if plot_surface_bluetooth_current is not None:
             screen.blit(plot_surface_bluetooth_current, (offset + figure_width + offset, offset*5))
         else:
-            # Draw black border (outline)
+            pygame.draw.rect(screen, WHITE, (offset + figure_width + offset, offset*5, figure_width, figure_width))
             pygame.draw.rect(screen, BLACK, (offset + figure_width + offset, offset*5, figure_width, figure_width), 2)
 
         if plot_surface_optimize_current is not None:
             screen.blit(plot_surface_optimize_current, (3*offset + 2*figure_width, offset*5))
         else:
-            # Draw black border (outline)
+            pygame.draw.rect(screen, WHITE, (3*offset + 2*figure_width, offset*5, figure_width, figure_width))
             pygame.draw.rect(screen, BLACK, (3*offset + 2*figure_width, offset*5, figure_width, figure_width), 2)
 
         text = font.render("Bluetooth Reference", True, BLACK)
@@ -317,14 +322,25 @@ def draw_page(figure_width, plot_surface_average_idle, plot_surface_optimize_sta
         screen.blit(text, (3*offset + 2*figure_width, offset*4))
 
         draw_buttons(screen, font, simulation_state)
+
+        phase = "Start"
+        if os.path.exists(f"{output_dir}/TRAIN_OPTIMIZATION"):
+            phase = "Geenlight/Offset Optimization"
+        elif os.path.exists(f"{output_dir}/TRAIN_BLUETOOTH"):
+            phase = "Align to Bluetooth Reference"
+
         text = font.render(f"Phase: {phase}", True, BLACK)
         screen.blit(text, (10, figure_width + 140))
         text = font.render(f"TODO - DEMO file snap, then add back cfg cleanup", True, BLACK)
         screen.blit(text, (10, figure_width + 160))
-        text = font.render(f"TODO - fix the phase to update", True, BLACK)
+        text = font.render(f"TODO - Tim - add ", True, BLACK)
         screen.blit(text, (10, figure_width + 180))
         text = font.render(f"TODO - lucas fix the weight files to not be modified in place", True, BLACK)
         screen.blit(text, (10, figure_width + 200))
+        text = font.render(f"TODO - Tim fix the road colour offset for less overlap", True, BLACK)
+        screen.blit(text, (10, figure_width + 220))
+        text = font.render(f"TODO - Tim add a STOP/DEMO selected feedback on main gui given the delay to reach that state.", True, BLACK)
+        screen.blit(text, (10, figure_width + 220))
         draw_dropdown(dropdown_font, dropdown_options, screen, dropdown_rect, dropdown_open, selected_network, figure_width)
     elif current_page == "Bluetooth Training":
         if plot_surface_bluetooth_reference is not None:
@@ -378,7 +394,7 @@ def draw_page(figure_width, plot_surface_average_idle, plot_surface_optimize_sta
         text = font.render("Current", True, BLACK)
         screen.blit(text, (offset + figure_width + offset, 75))
 
-def gui_main(phase, output_dir):
+def gui_main(gui_colour, max_steps, output_dir):
 
     # Initialize Pygame
     pygame.init()
@@ -443,14 +459,14 @@ def gui_main(phase, output_dir):
     while running:
         junction_coords_file = f"{output_dir}\\GUI_junction_coordinates.csv"
 
-        optimize_network_averages_txt = f'{output_dir}\\TRAIN_OPTIMIZATION\\network_averages.txt'
-        optimize_start_GUI_average_speeds = f'{output_dir}\\TRAIN_OPTIMIZATION\\GUI_average_speeds.start.csv'
-        optimize_current_GUI_average_speeds = f'{output_dir}\\TRAIN_OPTIMIZATION\\GUI_average_speeds.csv'
+        optimize_network_averages_txt = f'{output_dir}/TRAIN_OPTIMIZATION/network_averages.txt'
+        optimize_start_GUI_average_speeds = f'{output_dir}/TRAIN_OPTIMIZATION/GUI_average_speeds.start.csv'
+        optimize_current_GUI_average_speeds = f'{output_dir}/TRAIN_OPTIMIZATION/GUI_average_speeds.csv'
 
         bluetooth_training_reference_average_speeds_file = f"NETWORKS/{network_dir}/{network_dir}.bluetooth.csv"
-        bluetooth_training_start_average_speeds_file = f"{output_dir}\TRAIN_BLUETOOTH\GUI_average_speeds.start.csv"
-        bluetooth_training_current_average_speeds_file = f"{output_dir}\TRAIN_BLUETOOTH\GUI_average_speeds.csv"
-        bluetooth_training_network_averages = f"{output_dir}\TRAIN_BLUETOOTH\network_averages.txt"
+        bluetooth_training_start_average_speeds_file = f"{output_dir}/TRAIN_BLUETOOTH/GUI_average_speeds.start.csv"
+        bluetooth_training_current_average_speeds_file = f"{output_dir}/TRAIN_BLUETOOTH/GUI_average_speeds.csv"
+        bluetooth_training_network_averages = f"{output_dir}/TRAIN_BLUETOOTH/network_averages.txt"
         # network_file = f"NETWORKS/{network_dir}/{network_dir}.net.xml"
 
         screen.fill(WHITE)
@@ -509,9 +525,10 @@ def gui_main(phase, output_dir):
                                 button_pressed[label] = True  # Set button to pressed state
                                 append_to_queue(queue_message)  # Append to the queue file
                         elif label == "DEMO" :
-                            queue_message = label
+                            # queue_message = label
                             button_pressed[label] = True  # Set button to pressed state
-                            append_to_queue(queue_message)  # Append to the queue file
+                            # append_to_queue(queue_message)  # Append to the queue file
+                            basic_utilities.demo_sumo_gui(selected_network, max_steps, output_dir)
                         else:
                             button_pressed[label] = True  # Set button to pressed state
                             append_to_queue(queue_message)  # Append to the queue file
@@ -552,9 +569,9 @@ def gui_main(phase, output_dir):
         #    simulation_state = "STOP"
         # Draw UI components
         draw_tabs(tabs, current_page, screen, tab_font, width )
-        draw_page(figure_width, plot_surface_average_idle, plot_surface_optimize_start, plot_surface_optimize_current, plot_surface_bluetooth_reference, 
+        draw_page(gui_colour, output_dir, figure_width, plot_surface_average_idle, plot_surface_optimize_start, plot_surface_optimize_current, plot_surface_bluetooth_reference, 
                   plot_surface_bluetooth_start, plot_surface_bluetooth_current, current_page, screen, width, 
-                  height, font, dropdown_font, dropdown_options, dropdown_rect, dropdown_open, selected_network, simulation_state, phase)
+                  height, font, dropdown_font, dropdown_options, dropdown_rect, dropdown_open, selected_network, simulation_state)
 
         pygame.display.flip()
 
