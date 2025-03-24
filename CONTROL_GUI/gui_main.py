@@ -331,16 +331,23 @@ def draw_page(gui_colour, output_dir, figure_width, plot_surface_average_idle, p
 
         text = font.render(f"Phase: {phase}", True, BLACK)
         screen.blit(text, (10, figure_width + 140))
-        text = font.render(f"TODO - DEMO file snap, then add back cfg cleanup", True, BLACK)
-        screen.blit(text, (10, figure_width + 160))
-        text = font.render(f"TODO - Tim - add ", True, BLACK)
-        screen.blit(text, (10, figure_width + 180))
-        text = font.render(f"TODO - lucas fix the weight files to not be modified in place", True, BLACK)
-        screen.blit(text, (10, figure_width + 200))
         text = font.render(f"TODO - Tim fix the road colour offset for less overlap", True, BLACK)
+        screen.blit(text, (10, figure_width + 160))
+        text = font.render(f"TODO - Tim add a STOP/DEMO selected feedback on main gui given the delay to reach that state. ", True, BLACK)
+        screen.blit(text, (10, figure_width + 180))
+        text = font.render(f"TODO - Tim add a visulization of batches total, batches remaining, sims within current batch. ", True, BLACK)
+        screen.blit(text, (10, figure_width + 200))
+        text = font.render(f"TODO - Tim add tool to increase or decreaes the batch size, and number per batch through GUI.  ", True, BLACK)
         screen.blit(text, (10, figure_width + 220))
-        text = font.render(f"TODO - Tim add a STOP/DEMO selected feedback on main gui given the delay to reach that state.", True, BLACK)
-        screen.blit(text, (10, figure_width + 220))
+        text = font.render(f"TODO - Lucas get a simple network to go through from start to end within 10 mins total", True, BLACK)
+        screen.blit(text, (10, figure_width + 240))
+        text = font.render(f"TODO - Lucas get school-extended network running reasonably ", True, BLACK)
+        screen.blit(text, (10, figure_width + 260))
+        text = font.render(f"TODO - Lucas create data to plot bluetooth largest differences for each iteration.", True, BLACK)
+        screen.blit(text, (10, figure_width + 280))
+        text = font.render(f"TODO - Lucas create data to document current batch, number of batches, number of sims in progress within current batch.", True, BLACK)
+        screen.blit(text, (10, figure_width + 300))
+
         draw_dropdown(dropdown_font, dropdown_options, screen, dropdown_rect, dropdown_open, selected_network, figure_width)
     elif current_page == "Bluetooth Training":
         if plot_surface_bluetooth_reference is not None:
@@ -421,7 +428,7 @@ def gui_main(gui_colour, max_steps, output_dir):
 
     # Dropdown variables
     dropdown_open = False
-    dropdown_rect = pygame.Rect(120, 60, 300, 30)  # Adjusted position for dropdown
+    dropdown_rect = pygame.Rect(120, 60, 500, 30)  # Adjusted position for dropdown
     dropdown_options = ["--Select Network--"]
     selected_network = "--Select Network--"
 
