@@ -39,7 +39,7 @@ gui_colour = "blue"
 timing_light_increment = 2
 num_batches = 1
 num_runs_per_batch = 6
-max_steps = 2000
+max_steps = 1500
 max_num_of_runs_on_network = 1000
 num_of_greenlight_duplicate_limit = 40
 average_speed_n_steps = 20
@@ -115,7 +115,7 @@ if __name__ == "__main__":
     # Create a list to store the processes and results
     processes = []
 
-    process = Process(target=gui_main.gui_main, args=(gui_colour, output_folder))
+    process = Process(target=gui_main.gui_main, args=(gui_colour, max_steps, output_folder))
     processes.append(process)
     process = Process(target=main_loop, args=(num_batches, num_runs_per_batch, network_selection, max_steps, phase, output_folder))
     processes.append(process)

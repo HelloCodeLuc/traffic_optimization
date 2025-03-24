@@ -8,8 +8,8 @@ from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 import ctypes
 import bluetooth_gui_lib
 import plot_timing_changes
-
 sys.path.append(os.path.join(os.path.dirname(__file__), 'TRAIN_COMMON_LIB'))
+import basic_utilities
 
 # Define colors
 WHITE = (255, 255, 255)
@@ -394,7 +394,7 @@ def draw_page(gui_colour, output_dir, figure_width, plot_surface_average_idle, p
         text = font.render("Current", True, BLACK)
         screen.blit(text, (offset + figure_width + offset, 75))
 
-def gui_main(gui_colour, output_dir):
+def gui_main(gui_colour, max_steps, output_dir):
 
     # Initialize Pygame
     pygame.init()
@@ -525,9 +525,10 @@ def gui_main(gui_colour, output_dir):
                                 button_pressed[label] = True  # Set button to pressed state
                                 append_to_queue(queue_message)  # Append to the queue file
                         elif label == "DEMO" :
-                            queue_message = label
+                            # queue_message = label
                             button_pressed[label] = True  # Set button to pressed state
-                            append_to_queue(queue_message)  # Append to the queue file
+                            # append_to_queue(queue_message)  # Append to the queue file
+                            basic_utilities.demo_sumo_gui(selected_network, max_steps, output_dir)
                         else:
                             button_pressed[label] = True  # Set button to pressed state
                             append_to_queue(queue_message)  # Append to the queue file

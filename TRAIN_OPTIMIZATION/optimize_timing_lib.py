@@ -265,20 +265,16 @@ def optimize_timing_main (phase, output_folder, output_data_file, max_num_of_run
         if basic_utilities.check_queue_has_command("STOP", "out/command_queue.txt", 1): 
             print(">> Execution interrupted (OPTIMIZATION)")
             break
-        elif basic_utilities.check_queue_has_command("DEMO", "out/command_queue.txt", 1): 
-            if os.path.exists(f"{output_folder}/TRAIN_OPTIMIZATION"):                  
-                # Check if any files start with 'random_trips'  
-                random_trip_files = [f for f in os.listdir(f"{output_folder}/TRAIN_OPTIMIZATION") if f.startswith('random_trips')]  
-                if random_trip_files:  
-                    print ("DEMO_TRAIN_OPTIMIZATION")
-                    basic_utilities.demo_gui(f"{output_folder}/TRAIN_OPTIMIZATION", f"{network_with_timing}.temp")
-            elif os.path.exists(f"{output_folder}/TRAIN_BLUETOOTH"):
-                # Check if any files start with 'random_trips'  
-                random_trip_files = [f for f in os.listdir(f"{output_folder}/TRAIN_BLUETOOTH") if f.startswith('random_trips')]  
-                if random_trip_files:  
-                    print ("DEMO_TRAIN_BLUETOOTH")
-                    basic_utilities.demo_gui(f"{output_folder}/TRAIN_BLUETOOTH", f"{network_with_timing}.temp")
-        # if basic_utilities.check_queue_has_command("MAX", "out/command_queue.txt", 0): 
-        #     print(">> Max duplicate timings reached")
-        #     break
-        #simulation_lib.hit_space_to_continue()
+        # elif basic_utilities.check_queue_has_command("DEMO", "out/command_queue.txt", 1): 
+        #     if os.path.exists(f"{output_folder}/TRAIN_OPTIMIZATION"):                  
+        #         # Check if any files start with 'random_trips'  
+        #         random_trip_files = [f for f in os.listdir(f"{output_folder}/TRAIN_OPTIMIZATION") if f.startswith('random_trips')]  
+        #         if random_trip_files:  
+        #             print ("DEMO_TRAIN_OPTIMIZATION")
+        #             basic_utilities.demo_gui(f"{output_folder}/TRAIN_OPTIMIZATION", f"{network_with_timing}.temp")
+        #     elif os.path.exists(f"{output_folder}/TRAIN_BLUETOOTH"):
+        #         # Check if any files start with 'random_trips'  
+        #         random_trip_files = [f for f in os.listdir(f"{output_folder}/TRAIN_BLUETOOTH") if f.startswith('random_trips')]  
+        #         if random_trip_files:  
+        #             print ("DEMO_TRAIN_BLUETOOTH")
+        #             basic_utilities.demo_gui(f"{output_folder}/TRAIN_BLUETOOTH", f"{network_with_timing}.temp")
