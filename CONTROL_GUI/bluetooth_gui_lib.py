@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from io import BytesIO
 from PIL import Image
+import os
 
 # Function to draw a dot for a node using Matplotlib
 def draw_node(ax, node_position, coord_differences, node_radius=8):
@@ -116,3 +117,55 @@ def fig_to_pygame(fig):
     data = image.tobytes()
 
     return pygame.image.fromstring(data, size, mode)  # Convert to pygame surface
+
+# this is to count non blank lines in output_data.txt to help show batches/run counts on gui main
+def count_non_blank_lines(file_path):
+    with open(file_path, "r", encoding="utf-8") as file:
+        non_blank_lines = [line for line in file if line.strip()]  # Filter out blank lines
+    return len(non_blank_lines)
+
+# this draws little boxes to depict batches and runs completed and in progress
+def draw_stats(num_batches, num_runs_per_batch, output_dir, x, y, screen):
+    # Colors
+    WHITE = (255, 255, 255)
+    BLACK = (0, 0, 0)
+    GREEN = (0, 200, 0)
+    RED = (200, 0, 0)
+
+    # Constants
+    SCREEN_WIDTH = 500
+    SCREEN_HEIGHT = 200
+    SQUARE_SIZE = 7
+    SQUARE_SPACING = 5
+    TEXT_PADDING = 100  # Space for "Batches:" text
+    
+    font = pygame.font.Font(None, 24)
+    if os.path.exists(f"{output_dir}/output_data.txt"):
+        file_path = f"{output_dir}/output_data.txt"
+        non_blank_count = count_non_blank_lines(file_path)
+        # print(f"Number of non-blank lines: {non_blank_count}")
+
+        completed_batches, completed_runs = divmod(non_blank_count, num_runs_per_batch)
+        runs_in_progress = num_runs_per_batch - completed_runs
+
+        # print(f"Total non-blank lines: {non_blank_count}")
+        # print(f"Completed batches: {completed_batches}")
+        # print(f"Runs remaining: {runs_in_progress}")
+        # Render "Batches:" text
+        text_surface = font.render("Batches:", True, BLACK)
+        screen.blit(text_surface, (x, y))
+        text_surface = font.render("Sims In progress:", True, BLACK)
+        screen.blit(text_surface, (x, y + 20))
+
+        # Draw batch squares
+        for i in range(num_batches):
+            color = RED if i < completed_batches else GREEN
+            x_pos = x + i * (SQUARE_SIZE + SQUARE_SPACING) + 150
+            y_pos = y + SQUARE_SIZE//2
+            pygame.draw.rect(screen, color, (x_pos, y_pos, SQUARE_SIZE, SQUARE_SIZE))
+        # Draw runs in progress squares
+        for i in range(num_runs_per_batch):
+            color = RED if i < completed_runs else GREEN
+            x_pos = x + i * (SQUARE_SIZE + SQUARE_SPACING) + 150
+            y_pos = y + SQUARE_SIZE//2 + 20
+            pygame.draw.rect(screen, color, (x_pos, y_pos, SQUARE_SIZE, SQUARE_SIZE))
