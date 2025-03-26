@@ -3,7 +3,6 @@ import math
 import csv
 import sys
 import matplotlib.pyplot as plt
-import numpy as np
 from io import BytesIO
 from PIL import Image
 
@@ -11,21 +10,36 @@ from PIL import Image
 def draw_node(ax, node_position, node_radius=8):
     ax.scatter(node_position[0], node_position[1], s=node_radius**2, color='blue', zorder=2)
 
-# Function to read the CSV file and return a list of dictionaries
+# Function to read the CSV file and store both speeds in the same dictionary
 def read_edge_data(file_path):
     edge_data = []
+
     with open(file_path, mode='r') as csvfile:
         reader = csv.DictReader(csvfile)
+
         for row in reader:
+            edge_id = row["Edge ID"]
+            avg_speed = float(row["Average Speed (km/h)"])
+            
+            # Handle reverse edges by checking the prefix
+            if edge_id.startswith('-E'):
+                avg_speed2 = avg_speed  # Use same speed for reversed direction
+                avg_speed = 0  # Main direction has no speed for reverse
+            else:
+                avg_speed2 = 0  # No reverse speed for main direction
+
+            # Add both speeds into the same dictionary
             edge_data.append({
-                "edge_id": row["Edge ID"],
+                "edge_id": edge_id,
                 "from_node": row["from"],
                 "to_node": row["to"],
-                "speed_limit": float(row["Speed Limit (km/h)"]),
-                "average_speed": float(row["Average Speed (km/h)"])
+                "average_speed": avg_speed,
+                "average_speed2": avg_speed2
             })
+
     return edge_data
 
+# Function to read and scale GUI junction coordinates
 def read_GUI_junction_coordinates(file_name):
     coordinates = {}
     with open(file_name, mode='r') as file:
@@ -42,33 +56,28 @@ def read_GUI_junction_coordinates(file_name):
     # Shift the coordinates to move the origin to the top-left of the screen
     scaled_positions = {key: (x - min_x, y - min_y) for key, (x, y) in coordinates.items()}
 
-    # Print statements after defining scaled_positions
-    print("Original coordinates:", coordinates)
-    print("Scaled coordinates:", scaled_positions)
-    print(f"Smallest X: {min_x}, Smallest Y: {min_y}")
-
     return scaled_positions
 
 # Function to calculate lane color based on average speed
-def get_speed_color(average_speed):
-    if average_speed < 30:
-        return "brown"
-    elif average_speed < 40:
+def get_speed_color(speed):
+    if speed < 30:
+        return "red"
+    elif speed < 40:
         return "blue"
-    elif average_speed < 50:
+    elif speed < 50:
         return "green"
-    elif average_speed < 60:
+    elif speed < 60:
         return "yellow"
     else:
         return "gray"
 
 # Function to draw two-way road using Matplotlib
-def draw_two_way_road(ax, p1, p2, road_width, average_speed, speed_limit):
+def draw_two_way_road(ax, p1, p2, road_width, speed, speed2):
     dx, dy = p2[0] - p1[0], p2[1] - p1[1]
     angle = math.atan2(dy, dx)
-    
-    # Increase the lane separation by modifying the offset calculation
-    lane_spacing_factor = 1.5  # Adjust this value to control spacing
+
+    # Lane separation offset
+    lane_spacing_factor = 1.8
     offset_dx = (road_width * lane_spacing_factor) / 2 * math.sin(angle)
     offset_dy = (road_width * lane_spacing_factor) / 2 * math.cos(angle)
 
@@ -79,13 +88,14 @@ def draw_two_way_road(ax, p1, p2, road_width, average_speed, speed_limit):
     lane2_end = (p2[0] + offset_dx, p2[1] - offset_dy)
 
     # Get colors
-    color1 = get_speed_color(average_speed)
-    color2 = get_speed_color(speed_limit)
+    color1 = get_speed_color(speed)
+    color2 = get_speed_color(speed2)
 
-    # Draw lanes
+    # Draw lanes with both colors
     ax.plot([lane1_start[0], lane1_end[0]], [lane1_start[1], lane1_end[1]], color=color1, linewidth=road_width, zorder=1)
     ax.plot([lane2_start[0], lane2_end[0]], [lane2_start[1], lane2_end[1]], color=color2, linewidth=road_width, zorder=1)
 
+# Function to convert Matplotlib figure to Pygame surface
 def fig_to_pygame(fig):
     """Convert a Matplotlib figure to a Pygame surface."""
     buf = BytesIO()
@@ -108,14 +118,14 @@ WIDTH, HEIGHT = 400, 400
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Two-Way Road with Directional Colors and Nodes")
 
-# Create Matplotlib figure first
+# Create Matplotlib figure
 fig, ax = plt.subplots(figsize=(4, 4))
 ax.set_aspect('equal')
 ax.set_facecolor('black')
 
 # Set a black border around the figure
 fig.patch.set_edgecolor('black')
-fig.patch.set_linewidth(2)  # Border thickness
+fig.patch.set_linewidth(2)
 
 # Remove extra padding
 plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
@@ -134,16 +144,19 @@ road_width = 8
 for edge in edge_data:
     from_node = edge['from_node']
     to_node = edge['to_node']
-    point1 = scaled_positions[from_node]
-    point2 = scaled_positions[to_node]
-    average_speed = edge['average_speed']
-    speed_limit = edge['speed_limit']
-    draw_two_way_road(ax, point1, point2, road_width, average_speed, speed_limit)
+
+    if from_node in scaled_positions and to_node in scaled_positions:
+        point1 = scaled_positions[from_node]
+        point2 = scaled_positions[to_node]
+
+        average_speed = edge['average_speed']
+        average_speed2 = edge['average_speed2']
+
+        draw_two_way_road(ax, point1, point2, road_width, average_speed, average_speed2)
 
 # Draw nodes
 for node_position in scaled_positions.values():
     draw_node(ax, node_position)
-    ax.text(node_position[0] + 15, node_position[1] + 12, "Gr +2", fontsize=8)
 
 # Remove axis labels and ticks
 ax.set_xticks([])

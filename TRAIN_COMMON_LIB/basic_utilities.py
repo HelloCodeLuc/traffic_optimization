@@ -514,7 +514,7 @@ def batched_run_sumo (phase, num_batches, num_runs_per_batch, output_folder, net
 
             if weights_exist:
                 generate_random_trips_weighted(f'{network_with_timing}.temp', trip_file, max_steps, random_seed, weight_prefix)
-                print("DEBUG: Using Weights")
+                # print("DEBUG: Using Weights")
             else:
                 generate_random_trips(f'{network_with_timing}.temp', trip_file, max_steps, random_seed)
 
