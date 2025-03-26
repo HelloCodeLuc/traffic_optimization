@@ -39,7 +39,7 @@ gui_colour = "blue"
 timing_light_increment = 2
 num_batches = 1
 num_runs_per_batch = 8
-max_steps = 2000
+max_steps = 1500
 max_num_of_runs_on_network = 1000
 num_of_greenlight_duplicate_limit = 40
 average_speed_n_steps = 20
@@ -47,7 +47,7 @@ start_command = "RUN"
 stop_command = "STOP"
 phase = "start"
 weight_prefix = "weights"
-weight_change = 1
+weight_change = 4
 weight_accuracy = 5
 
 def main_loop(num_batches, num_runs_per_batch, network_selection, max_steps, phase, output_folder):

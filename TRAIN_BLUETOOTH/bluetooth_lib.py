@@ -215,6 +215,8 @@ def bluetooth_training(phase, bluetooth_network_with_timing, output_folder, outp
                                               max_steps, current_directory, average_speed_n_steps, speed_limit, output_data_file, network_selection, debug)
             average_diff, target_edge, max_discrepancy_value, direction, = basic_utilities.calculate_average_difference(bluetooth_csv, f"{output_folder}/{output_folder_subdir}/GUI_average_speeds.csv")
             print(f"The average speed difference is: {average_diff:.3f} km/h")
+            with open(f"{output_folder}/TRAIN_BLUETOOTH/GUI_training_delta.txt", "a") as file:
+                file.write(f"Average delta: {average_diff:.2f}, Highest delta is on edge {target_edge} with delta of {max_discrepancy_value:.2f}\n")
             print(f"The largest discrepancy is on Edge ID '{target_edge}' with a difference of {max_discrepancy_value} km/h")
         else:
             print("DEBUG: No Bluetooth CSV found")
