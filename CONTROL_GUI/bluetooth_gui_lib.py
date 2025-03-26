@@ -23,8 +23,8 @@ def draw_node(ax, node_position, coord_differences, node_radius=8):
             x, y = map(float, node_position)
 
             # Offset the text position
-            text_x = x + 15
-            text_y = y + 12
+            text_x = x + 100
+            text_y = y + 50
 
             # Display the values on the ax plot
             ax.text(text_x, text_y, f"O:{offset_diff},\nG:{green_diff}", fontsize=10, color="red", ha="center")
@@ -74,20 +74,26 @@ def get_speed_color(average_speed):
         return "gray"
 
 # Function to draw two-way road using Matplotlib
-def draw_two_way_road(ax, p1, p2, road_width, average_speed, speed_limit):
+def draw_two_way_road(ax, p1, p2, road_width, average_speed, speed_limit, node_radius=8):
     dx, dy = p2[0] - p1[0], p2[1] - p1[1]
-    angle = math.atan2(dy, dx)
+    distance = math.hypot(dx, dy)
     
+    # Calculate the offset to stop at the node edge
+    offset = (node_radius + road_width / 2) / distance  # Normalize offset by distance
+    p1_offset = (p1[0] + dx * offset, p1[1] + dy * offset)
+    p2_offset = (p2[0] - dx * offset, p2[1] - dy * offset)
+
     # Increase the lane separation by modifying the offset calculation
-    lane_spacing_factor = 1.5  # Adjust this value to control spacing
+    angle = math.atan2(dy, dx)
+    lane_spacing_factor = 5.8  # Adjust this value to control spacing
     offset_dx = (road_width * lane_spacing_factor) / 2 * math.sin(angle)
     offset_dy = (road_width * lane_spacing_factor) / 2 * math.cos(angle)
 
     # Define road edges
-    lane1_start = (p1[0] - offset_dx, p1[1] + offset_dy)
-    lane1_end = (p2[0] - offset_dx, p2[1] + offset_dy)
-    lane2_start = (p1[0] + offset_dx, p1[1] - offset_dy)
-    lane2_end = (p2[0] + offset_dx, p2[1] - offset_dy)
+    lane1_start = (p1_offset[0] - offset_dx, p1_offset[1] + offset_dy)
+    lane1_end = (p2_offset[0] - offset_dx, p2_offset[1] + offset_dy)
+    lane2_start = (p1_offset[0] + offset_dx, p1_offset[1] - offset_dy)
+    lane2_end = (p2_offset[0] + offset_dx, p2_offset[1] - offset_dy)
 
     # Get colors
     color1 = get_speed_color(average_speed)

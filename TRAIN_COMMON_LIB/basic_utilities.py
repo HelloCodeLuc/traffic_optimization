@@ -575,11 +575,11 @@ def demo_gui (out_ref, networkfile):
     print(f"{out_ref}, {networkfile}")
     while not found:
         for filename in os.listdir(out_ref):
-            #print (f"demo_gui:1 {filename}")
+            print (f"demo_gui:1 {filename}")
             if filename.startswith("random_trips") and filename.endswith(".xml"):
                 match = re.search(r"random_trips_(\d+)\.xml", filename)
                 number = int(match.group(1))
-                print (f"demo_gui:1 {out_ref}/sumo_config_{number}.sumocfg")
+                print (f"demo_gui:2 {out_ref}/sumo_config_{number}.sumocfg")
                 if os.path.exists(f"{out_ref}/sumo_config_{number}.sumocfg"):
                     os.makedirs(f"{out_ref}/../DEMO", exist_ok=True)
                     shutil.copy(f"{out_ref}/sumo_config_{number}.sumocfg", f"{out_ref}/../DEMO")
@@ -601,19 +601,21 @@ def demo_gui (out_ref, networkfile):
     subprocess.Popen(sumo_command)
     return 
 
-def DEMO_SUMO_GUI(weight_prefix, network_selection, max_steps, current_directory, output_folder):
-    generate_random_trips(network_selection, "DEMO_GUI.xml", max_steps, "0101")
-    generate_sumo_config(network_selection, f"{output_folder}/DEMO_GUI.sumocfg", current_directory, max_steps, f"{output_folder}/DEMO_GUI.XML")
+def demo_sumo_gui(network_selection, max_steps, output_folder):
+    current_directory = os.getcwd()
+    
+    generate_random_trips(f"NETWORKS/{network_selection}", f"{output_folder}/DEMO_GUI.xml", max_steps, "0101")
+    generate_sumo_config(f"NETWORKS/{network_selection}", f"{output_folder}/DEMO_GUI.sumocfg", current_directory, max_steps, f"{output_folder}/DEMO_GUI.XML")
 
     sumo_cmd = ["sumo-gui", "-c", f"{output_folder}/DEMO_GUI.sumocfg"]
 
-    traci.start(sumo_cmd)
+    # traci.start(sumo_cmd)
 
-    while step < max_steps:
-        traci.simulationStep()
-        step += 1
-        if step > max_steps:
-            break
-
+    # while step < max_steps:
+    #     traci.simulationStep()
+    #     step += 1
+    #     if step > max_steps:
+    #         break
+    subprocess.Popen(sumo_cmd)
     print("Exited the loop")
-    traci.close()
+    # traci.close()
