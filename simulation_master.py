@@ -38,7 +38,7 @@ light_name_data = {
 gui_colour = "blue"
 timing_light_increment = 2
 num_batches = 1
-num_runs_per_batch = 6
+num_runs_per_batch = 8
 max_steps = 1500
 max_num_of_runs_on_network = 1000
 num_of_greenlight_duplicate_limit = 40
@@ -47,7 +47,7 @@ start_command = "RUN"
 stop_command = "STOP"
 phase = "start"
 weight_prefix = "weights"
-weight_change = 1
+weight_change = 4
 weight_accuracy = 5
 
 def main_loop(num_batches, num_runs_per_batch, network_selection, max_steps, phase, output_folder):
@@ -115,7 +115,7 @@ if __name__ == "__main__":
     # Create a list to store the processes and results
     processes = []
 
-    process = Process(target=gui_main.gui_main, args=(gui_colour, max_steps, output_folder))
+    process = Process(target=gui_main.gui_main, args=(gui_colour, max_steps, output_folder, num_batches, num_runs_per_batch))
     processes.append(process)
     process = Process(target=main_loop, args=(num_batches, num_runs_per_batch, network_selection, max_steps, phase, output_folder))
     processes.append(process)

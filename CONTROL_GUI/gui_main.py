@@ -289,7 +289,7 @@ def draw_page(gui_colour, output_dir, figure_width, plot_surface_average_idle, p
                   plot_surface_optimize_current, plot_surface_bluetooth_reference, 
                   plot_surface_bluetooth_start, plot_surface_bluetooth_current, current_page, screen, width, 
                   height, font, dropdown_font, dropdown_options, dropdown_rect, dropdown_open, selected_network, 
-                  simulation_state):
+                  simulation_state, num_batches, num_runs_per_batch):
     if gui_colour == "blue":
         # Draw the white bar at the top (x=0, y=0, width=full screen, height=200)
         pygame.draw.rect(screen, (175, 238, 238), (0, 40, width, height))
@@ -349,6 +349,14 @@ def draw_page(gui_colour, output_dir, figure_width, plot_surface_average_idle, p
         screen.blit(text, (10, figure_width + 300))
 
         draw_dropdown(dropdown_font, dropdown_options, screen, dropdown_rect, dropdown_open, selected_network, figure_width)
+
+        output_dir_plus = ""
+        if os.path.exists(f"{output_dir}/TRAIN_OPTIMIZATION"):
+            output_dir_plus = f"{output_dir}/TRAIN_OPTIMIZATION"
+        elif os.path.exists(f"{output_dir}/TRAIN_BLUETOOTH"):
+            output_dir_plus = f"{output_dir}/TRAIN_BLUETOOTH"
+        bluetooth_gui_lib.draw_stats(num_batches, num_runs_per_batch, output_dir_plus, 600, 600, screen)
+
     elif current_page == "Bluetooth Training":
         if plot_surface_bluetooth_reference is not None:
             screen.blit(plot_surface_bluetooth_reference, (offset, 100))
@@ -401,7 +409,7 @@ def draw_page(gui_colour, output_dir, figure_width, plot_surface_average_idle, p
         text = font.render("Current", True, BLACK)
         screen.blit(text, (offset + figure_width + offset, 75))
 
-def gui_main(gui_colour, max_steps, output_dir):
+def gui_main(gui_colour, max_steps, output_dir, num_batches, num_runs_per_batch):
 
     # Initialize Pygame
     pygame.init()
@@ -578,7 +586,8 @@ def gui_main(gui_colour, max_steps, output_dir):
         draw_tabs(tabs, current_page, screen, tab_font, width )
         draw_page(gui_colour, output_dir, figure_width, plot_surface_average_idle, plot_surface_optimize_start, plot_surface_optimize_current, plot_surface_bluetooth_reference, 
                   plot_surface_bluetooth_start, plot_surface_bluetooth_current, current_page, screen, width, 
-                  height, font, dropdown_font, dropdown_options, dropdown_rect, dropdown_open, selected_network, simulation_state)
+                  height, font, dropdown_font, dropdown_options, dropdown_rect, dropdown_open, selected_network, simulation_state,
+                  num_batches, num_runs_per_batch)
 
         pygame.display.flip()
 
