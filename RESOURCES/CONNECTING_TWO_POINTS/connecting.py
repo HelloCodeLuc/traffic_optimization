@@ -20,24 +20,33 @@ def read_edge_data(file_path):
         for row in reader:
             edge_id = row["Edge ID"]
             avg_speed = float(row["Average Speed (km/h)"])
-            
-            # Handle reverse edges by checking the prefix
-            if edge_id.startswith('-E'):
-                avg_speed2 = avg_speed  # Use same speed for reversed direction
-                avg_speed = 0  # Main direction has no speed for reverse
-            else:
-                avg_speed2 = 0  # No reverse speed for main direction
 
             # Add both speeds into the same dictionary
             edge_data.append({
                 "edge_id": edge_id,
                 "from_node": row["from"],
                 "to_node": row["to"],
-                "average_speed": avg_speed,
-                "average_speed2": avg_speed2
+                "average_speed": avg_speed
             })
 
     return edge_data
+
+# def read_edge_name(edge_file):
+#     # Dictionary to store (from, to) → edge_id mapping
+#     edge_mapping = {}
+
+#     # Read the CSV file and create the dictionary
+#     with open(edge_file, mode='r') as file:
+#         reader = csv.DictReader(file)
+#         for row in reader:
+#             edge_id = row['Edge_ID']
+#             from_node = row['From']
+#             to_node = row['To']
+
+#             # Store the mapping with (from, to) as the key
+#             edge_mapping[(from_node, to_node)] = edge_id
+
+#     return edge_mapping
 
 # Function to read and scale GUI junction coordinates
 def read_GUI_junction_coordinates(file_name):
@@ -54,9 +63,9 @@ def read_GUI_junction_coordinates(file_name):
     min_y = min(coord[1] for coord in coordinates.values())
 
     # Shift the coordinates to move the origin to the top-left of the screen
-    scaled_positions = {key: (x - min_x, y - min_y) for key, (x, y) in coordinates.items()}
+    named_intersections = {key: (x, y) for key, (x, y) in coordinates.items()}
 
-    return scaled_positions
+    return named_intersections
 
 # Function to calculate lane color based on average speed
 def get_speed_color(speed):
@@ -72,10 +81,30 @@ def get_speed_color(speed):
         return "gray"
 
 # Function to draw two-way road using Matplotlib
-def draw_two_way_road(ax, p1, p2, road_width, speed, speed2):
+def draw_two_way_road(ax, p1, p2, road_width, edge_data):
     dx, dy = p2[0] - p1[0], p2[1] - p1[1]
     angle = math.atan2(dy, dx)
 
+    coordinates = {}
+    with open(file_name, mode='r') as file:
+        csv_reader = csv.DictReader(file)
+        for row in csv_reader:
+            junction_id = row['Junction ID']
+            if not junction_id.startswith(':'):
+                coordinates[junction_id] = (float(row['X Coordinate']), float(row['Y Coordinate']))
+
+    # Get all keys that have the specified value
+    p1_array = [k for k, v in coordinates.items() if v == p1]
+    p1_name = p1_array[0]
+    # Get all keys that have the specified value
+    p2_array = [k for k, v in coordinates.items() if v == p2]
+    p2_name = p2_array[0]
+
+    matching_dict = next((d for d in edge_data if d.get('from_node') == p1_name and d.get('to_node') == p2_name), None)
+    average_speed = matching_dict.get('average_speed') if matching_dict else None
+    matching_dict2 = next((d for d in edge_data if d.get('from_node') == p2_name and d.get('to_node') == p1_name), None)
+    average_speed2 = matching_dict2.get('average_speed') if matching_dict2 else None
+    
     # Lane separation offset
     lane_spacing_factor = 1.8
     offset_dx = (road_width * lane_spacing_factor) / 2 * math.sin(angle)
@@ -87,13 +116,9 @@ def draw_two_way_road(ax, p1, p2, road_width, speed, speed2):
     lane2_start = (p1[0] + offset_dx, p1[1] - offset_dy)
     lane2_end = (p2[0] + offset_dx, p2[1] - offset_dy)
 
-    # Get colors
-    color1 = get_speed_color(speed)
-    color2 = get_speed_color(speed2)
-
     # Draw lanes with both colors
-    ax.plot([lane1_start[0], lane1_end[0]], [lane1_start[1], lane1_end[1]], color=color1, linewidth=road_width, zorder=1)
-    ax.plot([lane2_start[0], lane2_end[0]], [lane2_start[1], lane2_end[1]], color=color2, linewidth=road_width, zorder=1)
+    ax.plot([lane1_start[0], lane1_end[0]], [lane1_start[1], lane1_end[1]], color=get_speed_color(average_speed2), linewidth=road_width, zorder=1)
+    ax.plot([lane2_start[0], lane2_end[0]], [lane2_start[1], lane2_end[1]], color=get_speed_color(average_speed), linewidth=road_width, zorder=1)
 
 # Function to convert Matplotlib figure to Pygame surface
 def fig_to_pygame(fig):
@@ -131,11 +156,14 @@ fig.patch.set_linewidth(2)
 plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
 
 # Read input files
-file_name = "RESOURCES/CONNECTING_TWO_POINTS/GUI_junction_coordinates.csv"
-scaled_positions = read_GUI_junction_coordinates(file_name)
+file_name = "NETWORKS/simple_network/simple_network_junctions.bluetooth.csv"
+named_intersections = read_GUI_junction_coordinates(file_name)
 
-file_path = "RESOURCES/CONNECTING_TWO_POINTS/GUI_average_speeds.csv"
+file_path = "NETWORKS/simple_network/simple_network.bluetooth.csv"
 edge_data = read_edge_data(file_path)
+
+# file = "RESOURCES/CONNECTING_TWO_POINTS/GUI_edges.csv"
+# edge_name = read_edge_name(file)
 
 # Road width
 road_width = 8
@@ -145,17 +173,16 @@ for edge in edge_data:
     from_node = edge['from_node']
     to_node = edge['to_node']
 
-    if from_node in scaled_positions and to_node in scaled_positions:
-        point1 = scaled_positions[from_node]
-        point2 = scaled_positions[to_node]
+    if from_node in named_intersections and to_node in named_intersections:
+        point1 = named_intersections[from_node]
+        point2 = named_intersections[to_node]
 
         average_speed = edge['average_speed']
-        average_speed2 = edge['average_speed2']
 
-        draw_two_way_road(ax, point1, point2, road_width, average_speed, average_speed2)
+        draw_two_way_road(ax, point1, point2, road_width, edge_data)
 
 # Draw nodes
-for node_position in scaled_positions.values():
+for node_position in named_intersections.values():
     draw_node(ax, node_position)
 
 # Remove axis labels and ticks

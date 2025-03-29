@@ -1,9 +1,9 @@
 Edge ID,from,to,Speed Limit (km/h),Average Speed (km/h)
--E0,south,main,50.004,0.042
--E1,north,main,50.004,1.204
--E2,east,main,50.004,14.4
--E3,west,main,50.004,16.652
-E0,main,south,50.004,47.525
-E1,main,north,50.004,47.361
-E2,main,east,50.004,44.269
-E3,main,west,50.004,50.004
+-E0,south,main,50.004,55
+-E1,north,main,50.004,10
+-E2,east,main,50.004,55
+-E3,west,main,50.004,55
+E0,main,south,50.004,10
+E1,main,north,50.004,55
+E2,main,east,50.004,55
+E3,main,west,50.004,55
