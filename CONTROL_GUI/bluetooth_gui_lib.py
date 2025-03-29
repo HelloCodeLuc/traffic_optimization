@@ -36,13 +36,19 @@ def read_edge_data(file_path):
     with open(file_path, mode='r') as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
+            edge_id = row["Edge ID"]
+            speed_limit = float(row["Speed Limit (km/h)"])
+            avg_speed = float(row["Average Speed (km/h)"])
+
+            # Add both speeds into the same dictionary
             edge_data.append({
-                "edge_id": row["Edge ID"],
+                "edge_id": edge_id,
                 "from_node": row["from"],
                 "to_node": row["to"],
-                "speed_limit": float(row["Speed Limit (km/h)"]),
-                "average_speed": float(row["Average Speed (km/h)"])
+                "speed_limit": speed_limit,
+                "average_speed": avg_speed
             })
+
     return edge_data
 
 # Read the csv file
@@ -59,50 +65,63 @@ def read_GUI_junction_coordinates(file_name):
     min_x = min(coord[0] for coord in coordinates.values())
     min_y = min(coord[1] for coord in coordinates.values())
 
-    return coordinates
+    named_intersections = {key: (x, y) for key, (x, y) in coordinates.items()}
+
+    return named_intersections
 
 # Function to calculate lane color based on average speed
-def get_speed_color(average_speed):
-    if average_speed < 30:
+def get_speed_color(speed):
+    
+    if speed < 30:
         return "brown"
-    elif average_speed < 40:
+    elif speed < 40:
         return "blue"
-    elif average_speed < 50:
+    elif speed < 50:
         return "green"
-    elif average_speed < 60:
+    elif speed < 60:
         return "yellow"
     else:
         return "gray"
 
 # Function to draw two-way road using Matplotlib
-def draw_two_way_road(ax, p1, p2, road_width, average_speed, speed_limit, node_radius=8):
+def draw_two_way_road(ax, p1, p2, road_width, edge_data, junctions_bluetooth):
     dx, dy = p2[0] - p1[0], p2[1] - p1[1]
-    distance = math.hypot(dx, dy)
-    
-    # Calculate the offset to stop at the node edge
-    offset = (node_radius + road_width / 2) / distance  # Normalize offset by distance
-    p1_offset = (p1[0] + dx * offset, p1[1] + dy * offset)
-    p2_offset = (p2[0] - dx * offset, p2[1] - dy * offset)
-
-    # Increase the lane separation by modifying the offset calculation
     angle = math.atan2(dy, dx)
+
+    coordinates = {}
+    with open(junctions_bluetooth, mode='r') as file:
+        csv_reader = csv.DictReader(file)
+        for row in csv_reader:
+            junction_id = row['Junction ID']
+            if not junction_id.startswith(':'):
+                coordinates[junction_id] = (float(row['X Coordinate']), float(row['Y Coordinate']))
+
+    # Get all keys that have the specified value
+    p1_array = [k for k, v in coordinates.items() if v == p1]
+    p1_name = p1_array[0]
+    # Get all keys that have the specified value
+    p2_array = [k for k, v in coordinates.items() if v == p2]
+    p2_name = p2_array[0]
+
+    matching_dict = next((d for d in edge_data if d.get('from_node') == p1_name and d.get('to_node') == p2_name), None)
+    average_speed = matching_dict.get('average_speed') if matching_dict else None
+    matching_dict2 = next((d for d in edge_data if d.get('from_node') == p2_name and d.get('to_node') == p1_name), None)
+    average_speed2 = matching_dict2.get('average_speed') if matching_dict2 else None
+    
+    # Increase the lane separation by modifying the offset calculation
     lane_spacing_factor = 5.8  # Adjust this value to control spacing
     offset_dx = (road_width * lane_spacing_factor) / 2 * math.sin(angle)
     offset_dy = (road_width * lane_spacing_factor) / 2 * math.cos(angle)
 
     # Define road edges
-    lane1_start = (p1_offset[0] - offset_dx, p1_offset[1] + offset_dy)
-    lane1_end = (p2_offset[0] - offset_dx, p2_offset[1] + offset_dy)
-    lane2_start = (p1_offset[0] + offset_dx, p1_offset[1] - offset_dy)
-    lane2_end = (p2_offset[0] + offset_dx, p2_offset[1] - offset_dy)
-
-    # Get colors
-    color1 = get_speed_color(average_speed)
-    color2 = get_speed_color(speed_limit)
+    lane1_start = (p1[0] - offset_dx, p1[1] + offset_dy)
+    lane1_end = (p2[0] - offset_dx, p2[1] + offset_dy)
+    lane2_start = (p1[0] + offset_dx, p1[1] - offset_dy)
+    lane2_end = (p2[0] + offset_dx, p2[1] - offset_dy)
 
     # Draw lanes
-    ax.plot([lane1_start[0], lane1_end[0]], [lane1_start[1], lane1_end[1]], color=color1, linewidth=road_width, zorder=1)
-    ax.plot([lane2_start[0], lane2_end[0]], [lane2_start[1], lane2_end[1]], color=color2, linewidth=road_width, zorder=1)
+    ax.plot([lane1_start[0], lane1_end[0]], [lane1_start[1], lane1_end[1]], color=get_speed_color(average_speed2), linewidth=road_width, zorder=1)
+    ax.plot([lane2_start[0], lane2_end[0]], [lane2_start[1], lane2_end[1]], color=get_speed_color(average_speed), linewidth=road_width, zorder=1)
 
 def fig_to_pygame(fig):
     """Convert a Matplotlib figure to a Pygame surface."""
