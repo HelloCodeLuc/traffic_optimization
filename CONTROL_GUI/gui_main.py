@@ -449,7 +449,10 @@ def read_bluetooth_training_delta(filename):
             avg_deltas.append(avg_delta)
             high_deltas.append(high_delta)
     
-    return avg_deltas, high_deltas
+    abs_avg_delta = abs(avg_delta)
+    abs_high_delta = abs(high_delta)
+    
+    return abs_avg_delta, abs_high_delta
 
 # Function to create a Matplotlib plot and convert it into a Pygame surface
 def plot_bluetooth_training_delta(avg_deltas, high_deltas):
@@ -463,7 +466,9 @@ def plot_bluetooth_training_delta(avg_deltas, high_deltas):
     ax.set_ylabel("Delta Values")
     ax.set_title("Average vs. Highest Delta")
     ax.legend()
-    
+
+    ax.set_ylim(0, high_deltas + 20)
+
     # Convert Matplotlib figure to a Pygame image
     buf = BytesIO()
     plt.savefig(buf, format="PNG")
