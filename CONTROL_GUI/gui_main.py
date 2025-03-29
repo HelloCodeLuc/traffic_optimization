@@ -415,9 +415,6 @@ def draw_page(gui_colour, output_dir, figure_width, plot_surface_average_idle, p
         text = font.render("Current", True, BLACK)
         screen.blit(text, (offset + figure_width + offset, 75))
 
-<<<<<<< HEAD
-def gui_main(gui_colour, max_steps, output_dir, num_batches, num_runs_per_batch):
-=======
 # Function to read and parse the data file
 def read_bluetooth_training_delta(filename):
     avg_deltas = []
@@ -456,7 +453,6 @@ def plot_bluetooth_training_delta(avg_deltas, high_deltas):
 
 
 def gui_main(gui_colour, max_steps, output_dir):
->>>>>>> d23aff98bb70019ddf806a20c5fd1b570b8163d8
 
     # Initialize Pygame
     pygame.init()
@@ -641,14 +637,8 @@ def gui_main(gui_colour, max_steps, output_dir):
         # Draw UI components
         draw_tabs(tabs, current_page, screen, tab_font, width )
         draw_page(gui_colour, output_dir, figure_width, plot_surface_average_idle, plot_surface_optimize_start, plot_surface_optimize_current, plot_surface_bluetooth_reference, 
-<<<<<<< HEAD
-                  plot_surface_bluetooth_start, plot_surface_bluetooth_current, current_page, screen, width, 
-                  height, font, dropdown_font, dropdown_options, dropdown_rect, dropdown_open, selected_network, simulation_state,
-                  num_batches, num_runs_per_batch)
-=======
                   plot_surface_bluetooth_start, plot_surface_bluetooth_current, plot_surface_bluetooth_training_delta, current_page, screen, width, 
                   height, font, dropdown_font, dropdown_options, dropdown_rect, dropdown_open, selected_network, simulation_state)
->>>>>>> d23aff98bb70019ddf806a20c5fd1b570b8163d8
 
         pygame.display.flip()
 

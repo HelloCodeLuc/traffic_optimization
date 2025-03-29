@@ -31,22 +31,22 @@ def read_edge_data(file_path):
 
     return edge_data
 
-def read_edge_name(edge_file):
-    # Dictionary to store (from, to) → edge_id mapping
-    edge_mapping = {}
+# def read_edge_name(edge_file):
+#     # Dictionary to store (from, to) → edge_id mapping
+#     edge_mapping = {}
 
-    # Read the CSV file and create the dictionary
-    with open(edge_file, mode='r') as file:
-        reader = csv.DictReader(file)
-        for row in reader:
-            edge_id = row['Edge_ID']
-            from_node = row['From']
-            to_node = row['To']
+#     # Read the CSV file and create the dictionary
+#     with open(edge_file, mode='r') as file:
+#         reader = csv.DictReader(file)
+#         for row in reader:
+#             edge_id = row['Edge_ID']
+#             from_node = row['From']
+#             to_node = row['To']
 
-            # Store the mapping with (from, to) as the key
-            edge_mapping[(from_node, to_node)] = edge_id
+#             # Store the mapping with (from, to) as the key
+#             edge_mapping[(from_node, to_node)] = edge_id
 
-    return edge_mapping
+#     return edge_mapping
 
 # Function to read and scale GUI junction coordinates
 def read_GUI_junction_coordinates(file_name):
@@ -63,9 +63,9 @@ def read_GUI_junction_coordinates(file_name):
     min_y = min(coord[1] for coord in coordinates.values())
 
     # Shift the coordinates to move the origin to the top-left of the screen
-    scaled_positions = {key: (x, y) for key, (x, y) in coordinates.items()}
+    named_intersections = {key: (x, y) for key, (x, y) in coordinates.items()}
 
-    return scaled_positions
+    return named_intersections
 
 # Function to calculate lane color based on average speed
 def get_speed_color(speed):
@@ -157,13 +157,13 @@ plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
 
 # Read input files
 file_name = "NETWORKS/simple_network/simple_network_junctions.bluetooth.csv"
-scaled_positions = read_GUI_junction_coordinates(file_name)
+named_intersections = read_GUI_junction_coordinates(file_name)
 
 file_path = "NETWORKS/simple_network/simple_network.bluetooth.csv"
 edge_data = read_edge_data(file_path)
 
-file = "RESOURCES/CONNECTING_TWO_POINTS/GUI_edges.csv"
-edge_name = read_edge_name(file)
+# file = "RESOURCES/CONNECTING_TWO_POINTS/GUI_edges.csv"
+# edge_name = read_edge_name(file)
 
 # Road width
 road_width = 8
@@ -173,16 +173,16 @@ for edge in edge_data:
     from_node = edge['from_node']
     to_node = edge['to_node']
 
-    if from_node in scaled_positions and to_node in scaled_positions:
-        point1 = scaled_positions[from_node]
-        point2 = scaled_positions[to_node]
+    if from_node in named_intersections and to_node in named_intersections:
+        point1 = named_intersections[from_node]
+        point2 = named_intersections[to_node]
 
         average_speed = edge['average_speed']
 
         draw_two_way_road(ax, point1, point2, road_width, edge_data)
 
 # Draw nodes
-for node_position in scaled_positions.values():
+for node_position in named_intersections.values():
     draw_node(ax, node_position)
 
 # Remove axis labels and ticks
