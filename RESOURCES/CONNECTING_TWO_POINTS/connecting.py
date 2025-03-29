@@ -104,7 +104,7 @@ def draw_two_way_road(ax, p1, p2, road_width, edge_data):
     average_speed = matching_dict.get('average_speed') if matching_dict else None
     matching_dict2 = next((d for d in edge_data if d.get('from_node') == p2_name and d.get('to_node') == p1_name), None)
     average_speed2 = matching_dict2.get('average_speed') if matching_dict2 else None
-
+    
     # Lane separation offset
     lane_spacing_factor = 1.8
     offset_dx = (road_width * lane_spacing_factor) / 2 * math.sin(angle)
@@ -156,10 +156,10 @@ fig.patch.set_linewidth(2)
 plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
 
 # Read input files
-file_name = "RESOURCES/CONNECTING_TWO_POINTS/GUI_junction_coordinates.csv"
+file_name = "NETWORKS/simple_network/simple_network_junctions.bluetooth.csv"
 scaled_positions = read_GUI_junction_coordinates(file_name)
 
-file_path = "RESOURCES/CONNECTING_TWO_POINTS/GUI_average_speeds.csv"
+file_path = "NETWORKS/simple_network/simple_network.bluetooth.csv"
 edge_data = read_edge_data(file_path)
 
 file = "RESOURCES/CONNECTING_TWO_POINTS/GUI_edges.csv"

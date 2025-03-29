@@ -10,6 +10,7 @@ import bluetooth_gui_lib
 import plot_timing_changes
 sys.path.append(os.path.join(os.path.dirname(__file__), 'TRAIN_COMMON_LIB'))
 import basic_utilities
+from io import BytesIO
 
 # Define colors
 WHITE = (255, 255, 255)
@@ -287,7 +288,8 @@ def find_latest_directory(base_folder):
 # Main page drawing function
 def draw_page(gui_colour, output_dir, figure_width, plot_surface_average_idle, plot_surface_optimize_start, 
                   plot_surface_optimize_current, plot_surface_bluetooth_reference, 
-                  plot_surface_bluetooth_start, plot_surface_bluetooth_current, current_page, screen, width, 
+                  plot_surface_bluetooth_start, plot_surface_bluetooth_current, plot_surface_bluetooth_training_delta, 
+                  current_page, screen, width, 
                   height, font, dropdown_font, dropdown_options, dropdown_rect, dropdown_open, selected_network, 
                   simulation_state, num_batches, num_runs_per_batch):
     if gui_colour == "blue":
@@ -339,14 +341,12 @@ def draw_page(gui_colour, output_dir, figure_width, plot_surface_average_idle, p
         screen.blit(text, (10, figure_width + 200))
         text = font.render(f"TODO - Tim add tool to increase or decreaes the batch size, and number per batch through GUI.  ", True, BLACK)
         screen.blit(text, (10, figure_width + 220))
-        text = font.render(f"TODO - Lucas get a simple network to go through from start to end within 10 mins total", True, BLACK)
+        text = font.render(f"TODO - Fix simple network green light offset overlay during optimize phase", True, BLACK)
         screen.blit(text, (10, figure_width + 240))
         text = font.render(f"TODO - Lucas get school-extended network running reasonably ", True, BLACK)
         screen.blit(text, (10, figure_width + 260))
-        text = font.render(f"TODO - Lucas create data to plot bluetooth largest differences for each iteration.", True, BLACK)
-        screen.blit(text, (10, figure_width + 280))
         text = font.render(f"TODO - Lucas create data to document current batch, number of batches, number of sims in progress within current batch.", True, BLACK)
-        screen.blit(text, (10, figure_width + 300))
+        screen.blit(text, (10, figure_width + 280))
 
         draw_dropdown(dropdown_font, dropdown_options, screen, dropdown_rect, dropdown_open, selected_network, figure_width)
 
@@ -383,6 +383,12 @@ def draw_page(gui_colour, output_dir, figure_width, plot_surface_average_idle, p
         text = font.render("Current", True, BLACK)
         screen.blit(text, (3*offset + 2*figure_width, 75))
         
+        if plot_surface_bluetooth_training_delta is not None:
+            screen.blit(plot_surface_bluetooth_training_delta, (offset, offset + figure_width + offset))
+        else:
+            # Draw black border (outline)
+            pygame.draw.rect(screen, BLACK, (offset, offset + figure_width + offset, figure_width, figure_width), 2)
+            
     elif current_page == "Sim Optimization":
 
         # Draw the plot on the Default page
@@ -409,7 +415,48 @@ def draw_page(gui_colour, output_dir, figure_width, plot_surface_average_idle, p
         text = font.render("Current", True, BLACK)
         screen.blit(text, (offset + figure_width + offset, 75))
 
+<<<<<<< HEAD
 def gui_main(gui_colour, max_steps, output_dir, num_batches, num_runs_per_batch):
+=======
+# Function to read and parse the data file
+def read_bluetooth_training_delta(filename):
+    avg_deltas = []
+    high_deltas = []
+    
+    with open(filename, "r") as file:
+        for line in file:
+            parts = line.strip().split(", ")
+            avg_delta = float(parts[0].split(": ")[1])
+            high_delta = float(parts[1].split(" of ")[1])
+            avg_deltas.append(avg_delta)
+            high_deltas.append(high_delta)
+    
+    return avg_deltas, high_deltas
+
+# Function to create a Matplotlib plot and convert it into a Pygame surface
+def plot_bluetooth_training_delta(avg_deltas, high_deltas):
+    fig, ax = plt.subplots()
+    
+    x = np.arange(len(avg_deltas))
+    ax.plot(x, avg_deltas, label="Average Delta", marker="o", linestyle="-")
+    ax.plot(x, high_deltas, label="Highest Delta", marker="s", linestyle="--")
+
+    ax.set_xlabel("Data Points")
+    ax.set_ylabel("Delta Values")
+    ax.set_title("Average vs. Highest Delta")
+    ax.legend()
+    
+    # Convert Matplotlib figure to a Pygame image
+    buf = BytesIO()
+    plt.savefig(buf, format="PNG")
+    buf.seek(0)
+    plt.close(fig)
+    
+    return pygame.image.load(buf)
+
+
+def gui_main(gui_colour, max_steps, output_dir):
+>>>>>>> d23aff98bb70019ddf806a20c5fd1b570b8163d8
 
     # Initialize Pygame
     pygame.init()
@@ -470,7 +517,10 @@ def gui_main(gui_colour, max_steps, output_dir, num_batches, num_runs_per_batch)
     plot_surface_bluetooth_start = None
     last_modified_bluetooth_current_average_speeds = 0
     plot_surface_bluetooth_current = None
+    last_modified_bluetooth_training_delta = 0
+    plot_surface_bluetooth_training_delta = None
     
+
     while running:
         junction_coords_file = f"{output_dir}\\GUI_junction_coordinates.csv"
 
@@ -481,7 +531,8 @@ def gui_main(gui_colour, max_steps, output_dir, num_batches, num_runs_per_batch)
         bluetooth_training_reference_average_speeds_file = f"NETWORKS/{network_dir}/{network_dir}.bluetooth.csv"
         bluetooth_training_start_average_speeds_file = f"{output_dir}/TRAIN_BLUETOOTH/GUI_average_speeds.start.csv"
         bluetooth_training_current_average_speeds_file = f"{output_dir}/TRAIN_BLUETOOTH/GUI_average_speeds.csv"
-        bluetooth_training_network_averages = f"{output_dir}/TRAIN_BLUETOOTH/network_averages.txt"
+        bluetooth_training_delta_file = f"{output_dir}/TRAIN_BLUETOOTH/GUI_training_delta.txt"
+        bluetooth_training_delta_file = f"{output_dir}/TRAIN_BLUETOOTH/GUI_training_delta.txt"
         # network_file = f"NETWORKS/{network_dir}/{network_dir}.net.xml"
 
         screen.fill(WHITE)
@@ -525,6 +576,11 @@ def gui_main(gui_colour, max_steps, output_dir, num_batches, num_runs_per_batch)
                     if file_modified(bluetooth_training_current_average_speeds_file, last_modified_bluetooth_current_average_speeds):   
                         last_modified_bluetooth_current_average_speeds = os.path.getmtime(bluetooth_training_current_average_speeds_file)
                         plot_surface_bluetooth_current = my_bluetooth(junction_coords_file, bluetooth_training_current_average_speeds_file, "", "")
+                if os.path.exists(bluetooth_training_delta_file):
+                    if file_modified(bluetooth_training_delta_file, last_modified_bluetooth_training_delta):   
+                        last_modified_bluetooth_training_delta = os.path.getmtime(bluetooth_training_delta_file)
+                        avg_deltas, high_deltas = read_bluetooth_training_delta(bluetooth_training_delta_file)
+                        plot_surface_bluetooth_training_delta = plot_bluetooth_training_delta(avg_deltas, high_deltas)
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 for label, rect in buttons.items():
@@ -585,9 +641,14 @@ def gui_main(gui_colour, max_steps, output_dir, num_batches, num_runs_per_batch)
         # Draw UI components
         draw_tabs(tabs, current_page, screen, tab_font, width )
         draw_page(gui_colour, output_dir, figure_width, plot_surface_average_idle, plot_surface_optimize_start, plot_surface_optimize_current, plot_surface_bluetooth_reference, 
+<<<<<<< HEAD
                   plot_surface_bluetooth_start, plot_surface_bluetooth_current, current_page, screen, width, 
                   height, font, dropdown_font, dropdown_options, dropdown_rect, dropdown_open, selected_network, simulation_state,
                   num_batches, num_runs_per_batch)
+=======
+                  plot_surface_bluetooth_start, plot_surface_bluetooth_current, plot_surface_bluetooth_training_delta, current_page, screen, width, 
+                  height, font, dropdown_font, dropdown_options, dropdown_rect, dropdown_open, selected_network, simulation_state)
+>>>>>>> d23aff98bb70019ddf806a20c5fd1b570b8163d8
 
         pygame.display.flip()
 
