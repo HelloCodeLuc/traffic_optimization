@@ -344,7 +344,7 @@ def draw_page(gui_colour, output_dir, figure_width, plot_surface_average_idle, p
 
         text = font.render(f"Phase: {phase}", True, BLACK)
         screen.blit(text, (10, figure_width + 140))
-        text = font.render(f"TODO - Tim fix the road colour offset for less overlap", True, BLACK)
+        text = font.render(f"TODO - 3/29 - Tim - make road offset and width configurable per network ", True, BLACK)
         screen.blit(text, (10, figure_width + 160))
         text = font.render(f"TODO - Tim add a STOP/DEMO selected feedback on main gui given the delay to reach that state. ", True, BLACK)
         screen.blit(text, (10, figure_width + 180))
@@ -364,9 +364,11 @@ def draw_page(gui_colour, output_dir, figure_width, plot_surface_average_idle, p
         output_dir_plus = ""
         if os.path.exists(f"{output_dir}/TRAIN_OPTIMIZATION"):
             output_dir_plus = f"{output_dir}/TRAIN_OPTIMIZATION"
+            bluetooth_gui_lib.draw_stats(num_batches, num_runs_per_batch, output_dir_plus, 900, 525, screen)
+
         elif os.path.exists(f"{output_dir}/TRAIN_BLUETOOTH"):
             output_dir_plus = f"{output_dir}/TRAIN_BLUETOOTH"
-        bluetooth_gui_lib.draw_stats(num_batches, num_runs_per_batch, output_dir_plus, 600, 600, screen)
+            bluetooth_gui_lib.draw_stats(0, num_runs_per_batch, output_dir_plus, 900, 525, screen)
 
     elif current_page == "Bluetooth Training":
         if plot_surface_bluetooth_reference is not None:
@@ -395,11 +397,14 @@ def draw_page(gui_colour, output_dir, figure_width, plot_surface_average_idle, p
         screen.blit(text, (3*offset + 2*figure_width, 75))
         
         if plot_surface_bluetooth_training_delta is not None:
-            screen.blit(plot_surface_bluetooth_training_delta, (offset, offset + figure_width + offset))
+            screen.blit(plot_surface_bluetooth_training_delta, (offset, 4* offset + figure_width))
         else:
             # Draw black border (outline)
-            pygame.draw.rect(screen, BLACK, (offset, offset + figure_width + offset, figure_width, figure_width), 2)
+            pygame.draw.rect(screen, BLACK, (offset, 4*offset + figure_width, figure_width, figure_width), 2)
             
+        if os.path.exists(f"{output_dir}/TRAIN_BLUETOOTH"):
+            output_dir_plus = f"{output_dir}/TRAIN_BLUETOOTH"
+            bluetooth_gui_lib.draw_stats(0, num_runs_per_batch, output_dir_plus, 900, 525, screen)
     elif current_page == "Sim Optimization":
 
         # Draw the plot on the Default page
@@ -425,6 +430,11 @@ def draw_page(gui_colour, output_dir, figure_width, plot_surface_average_idle, p
         screen.blit(text, (offset, 75))
         text = font.render("Current", True, BLACK)
         screen.blit(text, (offset + figure_width + offset, 75))
+
+        if os.path.exists(f"{output_dir}/TRAIN_OPTIMIZATION"):
+            output_dir_plus = f"{output_dir}/TRAIN_OPTIMIZATION"
+            bluetooth_gui_lib.draw_stats(num_batches, num_runs_per_batch, output_dir_plus, 900, 525, screen)
+
 
 # Function to read and parse the data file
 def read_bluetooth_training_delta(filename):
