@@ -49,6 +49,7 @@ phase = "start"
 weight_prefix = "weights"
 weight_change = 5
 weight_accuracy = 5
+max_weight = 100
 
 def main_loop(num_batches, num_runs_per_batch, network_selection, max_steps, phase, output_folder):
 
@@ -88,7 +89,7 @@ def main_loop(num_batches, num_runs_per_batch, network_selection, max_steps, pha
                 phase = "bluetooth"
                 bluetooth_lib.bluetooth_training(phase, bluetooth_network_with_timing, output_folder, output_data_file, max_num_of_runs_on_network, num_batches, num_runs_per_batch, network_selection, 
                                                 max_steps, bluetooth_network_with_timing, light_names, timing_light_increment,  
-                                                num_of_greenlight_duplicate_limit, average_speed_n_steps, weight_prefix, weight_change, weight_accuracy)
+                                                num_of_greenlight_duplicate_limit, average_speed_n_steps, weight_prefix, weight_change, weight_accuracy, max_weight)
 
                 # sys.exit()
                 os.makedirs(f"{output_folder}/TRAIN_OPTIMIZATION")

@@ -100,14 +100,15 @@ def read_average_speeds(filename):
                 continue  # Skip rows with invalid speed data
     return average_speeds
 
-def modify_edge_weights(directory, file_prefix, target_edges):
+def modify_edge_weights(directory, file_prefix, target_edges, weight_change, max_weight):
     """
     Modify the weight of specified edges in src, dst, and via files in the given directory.
     
     :param directory: Path to the directory where weight files are stored
     :param file_prefix: Prefix of the weight files (e.g., "example")
     :param target_edges: A dictionary where keys are edge IDs and values are tuples (weight change, direction)
-    :param weight_change: The base amount to change the weight by (unused since each edge has its own change value)
+    :param weight_change: The amount to modify each edge weight by
+    :param max_weight: The maximum allowable weight for an edge
     """
     files = [f for f in glob.glob(os.path.join(directory, f"{file_prefix}*.xml")) if not f.endswith(".net.xml")]
     
@@ -146,21 +147,29 @@ def modify_edge_weights(directory, file_prefix, target_edges):
                     
                     print(f"Found edge: {edge_id} in {file_path}, current weight: {current_weight}")
                     
-                    weight_delta, _ = target_edges[edge_id]  # Extract weight change value
-                    new_weight = max(0, current_weight + weight_delta)
+                    change_direction = target_edges[edge_id][1]
+                    if change_direction == "increase":
+                        new_weight = min(max_weight, current_weight + weight_change)
+                    elif change_direction == "decrease":
+                        new_weight = max(0, current_weight - weight_change)
+                    else:
+                        print(f"Unknown direction '{change_direction}' for edge {edge_id}, skipping.")
+                        continue
                     
                     print(f"Updating edge {edge_id} in {file_path} from {current_weight} to {new_weight}")
                     edge.set("value", str(new_weight))
                     modified = True
-        
+                    target_edges.pop(edge_id)  # Ensure each edge is only modified once
+                    
         if modified:
             tree.write(file_path)
             print(f"Changes written to {file_path}")
 
 
+
 def bluetooth_training(phase, bluetooth_network_with_timing, output_folder, output_data_file, max_num_of_runs_on_network, num_batches, num_runs_per_batch, network_selection, 
                                                 max_steps, network_with_timing, light_names, timing_light_increment, 
-                                                num_of_greenlight_duplicate_limit, average_speed_n_steps, weight_prefix, weight_change, weight_accuracy):
+                                                num_of_greenlight_duplicate_limit, average_speed_n_steps, weight_prefix, weight_change, weight_accuracy, max_weight):
     output_folder_subdir = "TRAIN_BLUETOOTH"
     network_name = os.path.basename(os.path.dirname(network_selection))
 
@@ -215,7 +224,7 @@ def bluetooth_training(phase, bluetooth_network_with_timing, output_folder, outp
             break
         else:
             print(f"Target edges data: {target_edges}")
-            modify_edge_weights(f"{output_folder}/TRAIN_BLUETOOTH", weight_prefix, target_edges)
+            modify_edge_weights(f"{output_folder}/TRAIN_BLUETOOTH", weight_prefix, target_edges, weight_accuracy, max_weight)
             continue
     print(">> Exit Bluetooth_Training")
     time.sleep(5)
