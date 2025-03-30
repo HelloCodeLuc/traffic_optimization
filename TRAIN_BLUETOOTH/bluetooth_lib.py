@@ -100,17 +100,15 @@ def read_average_speeds(filename):
                 continue  # Skip rows with invalid speed data
     return average_speeds
 
-def modify_edge_weight(directory, file_prefix, direction, target_edge, weight_change):
+def modify_edge_weights(directory, file_prefix, target_edges):
     """
-    Modify the weight of a specified edge in src, dst, and via files in the given directory.
+    Modify the weight of specified edges in src, dst, and via files in the given directory.
     
     :param directory: Path to the directory where weight files are stored
     :param file_prefix: Prefix of the weight files (e.g., "example")
-    :param direction: "increase" or "decrease" to modify the edge weight accordingly
-    :param target_edge: The specific edge ID to modify
-    :param weight_change: The amount to change the weight by
+    :param target_edges: A dictionary where keys are edge IDs and values are tuples (weight change, direction)
+    :param weight_change: The base amount to change the weight by (unused since each edge has its own change value)
     """
-    # Find all files matching the prefix (including src, dst, via)
     files = [f for f in glob.glob(os.path.join(directory, f"{file_prefix}*.xml")) if not f.endswith(".net.xml")]
     
     if not files:
@@ -119,7 +117,6 @@ def modify_edge_weight(directory, file_prefix, direction, target_edge, weight_ch
     
     print(f"Processing files: {files}")
     
-    # Iterate over each file and look for the specified edge
     for file_path in files:
         print(f"Checking file: {file_path}")
         
@@ -127,16 +124,16 @@ def modify_edge_weight(directory, file_prefix, direction, target_edge, weight_ch
             tree = ET.parse(file_path)
         except ET.ParseError as e:
             print(f"Error parsing {file_path}: {e}")
-            continue  # Skip this file and continue with the next one
+            continue  
         
         root = tree.getroot()
-        modified = False  # Track whether the edge was modified in this file
+        modified = False  
         
         for interval in root.findall(".//interval"):
             for edge in interval.findall("edge"):
                 edge_id = edge.get("id")
-                if edge_id and edge_id.strip() == target_edge:  # Ensure correct match
-                    raw_value = edge.get("value")  # Extract raw value
+                if edge_id and edge_id.strip() in target_edges:  
+                    raw_value = edge.get("value")  
                     if raw_value is None:
                         print(f"Warning: Edge {edge_id} in {file_path} has no value attribute, defaulting to 0.")
                         current_weight = 0
@@ -146,28 +143,20 @@ def modify_edge_weight(directory, file_prefix, direction, target_edge, weight_ch
                         except ValueError:
                             print(f"Error: Edge {edge_id} in {file_path} has an invalid value '{raw_value}', skipping.")
                             continue
-
-                    print(f"Found edge: {target_edge} in {file_path}, current weight: {current_weight}")
-
-                    # Modify the weight
-                    if direction == "increase":
-                        new_weight = current_weight + weight_change
-                    elif direction == "decrease":
-                        new_weight = max(0, current_weight - weight_change)  # Prevent negative weights
-                    else:
-                        print(f"Error: Unknown direction '{direction}'")
-                        return
                     
-                    print(f"Updating edge {target_edge} in {file_path} from {current_weight} to {new_weight}")
+                    print(f"Found edge: {edge_id} in {file_path}, current weight: {current_weight}")
+                    
+                    weight_delta, _ = target_edges[edge_id]  # Extract weight change value
+                    new_weight = max(0, current_weight + weight_delta)
+                    
+                    print(f"Updating edge {edge_id} in {file_path} from {current_weight} to {new_weight}")
                     edge.set("value", str(new_weight))
                     modified = True
-                    break  # Stop after modifying the edge
         
         if modified:
-            # Write the changes back to the file
             tree.write(file_path)
             print(f"Changes written to {file_path}")
-            break  # Stop after modifying the first occurrence of the edge
+
 
 def bluetooth_training(phase, bluetooth_network_with_timing, output_folder, output_data_file, max_num_of_runs_on_network, num_batches, num_runs_per_batch, network_selection, 
                                                 max_steps, network_with_timing, light_names, timing_light_increment, 
@@ -204,7 +193,7 @@ def bluetooth_training(phase, bluetooth_network_with_timing, output_folder, outp
 
     bluetooth_create_ref_at_start(phase, num_batches, num_runs_per_batch, output_folder, bluetooth_network_with_timing, 
                                      max_steps, current_directory, average_speed_n_steps, speed_limit, output_data_file, output_folder_subdir, network_selection, debug)
-    average_diff, target_edge, max_discrepancy_value, direction, = basic_utilities.calculate_average_difference(bluetooth_csv, f"{output_folder}/{output_folder_subdir}/GUI_average_speeds.csv")
+    average_diff, max_edge, max_delta, target_edges = basic_utilities.calculate_average_difference(bluetooth_csv, f"{output_folder}/{output_folder_subdir}/GUI_average_speeds.csv", weight_accuracy)
 
     while True:
         #This is a backdoor for user to initiate stop from GUI
@@ -213,11 +202,11 @@ def bluetooth_training(phase, bluetooth_network_with_timing, output_folder, outp
         if os.path.exists(bluetooth_csv):
             basic_utilities.batched_run_sumo(phase, num_batches, num_runs_per_batch, output_folder, network_with_timing,
                                               max_steps, current_directory, average_speed_n_steps, speed_limit, output_data_file, network_selection, debug)
-            average_diff, target_edge, max_discrepancy_value, direction, = basic_utilities.calculate_average_difference(bluetooth_csv, f"{output_folder}/{output_folder_subdir}/GUI_average_speeds.csv")
+            average_diff, max_edge, max_delta, target_edges = basic_utilities.calculate_average_difference(bluetooth_csv, f"{output_folder}/{output_folder_subdir}/GUI_average_speeds.csv", weight_accuracy)
             print(f"The average speed difference is: {average_diff:.3f} km/h")
             with open(f"{output_folder}/TRAIN_BLUETOOTH/GUI_training_delta.txt", "a") as file:
-                file.write(f"Average delta: {average_diff:.2f}, Highest delta is on edge {target_edge} with delta of {max_discrepancy_value:.2f}\n")
-            print(f"The largest discrepancy is on Edge ID '{target_edge}' with a difference of {max_discrepancy_value} km/h")
+                file.write(f"Average delta: {average_diff:.2f}, Highest delta is on edge {max_edge} with delta of {max_delta:.2f}\n")
+            print(f"The largest discrepancy is on Edge ID '{max_edge}' with a difference of {max_delta} km/h")
         else:
             print("DEBUG: No Bluetooth CSV found")
             sys.exit()
@@ -225,9 +214,8 @@ def bluetooth_training(phase, bluetooth_network_with_timing, output_folder, outp
             print("DEBUG: Weight Accuracy Met")
             break
         else:
-            modify_edge_weight(f"{output_folder}/TRAIN_BLUETOOTH", weight_prefix, direction, target_edge, weight_change)
-            basic_utilities.batched_run_sumo(phase, num_batches, num_runs_per_batch, output_folder, bluetooth_network_with_timing, 
-                                             max_steps, current_directory, average_speed_n_steps, speed_limit, output_data_file, network_selection, debug)
+            print(f"Target edges data: {target_edges}")
+            modify_edge_weights(f"{output_folder}/TRAIN_BLUETOOTH", weight_prefix, target_edges)
             continue
     print(">> Exit Bluetooth_Training")
     time.sleep(5)

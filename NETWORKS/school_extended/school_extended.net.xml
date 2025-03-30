@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- generated on 2024-04-02 18:00:16 by Eclipse SUMO netedit Version 1.19.0
+<!-- generated on 2025-03-29 16:17:55 by Eclipse SUMO netedit Version 1.18.0
 <configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/neteditConfiguration.xsd">
 
     <input>
-        <sumo-net-file value="C:\Users\Lucas\Lucas\traffic_optimization\traffic_optimization\mynetworks\school-extended.net.xml"/>
+        <sumo-net-file value="C:\Users\Lucas Chan\traffic_optimisation\traffic_optimization\NETWORKS\school_extended\school_extended.net.xml"/>
     </input>
 
     <output>
-        <output-file value="C:\Users\Lucas\Lucas\traffic_optimization\traffic_optimization\mynetworks\school-extended.net.xml"/>
+        <output-file value="C:\Users\Lucas Chan\traffic_optimisation\traffic_optimization\NETWORKS\school_extended\school_extended.net.xml"/>
     </output>
 
     <processing>
@@ -355,8 +355,8 @@
         <lane id=":J52_5_0" index="0" speed="6.35" length="9.04" shape="47.01,-31.61 47.12,-29.11 48.01,-27.30 49.69,-26.19 52.16,-25.76"/>
     </edge>
     <edge id=":J52_6" function="internal">
-        <lane id=":J52_6_0" index="0" speed="11.20" length="30.71" shape="47.01,-31.61 46.64,-26.04 46.05,-17.94 44.90,-9.02 42.85,-0.97"/>
-        <lane id=":J52_6_1" index="1" speed="11.20" length="30.71" shape="47.01,-31.61 46.17,-26.22 44.55,-18.50 42.37,-9.96 39.85,-2.09"/>
+        <lane id=":J52_6_0" index="0" speed="13.89" length="30.71" shape="47.01,-31.61 46.64,-26.04 46.05,-17.94 44.90,-9.02 42.85,-0.97"/>
+        <lane id=":J52_6_1" index="1" speed="13.89" length="30.71" shape="47.01,-31.61 46.17,-26.22 44.55,-18.50 42.37,-9.96 39.85,-2.09"/>
     </edge>
     <edge id=":J52_8" function="internal">
         <lane id=":J52_8_0" index="0" speed="10.86" length="9.58" shape="47.01,-31.61 45.37,-24.96 43.77,-22.75"/>
@@ -382,7 +382,7 @@
         <lane id=":J52_14_0" index="0" speed="5.91" length="9.10" shape="33.84,-4.31 34.40,-6.88 33.91,-8.74 32.37,-9.88 29.77,-10.31"/>
     </edge>
     <edge id=":J52_15" function="internal">
-        <lane id=":J52_15_0" index="0" speed="11.20" length="29.41" shape="33.84,-4.31 36.80,-11.88 39.95,-19.77 42.54,-26.84 43.83,-31.93"/>
+        <lane id=":J52_15_0" index="0" speed="13.89" length="29.41" shape="33.84,-4.31 36.80,-11.88 39.95,-19.77 42.54,-26.84 43.83,-31.93"/>
     </edge>
     <edge id=":J52_16" function="internal">
         <lane id=":J52_16_0" index="0" speed="11.67" length="6.24" shape="36.84,-3.20 39.41,-8.89"/>
@@ -508,10 +508,10 @@
         <lane id=":J73_2_0" index="0" speed="6.47" length="9.03" shape="71.40,-279.03 71.68,-276.57 72.69,-274.80 74.42,-273.73 76.87,-273.35"/>
     </edge>
     <edge id=":J73_3" function="internal">
-        <lane id=":J73_3_0" index="0" speed="8.50" length="14.29" shape="71.40,-279.03 70.50,-264.77"/>
+        <lane id=":J73_3_0" index="0" speed="13.89" length="14.29" shape="71.40,-279.03 70.50,-264.77"/>
     </edge>
     <edge id=":J73_4" function="internal">
-        <lane id=":J73_4_0" index="0" speed="8.50" length="14.05" shape="67.31,-265.09 68.20,-279.12"/>
+        <lane id=":J73_4_0" index="0" speed="13.89" length="14.05" shape="67.31,-265.09 68.20,-279.12"/>
     </edge>
     <edge id=":J73_5" function="internal">
         <lane id=":J73_5_0" index="0" speed="8.26" length="3.76" shape="67.31,-265.09 68.23,-268.74"/>
@@ -529,10 +529,10 @@
         <lane id=":J74_2_0" index="0" speed="6.57" length="8.90" shape="77.76,-533.64 78.21,-531.28 79.31,-529.58 81.07,-528.57 83.49,-528.23"/>
     </edge>
     <edge id=":J74_3" function="internal">
-        <lane id=":J74_3_0" index="0" speed="8.50" length="14.06" shape="77.76,-533.64 77.89,-519.58"/>
+        <lane id=":J74_3_0" index="0" speed="13.89" length="14.06" shape="77.76,-533.64 77.89,-519.58"/>
     </edge>
     <edge id=":J74_4" function="internal">
-        <lane id=":J74_4_0" index="0" speed="8.50" length="13.83" shape="74.69,-519.67 74.56,-533.50"/>
+        <lane id=":J74_4_0" index="0" speed="13.89" length="13.83" shape="74.69,-519.67 74.56,-533.50"/>
     </edge>
     <edge id=":J74_5" function="internal">
         <lane id=":J74_5_0" index="0" speed="8.01" length="3.80" shape="74.69,-519.67 75.33,-523.41"/>
@@ -546,7 +546,7 @@
         <lane id="-E0_1" index="1" speed="13.89" length="401.92" shape="39.85,-2.09 -25.61,174.78 -235.94,195.32"/>
     </edge>
     <edge id="-E10" from="J33" to="J13" priority="-1" shape="-103.46,-675.05 -116.84,-235.09 -247.39,-200.80">
-        <lane id="-E10_0" index="0" speed="8.50" length="547.36" shape="-102.32,-659.84 -115.28,-233.85 -232.46,-203.07"/>
+        <lane id="-E10_0" index="0" speed="13.89" length="547.36" shape="-102.32,-659.84 -115.28,-233.85 -232.46,-203.07"/>
     </edge>
     <edge id="-E11" from="J25" to="J13" priority="2">
         <lane id="-E11_0" index="0" speed="13.89" length="450.66" shape="-222.77,-661.14 -239.02,-210.77"/>
@@ -629,16 +629,16 @@
         <lane id="-E43_2" index="2" speed="13.89" length="385.95" shape="-650.00,193.68 -264.05,193.53"/>
     </edge>
     <edge id="-E46" from="J73" to="J52" priority="1">
-        <lane id="-E46_0" index="0" speed="8.50" length="234.34" shape="70.50,-264.77 47.01,-31.61"/>
+        <lane id="-E46_0" index="0" speed="13.89" length="234.34" shape="70.50,-264.77 47.01,-31.61"/>
     </edge>
     <edge id="-E47" from="J74" to="J73" priority="1">
-        <lane id="-E47_0" index="0" speed="8.50" length="240.64" shape="77.89,-519.58 71.40,-279.03"/>
+        <lane id="-E47_0" index="0" speed="13.89" length="240.64" shape="77.89,-519.58 71.40,-279.03"/>
     </edge>
     <edge id="-E48" from="J44" to="J74" priority="1">
-        <lane id="-E48_0" index="0" speed="8.50" length="109.04" shape="72.69,-642.56 77.76,-533.64"/>
+        <lane id="-E48_0" index="0" speed="13.89" length="109.04" shape="72.69,-642.56 77.76,-533.64"/>
     </edge>
     <edge id="-E49" from="J54" to="J74" priority="-1">
-        <lane id="-E49_0" index="0" speed="8.50" length="260.72" shape="344.21,-525.04 83.49,-525.03"/>
+        <lane id="-E49_0" index="0" speed="13.89" length="260.72" shape="344.21,-525.04 83.49,-525.03"/>
     </edge>
     <edge id="-E5" from="J12" to="J11" priority="2">
         <lane id="-E5_0" index="0" speed="13.89" length="192.61" shape="-240.93,-10.96 -242.28,181.65"/>
@@ -646,7 +646,7 @@
         <lane id="-E5_2" index="2" speed="13.89" length="192.61" shape="-247.33,-11.00 -248.68,181.60"/>
     </edge>
     <edge id="-E50" from="J55" to="J73" priority="-1">
-        <lane id="-E50_0" index="0" speed="8.50" length="264.62" shape="341.45,-267.64 76.84,-270.15"/>
+        <lane id="-E50_0" index="0" speed="13.89" length="264.62" shape="341.45,-267.64 76.84,-270.15"/>
     </edge>
     <edge id="-E51" from="J33" to="J25" priority="2">
         <lane id="-E51_0" index="0" speed="13.89" length="105.89" shape="-110.94,-667.08 -216.84,-667.47"/>
@@ -668,7 +668,7 @@
         <lane id="E0_1" index="1" speed="13.89" length="393.60" shape="-236.26,192.11 -27.90,171.40 36.84,-3.20"/>
     </edge>
     <edge id="E10" from="J13" to="J33" priority="-1" shape="-247.39,-200.80 -116.67,-235.48 -103.46,-675.05">
-        <lane id="E10_0" index="0" speed="8.50" length="542.45" shape="-233.29,-206.20 -118.23,-236.72 -105.51,-659.94"/>
+        <lane id="E10_0" index="0" speed="13.89" length="542.45" shape="-233.29,-206.20 -118.23,-236.72 -105.51,-659.94"/>
     </edge>
     <edge id="E11" from="J13" to="J25" priority="2">
         <lane id="E11_0" index="0" speed="13.89" length="450.66" shape="-255.01,-211.35 -238.76,-661.71"/>
@@ -751,16 +751,16 @@
         <lane id="E43_2" index="2" speed="13.89" length="385.95" shape="-264.04,196.73 -650.00,196.88"/>
     </edge>
     <edge id="E46" from="J52" to="J73" priority="1">
-        <lane id="E46_0" index="0" speed="8.50" length="234.34" shape="43.83,-31.93 67.31,-265.09"/>
+        <lane id="E46_0" index="0" speed="13.89" length="234.34" shape="43.83,-31.93 67.31,-265.09"/>
     </edge>
     <edge id="E47" from="J73" to="J74" priority="1">
-        <lane id="E47_0" index="0" speed="8.50" length="240.64" shape="68.20,-279.12 74.69,-519.67"/>
+        <lane id="E47_0" index="0" speed="13.89" length="240.64" shape="68.20,-279.12 74.69,-519.67"/>
     </edge>
     <edge id="E48" from="J74" to="J44" priority="1">
-        <lane id="E48_0" index="0" speed="8.50" length="109.04" shape="74.56,-533.50 69.49,-642.41"/>
+        <lane id="E48_0" index="0" speed="13.89" length="109.04" shape="74.56,-533.50 69.49,-642.41"/>
     </edge>
     <edge id="E49" from="J74" to="J54" priority="-1">
-        <lane id="E49_0" index="0" speed="8.50" length="260.72" shape="83.49,-528.23 344.21,-528.24"/>
+        <lane id="E49_0" index="0" speed="13.89" length="260.72" shape="83.49,-528.23 344.21,-528.24"/>
     </edge>
     <edge id="E5" from="J11" to="J12" priority="2">
         <lane id="E5_0" index="0" speed="13.89" length="192.61" shape="-258.28,181.54 -256.93,-11.07"/>
@@ -768,7 +768,7 @@
         <lane id="E5_2" index="2" speed="13.89" length="192.61" shape="-251.88,181.58 -250.53,-11.02"/>
     </edge>
     <edge id="E50" from="J73" to="J55" priority="-1">
-        <lane id="E50_0" index="0" speed="8.50" length="264.62" shape="76.87,-273.35 341.48,-270.84"/>
+        <lane id="E50_0" index="0" speed="13.89" length="264.62" shape="76.87,-273.35 341.48,-270.84"/>
     </edge>
     <edge id="E51" from="J25" to="J33" priority="2">
         <lane id="E51_0" index="0" speed="13.89" length="105.89" shape="-216.78,-683.47 -110.88,-683.08"/>

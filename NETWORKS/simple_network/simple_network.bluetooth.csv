@@ -11,5 +11,5 @@ E1,main_1,north_1,50.004,55.00
 E2,main_1,main_2,50.004,10.00
 E3,main_1,south_1,50.004,55.00
 E4,main_2,north_2,50.004,55.00
-E5,main_2,east,50.004,10.00
+E5,main_2,east,50.004,55.00
 E6,main_2,south_2,50.004,55.00
