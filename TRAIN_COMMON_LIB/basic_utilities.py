@@ -474,7 +474,7 @@ def run_sumo(config_file, max_steps, result_queue, average_speed_n_steps, out_di
     traci.close()
 
     # Print the average idle time
-    print(f"DEBUG INSIDE <run_sumo> : config_file={config_file}, max_steps={max_steps}, Average Idle Time:{average_idle_time}" )
+    # print(f"DEBUG INSIDE <run_sumo> : config_file={config_file}, max_steps={max_steps}, Average Idle Time:{average_idle_time}" )
     os.chdir(current_directory)
     result_queue.put(average_idle_time)
 
