@@ -47,8 +47,8 @@ start_command = "RUN"
 stop_command = "STOP"
 phase = "start"
 weight_prefix = "weights"
-weight_change = 5
-weight_accuracy = 15
+weight_change = 2
+weight_accuracy = 4
 max_weight = 100
 
 def main_loop(num_batches, num_runs_per_batch, network_selection, max_steps, phase, output_folder):
