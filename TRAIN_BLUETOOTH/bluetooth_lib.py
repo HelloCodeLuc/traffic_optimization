@@ -153,7 +153,7 @@ def modify_edge_weights(directory, file_prefix, target_edges, weight_change, max
                     elif change_direction == "decrease":
                         new_weight = max(0, current_weight - weight_change)
                         if new_weight == 0:
-                            new_weight = 1
+                            new_weight = 0.01
                     else:
                         print(f"Unknown direction '{change_direction}' for edge {edge_id}, skipping.")
                         continue
