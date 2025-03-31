@@ -226,7 +226,7 @@ def bluetooth_training(phase, bluetooth_network_with_timing, output_folder, outp
             break
         else:
             print(f"Target edges data: {target_edges}")
-            modify_edge_weights(f"{output_folder}/TRAIN_BLUETOOTH", weight_prefix, target_edges, weight_accuracy, max_weight)
+            modify_edge_weights(f"{output_folder}/TRAIN_BLUETOOTH", weight_prefix, target_edges, weight_change, max_weight)
             continue
     print(">> Exit Bluetooth_Training")
     time.sleep(5)
