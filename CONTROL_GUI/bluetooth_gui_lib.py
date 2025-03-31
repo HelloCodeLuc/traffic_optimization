@@ -6,6 +6,7 @@ import numpy as np
 from io import BytesIO
 from PIL import Image
 import os
+import sys
 
 # Function to draw a dot for a node using Matplotlib
 def draw_node(ax, node_position, coord_differences, node_radius=8):
@@ -71,7 +72,6 @@ def read_GUI_junction_coordinates(file_name):
 
 # Function to calculate lane color based on average speed
 def get_speed_color(speed):
-    
     if speed < 30:
         return "brown"
     elif speed < 40:
@@ -103,11 +103,15 @@ def draw_two_way_road(ax, p1, p2, road_width, edge_data, junctions_bluetooth):
     p2_array = [k for k, v in coordinates.items() if v == p2]
     p2_name = p2_array[0]
 
+    # print (edge_data)
     matching_dict = next((d for d in edge_data if d.get('from_node') == p1_name and d.get('to_node') == p2_name), None)
     average_speed = matching_dict.get('average_speed') if matching_dict else None
     matching_dict2 = next((d for d in edge_data if d.get('from_node') == p2_name and d.get('to_node') == p1_name), None)
     average_speed2 = matching_dict2.get('average_speed') if matching_dict2 else None
     
+    # print (f"from_node {p1_name} to_node {p2_name} average_speed1 ={average_speed}: {type(average_speed)}")
+    # print (f"from_node {p2_name} to_node {p1_name} average_speed2 ={average_speed2}: {type(average_speed2)}")
+
     # Increase the lane separation by modifying the offset calculation
     lane_spacing_factor = 5.8  # Adjust this value to control spacing
     offset_dx = (road_width * lane_spacing_factor) / 2 * math.sin(angle)

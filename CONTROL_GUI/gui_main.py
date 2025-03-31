@@ -352,7 +352,7 @@ def draw_page(gui_colour, output_dir, figure_width, plot_surface_average_idle, p
         screen.blit(text, (10, figure_width + 200))
         text = font.render(f"TODO - Tim add tool to increase or decreaes the batch size, and number per batch through GUI.  ", True, BLACK)
         screen.blit(text, (10, figure_width + 220))
-        text = font.render(f"TODO - Fix simple network green light offset overlay during optimize phase", True, BLACK)
+        text = font.render(f"TODO - Lucas : simple_network only recording timing changes for one traffic light", True, BLACK)
         screen.blit(text, (10, figure_width + 240))
         text = font.render(f"TODO - Lucas get school-extended network running reasonably ", True, BLACK)
         screen.blit(text, (10, figure_width + 260))
@@ -397,10 +397,10 @@ def draw_page(gui_colour, output_dir, figure_width, plot_surface_average_idle, p
         screen.blit(text, (3*offset + 2*figure_width, 75))
         
         if plot_surface_bluetooth_training_delta is not None:
-            screen.blit(plot_surface_bluetooth_training_delta, (offset, 4* offset + figure_width))
+            screen.blit(plot_surface_bluetooth_training_delta, (offset, 5* offset + figure_width))
         else:
             # Draw black border (outline)
-            pygame.draw.rect(screen, BLACK, (offset, 4*offset + figure_width, figure_width, figure_width), 2)
+            pygame.draw.rect(screen, BLACK, (offset, 5*offset + figure_width, 500, 400), 2)
             
         if os.path.exists(f"{output_dir}/TRAIN_BLUETOOTH"):
             output_dir_plus = f"{output_dir}/TRAIN_BLUETOOTH"
@@ -473,7 +473,13 @@ def plot_bluetooth_training_delta(avg_deltas, high_deltas):
     buf.seek(0)
     plt.close(fig)
 
-    return pygame.image.load(buf)
+    # Load image in Pygame
+    pygame_image = pygame.image.load(buf)
+
+    # Resize the image to exactly 300x200 pixels
+    resized_image = pygame.transform.scale(pygame_image, (500, 400))
+
+    return resized_image
 
 
 def gui_main(gui_colour, max_steps, output_dir, num_batches, num_runs_per_batch):
@@ -482,7 +488,7 @@ def gui_main(gui_colour, max_steps, output_dir, num_batches, num_runs_per_batch)
     pygame.init()
 
     # Set up the window (Enlarged size)
-    width, height = figure_width*3 + offset*4, 900
+    width, height = figure_width*3 + offset*4, 1000
     screen = pygame.display.set_mode((width, height), pygame.RESIZABLE)
     pygame.display.set_caption("TRAFFIC OPTIMIZER")
     hwnd = ctypes.windll.user32.GetForegroundWindow()
