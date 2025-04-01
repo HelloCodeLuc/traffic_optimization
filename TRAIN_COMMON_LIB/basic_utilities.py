@@ -549,7 +549,7 @@ def batched_run_sumo (phase, num_batches, num_runs_per_batch, output_folder, net
             average_idle_times_from_batch.append(result)
 
         # Write the iteration number to the output_data file
-        # output_data_file = output_data.txt
+        # output_data_file = "output_data.txt"
         with open(output_data_file, "a") as f:
             for idx, average_idle_time in enumerate(average_idle_times_from_batch):
                 f.write(f"Random Seed: {random_seeds[idx]},")
