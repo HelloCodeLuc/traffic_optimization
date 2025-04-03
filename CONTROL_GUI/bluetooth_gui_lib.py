@@ -73,16 +73,16 @@ def read_GUI_junction_coordinates(file_name):
 
 # Function to calculate lane color based on average speed
 def get_speed_color(speed):
-    if speed < 30:
-        return "brown"
+    if speed < 20:
+        return "red"
+    elif speed < 30:
+        return "orange"
     elif speed < 40:
-        return "blue"
-    elif speed < 50:
-        return "green"
-    elif speed < 60:
         return "yellow"
+    elif speed < 50.014:
+        return "green"
     else:
-        return "gray"
+        return "blue"
 
 # Function to draw two-way road using Matplotlib
 def draw_two_way_road(ax, p1, p2, road_width, lane_spacing_factor, edge_data, junctions_bluetooth):

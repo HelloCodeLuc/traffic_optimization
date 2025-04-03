@@ -38,7 +38,7 @@ light_name_data = {
 
 gui_colour = "blue"
 timing_light_increment = 2
-num_batches = 1
+num_batches = 3
 num_runs_per_batch = 6
 max_steps = 1500
 max_num_of_runs_on_network = 1000
@@ -48,7 +48,7 @@ start_command = "RUN"
 stop_command = "STOP"
 phase = "start"
 weight_prefix = "weights"
-weight_change = 2
+weight_change = 0.1
 weight_accuracy = 4
 max_weight = 100
 
