@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- generated on 2025-03-29 16:17:55 by Eclipse SUMO netedit Version 1.18.0
+<!-- generated on 2025-04-02 21:25:37 by Eclipse SUMO netedit Version 1.19.0
 <configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/neteditConfiguration.xsd">
 
     <input>
-        <sumo-net-file value="C:\Users\Lucas Chan\traffic_optimisation\traffic_optimization\NETWORKS\school_extended\school_extended.net.xml"/>
+        <sumo-net-file value="C:\Users\Lucas\Lucas\traffic_optimization\traffic_optimization\NETWORKS\school_extended\school_extended.net.xml"/>
     </input>
 
     <output>
-        <output-file value="C:\Users\Lucas Chan\traffic_optimisation\traffic_optimization\NETWORKS\school_extended\school_extended.net.xml"/>
+        <output-file value="C:\Users\Lucas\Lucas\traffic_optimization\traffic_optimization\NETWORKS\school_extended\school_extended.net.xml"/>
     </output>
 
     <processing>
@@ -787,21 +787,21 @@
     </edge>
 
     <tlLogic id="barhill_rutherford" type="static" programID="0" offset="0">
-        <phase duration="35" state="GGGGGGGgrrr" name="red"/>
+        <phase duration="72" state="GGGGGGGgrrr" name="red"/>
         <phase duration="3"  state="yyyyyyyyrrr"/>
-        <phase duration="34" state="GrrrrrrrGGG" name="green"/>
+        <phase duration="72" state="GrrrrrrrGGG" name="green"/>
         <phase duration="3"  state="yrrrrrrryyy"/>
     </tlLogic>
     <tlLogic id="ivy_dufferin" type="static" programID="0" offset="0">
-        <phase duration="35" state="GGGGGGGgrrr" name="green"/>
+        <phase duration="72" state="GGGGGGGgrrr" name="green"/>
         <phase duration="3"  state="yyyyyyyyrrr"/>
-        <phase duration="34" state="GrrrrrrrGGG" name="red"/>
+        <phase duration="72" state="GrrrrrrrGGG" name="red"/>
         <phase duration="3"  state="yrrrrrrryyy"/>
     </tlLogic>
     <tlLogic id="keele_barhill" type="static" programID="0" offset="0">
-        <phase duration="35" state="GGGgrrrGGGG" name="green"/>
+        <phase duration="72" state="GGGgrrrGGGG" name="green"/>
         <phase duration="3"  state="yyyyrrryyyy"/>
-        <phase duration="34" state="rrrrGGGGrrr" name="red"/>
+        <phase duration="72" state="rrrrGGGGrrr" name="red"/>
         <phase duration="3"  state="rrrryyyyrrr"/>
     </tlLogic>
     <tlLogic id="keele_rutherford" type="static" programID="0" offset="0">
@@ -823,15 +823,15 @@
         <phase duration="3"  state="yyyyyrrrrryyyyyrrrrr"/>
     </tlLogic>
     <tlLogic id="mackenzie_peter" type="static" programID="0" offset="0">
-        <phase duration="35" state="GGGGgrrrrGGGGgrrr" name="red"/>
+        <phase duration="72" state="GGGGgrrrrGGGGgrrr" name="red"/>
         <phase duration="3"  state="yyyyyrrrryyyyyrrr"/>
-        <phase duration="34" state="rrrrrGGGgrrrrrGGg" name="green"/>
+        <phase duration="72" state="rrrrrGGGgrrrrrGGg" name="green"/>
         <phase duration="3"  state="rrrrryyygrrrrryyg"/>
     </tlLogic>
     <tlLogic id="maurier_dufferin" type="static" programID="0" offset="0">
-        <phase duration="35" state="GGGGGGGgrrr" name="green"/>
+        <phase duration="72" state="GGGGGGGgrrr" name="green"/>
         <phase duration="3"  state="yyyyyyyyrrr"/>
-        <phase duration="34" state="GrrrrrrrGGG" name="red"/>
+        <phase duration="72" state="GrrrrrrrGGG" name="red"/>
         <phase duration="3"  state="yrrrrrrryyy"/>
     </tlLogic>
     <tlLogic id="mcnaughton_keele" type="static" programID="0" offset="0">
@@ -841,9 +841,9 @@
         <phase duration="3"  state="rrrrryyyygrrrrryyyg"/>
     </tlLogic>
     <tlLogic id="peter_rutherford" type="static" programID="0" offset="0">
-        <phase duration="35" state="rrrGGGGGGGg" name="red"/>
+        <phase duration="72" state="rrrGGGGGGGg" name="red"/>
         <phase duration="3"  state="rrryyyyyyyy"/>
-        <phase duration="34" state="GGGGrrrrrrr" name="green"/>
+        <phase duration="72" state="GGGGrrrrrrr" name="green"/>
         <phase duration="3"  state="yyyyrrrrrrr"/>
     </tlLogic>
     <tlLogic id="rutherford_dufferin" type="static" programID="0" offset="0">

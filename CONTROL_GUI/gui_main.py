@@ -175,7 +175,7 @@ def my_plot(output_data_file):
     ax.set_xlim(left=0)
 
     # Reduce the number of y-axis labels using np.linspace
-    ax.set_yticks(np.linspace(0, 120, 5))
+    ax.set_yticks(np.linspace(min(average_idle_times) - 20, max(average_idle_times) + 20, 5))
 
     # Create a canvas and draw the figure onto it
     canvas = FigureCanvas(fig)
@@ -331,12 +331,12 @@ def draw_page(gui_colour, output_dir, figure_width, plot_surface_average_idle, p
         text = font.render(f"Phase: {phase}", True, BLACK)
         screen.blit(text, (10, figure_width + 140))
 
-        text = font.render(f"TODO - Tim add a visulization of batches total, batches remaining, sims within current batch. ", True, BLACK)
-        screen.blit(text, (10, figure_width + 200))
-        text = font.render(f"TODO - Tim add a STOP/DEMO selected feedback on main gui given the delay to reach that state. ", True, BLACK)
-        screen.blit(text, (10, figure_width + 220))
-        text = font.render(f"TODO - Tim add tool to increase or decreaes the batch size, and number per batch through GUI.  ", True, BLACK)
-        screen.blit(text, (10, figure_width + 240))
+        # text = font.render(f"TODO - Tim add a visulization of batches total, batches remaining, sims within current batch. ", True, BLACK)
+        # screen.blit(text, (10, figure_width + 200))
+        # text = font.render(f"TODO - Tim add a STOP/DEMO selected feedback on main gui given the delay to reach that state. ", True, BLACK)
+        # screen.blit(text, (10, figure_width + 220))
+        # text = font.render(f"TODO - Tim add tool to increase or decreaes the batch size, and number per batch through GUI.  ", True, BLACK)
+        # screen.blit(text, (10, figure_width + 240))
 
         draw_dropdown(dropdown_font, dropdown_options, screen, dropdown_rect, dropdown_open, selected_network, figure_width)
 
