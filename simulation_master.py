@@ -10,6 +10,7 @@ import bluetooth_lib
 import basic_utilities
 import optimize_timing_lib
 import gui_main
+import json
 from multiprocessing import Process, Queue
 
 #TODO put an average line on graph
@@ -37,7 +38,7 @@ light_name_data = {
 
 gui_colour = "blue"
 timing_light_increment = 2
-num_batches = 1
+num_batches = 3
 num_runs_per_batch = 6
 max_steps = 1500
 max_num_of_runs_on_network = 1000
@@ -47,8 +48,8 @@ start_command = "RUN"
 stop_command = "STOP"
 phase = "start"
 weight_prefix = "weights"
-weight_change = 5
-weight_accuracy = 15
+weight_change = 0.1
+weight_accuracy = 4
 max_weight = 100
 
 def main_loop(num_batches, num_runs_per_batch, network_selection, max_steps, phase, output_folder):
@@ -58,17 +59,20 @@ def main_loop(num_batches, num_runs_per_batch, network_selection, max_steps, pha
         if command is not None:
             if "NETWORK_CHANGE" in command:
                 network_name = command.split(":")[1].strip()
+                network_prefix = os.path.dirname(network_name)  
                 network_selection = f"NETWORKS/{network_name}"
                 light_names = light_name_data[network_name]
                 print(network_name)
                 print(light_names)
-            # elif command == "DEMO":
-            #     if os.path.exists(f"{output_folder}/TRAIN_OPTIMIZATION"):
-            #         print ("DEMO_TRAIN_OPTIMIZATION")
-            #         basic_utilities.demo_gui(f"{output_folder}/TRAIN_OPTIMIZATION")
-            #     elif os.path.exists(f"{output_folder}/TRAIN_BLUETOOTH"):
-            #         print ("DEMO_TRAIN_BLUETOOTH")
-            #         basic_utilities.demo_gui(f"{output_folder}/TRAIN_BLUETOOTH")
+                
+                # Read the JSON file  
+                with open(f"NETWORKS/{network_prefix}/{network_prefix}.cfg.json", 'r') as file:  
+                    data = json.load(file)  
+                
+                # Assign values to variables  
+                weight_accuracy = data.get('weight_accuracy', 4)  # Defaults to 4 if not set                  
+                # Print the assigned values  
+                print(f"Weight Accuracy: {weight_accuracy}")  
             elif command == start_command:
 
                 if not os.path.exists(output_folder):

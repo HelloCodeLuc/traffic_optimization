@@ -84,7 +84,7 @@ def get_speed_color(speed):
         return "blue"
 
 # Function to draw two-way road using Matplotlib
-def draw_two_way_road(ax, p1, p2, road_width, edge_data, junctions_bluetooth):
+def draw_two_way_road(ax, p1, p2, road_width, lane_spacing_factor, edge_data, junctions_bluetooth):
     dx, dy = p2[0] - p1[0], p2[1] - p1[1]
     angle = math.atan2(dy, dx)
 
@@ -113,7 +113,7 @@ def draw_two_way_road(ax, p1, p2, road_width, edge_data, junctions_bluetooth):
     # print (f"from_node {p2_name} to_node {p1_name} average_speed2 ={average_speed2}: {type(average_speed2)}")
 
     # Increase the lane separation by modifying the offset calculation
-    lane_spacing_factor = 5.8  # Adjust this value to control spacing
+    # lane_spacing_factor = 5.8  # Adjust this value to control spacing
     offset_dx = (road_width * lane_spacing_factor) / 2 * math.sin(angle)
     offset_dy = (road_width * lane_spacing_factor) / 2 * math.cos(angle)
 
