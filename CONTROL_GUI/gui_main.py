@@ -412,7 +412,7 @@ def draw_page(gui_colour, output_dir, figure_width, plot_surface_average_idle, p
 
         if os.path.exists(f"{output_dir}/TRAIN_OPTIMIZATION"):
             output_dir_plus = f"{output_dir}/TRAIN_OPTIMIZATION"
-            bluetooth_gui_lib.draw_stats(num_batches, num_runs_per_batch, output_dir_plus, 900, 525, screen)
+            bluetooth_gui_lib.draw_stats(num_batches, num_runs_per_batch, output_dir_plus, 600, 525, screen)
 
 
 # Function to read and parse the data file

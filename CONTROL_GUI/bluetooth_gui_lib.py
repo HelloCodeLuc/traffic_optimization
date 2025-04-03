@@ -7,6 +7,7 @@ from io import BytesIO
 from PIL import Image
 import os
 import sys
+from pathlib import Path
 
 # Function to draw a dot for a node using Matplotlib
 def draw_node(ax, node_position, coord_differences, node_radius=8):
@@ -163,7 +164,27 @@ def draw_stats(num_batches, num_runs_per_batch, output_dir, x, y, screen):
     TEXT_PADDING = 100  # Space for "Batches:" text
     
     font = pygame.font.Font(None, 24)
-    if os.path.exists(f"{output_dir}/output_data.txt"):
+
+    # Check if 'TRAIN_BLUETOOTH' exists in any subdirectory
+    output_dir_in_Path = Path(output_dir)  # Replace with your actual path   
+    found = any((d.name == 'TRAIN_BLUETOOTH') for d in output_dir_in_Path.rglob('*') if d.is_dir())  
+    if found: 
+        pattern = os.path.join(output_dir, 'random_trips*')  
+        
+        # Use glob to get a list of matching files  
+        files = glob.glob(pattern)  
+        
+        # Count the number of matching files  
+        runs_in_progress = len(files) 
+
+        # Draw runs in progress squares
+        for i in range(runs_in_progress):
+            color = GREEN
+            x_pos = x + i * (SQUARE_SIZE + SQUARE_SPACING) + 150
+            y_pos = y + SQUARE_SIZE//2 + 20
+            pygame.draw.rect(screen, color, (x_pos, y_pos, SQUARE_SIZE, SQUARE_SIZE))
+
+    elif os.path.exists(f"{output_dir}/output_data.txt"):
         file_path = f"{output_dir}/output_data.txt"
         non_blank_count = count_non_blank_lines(file_path)
         # print(f"Number of non-blank lines: {non_blank_count}")
