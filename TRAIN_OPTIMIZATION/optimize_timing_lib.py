@@ -266,7 +266,7 @@ def optimize_timing_main (phase, output_folder, output_data_file, max_num_of_run
         if(is_more_efficient == "keep"):
             shutil.copy2(f'{network_with_timing}.temp', network_with_timing)
                 
-        # os.remove(output_data_file)
+        os.remove(output_data_file)
 
         if basic_utilities.check_queue_has_command("STOP", "out/command_queue.txt", 1): 
             print(">> Execution interrupted (OPTIMIZATION)")
