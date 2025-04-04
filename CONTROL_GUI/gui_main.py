@@ -330,6 +330,29 @@ def draw_page(gui_colour, output_dir, figure_width, plot_surface_average_idle, p
 
         text = font.render(f"Phase: {phase}", True, BLACK)
         screen.blit(text, (10, figure_width + 140))
+        text = font.render(f"TODO - 3/29 - Tim - make road offset and width configurable per network ", True, BLACK)
+        screen.blit(text, (10, figure_width + 160))
+        text = font.render(f"TODO - Tim add a STOP/DEMO selected feedback on main gui given the delay to reach that state. ", True, BLACK)
+        screen.blit(text, (10, figure_width + 180))
+        text = font.render(f"TODO - Lucas : simple_network only recording timing changes for one traffic light", True, BLACK)
+        screen.blit(text, (10, figure_width + 200))
+        text = font.render(f"TODO - Lucas get school-extended network running reasonably ", True, BLACK)
+        screen.blit(text, (10, figure_width + 220))
+        text = font.render(f"TODO - Lucas create data to document current batch, number of batches, number of sims in progress within current batch.", True, BLACK)
+        screen.blit(text, (10, figure_width + 240))
+        text = font.render(f"Average Speed Legend:", True, BLACK)
+        screen.blit(text, (10, figure_width + 260))
+        text = font.render(f"Red = > 20 km/h", True, BLACK)
+        screen.blit(text, (10, figure_width + 280))
+        text = font.render(f"Orange = > 30 km/h", True, BLACK)
+        screen.blit(text, (10, figure_width + 300))
+        text = font.render(f"Yellow = > 40 km/h", True, BLACK)
+        screen.blit(text, (10, figure_width + 320))
+        text = font.render(f"Green = > 50 km/h", True, BLACK)
+        screen.blit(text, (10, figure_width + 340))
+        text = font.render(f"Blue = 50+ km/h", True, BLACK)
+        screen.blit(text, (10, figure_width + 360))
+    
 
         # text = font.render(f"TODO - Tim add a visulization of batches total, batches remaining, sims within current batch. ", True, BLACK)
         # screen.blit(text, (10, figure_width + 200))
@@ -412,7 +435,7 @@ def draw_page(gui_colour, output_dir, figure_width, plot_surface_average_idle, p
 
         if os.path.exists(f"{output_dir}/TRAIN_OPTIMIZATION"):
             output_dir_plus = f"{output_dir}/TRAIN_OPTIMIZATION"
-            bluetooth_gui_lib.draw_stats(num_batches, num_runs_per_batch, output_dir_plus, 900, 525, screen)
+            bluetooth_gui_lib.draw_stats(num_batches, num_runs_per_batch, output_dir_plus, 600, 525, screen)
 
 
 # Function to read and parse the data file
