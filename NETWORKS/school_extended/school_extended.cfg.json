@@ -1,5 +1,5 @@
 {  
     "weight_accuracy": 10,  
-    "road_width": 3,  
+    "road_width": 5,  
     "lane_spacing_factor": 8
 }
