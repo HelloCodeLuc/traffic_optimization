@@ -488,7 +488,7 @@ def gui_main(gui_colour, max_steps, output_dir, num_batches, num_runs_per_batch)
     pygame.init()
 
     # Set up the window (Enlarged size)
-    width, height = figure_width*3 + offset*4, 1000
+    width, height = figure_width*3 + offset*4, 950
     screen = pygame.display.set_mode((width, height), pygame.RESIZABLE)
     pygame.display.set_caption("TRAFFIC OPTIMIZER")
     hwnd = ctypes.windll.user32.GetForegroundWindow()
