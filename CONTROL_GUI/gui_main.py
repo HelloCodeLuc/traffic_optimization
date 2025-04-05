@@ -368,7 +368,7 @@ def draw_page(gui_colour, output_dir, figure_width, plot_surface_average_idle, p
 
         elif os.path.exists(f"{output_dir}/TRAIN_BLUETOOTH"):
             output_dir_plus = f"{output_dir}/TRAIN_BLUETOOTH"
-            bluetooth_gui_lib.draw_stats(0, num_runs_per_batch, output_dir_plus, 900, 525, screen)
+            bluetooth_gui_lib.draw_stats(0, num_runs_per_batch, output_dir_plus, 900, 550, screen)
 
     elif current_page == "Bluetooth Training":
         if plot_surface_bluetooth_reference is not None:
@@ -404,7 +404,7 @@ def draw_page(gui_colour, output_dir, figure_width, plot_surface_average_idle, p
             
         if os.path.exists(f"{output_dir}/TRAIN_BLUETOOTH"):
             output_dir_plus = f"{output_dir}/TRAIN_BLUETOOTH"
-            bluetooth_gui_lib.draw_stats(0, num_runs_per_batch, output_dir_plus, 900, 525, screen)
+            bluetooth_gui_lib.draw_stats(0, num_runs_per_batch, output_dir_plus, 900, 550, screen)
     elif current_page == "Sim Optimization":
 
         # Draw the plot on the Default page
@@ -433,7 +433,7 @@ def draw_page(gui_colour, output_dir, figure_width, plot_surface_average_idle, p
 
         if os.path.exists(f"{output_dir}/TRAIN_OPTIMIZATION"):
             output_dir_plus = f"{output_dir}/TRAIN_OPTIMIZATION"
-            bluetooth_gui_lib.draw_stats(num_batches, num_runs_per_batch, output_dir_plus, 600, 525, screen)
+            bluetooth_gui_lib.draw_stats(num_batches, num_runs_per_batch, output_dir_plus, 600, 550, screen)
 
 
 # Function to read and parse the data file
