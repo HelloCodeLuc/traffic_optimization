@@ -233,6 +233,12 @@ def optimize_timing_main (phase, output_folder, output_data_file, max_num_of_run
                 previous_greenlight_timings[line] = 1
         file.close()
 
+    shutil.copy2(f"{output_folder}/TRAIN_BLUETOOTH/weights.src.xml", f"{output_folder}/TRAIN_OPTIMIZATION/weights.src.xml")
+    shutil.copy2(f"{output_folder}/TRAIN_BLUETOOTH/weights.dst.xml", f"{output_folder}/TRAIN_OPTIMIZATION/weights.dst.xml")
+    if os.path.exists(f"{output_folder}/TRAIN_BLUETOOTH/weights.via.xml"):
+        shutil.copy2(f"{output_folder}/TRAIN_BLUETOOTH/weights.via.xml", f"{output_folder}/TRAIN_OPTIMIZATION/weights.via.xml")
+
+
     core_count = basic_utilities.return_num_of_cores()
     print(f"Number of CPU cores: {core_count}\n")
 
@@ -249,7 +255,7 @@ def optimize_timing_main (phase, output_folder, output_data_file, max_num_of_run
         if(is_more_efficient == "keep"):
             shutil.copy2(f'{network_with_timing}.temp', network_with_timing)
                 
-        # os.remove(output_data_file)
+        os.remove(output_data_file)
 
         if basic_utilities.check_queue_has_command("STOP", "out/command_queue.txt", 1): 
             print(">> Execution interrupted (OPTIMIZATION)")
