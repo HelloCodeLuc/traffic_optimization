@@ -330,28 +330,26 @@ def draw_page(gui_colour, output_dir, figure_width, plot_surface_average_idle, p
 
         text = font.render(f"Phase: {phase}", True, BLACK)
         screen.blit(text, (10, figure_width + 140))
-        text = font.render(f"TODO - 3/29 - Tim - make road offset and width configurable per network ", True, BLACK)
-        screen.blit(text, (10, figure_width + 160))
-        text = font.render(f"TODO - Tim add a STOP/DEMO selected feedback on main gui given the delay to reach that state. ", True, BLACK)
-        screen.blit(text, (10, figure_width + 180))
-        text = font.render(f"TODO - Lucas : simple_network only recording timing changes for one traffic light", True, BLACK)
-        screen.blit(text, (10, figure_width + 200))
-        text = font.render(f"TODO - Lucas get school-extended network running reasonably ", True, BLACK)
-        screen.blit(text, (10, figure_width + 220))
-        text = font.render(f"TODO - Lucas create data to document current batch, number of batches, number of sims in progress within current batch.", True, BLACK)
-        screen.blit(text, (10, figure_width + 240))
-        text = font.render(f"Average Speed Legend:", True, BLACK)
-        screen.blit(text, (10, figure_width + 260))
-        text = font.render(f"Red = > 20 km/h", True, BLACK)
-        screen.blit(text, (10, figure_width + 280))
-        text = font.render(f"Orange = > 30 km/h", True, BLACK)
-        screen.blit(text, (10, figure_width + 300))
-        text = font.render(f"Yellow = > 40 km/h", True, BLACK)
-        screen.blit(text, (10, figure_width + 320))
-        text = font.render(f"Green = > 50 km/h", True, BLACK)
-        screen.blit(text, (10, figure_width + 340))
-        text = font.render(f"Blue = 50+ km/h", True, BLACK)
-        screen.blit(text, (10, figure_width + 360))
+        if (0):
+            text = font.render(f"TODO - Tim add a STOP/DEMO selected feedback on main gui given the delay to reach that state. ", True, BLACK)
+            screen.blit(text, (10, figure_width + 180))
+            text = font.render(f"TODO - Lucas get school-extended network running reasonably ", True, BLACK)
+            screen.blit(text, (10, figure_width + 200))
+            text = font.render(f"TODO - Lucas create data to document current batch, number of batches, number of sims in progress within current batch.", True, BLACK)
+            screen.blit(text, (10, figure_width + 220))
+        else:
+            text = font.render(f"Average Speed Legend:", True, BLACK)
+            screen.blit(text, (10, figure_width + 200))
+            text = font.render(f"Red    ........  0 < 20 km/h", True, BLACK)
+            screen.blit(text, (10, figure_width + 220))
+            text = font.render(f"Orange .... 20 to 30 km/h", True, BLACK)
+            screen.blit(text, (10, figure_width + 240))
+            text = font.render(f"Yellow ...... 30 to 40 km/h", True, BLACK)
+            screen.blit(text, (10, figure_width + 260))
+            text = font.render(f"Green  ...... 40 to 50 km/h", True, BLACK)
+            screen.blit(text, (10, figure_width + 280))
+            text = font.render(f"Blue   ....... > 50 km/h", True, BLACK)
+            screen.blit(text, (10, figure_width + 300))
     
 
         # text = font.render(f"TODO - Tim add a visulization of batches total, batches remaining, sims within current batch. ", True, BLACK)
@@ -370,7 +368,7 @@ def draw_page(gui_colour, output_dir, figure_width, plot_surface_average_idle, p
 
         elif os.path.exists(f"{output_dir}/TRAIN_BLUETOOTH"):
             output_dir_plus = f"{output_dir}/TRAIN_BLUETOOTH"
-            bluetooth_gui_lib.draw_stats(0, num_runs_per_batch, output_dir_plus, 900, 525, screen)
+            bluetooth_gui_lib.draw_stats(0, num_runs_per_batch, output_dir_plus, 900, 550, screen)
 
     elif current_page == "Bluetooth Training":
         if plot_surface_bluetooth_reference is not None:
@@ -406,7 +404,7 @@ def draw_page(gui_colour, output_dir, figure_width, plot_surface_average_idle, p
             
         if os.path.exists(f"{output_dir}/TRAIN_BLUETOOTH"):
             output_dir_plus = f"{output_dir}/TRAIN_BLUETOOTH"
-            bluetooth_gui_lib.draw_stats(0, num_runs_per_batch, output_dir_plus, 900, 525, screen)
+            bluetooth_gui_lib.draw_stats(0, num_runs_per_batch, output_dir_plus, 900, 550, screen)
     elif current_page == "Sim Optimization":
 
         # Draw the plot on the Default page
@@ -435,7 +433,7 @@ def draw_page(gui_colour, output_dir, figure_width, plot_surface_average_idle, p
 
         if os.path.exists(f"{output_dir}/TRAIN_OPTIMIZATION"):
             output_dir_plus = f"{output_dir}/TRAIN_OPTIMIZATION"
-            bluetooth_gui_lib.draw_stats(num_batches, num_runs_per_batch, output_dir_plus, 600, 525, screen)
+            bluetooth_gui_lib.draw_stats(num_batches, num_runs_per_batch, output_dir_plus, 600, 550, screen)
 
 
 # Function to read and parse the data file
@@ -490,7 +488,7 @@ def gui_main(gui_colour, max_steps, output_dir, num_batches, num_runs_per_batch)
     pygame.init()
 
     # Set up the window (Enlarged size)
-    width, height = figure_width*3 + offset*4, 1000
+    width, height = figure_width*3 + offset*4, 950
     screen = pygame.display.set_mode((width, height), pygame.RESIZABLE)
     pygame.display.set_caption("TRAFFIC OPTIMIZER")
     hwnd = ctypes.windll.user32.GetForegroundWindow()
