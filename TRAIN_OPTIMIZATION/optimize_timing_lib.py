@@ -178,7 +178,7 @@ def calculate_overall_average_for_given_network(output_data_file, network_averag
 
     average = total / count 
 
-    prev_best = 999.999
+    prev_best = 9999.999
     if os.path.exists(network_averages):
         with open(network_averages, 'r') as file:
             for line in file:
@@ -265,8 +265,9 @@ def optimize_timing_main (phase, output_folder, output_data_file, max_num_of_run
         is_more_efficient = calculate_overall_average_for_given_network(output_data_file, network_averages, greenlight_timings)
         if(is_more_efficient == "keep"):
             shutil.copy2(f'{network_with_timing}.temp', network_with_timing)
-                
-        os.remove(output_data_file)
+            os.remove(output_data_file)
+        else:
+            os.remove(output_data_file)
 
         if basic_utilities.check_queue_has_command("STOP", "out/command_queue.txt", 1): 
             print(">> Execution interrupted (OPTIMIZATION)")
