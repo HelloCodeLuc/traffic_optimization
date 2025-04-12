@@ -1,13 +1,13 @@
 <edgedata>
-  <interval begin="0" end="100">
-    <edge id="E39" value="20.0"/>
-    <edge id="E12" value="20.0"/>
-    <edge id="E25" value="20.0"/>
-    <edge id="E26" value="20.0"/>
-    <edge id="E13" value="20.0"/>
-    <edge id="E42" value="20.0"/>
-    <edge id="E38" value="20.0"/>
-    <edge id="E43" value="20.0"/>
-    <edge id="E22" value="20.0"/>
+  <interval begin="0" end="2000">
+    <edge id="E39" value="2.0"/>
+    <edge id="E12" value="2.0"/>
+    <edge id="E25" value="2.0"/>
+    <edge id="E26" value="2.0"/>
+    <edge id="E13" value="2.0"/>
+    <edge id="E42" value="2.0"/>
+    <edge id="E38" value="2.0"/>
+    <edge id="E43" value="2.0"/>
+    <edge id="E22" value="2.0"/>
   </interval>
 </edgedata>

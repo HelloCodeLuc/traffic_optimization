@@ -178,7 +178,7 @@ def calculate_overall_average_for_given_network(output_data_file, network_averag
 
     average = total / count 
 
-    prev_best = 999.999
+    prev_best = 9999.999
     if os.path.exists(network_averages):
         with open(network_averages, 'r') as file:
             for line in file:
@@ -217,22 +217,11 @@ def read_commands(file_path):
         return None
 
 
-
 def optimize_timing_main (phase, output_folder, output_data_file, max_num_of_runs_on_network, num_batches, num_runs_per_batch, network_selection, max_steps, 
              network_with_timing, light_names, timing_light_increment, network_averages, num_of_greenlight_duplicate_limit, average_speed_n_steps):
     
     debug = 0
-
-    # parser = argparse.ArgumentParser(description="Run SUMO simulation in batch or GUI mode.")
-    # parser.add_argument("--gui", action="store_true", help="Run with GUI")
- 
-    # args = parser.parse_args()
-    
-    # if (debug == 1):
-    #     args.gui = True
-
     current_directory = os.getcwd()
-
         
     previous_greenlight_timings_file = os.path.join(output_folder, "TRAIN_OPTIMIZATION/previous_greenlight_timings.txt")
     print(f"previous_greenlight_timings = {previous_greenlight_timings_file}\n")
@@ -243,6 +232,12 @@ def optimize_timing_main (phase, output_folder, output_data_file, max_num_of_run
                 line = line.strip()
                 previous_greenlight_timings[line] = 1
         file.close()
+
+    shutil.copy2(f"{output_folder}/TRAIN_BLUETOOTH/weights.src.xml", f"{output_folder}/TRAIN_OPTIMIZATION/weights.src.xml")
+    shutil.copy2(f"{output_folder}/TRAIN_BLUETOOTH/weights.dst.xml", f"{output_folder}/TRAIN_OPTIMIZATION/weights.dst.xml")
+    if os.path.exists(f"{output_folder}/TRAIN_BLUETOOTH/weights.via.xml"):
+        shutil.copy2(f"{output_folder}/TRAIN_BLUETOOTH/weights.via.xml", f"{output_folder}/TRAIN_OPTIMIZATION/weights.via.xml")
+
 
     core_count = basic_utilities.return_num_of_cores()
     print(f"Number of CPU cores: {core_count}\n")
@@ -259,22 +254,10 @@ def optimize_timing_main (phase, output_folder, output_data_file, max_num_of_run
         is_more_efficient = calculate_overall_average_for_given_network(output_data_file, network_averages, greenlight_timings)
         if(is_more_efficient == "keep"):
             shutil.copy2(f'{network_with_timing}.temp', network_with_timing)
-                
-        os.remove(output_data_file)
+            os.remove(output_data_file)
+        else:
+            os.remove(output_data_file)
 
         if basic_utilities.check_queue_has_command("STOP", "out/command_queue.txt", 1): 
             print(">> Execution interrupted (OPTIMIZATION)")
             break
-        # elif basic_utilities.check_queue_has_command("DEMO", "out/command_queue.txt", 1): 
-        #     if os.path.exists(f"{output_folder}/TRAIN_OPTIMIZATION"):                  
-        #         # Check if any files start with 'random_trips'  
-        #         random_trip_files = [f for f in os.listdir(f"{output_folder}/TRAIN_OPTIMIZATION") if f.startswith('random_trips')]  
-        #         if random_trip_files:  
-        #             print ("DEMO_TRAIN_OPTIMIZATION")
-        #             basic_utilities.demo_gui(f"{output_folder}/TRAIN_OPTIMIZATION", f"{network_with_timing}.temp")
-        #     elif os.path.exists(f"{output_folder}/TRAIN_BLUETOOTH"):
-        #         # Check if any files start with 'random_trips'  
-        #         random_trip_files = [f for f in os.listdir(f"{output_folder}/TRAIN_BLUETOOTH") if f.startswith('random_trips')]  
-        #         if random_trip_files:  
-        #             print ("DEMO_TRAIN_BLUETOOTH")
-        #             basic_utilities.demo_gui(f"{output_folder}/TRAIN_BLUETOOTH", f"{network_with_timing}.temp")

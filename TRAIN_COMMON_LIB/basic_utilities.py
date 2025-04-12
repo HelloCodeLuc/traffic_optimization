@@ -175,7 +175,7 @@ def generate_random_trips(network_selection, trip_file, max_steps, seed):
     debug = 0
     #cmd = f"C:/Users/chuny/Desktop/lucas/Python%20Projects/traffic_optimization/randomTrips.py -n OSM_RandomTrips/keeleandmajmack.net.xml -r {trip_file} -e {max_steps} --random -s {seed} -o out/trips.trips.xml"
     randomTrips = r'"C:\Program Files (x86)\Eclipse\Sumo\tools\randomTrips.py"'
-    cmd = f"python {randomTrips} -n {network_selection} -r {trip_file} -e {max_steps} --random -s {seed} -i 1"
+    cmd = f"python {randomTrips} -n {network_selection} -r {trip_file} -e {max_steps} --random -s {seed} -i 1 --period 2"
 
     # print (f"This is the CMD line {cmd}")
 
@@ -189,7 +189,7 @@ def generate_random_trips_weighted(network_selection, trip_file, max_steps, seed
     randomTrips = r'"C:\Program Files (x86)\Eclipse\Sumo\tools\randomTrips.py"'
     # print(weight_prefix)
     # sys.exit()
-    cmd = f"python {randomTrips} --weights-prefix {weight_prefix} -n {network_selection} -r {trip_file} -e {max_steps} --random -s {seed} -i 1"
+    cmd = f"python {randomTrips} --weights-prefix {weight_prefix} -n {network_selection} -r {trip_file} -e {max_steps} --random -s {seed} -i 1 --period 2"
 
     # print (f"This is the CMD line {cmd}")
 
@@ -305,32 +305,6 @@ def check_queue_has_command (command, queue_file, delete_control):
     else:
         return False
     
-def calculate_average_difference(file1, file2):
-    speeds1 = read_average_speeds(file1)
-    speeds2 = read_average_speeds(file2)
-
-    common_edges = set(speeds1.keys()) & set(speeds2.keys())
-    if not common_edges:
-        print("No common Edge IDs found between the files.")
-        return None, None
-
-    differences = {}
-    for edge in common_edges:
-        difference = speeds1[edge] - speeds2[edge]
-        differences[edge] = difference
-
-    average_difference = sum(abs(d) for d in differences.values()) / len(differences)
-
-    # Identify the edge with the largest discrepancy based on absolute difference
-    max_discrepancy_edge = max(differences, key=lambda edge: abs(differences[edge]))  # Corrected key function
-    max_discrepancy_value = differences[max_discrepancy_edge]
-
-    # Determine whether the max discrepancy is positive or negative
-    discrepancy_direction = 'decrease' if max_discrepancy_value > 0 else 'increase'
-    # if the direction is decrease, it means that the bluetooth is running on that edge more cars than the city data. Vice versa if the direction is increase
-
-    return average_difference, max_discrepancy_edge, max_discrepancy_value, discrepancy_direction
-
 def read_average_speeds(filename):
     average_speeds = {}
     with open(filename, 'r') as file:
@@ -343,6 +317,29 @@ def read_average_speeds(filename):
             except ValueError:
                 continue  # Skip rows with invalid speed data
     return average_speeds
+
+def calculate_average_difference(file1, file2, threshold):
+    speeds1 = read_average_speeds(file1)
+    speeds2 = read_average_speeds(file2)
+
+    common_edges = set(speeds1.keys()) & set(speeds2.keys())
+    if not common_edges:
+        print("No common Edge IDs found between the files.")
+        return None, None, None, None, {}
+
+    differences = {edge: speeds1[edge] - speeds2[edge] for edge in common_edges}
+    average_difference = sum(abs(diff) for diff in differences.values()) / len(differences)
+
+    # Identify the edge with the largest discrepancy
+    max_discrepancy_edge = max(differences, key=lambda x: abs(differences[x]))
+    max_discrepancy_value = differences[max_discrepancy_edge]
+    max_discrepancy_direction = "decrease" if max_discrepancy_value > 0 else "increase"
+
+    # Identify all edges with discrepancies higher than the threshold
+    significant_differences = {edge: (diff, "decrease" if diff > 0 else "increase") for edge, diff in differences.items() if abs(diff) > threshold}
+
+    return average_difference, max_discrepancy_edge, max_discrepancy_value, significant_differences
+
 
 
 # For a given batch, this summarizes the average speed for all edges across all run_sumo runs
@@ -477,7 +474,7 @@ def run_sumo(config_file, max_steps, result_queue, average_speed_n_steps, out_di
     traci.close()
 
     # Print the average idle time
-    print(f"DEBUG INSIDE <run_sumo> : config_file={config_file}, max_steps={max_steps}, Average Idle Time:{average_idle_time}" )
+    # print(f"DEBUG INSIDE <run_sumo> : config_file={config_file}, max_steps={max_steps}, Average Idle Time:{average_idle_time}" )
     os.chdir(current_directory)
     result_queue.put(average_idle_time)
 
@@ -552,7 +549,7 @@ def batched_run_sumo (phase, num_batches, num_runs_per_batch, output_folder, net
             average_idle_times_from_batch.append(result)
 
         # Write the iteration number to the output_data file
-        # output_data_file = output_data.txt
+        # output_data_file = "output_data.txt"
         with open(output_data_file, "a") as f:
             for idx, average_idle_time in enumerate(average_idle_times_from_batch):
                 f.write(f"Random Seed: {random_seeds[idx]},")

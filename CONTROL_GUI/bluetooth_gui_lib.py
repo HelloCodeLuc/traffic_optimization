@@ -6,6 +6,8 @@ import numpy as np
 from io import BytesIO
 from PIL import Image
 import os
+import sys
+from pathlib import Path
 
 # Function to draw a dot for a node using Matplotlib
 def draw_node(ax, node_position, coord_differences, node_radius=8):
@@ -71,20 +73,19 @@ def read_GUI_junction_coordinates(file_name):
 
 # Function to calculate lane color based on average speed
 def get_speed_color(speed):
-    
-    if speed < 30:
-        return "brown"
+    if speed < 20:
+        return "red"
+    elif speed < 30:
+        return "orange"
     elif speed < 40:
-        return "blue"
-    elif speed < 50:
-        return "green"
-    elif speed < 60:
         return "yellow"
+    elif speed < 50.014:
+        return "green"
     else:
-        return "gray"
+        return "blue"
 
 # Function to draw two-way road using Matplotlib
-def draw_two_way_road(ax, p1, p2, road_width, edge_data, junctions_bluetooth):
+def draw_two_way_road(ax, p1, p2, road_width, lane_spacing_factor, edge_data, junctions_bluetooth):
     dx, dy = p2[0] - p1[0], p2[1] - p1[1]
     angle = math.atan2(dy, dx)
 
@@ -103,13 +104,17 @@ def draw_two_way_road(ax, p1, p2, road_width, edge_data, junctions_bluetooth):
     p2_array = [k for k, v in coordinates.items() if v == p2]
     p2_name = p2_array[0]
 
+    # print (edge_data)
     matching_dict = next((d for d in edge_data if d.get('from_node') == p1_name and d.get('to_node') == p2_name), None)
     average_speed = matching_dict.get('average_speed') if matching_dict else None
     matching_dict2 = next((d for d in edge_data if d.get('from_node') == p2_name and d.get('to_node') == p1_name), None)
     average_speed2 = matching_dict2.get('average_speed') if matching_dict2 else None
     
+    # print (f"from_node {p1_name} to_node {p2_name} average_speed1 ={average_speed}: {type(average_speed)}")
+    # print (f"from_node {p2_name} to_node {p1_name} average_speed2 ={average_speed2}: {type(average_speed2)}")
+
     # Increase the lane separation by modifying the offset calculation
-    lane_spacing_factor = 5.8  # Adjust this value to control spacing
+    # lane_spacing_factor = 5.8  # Adjust this value to control spacing
     offset_dx = (road_width * lane_spacing_factor) / 2 * math.sin(angle)
     offset_dy = (road_width * lane_spacing_factor) / 2 * math.cos(angle)
 
@@ -159,7 +164,27 @@ def draw_stats(num_batches, num_runs_per_batch, output_dir, x, y, screen):
     TEXT_PADDING = 100  # Space for "Batches:" text
     
     font = pygame.font.Font(None, 24)
-    if os.path.exists(f"{output_dir}/output_data.txt"):
+
+    # Check if 'TRAIN_BLUETOOTH' exists in any subdirectory
+    output_dir_in_Path = Path(output_dir)  # Replace with your actual path   
+    found = any((d.name == 'TRAIN_BLUETOOTH') for d in output_dir_in_Path.rglob('*') if d.is_dir())  
+    if found: 
+        pattern = os.path.join(output_dir, 'random_trips*')  
+        
+        # Use glob to get a list of matching files  
+        files = glob.glob(pattern)  
+        
+        # Count the number of matching files  
+        runs_in_progress = len(files) 
+
+        # Draw runs in progress squares
+        for i in range(runs_in_progress):
+            color = GREEN
+            x_pos = x + i * (SQUARE_SIZE + SQUARE_SPACING) + 150
+            y_pos = y + SQUARE_SIZE//2 + 20
+            pygame.draw.rect(screen, color, (x_pos, y_pos, SQUARE_SIZE, SQUARE_SIZE))
+
+    elif os.path.exists(f"{output_dir}/output_data.txt"):
         file_path = f"{output_dir}/output_data.txt"
         non_blank_count = count_non_blank_lines(file_path)
         # print(f"Number of non-blank lines: {non_blank_count}")
