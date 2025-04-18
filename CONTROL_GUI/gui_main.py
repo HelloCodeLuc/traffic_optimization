@@ -11,6 +11,7 @@ import plot_timing_changes
 sys.path.append(os.path.join(os.path.dirname(__file__), 'TRAIN_COMMON_LIB'))
 import basic_utilities
 from io import BytesIO
+import json
 
 # Define colors
 WHITE = (255, 255, 255)
@@ -174,7 +175,7 @@ def my_plot(output_data_file):
     ax.set_xlim(left=0)
 
     # Reduce the number of y-axis labels using np.linspace
-    ax.set_yticks(np.linspace(0, 120, 5))
+    ax.set_yticks(np.linspace(min(average_idle_times) - 20, max(average_idle_times) + 20, 5))
 
     # Create a canvas and draw the figure onto it
     canvas = FigureCanvas(fig)
@@ -189,7 +190,7 @@ def my_plot(output_data_file):
     return plot_surface
 
 # #
-def my_bluetooth(junction_coordinates_file, junction_bluetooth_csv_file, average_speeds_file, network_file, network_averages):
+def my_bluetooth(junction_coordinates_file, junction_bluetooth_csv_file, average_speeds_file, network_file, network_averages, road_width, lane_spacing_factor):
 
     # Read input files
     file_name = "RESOURCES/CONNECTING_TWO_POINTS/GUI_junction_coordinates.csv"
@@ -197,9 +198,6 @@ def my_bluetooth(junction_coordinates_file, junction_bluetooth_csv_file, average
 
     file_path = "RESOURCES/CONNECTING_TWO_POINTS/GUI_average_speeds.csv"
     edge_data = bluetooth_gui_lib.read_edge_data(average_speeds_file)
-
-    # Road width
-    road_width = 8
 
     # Create Matplotlib figure
     fig, ax = plt.subplots(figsize=(4, 4))
@@ -220,19 +218,7 @@ def my_bluetooth(junction_coordinates_file, junction_bluetooth_csv_file, average
         point1 = junction_coordinates[from_node]
         point2 = junction_coordinates[to_node]
         # average_speed = edge['average_speed']
-        bluetooth_gui_lib.draw_two_way_road(ax, point1, point2, road_width, edge_data, junction_bluetooth_csv_file)
-
-    # for edge in edge_data:
-    #     from_node = edge['from_node']
-    #     to_node = edge['to_node']
-
-    #     if from_node in named_intersections and to_node in named_intersections:
-    #         point1 = named_intersections[from_node]
-    #         point2 = named_intersections[to_node]
-
-    #         average_speed = edge['average_speed']
-
-    #         draw_two_way_road(ax, point1, point2, road_width, edge_data)
+        bluetooth_gui_lib.draw_two_way_road(ax, point1, point2, road_width, lane_spacing_factor, edge_data, junction_bluetooth_csv_file)
             
     # Draw nodes
     if network_file != "":
@@ -344,20 +330,34 @@ def draw_page(gui_colour, output_dir, figure_width, plot_surface_average_idle, p
 
         text = font.render(f"Phase: {phase}", True, BLACK)
         screen.blit(text, (10, figure_width + 140))
-        text = font.render(f"TODO - 3/29 - Tim - make road offset and width configurable per network ", True, BLACK)
-        screen.blit(text, (10, figure_width + 160))
-        text = font.render(f"TODO - Tim add a STOP/DEMO selected feedback on main gui given the delay to reach that state. ", True, BLACK)
-        screen.blit(text, (10, figure_width + 180))
-        text = font.render(f"TODO - Tim add a visulization of batches total, batches remaining, sims within current batch. ", True, BLACK)
-        screen.blit(text, (10, figure_width + 200))
-        text = font.render(f"TODO - Tim add tool to increase or decreaes the batch size, and number per batch through GUI.  ", True, BLACK)
-        screen.blit(text, (10, figure_width + 220))
-        text = font.render(f"TODO - Lucas : simple_network only recording timing changes for one traffic light", True, BLACK)
-        screen.blit(text, (10, figure_width + 240))
-        text = font.render(f"TODO - Lucas get school-extended network running reasonably ", True, BLACK)
-        screen.blit(text, (10, figure_width + 260))
-        text = font.render(f"TODO - Lucas create data to document current batch, number of batches, number of sims in progress within current batch.", True, BLACK)
-        screen.blit(text, (10, figure_width + 280))
+        if (0):
+            text = font.render(f"TODO - Tim add a STOP/DEMO selected feedback on main gui given the delay to reach that state. ", True, BLACK)
+            screen.blit(text, (10, figure_width + 180))
+            text = font.render(f"TODO - Lucas get school-extended network running reasonably ", True, BLACK)
+            screen.blit(text, (10, figure_width + 200))
+            text = font.render(f"TODO - Lucas create data to document current batch, number of batches, number of sims in progress within current batch.", True, BLACK)
+            screen.blit(text, (10, figure_width + 220))
+        else:
+            text = font.render(f"Average Speed Legend:", True, BLACK)
+            screen.blit(text, (10, figure_width + 200))
+            text = font.render(f"Red    ........  0 < 20 km/h", True, BLACK)
+            screen.blit(text, (10, figure_width + 220))
+            text = font.render(f"Orange .... 20 to 30 km/h", True, BLACK)
+            screen.blit(text, (10, figure_width + 240))
+            text = font.render(f"Yellow ...... 30 to 40 km/h", True, BLACK)
+            screen.blit(text, (10, figure_width + 260))
+            text = font.render(f"Green  ...... 40 to 50 km/h", True, BLACK)
+            screen.blit(text, (10, figure_width + 280))
+            text = font.render(f"Blue   ....... > 50 km/h", True, BLACK)
+            screen.blit(text, (10, figure_width + 300))
+    
+
+        # text = font.render(f"TODO - Tim add a visulization of batches total, batches remaining, sims within current batch. ", True, BLACK)
+        # screen.blit(text, (10, figure_width + 200))
+        # text = font.render(f"TODO - Tim add a STOP/DEMO selected feedback on main gui given the delay to reach that state. ", True, BLACK)
+        # screen.blit(text, (10, figure_width + 220))
+        # text = font.render(f"TODO - Tim add tool to increase or decreaes the batch size, and number per batch through GUI.  ", True, BLACK)
+        # screen.blit(text, (10, figure_width + 240))
 
         draw_dropdown(dropdown_font, dropdown_options, screen, dropdown_rect, dropdown_open, selected_network, figure_width)
 
@@ -368,7 +368,7 @@ def draw_page(gui_colour, output_dir, figure_width, plot_surface_average_idle, p
 
         elif os.path.exists(f"{output_dir}/TRAIN_BLUETOOTH"):
             output_dir_plus = f"{output_dir}/TRAIN_BLUETOOTH"
-            bluetooth_gui_lib.draw_stats(0, num_runs_per_batch, output_dir_plus, 900, 525, screen)
+            bluetooth_gui_lib.draw_stats(0, num_runs_per_batch, output_dir_plus, 900, 550, screen)
 
     elif current_page == "Bluetooth Training":
         if plot_surface_bluetooth_reference is not None:
@@ -404,7 +404,7 @@ def draw_page(gui_colour, output_dir, figure_width, plot_surface_average_idle, p
             
         if os.path.exists(f"{output_dir}/TRAIN_BLUETOOTH"):
             output_dir_plus = f"{output_dir}/TRAIN_BLUETOOTH"
-            bluetooth_gui_lib.draw_stats(0, num_runs_per_batch, output_dir_plus, 900, 525, screen)
+            bluetooth_gui_lib.draw_stats(0, num_runs_per_batch, output_dir_plus, 900, 550, screen)
     elif current_page == "Sim Optimization":
 
         # Draw the plot on the Default page
@@ -433,7 +433,7 @@ def draw_page(gui_colour, output_dir, figure_width, plot_surface_average_idle, p
 
         if os.path.exists(f"{output_dir}/TRAIN_OPTIMIZATION"):
             output_dir_plus = f"{output_dir}/TRAIN_OPTIMIZATION"
-            bluetooth_gui_lib.draw_stats(num_batches, num_runs_per_batch, output_dir_plus, 900, 525, screen)
+            bluetooth_gui_lib.draw_stats(num_batches, num_runs_per_batch, output_dir_plus, 600, 550, screen)
 
 
 # Function to read and parse the data file
@@ -488,7 +488,7 @@ def gui_main(gui_colour, max_steps, output_dir, num_batches, num_runs_per_batch)
     pygame.init()
 
     # Set up the window (Enlarged size)
-    width, height = figure_width*3 + offset*4, 1000
+    width, height = figure_width*3 + offset*4, 950
     screen = pygame.display.set_mode((width, height), pygame.RESIZABLE)
     pygame.display.set_caption("TRAFFIC OPTIMIZER")
     hwnd = ctypes.windll.user32.GetForegroundWindow()
@@ -546,7 +546,8 @@ def gui_main(gui_colour, max_steps, output_dir, num_batches, num_runs_per_batch)
     last_modified_bluetooth_training_delta = 0
     plot_surface_bluetooth_training_delta = None
     
-
+    road_width = 1
+    lane_spacing_factor = 2
     while running:
         junction_coords_file = f"{output_dir}\\GUI_junction_coordinates.csv"
         junction_bluetooth_csv_file = f"NETWORKS/{network_dir}/{network_dir}_junctions.bluetooth.csv"
@@ -584,24 +585,24 @@ def gui_main(gui_colour, max_steps, output_dir, num_batches, num_runs_per_batch)
                 if os.path.exists(optimize_start_GUI_average_speeds):
                     if file_modified(optimize_start_GUI_average_speeds, last_modified_optimize_start_GUI_average_speeds):
                         last_modified_optimize_start_GUI_average_speeds = os.path.getmtime(optimize_start_GUI_average_speeds)
-                        plot_surface_optimize_start = my_bluetooth(junction_coords_file, junction_bluetooth_csv_file, optimize_start_GUI_average_speeds, "", "")
+                        plot_surface_optimize_start = my_bluetooth(junction_coords_file, junction_bluetooth_csv_file, optimize_start_GUI_average_speeds, "", "", road_width, lane_spacing_factor)
                 if os.path.exists(optimize_current_GUI_average_speeds):
                     if file_modified(optimize_current_GUI_average_speeds, last_modified_optimize_current_GUI_average_speeds):
                         last_modified_optimize_current_GUI_average_speeds = os.path.getmtime(optimize_current_GUI_average_speeds)
                         plot_surface_optimize_current = my_bluetooth(junction_coords_file, junction_bluetooth_csv_file, optimize_current_GUI_average_speeds,
-                                                                     selected_network, optimize_network_averages_txt) 
+                                                                     selected_network, optimize_network_averages_txt, road_width, lane_spacing_factor) 
                 if os.path.exists(bluetooth_training_reference_average_speeds_file) and os.path.exists(junction_coords_file):
                     if file_modified(bluetooth_training_reference_average_speeds_file, last_modified_bluetooth_reference_average_speeds):   
                         last_modified_bluetooth_reference_average_speeds = os.path.getmtime(bluetooth_training_reference_average_speeds_file)
-                        plot_surface_bluetooth_reference = my_bluetooth(junction_coords_file, junction_bluetooth_csv_file, bluetooth_training_reference_average_speeds_file, "", "")
+                        plot_surface_bluetooth_reference = my_bluetooth(junction_coords_file, junction_bluetooth_csv_file, bluetooth_training_reference_average_speeds_file, "", "", road_width, lane_spacing_factor)
                 if os.path.exists(bluetooth_training_start_average_speeds_file):
                     if file_modified(bluetooth_training_start_average_speeds_file, last_modified_bluetooth_start_average_speeds):   
                         last_modified_bluetooth_start_average_speeds = os.path.getmtime(bluetooth_training_start_average_speeds_file)
-                        plot_surface_bluetooth_start = my_bluetooth(junction_coords_file, junction_bluetooth_csv_file, bluetooth_training_start_average_speeds_file, "", "")
+                        plot_surface_bluetooth_start = my_bluetooth(junction_coords_file, junction_bluetooth_csv_file, bluetooth_training_start_average_speeds_file, "", "", road_width, lane_spacing_factor)
                 if os.path.exists(bluetooth_training_current_average_speeds_file):
                     if file_modified(bluetooth_training_current_average_speeds_file, last_modified_bluetooth_current_average_speeds):   
                         last_modified_bluetooth_current_average_speeds = os.path.getmtime(bluetooth_training_current_average_speeds_file)
-                        plot_surface_bluetooth_current = my_bluetooth(junction_coords_file, junction_bluetooth_csv_file, bluetooth_training_current_average_speeds_file, "", "")
+                        plot_surface_bluetooth_current = my_bluetooth(junction_coords_file, junction_bluetooth_csv_file, bluetooth_training_current_average_speeds_file, "", "", road_width, lane_spacing_factor)
                 if os.path.exists(bluetooth_training_delta_file):
                     if file_modified(bluetooth_training_delta_file, last_modified_bluetooth_training_delta):   
                         last_modified_bluetooth_training_delta = os.path.getmtime(bluetooth_training_delta_file)
@@ -643,6 +644,18 @@ def gui_main(gui_colour, max_steps, output_dir, num_batches, num_runs_per_batch)
                             append_to_queue(f"NETWORK_CHANGE : {selected_network}")  # Append network change to the queue
                             dropdown_open = False  # Close the dropdown
 
+                            # Read the JSON file  
+                            with open(f"NETWORKS/{network_dir}/{network_dir}.cfg.json", 'r') as file:  
+                                data = json.load(file)  
+                            
+                            # Assign values to variables  
+                            road_width = data.get('road_width', 4)            # Defaults to 4 if not set  
+                            lane_spacing_factor = data.get('lane_spacing_factor', 3)          # Defaults to 3 if not set  
+                            
+                            # Print the assigned values  
+                            print(f"Road Width: {road_width}")  
+                            print(f"Road lane_spacing_factor: {lane_spacing_factor}")
+                            
                 # Tab switching
                 for label, rect in tabs.items():
                     if rect.collidepoint(event.pos):

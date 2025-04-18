@@ -177,15 +177,15 @@
     </edge>
 
     <tlLogic id="main1" type="static" programID="0" offset="0">
-        <phase duration="72" state="GGgrrrGGgrrr"/>
+        <phase duration="72" state="GGgrrrGGgrrr" name="red"/>
         <phase duration="3"  state="yyyrrryyyrrr"/>
-        <phase duration="72" state="rrrGGgrrrGGg"/>
+        <phase duration="72" state="rrrGGgrrrGGg" name="green"/>
         <phase duration="3"  state="rrryyyrrryyy"/>
     </tlLogic>
     <tlLogic id="main2" type="static" programID="0" offset="0">
-        <phase duration="72" state="GGgrrrGGgrrr"/>
+        <phase duration="72" state="GGgrrrGGgrrr" name="red"/>
         <phase duration="3"  state="yyyrrryyyrrr"/>
-        <phase duration="72" state="rrrGGgrrrGGg"/>
+        <phase duration="72" state="rrrGGgrrrGGg" name="green"/>
         <phase duration="3"  state="rrryyyrrryyy"/>
     </tlLogic>
 

@@ -175,7 +175,7 @@ def generate_random_trips(network_selection, trip_file, max_steps, seed):
     debug = 0
     #cmd = f"C:/Users/chuny/Desktop/lucas/Python%20Projects/traffic_optimization/randomTrips.py -n OSM_RandomTrips/keeleandmajmack.net.xml -r {trip_file} -e {max_steps} --random -s {seed} -o out/trips.trips.xml"
     randomTrips = r'"C:\Program Files (x86)\Eclipse\Sumo\tools\randomTrips.py"'
-    cmd = f"python {randomTrips} -n {network_selection} -r {trip_file} -e {max_steps} --random -s {seed} -i 1"
+    cmd = f"python {randomTrips} -n {network_selection} -r {trip_file} -e {max_steps} --random -s {seed} -i 1 --period 2"
 
     # print (f"This is the CMD line {cmd}")
 
@@ -189,7 +189,7 @@ def generate_random_trips_weighted(network_selection, trip_file, max_steps, seed
     randomTrips = r'"C:\Program Files (x86)\Eclipse\Sumo\tools\randomTrips.py"'
     # print(weight_prefix)
     # sys.exit()
-    cmd = f"python {randomTrips} --weights-prefix {weight_prefix} -n {network_selection} -r {trip_file} -e {max_steps} --random -s {seed} -i 1"
+    cmd = f"python {randomTrips} --weights-prefix {weight_prefix} -n {network_selection} -r {trip_file} -e {max_steps} --random -s {seed} -i 1 --period 2"
 
     # print (f"This is the CMD line {cmd}")
 
@@ -474,7 +474,7 @@ def run_sumo(config_file, max_steps, result_queue, average_speed_n_steps, out_di
     traci.close()
 
     # Print the average idle time
-    print(f"DEBUG INSIDE <run_sumo> : config_file={config_file}, max_steps={max_steps}, Average Idle Time:{average_idle_time}" )
+    # print(f"DEBUG INSIDE <run_sumo> : config_file={config_file}, max_steps={max_steps}, Average Idle Time:{average_idle_time}" )
     os.chdir(current_directory)
     result_queue.put(average_idle_time)
 
@@ -549,7 +549,7 @@ def batched_run_sumo (phase, num_batches, num_runs_per_batch, output_folder, net
             average_idle_times_from_batch.append(result)
 
         # Write the iteration number to the output_data file
-        # output_data_file = output_data.txt
+        # output_data_file = "output_data.txt"
         with open(output_data_file, "a") as f:
             for idx, average_idle_time in enumerate(average_idle_times_from_batch):
                 f.write(f"Random Seed: {random_seeds[idx]},")
