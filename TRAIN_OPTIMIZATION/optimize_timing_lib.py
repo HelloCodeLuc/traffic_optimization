@@ -114,6 +114,7 @@ def network_timings(network_template, target_net_file, light_names, timing_light
 
             file.close()
             print(f"DEBUG : green_light_timings = {green_light_and_offset_timings}\n")
+            print(duration)
             with open(previous_greenlight_timings_file, "a") as f:
                 f.write(f"{green_light_and_offset_timings}\n")
             f.close()
