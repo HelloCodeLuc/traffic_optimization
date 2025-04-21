@@ -12,6 +12,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), 'TRAIN_COMMON_LIB'))
 import basic_utilities
 from io import BytesIO
 import json
+import glob 
 
 # Define colors
 WHITE = (255, 255, 255)
@@ -166,7 +167,7 @@ def my_plot(output_data_file):
                 average_idle_times.append(float(average_idle_time))
 
     # Create a figure and plot the data
-    fig, ax = plt.subplots(figsize=(5, 3))  # Adjust the figure size if needed
+    fig, ax = plt.subplots(figsize=(6, 5))  # Adjust the figure size if needed
     ax.plot(iteration_numbers, average_idle_times, marker='o')
     ax.set_xlabel('Iteration')
     ax.set_ylabel('Average Idle Time')
@@ -175,7 +176,7 @@ def my_plot(output_data_file):
     ax.set_xlim(left=0)
 
     # Reduce the number of y-axis labels using np.linspace
-    ax.set_yticks(np.linspace(min(average_idle_times) - 20, max(average_idle_times) + 20, 5))
+    ax.set_yticks(np.linspace(min(average_idle_times) - 10, max(average_idle_times) + 10, 5))
 
     # Create a canvas and draw the figure onto it
     canvas = FigureCanvas(fig)
@@ -482,7 +483,7 @@ def plot_bluetooth_training_delta(avg_deltas, high_deltas):
     return resized_image
 
 
-def gui_main(gui_colour, max_steps, output_dir, num_batches, num_runs_per_batch):
+def gui_main(gui_colour, max_steps, output_dir, num_batches, num_runs_per_batch, restart):
 
     # Initialize Pygame
     pygame.init()
@@ -549,6 +550,17 @@ def gui_main(gui_colour, max_steps, output_dir, num_batches, num_runs_per_batch)
     road_width = 1
     lane_spacing_factor = 2
     while running:
+        if (restart == 1):
+            network_dir = basic_utilities.find_timing_file_prefix(output_dir)
+            selected_network = f"{network_dir}/{network_dir}.net.xml"
+            # Read the JSON file  
+            with open(f"NETWORKS/{network_dir}/{network_dir}.cfg.json", 'r') as file:  
+                data = json.load(file)  
+            
+            # Assign values to variables  
+            road_width = data.get('road_width', 4)                    # Defaults to 4 if not set  
+            lane_spacing_factor = data.get('lane_spacing_factor', 3)  # Defaults to 3 if not set 
+    
         junction_coords_file = f"{output_dir}\\GUI_junction_coordinates.csv"
         junction_bluetooth_csv_file = f"NETWORKS/{network_dir}/{network_dir}_junctions.bluetooth.csv"
         optimize_network_averages_txt = f'{output_dir}/TRAIN_OPTIMIZATION/network_averages.txt'

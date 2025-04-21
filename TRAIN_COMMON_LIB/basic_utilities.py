@@ -13,6 +13,7 @@ import time
 import shutil
 from multiprocessing import Process, Queue
 import fileinput
+from pathlib import Path
 
 def get_current_datetime():
     # Get the current date and time
@@ -30,6 +31,44 @@ def hit_space_to_continue():
         if user_input.lower() == ' ':
             break
     return
+
+def find_timing_file_prefix(output_dir):
+    # Search for the .timing.net.xml file
+    search_path = os.path.join(output_dir, 'TRAIN_OPTIMIZATION', '*.timing.net.xml')
+    matching_files = glob.glob(search_path)
+
+    if not matching_files:
+        return None  # Or raise an error if preferred
+
+    # Take the first match (you can change logic if there might be more)
+    full_path = matching_files[0]
+    filename = os.path.basename(full_path)
+
+    # Extract prefix before .timing.net.xml
+    if filename.endswith('.timing.net.xml'):
+        prefix = filename.replace('.timing.net.xml', '')
+        return prefix
+
+    return None
+
+def get_latest_output_directory(base_path='out'):
+    latest_time = None
+    latest_dir = None
+
+    for name in os.listdir(base_path):
+        dir_path = os.path.join(base_path, name)
+        if os.path.isdir(dir_path):
+            try:
+                # Try to parse the directory name as a datetime
+                dir_time = datetime.strptime(name, "%Y_%m_%d_%H_%M_%S")
+                if latest_time is None or dir_time > latest_time:
+                    latest_time = dir_time
+                    latest_dir = Path(dir_path).as_posix()
+            except ValueError:
+                # Skip directories that don't match the expected format
+                continue
+
+    return latest_dir
 
 def get_most_recent_subdirectory(parent_dir):
     # Get a list of all subdirectories in the given directory
