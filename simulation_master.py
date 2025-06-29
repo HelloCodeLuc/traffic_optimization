@@ -37,7 +37,7 @@ light_name_data = {
     }
 
 gui_colour = "blue"
-timing_light_increment = 2
+timing_light_increment = 4
 num_batches = 6
 num_runs_per_batch = 6
 max_steps = 1100
