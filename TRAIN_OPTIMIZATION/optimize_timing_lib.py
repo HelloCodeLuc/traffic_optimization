@@ -114,6 +114,7 @@ def network_timings(network_template, target_net_file, light_names, timing_light
 
             file.close()
             print(f"DEBUG : green_light_timings = {green_light_and_offset_timings}\n")
+            print(duration)
             with open(previous_greenlight_timings_file, "a") as f:
                 f.write(f"{green_light_and_offset_timings}\n")
             f.close()
@@ -218,7 +219,7 @@ def read_commands(file_path):
 
 
 def optimize_timing_main (phase, output_folder, output_data_file, max_num_of_runs_on_network, num_batches, num_runs_per_batch, network_selection, max_steps, 
-             network_with_timing, light_names, timing_light_increment, network_averages, num_of_greenlight_duplicate_limit, average_speed_n_steps):
+             network_with_timing, light_names, timing_light_increment, network_averages, num_of_greenlight_duplicate_limit, average_speed_n_steps, restart):
     
     debug = 0
     current_directory = os.getcwd()
@@ -233,10 +234,11 @@ def optimize_timing_main (phase, output_folder, output_data_file, max_num_of_run
                 previous_greenlight_timings[line] = 1
         file.close()
 
-    shutil.copy2(f"{output_folder}/TRAIN_BLUETOOTH/weights.src.xml", f"{output_folder}/TRAIN_OPTIMIZATION/weights.src.xml")
-    shutil.copy2(f"{output_folder}/TRAIN_BLUETOOTH/weights.dst.xml", f"{output_folder}/TRAIN_OPTIMIZATION/weights.dst.xml")
-    if os.path.exists(f"{output_folder}/TRAIN_BLUETOOTH/weights.via.xml"):
-        shutil.copy2(f"{output_folder}/TRAIN_BLUETOOTH/weights.via.xml", f"{output_folder}/TRAIN_OPTIMIZATION/weights.via.xml")
+    if (restart == 0):
+        shutil.copy2(f"{output_folder}/TRAIN_BLUETOOTH/weights.src.xml", f"{output_folder}/TRAIN_OPTIMIZATION/weights.src.xml")
+        shutil.copy2(f"{output_folder}/TRAIN_BLUETOOTH/weights.dst.xml", f"{output_folder}/TRAIN_OPTIMIZATION/weights.dst.xml")
+        if os.path.exists(f"{output_folder}/TRAIN_BLUETOOTH/weights.via.xml"):
+            shutil.copy2(f"{output_folder}/TRAIN_BLUETOOTH/weights.via.xml", f"{output_folder}/TRAIN_OPTIMIZATION/weights.via.xml")
 
 
     core_count = basic_utilities.return_num_of_cores()

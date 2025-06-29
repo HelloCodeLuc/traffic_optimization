@@ -12,6 +12,7 @@ import optimize_timing_lib
 import gui_main
 import json
 from multiprocessing import Process, Queue
+from datetime import datetime
 
 #TODO put an average line on graph
 
@@ -38,7 +39,7 @@ light_name_data = {
 
 gui_colour = "blue"
 timing_light_increment = 4
-num_batches = 6
+num_batches = 16
 num_runs_per_batch = 6
 max_steps = 1100
 max_num_of_runs_on_network = 1000
@@ -52,7 +53,7 @@ weight_change = 0.1
 weight_accuracy = 4
 max_weight = 100
 
-def main_loop(num_batches, num_runs_per_batch, network_selection, max_steps, phase, output_folder):
+def main_loop(num_batches, num_runs_per_batch, network_selection, max_steps, phase, output_folder, restart):
 
     while True:
         command = optimize_timing_lib.read_commands("out/command_queue.txt")
@@ -74,55 +75,66 @@ def main_loop(num_batches, num_runs_per_batch, network_selection, max_steps, pha
                 # Print the assigned values  
                 print(f"Weight Accuracy: {weight_accuracy}")  
             elif command == start_command:
+                parsed_string_without_extension = ""
+                if (restart == 0):
+                    if not os.path.exists(output_folder):
+                        os.makedirs(output_folder)
+                        os.makedirs(f"{output_folder}/TRAIN_BLUETOOTH")
 
-                if not os.path.exists(output_folder):
-                    os.makedirs(output_folder)
-                    os.makedirs(f"{output_folder}/TRAIN_BLUETOOTH")
+                    # Input and output file paths
+                    csv_file_edges = f'{output_folder}/GUI_edges.csv'
+                    csv_file_junctions = f'{output_folder}/GUI_junction_coordinates.csv'
+                    # Run the function
+                    basic_utilities.extract_network_edges(network_selection, csv_file_edges)
+                    basic_utilities.extract_network_junctions(network_selection, csv_file_junctions)
 
-                # Input and output file paths
-                csv_file_edges = f'{output_folder}/GUI_edges.csv'
-                csv_file_junctions = f'{output_folder}/GUI_junction_coordinates.csv'
-                # Run the function
-                basic_utilities.extract_network_edges(network_selection, csv_file_edges)
-                basic_utilities.extract_network_junctions(network_selection, csv_file_junctions)
+                    output_data_file = os.path.join(output_folder, "TRAIN_BLUETOOTH/output_data.txt")
+                    parsed_string = network_selection.split("/")[-1]
+                    parsed_string_without_extension = parsed_string.replace(".net.xml", "")
+                    bluetooth_network_with_timing = os.path.join(output_folder, f"TRAIN_BLUETOOTH/{parsed_string_without_extension}.timing.net.xml")
+                    phase = "bluetooth"
+                    bluetooth_lib.bluetooth_training(phase, bluetooth_network_with_timing, output_folder, output_data_file, max_num_of_runs_on_network, num_batches, num_runs_per_batch, network_selection, 
+                                                    max_steps, bluetooth_network_with_timing, light_names, timing_light_increment,  
+                                                    num_of_greenlight_duplicate_limit, average_speed_n_steps, weight_prefix, weight_change, weight_accuracy, max_weight)
 
-                output_data_file = os.path.join(output_folder, "TRAIN_BLUETOOTH/output_data.txt")
-                parsed_string = network_selection.split("/")[-1]
-                parsed_string_without_extension = parsed_string.replace(".net.xml", "")
-                bluetooth_network_with_timing = os.path.join(output_folder, f"TRAIN_BLUETOOTH/{parsed_string_without_extension}.timing.net.xml")
-                phase = "bluetooth"
-                bluetooth_lib.bluetooth_training(phase, bluetooth_network_with_timing, output_folder, output_data_file, max_num_of_runs_on_network, num_batches, num_runs_per_batch, network_selection, 
-                                                max_steps, bluetooth_network_with_timing, light_names, timing_light_increment,  
-                                                num_of_greenlight_duplicate_limit, average_speed_n_steps, weight_prefix, weight_change, weight_accuracy, max_weight)
+                    # sys.exit()
+                    os.makedirs(f"{output_folder}/TRAIN_OPTIMIZATION")
+                    shutil.copy2 (f'{output_folder}/TRAIN_BLUETOOTH/GUI_average_speeds.csv' , f'{output_folder}/TRAIN_OPTIMIZATION/GUI_average_speeds.start.csv')
+                else: 
+                    parsed_string_without_extension = basic_utilities.find_timing_file_prefix(output_folder)
 
-                # sys.exit()
-                os.makedirs(f"{output_folder}/TRAIN_OPTIMIZATION")
                 phase = "optimize"
-                shutil.copy2 (f'{output_folder}/TRAIN_BLUETOOTH/GUI_average_speeds.csv' , f'{output_folder}/TRAIN_OPTIMIZATION/GUI_average_speeds.start.csv')
                 output_data_file = os.path.join(output_folder, "TRAIN_OPTIMIZATION/output_data.txt")
                 network_averages = os.path.join(output_folder, "TRAIN_OPTIMIZATION/network_averages.txt")
                 network_with_timing = os.path.join(output_folder, f"TRAIN_OPTIMIZATION/{parsed_string_without_extension}.timing.net.xml")
 
                 optimize_timing_lib.optimize_timing_main (phase, output_folder, output_data_file, max_num_of_runs_on_network, num_batches, num_runs_per_batch, network_selection, 
                                                 max_steps, network_with_timing, light_names, timing_light_increment, network_averages, 
-                                                num_of_greenlight_duplicate_limit, average_speed_n_steps)
+                                                num_of_greenlight_duplicate_limit, average_speed_n_steps, restart)
                 command = "STOP"
 
 
 if __name__ == "__main__":
 
-    #if not os.path.exists("out"):
-    #    os.makedirs("out")
+    restart = 0
 
-    date = f"{basic_utilities.get_current_datetime()}"
-    output_folder = f"out/{date}"
+    if not os.path.exists("out"):
+       os.makedirs("out")
 
+    if (restart == 1):
+        latest = basic_utilities.get_latest_output_directory()    
+        output_folder = latest
+    else:
+        date = f"{basic_utilities.get_current_datetime()}"
+        output_folder = f"out/{date}"
+
+    print("output folder:", output_folder)
     # Create a list to store the processes and results
     processes = []
 
-    process = Process(target=gui_main.gui_main, args=(gui_colour, max_steps, output_folder, num_batches, num_runs_per_batch))
+    process = Process(target=gui_main.gui_main, args=(gui_colour, max_steps, output_folder, num_batches, num_runs_per_batch, restart))
     processes.append(process)
-    process = Process(target=main_loop, args=(num_batches, num_runs_per_batch, network_selection, max_steps, phase, output_folder))
+    process = Process(target=main_loop, args=(num_batches, num_runs_per_batch, network_selection, max_steps, phase, output_folder, restart))
     processes.append(process)
     for process in processes:
         process.start()
