@@ -20,14 +20,15 @@ def extract_j_tl_mapping(network_file):
         via = conn.get("via")
         tl = conn.get("tl")
         if via and tl:
-            j_number = via.split(":J")[-1].split("_")[0]
-            j_tl_mapping[f"J{j_number}"] = tl
+            #j_number = via.split(":J")[-1].split("_")[0]
+            j_number = via.split(':')[1].split('_')[0]
+            j_tl_mapping[f"{j_number}"] = tl
     
     return j_tl_mapping
 
 # Extract the number sequence after "Green Light Timings:"
 def extract_timings(line):
-    match = re.search(r"Green Light Timings: ([\d:]+)", line)
+    match = re.search(r"Green Light Timings: ([\-\d:]+)", line)
     return match.group(1) if match else None
 
 # Function to process the timings
@@ -56,15 +57,12 @@ def process_timings(tl_logic_ids, timings_str):
 # coordinat4s to the Jnumber, Jnumber to tlname, tlname to timing change
 # at the end we want to have a dictionary that maps the coodinats to the timing (green, offset)
 def coordinates_to_diff_of_offset_and_greenlight (network_file, network_junction_csv, network_averages):
-    # Example usage
-    #file_path = "input.xml"  # Change this to your actual file path
-    tl_logic_ids = extract_tl_logic_ids(network_file)
-    #print(tl_logic_ids)
 
-    # Example usage
-    #file_path = "input.xml"  # Change this to your actual file path
+    tl_logic_ids = extract_tl_logic_ids(network_file)
+    # print(f"DEBUG A0 : {tl_logic_ids}")
+
     j_tl_mapping = extract_j_tl_mapping(network_file)
-    #print(j_tl_mapping)
+    # print(f"DEBUG A1 : {j_tl_mapping}")
 
     # Read junction coordinates from file
     junction_coords = {}
@@ -75,6 +73,7 @@ def coordinates_to_diff_of_offset_and_greenlight (network_file, network_junction
             junction_id, x, y = row
             key = f"{x},{y}"
             junction_coords[key] = j_tl_mapping.get(junction_id, "not applicable")
+            # print (f"DEBUG 1 : {junction_id}: {x}, {y}")
 
     # Print the results
     #print(junction_coords)
@@ -90,9 +89,13 @@ def coordinates_to_diff_of_offset_and_greenlight (network_file, network_junction
                     first_keep = line.strip()  # Save the first "keep" line
                 last_keep = line.strip()  # Overwrites until the last "keep" line
 
+    # print (f"DEBUG 0: first_keep : {first_keep}")
+    # print (f"DEBUG 0: last_keep : {last_keep}")
 
     first_keep_timings = extract_timings(first_keep) if first_keep else None
     last_keep_timings = extract_timings(last_keep) if last_keep else None
+    # print (f"DEBUG 1: first_keep_timings : {first_keep_timings}")
+    # print (f"DEBUG 1: last_keep_timings : {last_keep_timings}")
 
     # Process first and last "keep" lines
     first_keep_dict = process_timings(tl_logic_ids, first_keep_timings)
@@ -102,6 +105,9 @@ def coordinates_to_diff_of_offset_and_greenlight (network_file, network_junction
     coord_differences = {}
 
     for coord, tl_name in junction_coords.items():
+        # print (f"DEBUG 2: first_keep_dict : {first_keep_dict}")
+        # print (f"DEBUG 2: last_keep_dict : {last_keep_dict}")
+        # print (f"DEBUG 2: {coord}, {tl_name}")
         if tl_name in first_keep_dict and tl_name in last_keep_dict:
             # Get values
             offset_last = last_keep_dict[tl_name]["offset"]
