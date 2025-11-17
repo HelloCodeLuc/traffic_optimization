@@ -34,7 +34,8 @@ light_name_data = {
             "mackenzie_peter", "maurier_dufferin", "peter_rutherford",
             "rutherford_dufferin"],
     "weight_test/weight_test.net.xml": ["main"],
-    "simple_network/simple_network.net.xml": ["main1", "main2"]
+    "simple_network/simple_network.net.xml": ["main1", "main2"],
+    "Hwy7_404_network/Hwy7_404.net.xml": []
     }
 
 gui_colour = "blue"
