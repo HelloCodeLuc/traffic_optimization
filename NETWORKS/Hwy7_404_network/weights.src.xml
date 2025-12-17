@@ -1,0 +1,37 @@
+<edgedata>
+  <interval begin="0" end="100">
+    <edge id="E251" value="20.0"/>
+    <edge id="-E222" value="20.0"/>
+    <edge id="E13" value="20.0"/>
+    <edge id="-E326" value="20.0"/>
+    <edge id="-E1" value="20.0"/>
+    <edge id="-E258" value="20.0"/>
+    <edge id="E321" value="20.0"/>
+    <edge id="-E36" value="20.0"/>
+    <edge id="E324" value="20.0"/>
+    <edge id="-E178" value="20.0"/>
+    <edge id="E12" value="20.0"/>
+    <edge id="E161" value="20.0"/>
+    <edge id="-E10" value="20.0"/>
+    <edge id="-E244" value="20.0"/>
+    <edge id="-E52" value="20.0"/>
+    <edge id="-E20" value="20.0"/>
+    <edge id="E341" value="20.0"/>
+    <edge id="-E128" value="20.0"/>
+    <edge id="E325" value="20.0"/>
+    <edge id="E64" value="20.0"/>
+    <edge id="E23" value="20.0"/>
+    <edge id="-E236" value="20.0"/>
+    <edge id="E319" value="20.0"/>
+    <edge id="-E9" value="20.0"/>
+    <edge id="-E11" value="20.0"/>
+    <edge id="-E337" value="20.0"/>
+    <edge id="E6" value="20.0"/>
+    <edge id="E5" value="20.0"/>
+    <edge id="E167" value="20.0"/>
+    <edge id="-E305" value="20.0"/>
+    <edge id="-E15" value="20.0"/>
+    <edge id="-E269" value="20.0"/>
+    <edge id="E264" value="20.0"/>
+  </interval>
+</edgedata>

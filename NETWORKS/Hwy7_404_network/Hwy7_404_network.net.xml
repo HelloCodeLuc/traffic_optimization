@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- generated on 2025-11-16 19:00:41 by Eclipse SUMO netedit Version 1.19.0
+<!-- generated on 2025-12-16 22:55:04 by Eclipse SUMO netedit Version 1.19.0
 <configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/neteditConfiguration.xsd">
 
     <input>
-        <sumo-net-file value="C:\Users\Lucas\Lucas\traffic_optimization\traffic_optimization\NETWORKS\Hwy7_404_network\Hwy7_404_network.net.xml"/>
+        <sumo-net-file value="C:\Users\647va\.vscode\traffic_optimization\traffic_optimization-3\NETWORKS\Hwy7_404_network\Hwy7_404_network.net.xml"/>
     </input>
 
     <output>
-        <output-file value="C:\Users\Lucas\Lucas\traffic_optimization\traffic_optimization\NETWORKS\Hwy7_404_network\Hwy7_404_network.net.xml"/>
+        <output-file value="C:\Users\647va\.vscode\traffic_optimization\traffic_optimization-3\NETWORKS\Hwy7_404_network\Hwy7_404_network.net.xml"/>
     </output>
 
     <processing>
@@ -1226,6 +1226,20 @@
         <lane id=":J157_1_2" index="2" speed="13.89" length="3.02" shape="-3387.07,-1886.86 -3384.39,-1885.46"/>
         <lane id=":J157_1_3" index="3" speed="13.89" length="3.02" shape="-3388.66,-1884.08 -3385.99,-1882.69"/>
         <lane id=":J157_1_4" index="4" speed="13.89" length="3.02" shape="-3390.25,-1881.30 -3387.59,-1879.92"/>
+    </edge>
+    <edge id=":J16_0" function="internal">
+        <lane id=":J16_0_0" index="0" speed="13.89" length="7.74" shape="-1822.73,-1208.10 -1822.64,-1205.72 -1821.81,-1204.11 -1820.97,-1202.50 -1820.89,-1200.12"/>
+        <lane id=":J16_0_1" index="1" speed="13.89" length="7.74" shape="-1822.73,-1208.10 -1824.04,-1200.68"/>
+        <lane id=":J16_0_2" index="2" speed="13.89" length="7.74" shape="-1825.88,-1208.66 -1827.19,-1201.25"/>
+        <lane id=":J16_0_3" index="3" speed="13.89" length="7.74" shape="-1829.03,-1209.21 -1830.34,-1201.81"/>
+    </edge>
+    <edge id=":J16_4" function="internal">
+        <lane id=":J16_4_0" index="0" speed="6.58" length="6.49" shape="-1842.94,-1204.07 -1842.84,-1205.80 -1843.20,-1207.31 -1844.02,-1208.60 -1845.29,-1209.68"/>
+    </edge>
+    <edge id=":J16_5" function="internal">
+        <lane id=":J16_5_0" index="0" speed="13.89" length="7.50" shape="-1839.79,-1203.50 -1838.49,-1210.88"/>
+        <lane id=":J16_5_1" index="1" speed="13.89" length="7.50" shape="-1836.64,-1202.94 -1835.34,-1210.32"/>
+        <lane id=":J16_5_2" index="2" speed="13.89" length="7.50" shape="-1833.49,-1202.37 -1832.19,-1209.77"/>
     </edge>
     <edge id=":J164_0" function="internal">
         <lane id=":J164_0_0" index="0" speed="13.89" length="58.12" shape="-2186.62,-1523.72 -2167.76,-1525.77 -2153.32,-1529.92 -2141.60,-1534.72 -2130.86,-1538.73"/>
@@ -4372,33 +4386,7 @@
         <lane id="E9_3" index="3" speed="13.89" length="150.94" shape="-1860.08,-1053.79 -1833.49,-1202.37"/>
     </edge>
 
-    <tlLogic id="J109" type="actuated" programID="0" offset="6">
-        <phase duration="9"  state="rrrrrrrrrrGGrrrrrrrrrrGG" minDur="7" maxDur="7"/>
-        <phase duration="3"  state="rrrrrrrrrryyrrrrrrrrrryy"/>
-        <phase duration="81.50" state="rrrrrrGGGGggrrrrrrGGGGgg" minDur="35" maxDur="35"/>
-        <phase duration="4.50"  state="rrrrrryyyyggrrrrrryyyygg"/>
-        <phase duration="38" state="GGGGggrrrrrrGGGGggrrrrrr" minDur="10" maxDur="19"/>
-        <phase duration="4"  state="yyyyggrrrrrryyyyggrrrrrr"/>
-    </tlLogic>
-    <tlLogic id="J110" type="actuated" programID="0" offset="131">
-        <phase duration="6"  state="rrrrrrGrrrrrrG" minDur="5" maxDur="50"/>
-        <phase duration="3"  state="rrrrrryrrrrrry"/>
-        <phase duration="33" state="GrrGGGgGrrGGGg" minDur="5" maxDur="50"/>
-        <phase duration="3"  state="yrryyyyyrryyyy"/>
-        <phase duration="6"  state="rrGrrrrrrGrrrr" minDur="5" maxDur="50"/>
-        <phase duration="3"  state="rryrrrrrryrrrr"/>
-        <phase duration="33" state="GGgrrrrGGgrrrr" minDur="5" maxDur="50"/>
-        <phase duration="3"  state="yyyrrrryyyrrrr"/>
-    </tlLogic>
-    <tlLogic id="J114" type="actuated" programID="0" offset="49">
-        <phase duration="6"  state="rrrrrGrrrrrrrrrrrGrrrrrr" minDur="5" maxDur="50"/>
-        <phase duration="3"  state="rrrrryrrrrrrrrrrryrrrrrr"/>
-        <phase duration="37" state="GGGGGgrrrrrrGGGGGgrrrrrr" minDur="5" maxDur="50"/>
-        <phase duration="3"  state="yyyyyyrrrrrryyyyyyrrrrrr"/>
-        <phase duration="37" state="rrrrrrGGGGGgrrrrrrGGGGGg" minDur="5" maxDur="50"/>
-        <phase duration="3"  state="rrrrrryyyyyyrrrrrryyyyyy"/>
-    </tlLogic>
-    <tlLogic id="J12" type="actuated" programID="0" offset="0">
+    <tlLogic id="16th_bayview" type="actuated" programID="0" offset="0">
         <phase duration="7"  state="rrrGrrrG" minDur="7" maxDur="7"/>
         <phase duration="3"  state="rrryrrry"/>
         <phase duration="15" state="rrGgrrGg" minDur="15" maxDur="40"/>
@@ -4412,17 +4400,43 @@
         <param key="ring1" value="1,2,3,4"/>
         <param key="ring2" value="5,6,7,8"/>
     </tlLogic>
-    <tlLogic id="J129" type="actuated" programID="0" offset="49">
-        <phase duration="33" state="GGGGgrrrrrGGGGgggrrr" minDur="5" maxDur="50"/>
-        <phase duration="3"  state="yyyygrrrrryyyygggrrr"/>
-        <phase duration="6"  state="rrrrGrrrrrrrrrGGGrrr" minDur="5" maxDur="50"/>
-        <phase duration="3"  state="rrrryrrrrrrrrryyyrrr"/>
-        <phase duration="33" state="rrrrrGGGGgrrrrrrrGGg" minDur="5" maxDur="50"/>
-        <phase duration="3"  state="rrrrryyyygrrrrrrryyg"/>
-        <phase duration="6"  state="rrrrrrrrrGrrrrrrrrrG" minDur="5" maxDur="50"/>
-        <phase duration="3"  state="rrrrrrrrryrrrrrrrrry"/>
+    <tlLogic id="16th_leslie" type="actuated" programID="0" offset="37">
+        <phase duration="6"  state="rrrrrrrGrrrrrrrG" minDur="5" maxDur="50"/>
+        <phase duration="3"  state="rrrrrrryrrrrrrry"/>
+        <phase duration="33" state="GrrrGGGgGrrrGGGg" minDur="5" maxDur="50"/>
+        <phase duration="3"  state="yrrryyyyyrrryyyy"/>
+        <phase duration="6"  state="rrrGrrrrrrrGrrrr" minDur="5" maxDur="50"/>
+        <phase duration="3"  state="rrryrrrrrrryrrrr"/>
+        <phase duration="33" state="GGGgGrrrGGGgGrrr" minDur="5" maxDur="50"/>
+        <phase duration="3"  state="yyyyyrrryyyyyrrr"/>
     </tlLogic>
-    <tlLogic id="J131" type="actuated" programID="0" offset="73">
+    <tlLogic id="16th_valleymede" type="actuated" programID="0" offset="0">
+        <phase duration="7"  state="rrrGrrrrrrrGrrr" minDur="7" maxDur="7"/>
+        <phase duration="3"  state="rrryrrrrrrryrrr"/>
+        <phase duration="31" state="GGGgrrrrGGGgrrr" minDur="31" maxDur="31"/>
+        <phase duration="4.50"  state="yyyyrrrryyyyrrr"/>
+        <phase duration="10" state="rrrrGGggrrrrGGg" minDur="10" maxDur="19"/>
+        <phase duration="4"  state="rrrryyryrrrryyy"/>
+    </tlLogic>
+    <tlLogic id="beaver_leslie" type="actuated" programID="0" offset="50">
+        <phase duration="9"  state="rrrrrrrrrrGGrrrrrrrrrrGG" minDur="7" maxDur="7"/>
+        <phase duration="3"  state="rrrrrrrrrryyrrrrrrrrrryy"/>
+        <phase duration="66.50" state="rrrrrrGGGGggrrrrrrGGGGgg" minDur="34" maxDur="34"/>
+        <phase duration="4.50"  state="rrrrrryyyyggrrrrrryyyygg"/>
+        <phase duration="9"  state="rrrrggrrrrrrGGGGGGrrrrrr" minDur="7" maxDur="7"/>
+        <phase duration="3"  state="rrrrggrrrrrrGGGGyyrrrrrr"/>
+        <phase duration="41" state="GGGGggrrrrrrGGGGggrrrrrr" minDur="10" maxDur="19"/>
+        <phase duration="4"  state="yyyyggrrrrrryyyyggrrrrrr"/>
+    </tlLogic>
+    <tlLogic id="briggs_bayview" type="actuated" programID="0" offset="0">
+        <phase duration="7"  state="rrrrrrrrGrrrrrrrrG" minDur="7" maxDur="7"/>
+        <phase duration="4.50"  state="rrrrrrrryrrrrrrrry"/>
+        <phase duration="30" state="rrrrrGGGgrrrrrGGGg" minDur="30" maxDur="30"/>
+        <phase duration="4.50"  state="rrrrryyyyrrrrryyyy"/>
+        <phase duration="10" state="GGGggrrrrGGGggrrrr" minDur="10" maxDur="19"/>
+        <phase duration="4.50"  state="yyyyyrrrryyyyyrrrr"/>
+    </tlLogic>
+    <tlLogic id="commerce_valley_leslie" type="actuated" programID="0" offset="73">
         <phase duration="9"  state="rrrrrrrrrrGGrrrrrrrrrrGG" minDur="7" maxDur="7"/>
         <phase duration="3"  state="rrrrrrrrrrGGrrrrrrrrrryy"/>
         <phase duration="3"  state="rrrrrrGGGGyyrrrrrrrrrrgg"/>
@@ -4433,15 +4447,7 @@
         <phase duration="37" state="GGGGggrrrrrrGGGGggrrrrrr" minDur="10" maxDur="19"/>
         <phase duration="4"  state="yyyyggrrrrrryyyyggrrrrrr"/>
     </tlLogic>
-    <tlLogic id="J133" type="actuated" programID="0" offset="75">
-        <phase duration="9"  state="rrrrrrrrrGrrrrrrrrrGG" minDur="7" maxDur="7"/>
-        <phase duration="3"  state="rrrrrrrrryrrrrrrrrryy"/>
-        <phase duration="81.50" state="rrrrrGGGGgrrrrrrGGGgg" minDur="30" maxDur="30"/>
-        <phase duration="4.50"  state="rrrrryyyygrrrrrryyygg"/>
-        <phase duration="38" state="GGGggrrrrrGGGGggrrrrr" minDur="10" maxDur="19"/>
-        <phase duration="4"  state="yyyyyrrrrryyyyyyrrrrr"/>
-    </tlLogic>
-    <tlLogic id="J14" type="actuated" programID="0" offset="0">
+    <tlLogic id="high_tech_bayview" type="actuated" programID="0" offset="0">
         <phase duration="7"  state="rrrrrrrGrrrrrrG" minDur="7" maxDur="7"/>
         <phase duration="3"  state="rrrrrrryrrrrrry"/>
         <phase duration="30" state="GrrrGGGgrrrGGGg" minDur="30" maxDur="30"/>
@@ -4451,15 +4457,7 @@
         <phase duration="10" state="GGGgrrrrGGgrrrr" minDur="10" maxDur="19"/>
         <phase duration="3"  state="yyyyrrrryyyrrrr"/>
     </tlLogic>
-    <tlLogic id="J142" type="actuated" programID="0" offset="0">
-        <phase duration="7"  state="rrrrrrrGrr" minDur="7" maxDur="7"/>
-        <phase duration="3"  state="rrrrrrryrr"/>
-        <phase duration="30" state="GGGGGGGgrr" minDur="30" maxDur="30"/>
-        <phase duration="5"  state="yyyyyyyyrr"/>
-        <phase duration="10" state="GrrrrrrrGG" minDur="10" maxDur="19"/>
-        <phase duration="4"  state="yrrrrrrryy"/>
-    </tlLogic>
-    <tlLogic id="J15" type="actuated" programID="0" offset="0">
+    <tlLogic id="hwy7_bayview" type="actuated" programID="0" offset="0">
         <phase duration="7"  state="rrrrrrGrrrrrrG" minDur="7" maxDur="7"/>
         <phase duration="3"  state="rrrrrryrrrrrry"/>
         <phase duration="35" state="GrrGGGgGrrGGGg" minDur="35" maxDur="35"/>
@@ -4469,41 +4467,33 @@
         <phase duration="10" state="GGgrrrrGGgGrrr" minDur="10" maxDur="19"/>
         <phase duration="4"  state="yyyrrrryyyyrrr"/>
     </tlLogic>
-    <tlLogic id="J35" type="actuated" programID="0" offset="0">
-        <phase duration="7"  state="rrrrrrrrGrrrrrrrrG" minDur="7" maxDur="7"/>
-        <phase duration="4.50"  state="rrrrrrrryrrrrrrrry"/>
-        <phase duration="30" state="rrrrrGGGgrrrrrGGGg" minDur="30" maxDur="30"/>
-        <phase duration="4.50"  state="rrrrryyyyrrrrryyyy"/>
-        <phase duration="10" state="GGGggrrrrGGGggrrrr" minDur="10" maxDur="19"/>
-        <phase duration="4.50"  state="yyyyyrrrryyyyyrrrr"/>
+    <tlLogic id="hwy7_bayview_connecting" type="actuated" programID="0" offset="0">
+        <phase duration="7"  state="rrrrrrrGrr" minDur="7" maxDur="7"/>
+        <phase duration="3"  state="rrrrrrryrr"/>
+        <phase duration="30" state="GGGGGGGgrr" minDur="30" maxDur="30"/>
+        <phase duration="5"  state="yyyyyyyyrr"/>
+        <phase duration="10" state="GrrrrrrrGG" minDur="10" maxDur="19"/>
+        <phase duration="4"  state="yrrrrrrryy"/>
     </tlLogic>
-    <tlLogic id="J38" type="actuated" programID="0" offset="0">
-        <phase duration="7"  state="rrrGrrrrrrrGrrr" minDur="7" maxDur="7"/>
-        <phase duration="3"  state="rrryrrrrrrryrrr"/>
-        <phase duration="31" state="GGGgrrrrGGGgrrr" minDur="31" maxDur="31"/>
-        <phase duration="4.50"  state="yyyyrrrryyyyrrr"/>
-        <phase duration="10" state="rrrrGGggrrrrGGg" minDur="10" maxDur="19"/>
-        <phase duration="4"  state="rrrryyryrrrryyy"/>
+    <tlLogic id="hwy7_commerce_valley_east" type="actuated" programID="0" offset="49">
+        <phase duration="33" state="GGGGgrrrrrGGGGgggrrr" minDur="5" maxDur="50"/>
+        <phase duration="3"  state="yyyygrrrrryyyygggrrr"/>
+        <phase duration="6"  state="rrrrGrrrrrrrrrGGGrrr" minDur="5" maxDur="50"/>
+        <phase duration="3"  state="rrrryrrrrrrrrryyyrrr"/>
+        <phase duration="33" state="rrrrrGGGGgrrrrrrrGGg" minDur="5" maxDur="50"/>
+        <phase duration="3"  state="rrrrryyyygrrrrrrryyg"/>
+        <phase duration="6"  state="rrrrrrrrrGrrrrrrrrrG" minDur="5" maxDur="50"/>
+        <phase duration="3"  state="rrrrrrrrryrrrrrrrrry"/>
     </tlLogic>
-    <tlLogic id="J44" type="actuated" programID="0" offset="37">
-        <phase duration="6"  state="rrrrrrrGrrrrrrrG" minDur="5" maxDur="50"/>
-        <phase duration="3"  state="rrrrrrryrrrrrrry"/>
-        <phase duration="33" state="GrrrGGGgGrrrGGGg" minDur="5" maxDur="50"/>
-        <phase duration="3"  state="yrrryyyyyrrryyyy"/>
-        <phase duration="6"  state="rrrGrrrrrrrGrrrr" minDur="5" maxDur="50"/>
-        <phase duration="3"  state="rrryrrrrrrryrrrr"/>
-        <phase duration="33" state="GGGgGrrrGGGgGrrr" minDur="5" maxDur="50"/>
-        <phase duration="3"  state="yyyyyrrryyyyyrrr"/>
+    <tlLogic id="hwy7_leslie" type="actuated" programID="0" offset="49">
+        <phase duration="6"  state="rrrrrGrrrrrrrrrrrGrrrrrr" minDur="5" maxDur="50"/>
+        <phase duration="3"  state="rrrrryrrrrrrrrrrryrrrrrr"/>
+        <phase duration="37" state="GGGGGgrrrrrrGGGGGgrrrrrr" minDur="5" maxDur="50"/>
+        <phase duration="3"  state="yyyyyyrrrrrryyyyyyrrrrrr"/>
+        <phase duration="37" state="rrrrrrGGGGGgrrrrrrGGGGGg" minDur="5" maxDur="50"/>
+        <phase duration="3"  state="rrrrrryyyyyyrrrrrryyyyyy"/>
     </tlLogic>
-    <tlLogic id="J56" type="actuated" programID="0" offset="0">
-        <phase duration="7"  state="rrrrGrrrrrrrGrrr" minDur="7" maxDur="35"/>
-        <phase duration="3"  state="rrrryrrrrrrryrrr"/>
-        <phase duration="30" state="GGGGgrrrGGGGgrrr" minDur="30" maxDur="35"/>
-        <phase duration="3"  state="yyyyyrrryyyyyrrr"/>
-        <phase duration="10" state="rrrrrGGgrrrrrGGg" minDur="10" maxDur="35"/>
-        <phase duration="3"  state="rrrrryyyrrrrryyy"/>
-    </tlLogic>
-    <tlLogic id="J74" type="actuated" programID="0" offset="0">
+    <tlLogic id="hwy7_saddlecreek" type="actuated" programID="0" offset="0">
         <phase duration="7"  state="rrrrGrrrrrrrGrrrr" minDur="7" maxDur="35"/>
         <phase duration="3"  state="rrrryrrrrrrryrrrr"/>
         <phase duration="30" state="GGGGgrrrGGGGgrrrr" minDur="30" maxDur="35"/>
@@ -4511,7 +4501,15 @@
         <phase duration="10" state="rrrrrGGgrrrrrGGGg" minDur="10" maxDur="35"/>
         <phase duration="3"  state="rrrrryyyrrrrryyyy"/>
     </tlLogic>
-    <tlLogic id="J77" type="actuated" programID="0" offset="0">
+    <tlLogic id="hwy7_south_park" type="actuated" programID="0" offset="0">
+        <phase duration="7"  state="rrrrGrrrrrrrGrrr" minDur="7" maxDur="35"/>
+        <phase duration="3"  state="rrrryrrrrrrryrrr"/>
+        <phase duration="30" state="GGGGgrrrGGGGgrrr" minDur="30" maxDur="35"/>
+        <phase duration="3"  state="yyyyyrrryyyyyrrr"/>
+        <phase duration="10" state="rrrrrGGgrrrrrGGg" minDur="10" maxDur="35"/>
+        <phase duration="3"  state="rrrrryyyrrrrryyy"/>
+    </tlLogic>
+    <tlLogic id="hwy7_times" type="actuated" programID="0" offset="0">
         <phase duration="7"  state="rrrGrrrrrrGrrr" minDur="7" maxDur="35"/>
         <phase duration="3"  state="rrryrrrrrryrrr"/>
         <phase duration="30" state="GGGgrrrGGGgrrr" minDur="30" maxDur="35"/>
@@ -4521,14 +4519,30 @@
         <phase duration="10" state="rrrrGGgrrrrGGg" minDur="10" maxDur="35"/>
         <phase duration="3"  state="rrrryyyrrrryyy"/>
     </tlLogic>
-    <tlLogic id="J95" type="actuated" programID="0" offset="50">
+    <tlLogic id="minthorn_leslie" type="actuated" programID="0" offset="75">
+        <phase duration="9"  state="rrrrrrrrrGrrrrrrrrrGG" minDur="7" maxDur="7"/>
+        <phase duration="3"  state="rrrrrrrrryrrrrrrrrryy"/>
+        <phase duration="81.50" state="rrrrrGGGGgrrrrrrGGGgg" minDur="30" maxDur="30"/>
+        <phase duration="4.50"  state="rrrrryyyygrrrrrryyygg"/>
+        <phase duration="38" state="GGGggrrrrrGGGGggrrrrr" minDur="10" maxDur="19"/>
+        <phase duration="4"  state="yyyyyrrrrryyyyyyrrrrr"/>
+    </tlLogic>
+    <tlLogic id="pearce_leslie" type="actuated" programID="0" offset="131">
+        <phase duration="6"  state="rrrrrrGrrrrrrG" minDur="5" maxDur="50"/>
+        <phase duration="3"  state="rrrrrryrrrrrry"/>
+        <phase duration="33" state="GrrGGGgGrrGGGg" minDur="5" maxDur="50"/>
+        <phase duration="3"  state="yrryyyyyrryyyy"/>
+        <phase duration="6"  state="rrGrrrrrrGrrrr" minDur="5" maxDur="50"/>
+        <phase duration="3"  state="rryrrrrrryrrrr"/>
+        <phase duration="33" state="GGgrrrrGGgrrrr" minDur="5" maxDur="50"/>
+        <phase duration="3"  state="yyyrrrryyyrrrr"/>
+    </tlLogic>
+    <tlLogic id="wilmot_leslie" type="actuated" programID="0" offset="6">
         <phase duration="9"  state="rrrrrrrrrrGGrrrrrrrrrrGG" minDur="7" maxDur="7"/>
         <phase duration="3"  state="rrrrrrrrrryyrrrrrrrrrryy"/>
-        <phase duration="66.50" state="rrrrrrGGGGggrrrrrrGGGGgg" minDur="34" maxDur="34"/>
+        <phase duration="81.50" state="rrrrrrGGGGggrrrrrrGGGGgg" minDur="35" maxDur="35"/>
         <phase duration="4.50"  state="rrrrrryyyyggrrrrrryyyygg"/>
-        <phase duration="9"  state="rrrrggrrrrrrGGGGGGrrrrrr" minDur="7" maxDur="7"/>
-        <phase duration="3"  state="rrrrggrrrrrrGGGGyyrrrrrr"/>
-        <phase duration="41" state="GGGGggrrrrrrGGGGggrrrrrr" minDur="10" maxDur="19"/>
+        <phase duration="38" state="GGGGggrrrrrrGGGGggrrrrrr" minDur="10" maxDur="19"/>
         <phase duration="4"  state="yyyyggrrrrrryyyyggrrrrrr"/>
     </tlLogic>
 
@@ -5035,7 +5049,16 @@
         <request index="4" response="000000" foes="000000" cont="0"/>
         <request index="5" response="000000" foes="000000" cont="0"/>
     </junction>
-    <junction id="J16" type="dead_end" x="-1831.77" y="-1202.91" incLanes="-E264_0 -E264_1 -E264_2 E9_0 E9_1 E9_2 E9_3" intLanes="" shape="-1821.16,-1207.82 -1840.06,-1211.16 -1841.27,-1209.83 -1842.21,-1209.72 -1843.09,-1209.96 -1843.72,-1210.53 -1843.89,-1211.44 -1846.30,-1208.42 -1845.10,-1207.33 -1844.73,-1206.68 -1844.50,-1205.97 -1844.43,-1205.19 -1844.52,-1204.35 -1819.32,-1199.84 -1819.63,-1202.80 -1820.83,-1204.85 -1821.22,-1206.11"/>
+    <junction id="J16" type="priority" x="-1831.77" y="-1202.91" incLanes="-E264_0 -E264_1 -E264_2 E9_0 E9_1 E9_2 E9_3" intLanes=":J16_0_0 :J16_0_1 :J16_0_2 :J16_0_3 :J16_4_0 :J16_5_0 :J16_5_1 :J16_5_2" shape="-1821.16,-1207.82 -1840.06,-1211.16 -1841.27,-1209.83 -1842.21,-1209.72 -1843.09,-1209.96 -1843.72,-1210.53 -1843.89,-1211.44 -1846.30,-1208.42 -1845.10,-1207.33 -1844.73,-1206.68 -1844.50,-1205.97 -1844.43,-1205.19 -1844.52,-1204.35 -1819.32,-1199.84 -1819.63,-1202.80 -1820.83,-1204.85 -1821.22,-1206.11">
+        <request index="0" response="00000000" foes="00000000" cont="0"/>
+        <request index="1" response="00000000" foes="00000000" cont="0"/>
+        <request index="2" response="00000000" foes="00000000" cont="0"/>
+        <request index="3" response="00000000" foes="00000000" cont="0"/>
+        <request index="4" response="00000000" foes="00000000" cont="0"/>
+        <request index="5" response="00000000" foes="00000000" cont="0"/>
+        <request index="6" response="00000000" foes="00000000" cont="0"/>
+        <request index="7" response="00000000" foes="00000000" cont="0"/>
+    </junction>
     <junction id="J164" type="priority" x="-2217.38" y="-1505.37" incLanes="E230_0 E230_1 E230_2 E230_3 E230_4 E230_5" intLanes=":J164_0_0 :J164_0_1 :J164_0_2 :J164_3_0 :J164_3_1 :J164_3_2 :J164_3_3 :J164_3_4" shape="-2126.91,-1514.41 -2128.50,-1530.33 -2128.64,-1531.05 -2131.31,-1540.27 -2142.01,-1536.79 -2150.78,-1533.44 -2158.62,-1530.41 -2166.54,-1527.91 -2175.55,-1526.15 -2186.66,-1525.31 -2186.19,-1506.12 -2174.85,-1506.77 -2165.25,-1507.98 -2156.51,-1509.56 -2147.78,-1511.29 -2138.21,-1512.98">
         <request index="0" response="00000000" foes="00000000" cont="0"/>
         <request index="1" response="00000000" foes="00000000" cont="0"/>
@@ -5981,76 +6004,76 @@
     <junction id=":J95_30_0" type="internal" x="-72.26" y="648.79" incLanes=":J95_22_0 -E129_0 -E129_1 -E129_2" intLanes=":J95_2_0 :J95_2_1 :J95_4_0 :J95_4_1 :J95_6_0 :J95_6_1 :J95_8_0 :J95_8_1 :J95_14_0 :J95_14_1 :J95_16_0 :J95_16_1"/>
     <junction id=":J95_31_0" type="internal" x="-72.72" y="651.27" incLanes=":J95_22_1 -E129_0 -E129_1 -E129_2" intLanes=":J95_2_0 :J95_2_1 :J95_4_0 :J95_4_1 :J95_6_0 :J95_6_1 :J95_8_0 :J95_8_1 :J95_14_0 :J95_14_1 :J95_16_0 :J95_16_1"/>
 
-    <connection from="-E1" to="-E44" fromLane="0" toLane="0" via=":J15_0_0" tl="J15" linkIndex="0" dir="r" state="O"/>
-    <connection from="-E1" to="E183" fromLane="0" toLane="1" via=":J15_1_0" tl="J15" linkIndex="1" dir="s" state="o"/>
-    <connection from="-E1" to="E9" fromLane="1" toLane="3" via=":J15_2_0" tl="J15" linkIndex="2" dir="l" state="o"/>
+    <connection from="-E1" to="-E44" fromLane="0" toLane="0" via=":J15_0_0" tl="hwy7_bayview" linkIndex="0" dir="r" state="O"/>
+    <connection from="-E1" to="E183" fromLane="0" toLane="1" via=":J15_1_0" tl="hwy7_bayview" linkIndex="1" dir="s" state="o"/>
+    <connection from="-E1" to="E9" fromLane="1" toLane="3" via=":J15_2_0" tl="hwy7_bayview" linkIndex="2" dir="l" state="o"/>
     <connection from="-E106" to="-E68" fromLane="0" toLane="0" via=":J58_3_0" dir="s" state="M"/>
     <connection from="-E106" to="-E121" fromLane="0" toLane="1" via=":J58_4_0" dir="l" state="m"/>
     <connection from="-E11" to="E55" fromLane="0" toLane="1" via=":J47_4_0" dir="r" state="m"/>
     <connection from="-E11" to="E57" fromLane="0" toLane="0" via=":J47_5_0" dir="s" state="m"/>
     <connection from="-E11" to="-E54" fromLane="0" toLane="1" via=":J47_6_0" dir="l" state="m"/>
     <connection from="-E11" to="-E54" fromLane="0" toLane="2" via=":J47_6_1" dir="l" state="m"/>
-    <connection from="-E111" to="E78" fromLane="0" toLane="0" via=":J44_4_0" tl="J44" linkIndex="4" dir="r" state="O"/>
-    <connection from="-E111" to="-E77" fromLane="1" toLane="1" via=":J44_5_0" tl="J44" linkIndex="5" dir="s" state="O"/>
-    <connection from="-E111" to="-E77" fromLane="2" toLane="2" via=":J44_5_1" tl="J44" linkIndex="6" dir="s" state="O"/>
-    <connection from="-E111" to="-E7" fromLane="3" toLane="3" via=":J44_7_0" tl="J44" linkIndex="7" dir="l" state="o"/>
-    <connection from="-E121" to="E48" fromLane="0" toLane="1" via=":J35_0_0" tl="J35" linkIndex="0" dir="r" state="o"/>
-    <connection from="-E121" to="E48" fromLane="0" toLane="2" via=":J35_0_1" tl="J35" linkIndex="1" dir="r" state="o"/>
-    <connection from="-E121" to="-E51" fromLane="0" toLane="0" via=":J35_2_0" tl="J35" linkIndex="2" dir="s" state="o"/>
-    <connection from="-E121" to="E37" fromLane="1" toLane="1" via=":J35_3_0" tl="J35" linkIndex="3" dir="l" state="o"/>
-    <connection from="-E121" to="E37" fromLane="1" toLane="2" via=":J35_3_1" tl="J35" linkIndex="4" dir="l" state="o"/>
+    <connection from="-E111" to="E78" fromLane="0" toLane="0" via=":J44_4_0" tl="16th_leslie" linkIndex="4" dir="r" state="O"/>
+    <connection from="-E111" to="-E77" fromLane="1" toLane="1" via=":J44_5_0" tl="16th_leslie" linkIndex="5" dir="s" state="O"/>
+    <connection from="-E111" to="-E77" fromLane="2" toLane="2" via=":J44_5_1" tl="16th_leslie" linkIndex="6" dir="s" state="O"/>
+    <connection from="-E111" to="-E7" fromLane="3" toLane="3" via=":J44_7_0" tl="16th_leslie" linkIndex="7" dir="l" state="o"/>
+    <connection from="-E121" to="E48" fromLane="0" toLane="1" via=":J35_0_0" tl="briggs_bayview" linkIndex="0" dir="r" state="o"/>
+    <connection from="-E121" to="E48" fromLane="0" toLane="2" via=":J35_0_1" tl="briggs_bayview" linkIndex="1" dir="r" state="o"/>
+    <connection from="-E121" to="-E51" fromLane="0" toLane="0" via=":J35_2_0" tl="briggs_bayview" linkIndex="2" dir="s" state="o"/>
+    <connection from="-E121" to="E37" fromLane="1" toLane="1" via=":J35_3_0" tl="briggs_bayview" linkIndex="3" dir="l" state="o"/>
+    <connection from="-E121" to="E37" fromLane="1" toLane="2" via=":J35_3_1" tl="briggs_bayview" linkIndex="4" dir="l" state="o"/>
     <connection from="-E128" to="E163" fromLane="0" toLane="0" via=":J136_9_0" dir="r" state="m"/>
     <connection from="-E128" to="E166" fromLane="0" toLane="0" via=":J136_10_0" dir="s" state="m"/>
     <connection from="-E128" to="E166" fromLane="1" toLane="1" via=":J136_10_1" dir="s" state="m"/>
     <connection from="-E128" to="E166" fromLane="1" toLane="2" via=":J136_10_2" dir="s" state="m"/>
     <connection from="-E128" to="-E162" fromLane="1" toLane="1" via=":J136_13_0" dir="l" state="m"/>
     <connection from="-E128" to="-E162" fromLane="2" toLane="2" via=":J136_13_1" dir="l" state="m"/>
-    <connection from="-E129" to="E144" fromLane="0" toLane="0" via=":J95_6_0" tl="J95" linkIndex="6" dir="r" state="O"/>
-    <connection from="-E129" to="E144" fromLane="0" toLane="1" via=":J95_6_1" tl="J95" linkIndex="7" dir="r" state="O"/>
-    <connection from="-E129" to="-E111" fromLane="1" toLane="1" via=":J95_8_0" tl="J95" linkIndex="8" dir="s" state="O"/>
-    <connection from="-E129" to="-E111" fromLane="2" toLane="2" via=":J95_8_1" tl="J95" linkIndex="9" dir="s" state="O"/>
-    <connection from="-E129" to="E140" fromLane="3" toLane="0" via=":J95_10_0" tl="J95" linkIndex="10" dir="l" state="o"/>
-    <connection from="-E129" to="E140" fromLane="3" toLane="1" via=":J95_10_1" tl="J95" linkIndex="11" dir="l" state="o"/>
+    <connection from="-E129" to="E144" fromLane="0" toLane="0" via=":J95_6_0" tl="beaver_leslie" linkIndex="6" dir="r" state="O"/>
+    <connection from="-E129" to="E144" fromLane="0" toLane="1" via=":J95_6_1" tl="beaver_leslie" linkIndex="7" dir="r" state="O"/>
+    <connection from="-E129" to="-E111" fromLane="1" toLane="1" via=":J95_8_0" tl="beaver_leslie" linkIndex="8" dir="s" state="O"/>
+    <connection from="-E129" to="-E111" fromLane="2" toLane="2" via=":J95_8_1" tl="beaver_leslie" linkIndex="9" dir="s" state="O"/>
+    <connection from="-E129" to="E140" fromLane="3" toLane="0" via=":J95_10_0" tl="beaver_leslie" linkIndex="10" dir="l" state="o"/>
+    <connection from="-E129" to="E140" fromLane="3" toLane="1" via=":J95_10_1" tl="beaver_leslie" linkIndex="11" dir="l" state="o"/>
     <connection from="-E13" to="E15" fromLane="0" toLane="0" via=":J20_0_0" dir="r" state="M"/>
     <connection from="-E13" to="-E12" fromLane="0" toLane="0" via=":J20_1_0" dir="s" state="M"/>
-    <connection from="-E135" to="E147" fromLane="0" toLane="0" via=":J109_6_0" tl="J109" linkIndex="6" dir="r" state="O"/>
-    <connection from="-E135" to="E147" fromLane="0" toLane="1" via=":J109_6_1" tl="J109" linkIndex="7" dir="r" state="O"/>
-    <connection from="-E135" to="-E129" fromLane="1" toLane="1" via=":J109_8_0" tl="J109" linkIndex="8" dir="s" state="O"/>
-    <connection from="-E135" to="-E129" fromLane="2" toLane="2" via=":J109_8_1" tl="J109" linkIndex="9" dir="s" state="O"/>
-    <connection from="-E135" to="-E142" fromLane="3" toLane="0" via=":J109_10_0" tl="J109" linkIndex="10" dir="l" state="o"/>
-    <connection from="-E135" to="-E142" fromLane="3" toLane="1" via=":J109_10_1" tl="J109" linkIndex="11" dir="l" state="o"/>
+    <connection from="-E135" to="E147" fromLane="0" toLane="0" via=":J109_6_0" tl="wilmot_leslie" linkIndex="6" dir="r" state="O"/>
+    <connection from="-E135" to="E147" fromLane="0" toLane="1" via=":J109_6_1" tl="wilmot_leslie" linkIndex="7" dir="r" state="O"/>
+    <connection from="-E135" to="-E129" fromLane="1" toLane="1" via=":J109_8_0" tl="wilmot_leslie" linkIndex="8" dir="s" state="O"/>
+    <connection from="-E135" to="-E129" fromLane="2" toLane="2" via=":J109_8_1" tl="wilmot_leslie" linkIndex="9" dir="s" state="O"/>
+    <connection from="-E135" to="-E142" fromLane="3" toLane="0" via=":J109_10_0" tl="wilmot_leslie" linkIndex="10" dir="l" state="o"/>
+    <connection from="-E135" to="-E142" fromLane="3" toLane="1" via=":J109_10_1" tl="wilmot_leslie" linkIndex="11" dir="l" state="o"/>
     <connection from="-E14" to="-E2" fromLane="0" toLane="0" via=":J2_1_0" dir="r" state="M"/>
     <connection from="-E14" to="-E2" fromLane="0" toLane="1" via=":J2_1_1" dir="r" state="M"/>
-    <connection from="-E140" to="E129" fromLane="0" toLane="1" via=":J95_12_0" tl="J95" linkIndex="12" dir="r" state="o"/>
-    <connection from="-E140" to="E129" fromLane="0" toLane="2" via=":J95_12_1" tl="J95" linkIndex="13" dir="r" state="o"/>
-    <connection from="-E140" to="E144" fromLane="0" toLane="0" via=":J95_14_0" tl="J95" linkIndex="14" dir="s" state="o"/>
-    <connection from="-E140" to="E144" fromLane="1" toLane="1" via=":J95_14_1" tl="J95" linkIndex="15" dir="s" state="o"/>
-    <connection from="-E140" to="-E111" fromLane="2" toLane="1" via=":J95_16_0" tl="J95" linkIndex="16" dir="l" state="o"/>
-    <connection from="-E140" to="-E111" fromLane="2" toLane="2" via=":J95_16_1" tl="J95" linkIndex="17" dir="l" state="o"/>
+    <connection from="-E140" to="E129" fromLane="0" toLane="1" via=":J95_12_0" tl="beaver_leslie" linkIndex="12" dir="r" state="o"/>
+    <connection from="-E140" to="E129" fromLane="0" toLane="2" via=":J95_12_1" tl="beaver_leslie" linkIndex="13" dir="r" state="o"/>
+    <connection from="-E140" to="E144" fromLane="0" toLane="0" via=":J95_14_0" tl="beaver_leslie" linkIndex="14" dir="s" state="o"/>
+    <connection from="-E140" to="E144" fromLane="1" toLane="1" via=":J95_14_1" tl="beaver_leslie" linkIndex="15" dir="s" state="o"/>
+    <connection from="-E140" to="-E111" fromLane="2" toLane="1" via=":J95_16_0" tl="beaver_leslie" linkIndex="16" dir="l" state="o"/>
+    <connection from="-E140" to="-E111" fromLane="2" toLane="2" via=":J95_16_1" tl="beaver_leslie" linkIndex="17" dir="l" state="o"/>
     <connection from="-E142" to="-E140" fromLane="0" toLane="0" via=":J118_0_0" dir="r" state="M"/>
     <connection from="-E142" to="E49" fromLane="1" toLane="1" via=":J118_1_0" dir="l" state="m"/>
     <connection from="-E143" to="-E144" fromLane="0" toLane="0" via=":J120_8_0" dir="r" state="M"/>
     <connection from="-E143" to="E146" fromLane="0" toLane="0" via=":J120_9_0" dir="l" state="m"/>
     <connection from="-E143" to="E146" fromLane="1" toLane="1" via=":J120_9_1" dir="l" state="m"/>
-    <connection from="-E144" to="-E111" fromLane="0" toLane="1" via=":J95_0_0" tl="J95" linkIndex="0" dir="r" state="o"/>
-    <connection from="-E144" to="-E111" fromLane="0" toLane="2" via=":J95_0_1" tl="J95" linkIndex="1" dir="r" state="o"/>
-    <connection from="-E144" to="E140" fromLane="1" toLane="0" via=":J95_2_0" tl="J95" linkIndex="2" dir="s" state="o"/>
-    <connection from="-E144" to="E140" fromLane="1" toLane="1" via=":J95_2_1" tl="J95" linkIndex="3" dir="s" state="o"/>
-    <connection from="-E144" to="E129" fromLane="2" toLane="1" via=":J95_4_0" tl="J95" linkIndex="4" dir="l" state="o"/>
-    <connection from="-E144" to="E129" fromLane="2" toLane="2" via=":J95_4_1" tl="J95" linkIndex="5" dir="l" state="o"/>
-    <connection from="-E145" to="E173" fromLane="0" toLane="0" via=":J56_5_0" tl="J56" linkIndex="5" dir="r" state="o"/>
-    <connection from="-E145" to="-E24" fromLane="0" toLane="0" via=":J56_6_0" tl="J56" linkIndex="6" dir="s" state="o"/>
-    <connection from="-E145" to="-E172" fromLane="1" toLane="3" via=":J56_7_0" tl="J56" linkIndex="7" dir="l" state="o"/>
+    <connection from="-E144" to="-E111" fromLane="0" toLane="1" via=":J95_0_0" tl="beaver_leslie" linkIndex="0" dir="r" state="o"/>
+    <connection from="-E144" to="-E111" fromLane="0" toLane="2" via=":J95_0_1" tl="beaver_leslie" linkIndex="1" dir="r" state="o"/>
+    <connection from="-E144" to="E140" fromLane="1" toLane="0" via=":J95_2_0" tl="beaver_leslie" linkIndex="2" dir="s" state="o"/>
+    <connection from="-E144" to="E140" fromLane="1" toLane="1" via=":J95_2_1" tl="beaver_leslie" linkIndex="3" dir="s" state="o"/>
+    <connection from="-E144" to="E129" fromLane="2" toLane="1" via=":J95_4_0" tl="beaver_leslie" linkIndex="4" dir="l" state="o"/>
+    <connection from="-E144" to="E129" fromLane="2" toLane="2" via=":J95_4_1" tl="beaver_leslie" linkIndex="5" dir="l" state="o"/>
+    <connection from="-E145" to="E173" fromLane="0" toLane="0" via=":J56_5_0" tl="hwy7_south_park" linkIndex="5" dir="r" state="o"/>
+    <connection from="-E145" to="-E24" fromLane="0" toLane="0" via=":J56_6_0" tl="hwy7_south_park" linkIndex="6" dir="s" state="o"/>
+    <connection from="-E145" to="-E172" fromLane="1" toLane="3" via=":J56_7_0" tl="hwy7_south_park" linkIndex="7" dir="l" state="o"/>
     <connection from="-E146" to="E143" fromLane="0" toLane="0" via=":J120_0_0" dir="r" state="M"/>
     <connection from="-E146" to="E143" fromLane="1" toLane="1" via=":J120_0_1" dir="r" state="M"/>
     <connection from="-E146" to="-E144" fromLane="1" toLane="1" via=":J120_2_0" dir="s" state="M"/>
     <connection from="-E146" to="-E144" fromLane="1" toLane="2" via=":J120_2_1" dir="s" state="M"/>
-    <connection from="-E147" to="-E129" fromLane="0" toLane="1" via=":J109_0_0" tl="J109" linkIndex="0" dir="r" state="o"/>
-    <connection from="-E147" to="-E129" fromLane="0" toLane="2" via=":J109_0_1" tl="J109" linkIndex="1" dir="r" state="o"/>
-    <connection from="-E147" to="-E142" fromLane="0" toLane="0" via=":J109_2_0" tl="J109" linkIndex="2" dir="s" state="o"/>
-    <connection from="-E147" to="-E142" fromLane="0" toLane="1" via=":J109_2_1" tl="J109" linkIndex="3" dir="s" state="o"/>
-    <connection from="-E147" to="E135" fromLane="1" toLane="1" via=":J109_4_0" tl="J109" linkIndex="4" dir="l" state="o"/>
-    <connection from="-E147" to="E135" fromLane="1" toLane="2" via=":J109_4_1" tl="J109" linkIndex="5" dir="l" state="o"/>
+    <connection from="-E147" to="-E129" fromLane="0" toLane="1" via=":J109_0_0" tl="wilmot_leslie" linkIndex="0" dir="r" state="o"/>
+    <connection from="-E147" to="-E129" fromLane="0" toLane="2" via=":J109_0_1" tl="wilmot_leslie" linkIndex="1" dir="r" state="o"/>
+    <connection from="-E147" to="-E142" fromLane="0" toLane="0" via=":J109_2_0" tl="wilmot_leslie" linkIndex="2" dir="s" state="o"/>
+    <connection from="-E147" to="-E142" fromLane="0" toLane="1" via=":J109_2_1" tl="wilmot_leslie" linkIndex="3" dir="s" state="o"/>
+    <connection from="-E147" to="E135" fromLane="1" toLane="1" via=":J109_4_0" tl="wilmot_leslie" linkIndex="4" dir="l" state="o"/>
+    <connection from="-E147" to="E135" fromLane="1" toLane="2" via=":J109_4_1" tl="wilmot_leslie" linkIndex="5" dir="l" state="o"/>
     <connection from="-E148" to="-E150" fromLane="0" toLane="0" via=":J123_0_0" dir="r" state="M"/>
     <connection from="-E148" to="-E147" fromLane="0" toLane="0" via=":J123_1_0" dir="s" state="M"/>
     <connection from="-E148" to="-E147" fromLane="0" toLane="1" via=":J123_1_1" dir="s" state="M"/>
@@ -6065,9 +6088,9 @@
     <connection from="-E152" to="-E151" fromLane="0" toLane="0" via=":J125_0_0" dir="s" state="M"/>
     <connection from="-E152" to="-E151" fromLane="1" toLane="1" via=":J125_0_1" dir="s" state="M"/>
     <connection from="-E152" to="-E155" fromLane="1" toLane="0" via=":J125_2_0" dir="l" state="m"/>
-    <connection from="-E153" to="-E135" fromLane="0" toLane="0" via=":J110_0_0" tl="J110" linkIndex="0" dir="r" state="O"/>
-    <connection from="-E153" to="-E56" fromLane="0" toLane="0" via=":J110_1_0" tl="J110" linkIndex="1" dir="s" state="o"/>
-    <connection from="-E153" to="-E235" fromLane="1" toLane="3" via=":J110_2_0" tl="J110" linkIndex="2" dir="l" state="o"/>
+    <connection from="-E153" to="-E135" fromLane="0" toLane="0" via=":J110_0_0" tl="pearce_leslie" linkIndex="0" dir="r" state="O"/>
+    <connection from="-E153" to="-E56" fromLane="0" toLane="0" via=":J110_1_0" tl="pearce_leslie" linkIndex="1" dir="s" state="o"/>
+    <connection from="-E153" to="-E235" fromLane="1" toLane="3" via=":J110_2_0" tl="pearce_leslie" linkIndex="2" dir="l" state="o"/>
     <connection from="-E154" to="E155" fromLane="0" toLane="0" via=":J126_0_0" dir="r" state="M"/>
     <connection from="-E154" to="-E153" fromLane="0" toLane="1" via=":J126_1_0" dir="s" state="M"/>
     <connection from="-E155" to="-E153" fromLane="0" toLane="0" via=":J126_5_0" dir="r" state="M"/>
@@ -6110,30 +6133,30 @@
     <connection from="-E17" to="-E5" fromLane="1" toLane="0" via=":J11_4_0" dir="s" state="M"/>
     <connection from="-E17" to="-E5" fromLane="2" toLane="1" via=":J11_4_1" dir="s" state="M"/>
     <connection from="-E17" to="-E13" fromLane="3" toLane="0" via=":J11_6_0" dir="l" state="m"/>
-    <connection from="-E172" to="E171" fromLane="0" toLane="0" via=":J142_0_0" tl="J142" linkIndex="0" dir="r" state="O"/>
-    <connection from="-E172" to="E317" fromLane="1" toLane="0" via=":J142_1_0" tl="J142" linkIndex="1" dir="s" state="O"/>
-    <connection from="-E172" to="E317" fromLane="2" toLane="1" via=":J142_1_1" tl="J142" linkIndex="2" dir="s" state="O"/>
-    <connection from="-E172" to="E317" fromLane="3" toLane="2" via=":J142_1_2" tl="J142" linkIndex="3" dir="s" state="O"/>
-    <connection from="-E173" to="-E24" fromLane="0" toLane="0" via=":J56_0_0" tl="J56" linkIndex="0" dir="r" state="O"/>
-    <connection from="-E173" to="-E172" fromLane="0" toLane="0" via=":J56_1_0" tl="J56" linkIndex="1" dir="s" state="O"/>
-    <connection from="-E173" to="-E172" fromLane="1" toLane="1" via=":J56_1_1" tl="J56" linkIndex="2" dir="s" state="O"/>
-    <connection from="-E173" to="-E172" fromLane="2" toLane="2" via=":J56_1_2" tl="J56" linkIndex="3" dir="s" state="O"/>
-    <connection from="-E173" to="E145" fromLane="3" toLane="0" via=":J56_4_0" tl="J56" linkIndex="4" dir="l" state="o"/>
-    <connection from="-E174" to="-E63" fromLane="0" toLane="0" via=":J74_0_0" tl="J74" linkIndex="0" dir="r" state="O"/>
-    <connection from="-E174" to="-E173" fromLane="0" toLane="0" via=":J74_1_0" tl="J74" linkIndex="1" dir="s" state="O"/>
-    <connection from="-E174" to="-E173" fromLane="1" toLane="1" via=":J74_1_1" tl="J74" linkIndex="2" dir="s" state="O"/>
-    <connection from="-E174" to="-E173" fromLane="2" toLane="2" via=":J74_1_2" tl="J74" linkIndex="3" dir="s" state="O"/>
-    <connection from="-E174" to="-E179" fromLane="3" toLane="1" via=":J74_4_0" tl="J74" linkIndex="4" dir="l" state="o"/>
-    <connection from="-E175" to="-E174" fromLane="0" toLane="0" via=":J77_0_0" tl="J77" linkIndex="0" dir="s" state="O"/>
-    <connection from="-E175" to="-E174" fromLane="1" toLane="1" via=":J77_0_1" tl="J77" linkIndex="1" dir="s" state="O"/>
-    <connection from="-E175" to="-E174" fromLane="2" toLane="2" via=":J77_0_2" tl="J77" linkIndex="2" dir="s" state="O"/>
-    <connection from="-E175" to="-E196" fromLane="3" toLane="1" via=":J77_3_0" tl="J77" linkIndex="3" dir="l" state="o"/>
-    <connection from="-E177" to="E235" fromLane="0" toLane="0" via=":J114_0_0" tl="J114" linkIndex="0" dir="r" state="O"/>
-    <connection from="-E177" to="-E74" fromLane="0" toLane="0" via=":J114_1_0" tl="J114" linkIndex="1" dir="s" state="O"/>
-    <connection from="-E177" to="-E74" fromLane="1" toLane="1" via=":J114_1_1" tl="J114" linkIndex="2" dir="s" state="O"/>
-    <connection from="-E177" to="-E74" fromLane="2" toLane="2" via=":J114_1_2" tl="J114" linkIndex="3" dir="s" state="O"/>
-    <connection from="-E177" to="-E74" fromLane="3" toLane="3" via=":J114_1_3" tl="J114" linkIndex="4" dir="s" state="O"/>
-    <connection from="-E177" to="E201" fromLane="3" toLane="3" via=":J114_5_0" tl="J114" linkIndex="5" dir="l" state="o"/>
+    <connection from="-E172" to="E171" fromLane="0" toLane="0" via=":J142_0_0" tl="hwy7_bayview_connecting" linkIndex="0" dir="r" state="O"/>
+    <connection from="-E172" to="E317" fromLane="1" toLane="0" via=":J142_1_0" tl="hwy7_bayview_connecting" linkIndex="1" dir="s" state="O"/>
+    <connection from="-E172" to="E317" fromLane="2" toLane="1" via=":J142_1_1" tl="hwy7_bayview_connecting" linkIndex="2" dir="s" state="O"/>
+    <connection from="-E172" to="E317" fromLane="3" toLane="2" via=":J142_1_2" tl="hwy7_bayview_connecting" linkIndex="3" dir="s" state="O"/>
+    <connection from="-E173" to="-E24" fromLane="0" toLane="0" via=":J56_0_0" tl="hwy7_south_park" linkIndex="0" dir="r" state="O"/>
+    <connection from="-E173" to="-E172" fromLane="0" toLane="0" via=":J56_1_0" tl="hwy7_south_park" linkIndex="1" dir="s" state="O"/>
+    <connection from="-E173" to="-E172" fromLane="1" toLane="1" via=":J56_1_1" tl="hwy7_south_park" linkIndex="2" dir="s" state="O"/>
+    <connection from="-E173" to="-E172" fromLane="2" toLane="2" via=":J56_1_2" tl="hwy7_south_park" linkIndex="3" dir="s" state="O"/>
+    <connection from="-E173" to="E145" fromLane="3" toLane="0" via=":J56_4_0" tl="hwy7_south_park" linkIndex="4" dir="l" state="o"/>
+    <connection from="-E174" to="-E63" fromLane="0" toLane="0" via=":J74_0_0" tl="hwy7_saddlecreek" linkIndex="0" dir="r" state="O"/>
+    <connection from="-E174" to="-E173" fromLane="0" toLane="0" via=":J74_1_0" tl="hwy7_saddlecreek" linkIndex="1" dir="s" state="O"/>
+    <connection from="-E174" to="-E173" fromLane="1" toLane="1" via=":J74_1_1" tl="hwy7_saddlecreek" linkIndex="2" dir="s" state="O"/>
+    <connection from="-E174" to="-E173" fromLane="2" toLane="2" via=":J74_1_2" tl="hwy7_saddlecreek" linkIndex="3" dir="s" state="O"/>
+    <connection from="-E174" to="-E179" fromLane="3" toLane="1" via=":J74_4_0" tl="hwy7_saddlecreek" linkIndex="4" dir="l" state="o"/>
+    <connection from="-E175" to="-E174" fromLane="0" toLane="0" via=":J77_0_0" tl="hwy7_times" linkIndex="0" dir="s" state="O"/>
+    <connection from="-E175" to="-E174" fromLane="1" toLane="1" via=":J77_0_1" tl="hwy7_times" linkIndex="1" dir="s" state="O"/>
+    <connection from="-E175" to="-E174" fromLane="2" toLane="2" via=":J77_0_2" tl="hwy7_times" linkIndex="2" dir="s" state="O"/>
+    <connection from="-E175" to="-E196" fromLane="3" toLane="1" via=":J77_3_0" tl="hwy7_times" linkIndex="3" dir="l" state="o"/>
+    <connection from="-E177" to="E235" fromLane="0" toLane="0" via=":J114_0_0" tl="hwy7_leslie" linkIndex="0" dir="r" state="O"/>
+    <connection from="-E177" to="-E74" fromLane="0" toLane="0" via=":J114_1_0" tl="hwy7_leslie" linkIndex="1" dir="s" state="O"/>
+    <connection from="-E177" to="-E74" fromLane="1" toLane="1" via=":J114_1_1" tl="hwy7_leslie" linkIndex="2" dir="s" state="O"/>
+    <connection from="-E177" to="-E74" fromLane="2" toLane="2" via=":J114_1_2" tl="hwy7_leslie" linkIndex="3" dir="s" state="O"/>
+    <connection from="-E177" to="-E74" fromLane="3" toLane="3" via=":J114_1_3" tl="hwy7_leslie" linkIndex="4" dir="s" state="O"/>
+    <connection from="-E177" to="E201" fromLane="3" toLane="3" via=":J114_5_0" tl="hwy7_leslie" linkIndex="5" dir="l" state="o"/>
     <connection from="-E178" to="-E55" fromLane="0" toLane="1" via=":J1_10_0" dir="r" state="m"/>
     <connection from="-E178" to="E8" fromLane="0" toLane="0" via=":J1_11_0" dir="s" state="m"/>
     <connection from="-E178" to="E4" fromLane="0" toLane="2" via=":J1_12_0" dir="l" state="m"/>
@@ -6160,17 +6183,17 @@
     <connection from="-E200" to="-E75" fromLane="0" toLane="0" via=":J128_0_0" dir="r" state="m"/>
     <connection from="-E200" to="-E79" fromLane="0" toLane="0" via=":J128_1_0" dir="s" state="m"/>
     <connection from="-E200" to="E199" fromLane="0" toLane="1" via=":J128_2_0" dir="l" state="m"/>
-    <connection from="-E201" to="E177" fromLane="0" toLane="0" via=":J114_6_0" tl="J114" linkIndex="6" dir="r" state="o"/>
-    <connection from="-E201" to="E235" fromLane="0" toLane="0" via=":J114_7_0" tl="J114" linkIndex="7" dir="s" state="o"/>
-    <connection from="-E201" to="E235" fromLane="1" toLane="1" via=":J114_7_1" tl="J114" linkIndex="8" dir="s" state="o"/>
-    <connection from="-E201" to="E235" fromLane="2" toLane="2" via=":J114_7_2" tl="J114" linkIndex="9" dir="s" state="o"/>
-    <connection from="-E201" to="E235" fromLane="3" toLane="3" via=":J114_7_3" tl="J114" linkIndex="10" dir="s" state="o"/>
-    <connection from="-E201" to="-E74" fromLane="3" toLane="3" via=":J114_11_0" tl="J114" linkIndex="11" dir="l" state="o"/>
-    <connection from="-E202" to="E228" fromLane="0" toLane="0" via=":J133_5_0" tl="J133" linkIndex="5" dir="r" state="O"/>
-    <connection from="-E202" to="E228" fromLane="0" toLane="1" via=":J133_5_1" tl="J133" linkIndex="6" dir="r" state="O"/>
-    <connection from="-E202" to="-E201" fromLane="1" toLane="1" via=":J133_7_0" tl="J133" linkIndex="7" dir="s" state="O"/>
-    <connection from="-E202" to="-E201" fromLane="2" toLane="2" via=":J133_7_1" tl="J133" linkIndex="8" dir="s" state="O"/>
-    <connection from="-E202" to="-E200" fromLane="3" toLane="0" via=":J133_9_0" tl="J133" linkIndex="9" dir="l" state="o"/>
+    <connection from="-E201" to="E177" fromLane="0" toLane="0" via=":J114_6_0" tl="hwy7_leslie" linkIndex="6" dir="r" state="o"/>
+    <connection from="-E201" to="E235" fromLane="0" toLane="0" via=":J114_7_0" tl="hwy7_leslie" linkIndex="7" dir="s" state="o"/>
+    <connection from="-E201" to="E235" fromLane="1" toLane="1" via=":J114_7_1" tl="hwy7_leslie" linkIndex="8" dir="s" state="o"/>
+    <connection from="-E201" to="E235" fromLane="2" toLane="2" via=":J114_7_2" tl="hwy7_leslie" linkIndex="9" dir="s" state="o"/>
+    <connection from="-E201" to="E235" fromLane="3" toLane="3" via=":J114_7_3" tl="hwy7_leslie" linkIndex="10" dir="s" state="o"/>
+    <connection from="-E201" to="-E74" fromLane="3" toLane="3" via=":J114_11_0" tl="hwy7_leslie" linkIndex="11" dir="l" state="o"/>
+    <connection from="-E202" to="E228" fromLane="0" toLane="0" via=":J133_5_0" tl="minthorn_leslie" linkIndex="5" dir="r" state="O"/>
+    <connection from="-E202" to="E228" fromLane="0" toLane="1" via=":J133_5_1" tl="minthorn_leslie" linkIndex="6" dir="r" state="O"/>
+    <connection from="-E202" to="-E201" fromLane="1" toLane="1" via=":J133_7_0" tl="minthorn_leslie" linkIndex="7" dir="s" state="O"/>
+    <connection from="-E202" to="-E201" fromLane="2" toLane="2" via=":J133_7_1" tl="minthorn_leslie" linkIndex="8" dir="s" state="O"/>
+    <connection from="-E202" to="-E200" fromLane="3" toLane="0" via=":J133_9_0" tl="minthorn_leslie" linkIndex="9" dir="l" state="o"/>
     <connection from="-E205" to="-E260" fromLane="0" toLane="0" via=":J134_0_0" dir="s" state="M"/>
     <connection from="-E205" to="-E260" fromLane="1" toLane="1" via=":J134_0_1" dir="s" state="M"/>
     <connection from="-E205" to="-E260" fromLane="1" toLane="2" via=":J134_0_2" dir="s" state="M"/>
@@ -6186,17 +6209,17 @@
     <connection from="-E222" to="-E242" fromLane="1" toLane="1" via=":J186_0_1" dir="r" state="m"/>
     <connection from="-E222" to="-E242" fromLane="1" toLane="2" via=":J186_0_2" dir="r" state="m"/>
     <connection from="-E222" to="E2430" fromLane="1" toLane="1" via=":J186_3_0" dir="l" state="m"/>
-    <connection from="-E228" to="-E201" fromLane="0" toLane="1" via=":J133_0_0" tl="J133" linkIndex="0" dir="r" state="o"/>
-    <connection from="-E228" to="-E201" fromLane="0" toLane="2" via=":J133_0_1" tl="J133" linkIndex="1" dir="r" state="o"/>
-    <connection from="-E228" to="-E200" fromLane="0" toLane="0" via=":J133_2_0" tl="J133" linkIndex="2" dir="s" state="o"/>
-    <connection from="-E228" to="E202" fromLane="1" toLane="1" via=":J133_3_0" tl="J133" linkIndex="3" dir="l" state="o"/>
-    <connection from="-E228" to="E202" fromLane="1" toLane="2" via=":J133_3_1" tl="J133" linkIndex="4" dir="l" state="o"/>
-    <connection from="-E235" to="-E74" fromLane="0" toLane="0" via=":J114_18_0" tl="J114" linkIndex="18" dir="r" state="o"/>
-    <connection from="-E235" to="E201" fromLane="0" toLane="0" via=":J114_19_0" tl="J114" linkIndex="19" dir="s" state="o"/>
-    <connection from="-E235" to="E201" fromLane="1" toLane="1" via=":J114_19_1" tl="J114" linkIndex="20" dir="s" state="o"/>
-    <connection from="-E235" to="E201" fromLane="2" toLane="2" via=":J114_19_2" tl="J114" linkIndex="21" dir="s" state="o"/>
-    <connection from="-E235" to="E201" fromLane="3" toLane="3" via=":J114_19_3" tl="J114" linkIndex="22" dir="s" state="o"/>
-    <connection from="-E235" to="E177" fromLane="3" toLane="3" via=":J114_23_0" tl="J114" linkIndex="23" dir="l" state="o"/>
+    <connection from="-E228" to="-E201" fromLane="0" toLane="1" via=":J133_0_0" tl="minthorn_leslie" linkIndex="0" dir="r" state="o"/>
+    <connection from="-E228" to="-E201" fromLane="0" toLane="2" via=":J133_0_1" tl="minthorn_leslie" linkIndex="1" dir="r" state="o"/>
+    <connection from="-E228" to="-E200" fromLane="0" toLane="0" via=":J133_2_0" tl="minthorn_leslie" linkIndex="2" dir="s" state="o"/>
+    <connection from="-E228" to="E202" fromLane="1" toLane="1" via=":J133_3_0" tl="minthorn_leslie" linkIndex="3" dir="l" state="o"/>
+    <connection from="-E228" to="E202" fromLane="1" toLane="2" via=":J133_3_1" tl="minthorn_leslie" linkIndex="4" dir="l" state="o"/>
+    <connection from="-E235" to="-E74" fromLane="0" toLane="0" via=":J114_18_0" tl="hwy7_leslie" linkIndex="18" dir="r" state="o"/>
+    <connection from="-E235" to="E201" fromLane="0" toLane="0" via=":J114_19_0" tl="hwy7_leslie" linkIndex="19" dir="s" state="o"/>
+    <connection from="-E235" to="E201" fromLane="1" toLane="1" via=":J114_19_1" tl="hwy7_leslie" linkIndex="20" dir="s" state="o"/>
+    <connection from="-E235" to="E201" fromLane="2" toLane="2" via=":J114_19_2" tl="hwy7_leslie" linkIndex="21" dir="s" state="o"/>
+    <connection from="-E235" to="E201" fromLane="3" toLane="3" via=":J114_19_3" tl="hwy7_leslie" linkIndex="22" dir="s" state="o"/>
+    <connection from="-E235" to="E177" fromLane="3" toLane="3" via=":J114_23_0" tl="hwy7_leslie" linkIndex="23" dir="l" state="o"/>
     <connection from="-E236" to="E77" fromLane="0" toLane="0" via=":J42_6_0" dir="s" state="M"/>
     <connection from="-E236" to="E77" fromLane="1" toLane="1" via=":J42_6_1" dir="s" state="M"/>
     <connection from="-E236" to="E77" fromLane="2" toLane="2" via=":J42_6_2" dir="s" state="M"/>
@@ -6205,12 +6228,12 @@
     <connection from="-E24" to="E62" fromLane="0" toLane="0" via=":J55_4_0" dir="r" state="m"/>
     <connection from="-E24" to="-E66" fromLane="0" toLane="1" via=":J55_5_0" dir="l" state="m"/>
     <connection from="-E24" to="-E66" fromLane="0" toLane="2" via=":J55_5_1" dir="l" state="m"/>
-    <connection from="-E242" to="-E205" fromLane="0" toLane="0" via=":J131_6_0" tl="J131" linkIndex="6" dir="r" state="O"/>
-    <connection from="-E242" to="-E205" fromLane="0" toLane="1" via=":J131_6_1" tl="J131" linkIndex="7" dir="r" state="O"/>
-    <connection from="-E242" to="-E202" fromLane="1" toLane="1" via=":J131_8_0" tl="J131" linkIndex="8" dir="s" state="O"/>
-    <connection from="-E242" to="-E202" fromLane="2" toLane="2" via=":J131_8_1" tl="J131" linkIndex="9" dir="s" state="O"/>
-    <connection from="-E242" to="-E199" fromLane="3" toLane="0" via=":J131_10_0" tl="J131" linkIndex="10" dir="l" state="o"/>
-    <connection from="-E242" to="-E199" fromLane="3" toLane="1" via=":J131_10_1" tl="J131" linkIndex="11" dir="l" state="o"/>
+    <connection from="-E242" to="-E205" fromLane="0" toLane="0" via=":J131_6_0" tl="commerce_valley_leslie" linkIndex="6" dir="r" state="O"/>
+    <connection from="-E242" to="-E205" fromLane="0" toLane="1" via=":J131_6_1" tl="commerce_valley_leslie" linkIndex="7" dir="r" state="O"/>
+    <connection from="-E242" to="-E202" fromLane="1" toLane="1" via=":J131_8_0" tl="commerce_valley_leslie" linkIndex="8" dir="s" state="O"/>
+    <connection from="-E242" to="-E202" fromLane="2" toLane="2" via=":J131_8_1" tl="commerce_valley_leslie" linkIndex="9" dir="s" state="O"/>
+    <connection from="-E242" to="-E199" fromLane="3" toLane="0" via=":J131_10_0" tl="commerce_valley_leslie" linkIndex="10" dir="l" state="o"/>
+    <connection from="-E242" to="-E199" fromLane="3" toLane="1" via=":J131_10_1" tl="commerce_valley_leslie" linkIndex="11" dir="l" state="o"/>
     <connection from="-E243" to="E222" fromLane="0" toLane="0" via=":J186_4_0" dir="r" state="M"/>
     <connection from="-E243" to="-E242" fromLane="0" toLane="1" via=":J186_5_0" dir="s" state="M"/>
     <connection from="-E243" to="-E242" fromLane="1" toLane="2" via=":J186_5_1" dir="s" state="M"/>
@@ -6228,11 +6251,15 @@
     <connection from="-E26" to="-E17" fromLane="1" toLane="1" via=":J25_4_0" dir="s" state="M"/>
     <connection from="-E26" to="-E17" fromLane="2" toLane="2" via=":J25_4_1" dir="s" state="M"/>
     <connection from="-E26" to="E10" fromLane="3" toLane="0" via=":J25_6_0" dir="l" state="m"/>
-    <connection from="-E260" to="E305" fromLane="0" toLane="0" via=":J129_5_0" tl="J129" linkIndex="5" dir="r" state="o"/>
-    <connection from="-E260" to="-E339" fromLane="0" toLane="0" via=":J129_6_0" tl="J129" linkIndex="6" dir="s" state="o"/>
-    <connection from="-E260" to="-E339" fromLane="1" toLane="1" via=":J129_6_1" tl="J129" linkIndex="7" dir="s" state="o"/>
-    <connection from="-E260" to="-E339" fromLane="2" toLane="2" via=":J129_6_2" tl="J129" linkIndex="8" dir="s" state="o"/>
-    <connection from="-E260" to="-E177" fromLane="2" toLane="3" via=":J129_9_0" tl="J129" linkIndex="9" dir="l" state="o"/>
+    <connection from="-E260" to="E305" fromLane="0" toLane="0" via=":J129_5_0" tl="hwy7_commerce_valley_east" linkIndex="5" dir="r" state="o"/>
+    <connection from="-E260" to="-E339" fromLane="0" toLane="0" via=":J129_6_0" tl="hwy7_commerce_valley_east" linkIndex="6" dir="s" state="o"/>
+    <connection from="-E260" to="-E339" fromLane="1" toLane="1" via=":J129_6_1" tl="hwy7_commerce_valley_east" linkIndex="7" dir="s" state="o"/>
+    <connection from="-E260" to="-E339" fromLane="2" toLane="2" via=":J129_6_2" tl="hwy7_commerce_valley_east" linkIndex="8" dir="s" state="o"/>
+    <connection from="-E260" to="-E177" fromLane="2" toLane="3" via=":J129_9_0" tl="hwy7_commerce_valley_east" linkIndex="9" dir="l" state="o"/>
+    <connection from="-E264" to="-E9" fromLane="0" toLane="0" via=":J16_0_0" dir="s" state="M"/>
+    <connection from="-E264" to="-E9" fromLane="0" toLane="1" via=":J16_0_1" dir="s" state="M"/>
+    <connection from="-E264" to="-E9" fromLane="1" toLane="2" via=":J16_0_2" dir="s" state="M"/>
+    <connection from="-E264" to="-E9" fromLane="2" toLane="3" via=":J16_0_3" dir="s" state="M"/>
     <connection from="-E265" to="-E264" fromLane="0" toLane="0" via=":J206_3_0" dir="s" state="M"/>
     <connection from="-E265" to="-E264" fromLane="1" toLane="1" via=":J206_3_1" dir="s" state="M"/>
     <connection from="-E265" to="-E264" fromLane="2" toLane="2" via=":J206_3_2" dir="s" state="M"/>
@@ -6260,21 +6287,21 @@
     <connection from="-E29" to="-E16" fromLane="0" toLane="0" via=":J3_0_0" dir="r" state="m"/>
     <connection from="-E29" to="-E6" fromLane="0" toLane="0" via=":J3_1_0" dir="s" state="m"/>
     <connection from="-E29" to="E39" fromLane="1" toLane="3" via=":J3_2_0" dir="l" state="m"/>
-    <connection from="-E3" to="E35" fromLane="0" toLane="0" via=":J38_0_0" tl="J38" linkIndex="0" dir="r" state="O"/>
-    <connection from="-E3" to="-E33" fromLane="1" toLane="1" via=":J38_1_0" tl="J38" linkIndex="1" dir="s" state="O"/>
-    <connection from="-E3" to="-E33" fromLane="2" toLane="2" via=":J38_1_1" tl="J38" linkIndex="2" dir="s" state="O"/>
-    <connection from="-E3" to="-E69" fromLane="3" toLane="0" via=":J38_3_0" tl="J38" linkIndex="3" dir="l" state="o"/>
-    <connection from="-E30" to="-E28" fromLane="0" toLane="0" via=":J12_0_0" tl="J12" linkIndex="0" dir="r" state="w"/>
-    <connection from="-E30" to="-E25" fromLane="0" toLane="0" via=":J12_1_0" tl="J12" linkIndex="0" dir="s" state="w"/>
-    <connection from="-E30" to="-E25" fromLane="1" toLane="1" via=":J12_1_1" tl="J12" linkIndex="0" dir="s" state="w"/>
-    <connection from="-E30" to="-E25" fromLane="2" toLane="2" via=":J12_1_2" tl="J12" linkIndex="0" dir="s" state="w"/>
-    <connection from="-E30" to="-E25" fromLane="2" toLane="3" via=":J12_1_3" tl="J12" linkIndex="0" dir="s" state="w"/>
-    <connection from="-E30" to="-E48" fromLane="3" toLane="3" via=":J12_5_0" tl="J12" linkIndex="1" dir="l" state="w"/>
-    <connection from="-E305" to="-E339" fromLane="0" toLane="0" via=":J129_0_0" tl="J129" linkIndex="0" dir="r" state="O"/>
-    <connection from="-E305" to="-E177" fromLane="0" toLane="0" via=":J129_1_0" tl="J129" linkIndex="1" dir="s" state="O"/>
-    <connection from="-E305" to="-E177" fromLane="1" toLane="1" via=":J129_1_1" tl="J129" linkIndex="2" dir="s" state="O"/>
-    <connection from="-E305" to="-E177" fromLane="2" toLane="2" via=":J129_1_2" tl="J129" linkIndex="3" dir="s" state="O"/>
-    <connection from="-E305" to="E260" fromLane="3" toLane="0" via=":J129_4_0" tl="J129" linkIndex="4" dir="l" state="o"/>
+    <connection from="-E3" to="E35" fromLane="0" toLane="0" via=":J38_0_0" tl="16th_valleymede" linkIndex="0" dir="r" state="O"/>
+    <connection from="-E3" to="-E33" fromLane="1" toLane="1" via=":J38_1_0" tl="16th_valleymede" linkIndex="1" dir="s" state="O"/>
+    <connection from="-E3" to="-E33" fromLane="2" toLane="2" via=":J38_1_1" tl="16th_valleymede" linkIndex="2" dir="s" state="O"/>
+    <connection from="-E3" to="-E69" fromLane="3" toLane="0" via=":J38_3_0" tl="16th_valleymede" linkIndex="3" dir="l" state="o"/>
+    <connection from="-E30" to="-E28" fromLane="0" toLane="0" via=":J12_0_0" tl="16th_bayview" linkIndex="0" dir="r" state="w"/>
+    <connection from="-E30" to="-E25" fromLane="0" toLane="0" via=":J12_1_0" tl="16th_bayview" linkIndex="0" dir="s" state="w"/>
+    <connection from="-E30" to="-E25" fromLane="1" toLane="1" via=":J12_1_1" tl="16th_bayview" linkIndex="0" dir="s" state="w"/>
+    <connection from="-E30" to="-E25" fromLane="2" toLane="2" via=":J12_1_2" tl="16th_bayview" linkIndex="0" dir="s" state="w"/>
+    <connection from="-E30" to="-E25" fromLane="2" toLane="3" via=":J12_1_3" tl="16th_bayview" linkIndex="0" dir="s" state="w"/>
+    <connection from="-E30" to="-E48" fromLane="3" toLane="3" via=":J12_5_0" tl="16th_bayview" linkIndex="1" dir="l" state="w"/>
+    <connection from="-E305" to="-E339" fromLane="0" toLane="0" via=":J129_0_0" tl="hwy7_commerce_valley_east" linkIndex="0" dir="r" state="O"/>
+    <connection from="-E305" to="-E177" fromLane="0" toLane="0" via=":J129_1_0" tl="hwy7_commerce_valley_east" linkIndex="1" dir="s" state="O"/>
+    <connection from="-E305" to="-E177" fromLane="1" toLane="1" via=":J129_1_1" tl="hwy7_commerce_valley_east" linkIndex="2" dir="s" state="O"/>
+    <connection from="-E305" to="-E177" fromLane="2" toLane="2" via=":J129_1_2" tl="hwy7_commerce_valley_east" linkIndex="3" dir="s" state="O"/>
+    <connection from="-E305" to="E260" fromLane="3" toLane="0" via=":J129_4_0" tl="hwy7_commerce_valley_east" linkIndex="4" dir="l" state="o"/>
     <connection from="-E31" to="-E21" fromLane="0" toLane="0" via=":J28_0_0" dir="s" state="M"/>
     <connection from="-E31" to="E22" fromLane="0" toLane="1" via=":J28_1_0" dir="l" state="m"/>
     <connection from="-E32" to="E34" fromLane="0" toLane="0" via=":J37_2_0" dir="r" state="M"/>
@@ -6300,16 +6327,16 @@
     <connection from="-E339" to="E340" fromLane="2" toLane="0" via=":J274_12_0" dir="l" state="m"/>
     <connection from="-E34" to="-E31" fromLane="0" toLane="0" via=":J37_0_0" dir="r" state="m"/>
     <connection from="-E34" to="E32" fromLane="0" toLane="1" via=":J37_1_0" dir="l" state="m"/>
-    <connection from="-E35" to="-E33" fromLane="0" toLane="0" via=":J38_12_0" tl="J38" linkIndex="12" dir="r" state="O"/>
-    <connection from="-E35" to="-E69" fromLane="0" toLane="0" via=":J38_13_0" tl="J38" linkIndex="13" dir="s" state="o"/>
-    <connection from="-E35" to="E3" fromLane="1" toLane="2" via=":J38_14_0" tl="J38" linkIndex="14" dir="l" state="o"/>
+    <connection from="-E35" to="-E33" fromLane="0" toLane="0" via=":J38_12_0" tl="16th_valleymede" linkIndex="12" dir="r" state="O"/>
+    <connection from="-E35" to="-E69" fromLane="0" toLane="0" via=":J38_13_0" tl="16th_valleymede" linkIndex="13" dir="s" state="o"/>
+    <connection from="-E35" to="E3" fromLane="1" toLane="2" via=":J38_14_0" tl="16th_valleymede" linkIndex="14" dir="l" state="o"/>
     <connection from="-E36" to="-E34" fromLane="0" toLane="0" via=":J39_9_0" dir="r" state="M"/>
     <connection from="-E36" to="-E35" fromLane="0" toLane="1" via=":J39_10_0" dir="s" state="M"/>
     <connection from="-E36" to="E71" fromLane="0" toLane="0" via=":J39_11_0" dir="l" state="m"/>
-    <connection from="-E37" to="E121" fromLane="0" toLane="0" via=":J35_5_0" tl="J35" linkIndex="5" dir="r" state="O"/>
-    <connection from="-E37" to="E48" fromLane="1" toLane="1" via=":J35_6_0" tl="J35" linkIndex="6" dir="s" state="O"/>
-    <connection from="-E37" to="E48" fromLane="2" toLane="2" via=":J35_6_1" tl="J35" linkIndex="7" dir="s" state="O"/>
-    <connection from="-E37" to="-E51" fromLane="3" toLane="0" via=":J35_8_0" tl="J35" linkIndex="8" dir="l" state="o"/>
+    <connection from="-E37" to="E121" fromLane="0" toLane="0" via=":J35_5_0" tl="briggs_bayview" linkIndex="5" dir="r" state="O"/>
+    <connection from="-E37" to="E48" fromLane="1" toLane="1" via=":J35_6_0" tl="briggs_bayview" linkIndex="6" dir="s" state="O"/>
+    <connection from="-E37" to="E48" fromLane="2" toLane="2" via=":J35_6_1" tl="briggs_bayview" linkIndex="7" dir="s" state="O"/>
+    <connection from="-E37" to="-E51" fromLane="3" toLane="0" via=":J35_8_0" tl="briggs_bayview" linkIndex="8" dir="l" state="o"/>
     <connection from="-E38" to="-E27" fromLane="0" toLane="0" via=":J9_0_0" dir="r" state="M"/>
     <connection from="-E38" to="-E29" fromLane="1" toLane="1" via=":J9_1_0" dir="s" state="M"/>
     <connection from="-E38" to="E41" fromLane="2" toLane="2" via=":J9_2_0" dir="l" state="m"/>
@@ -6331,10 +6358,10 @@
     <connection from="-E42" to="-E41" fromLane="0" toLane="0" via=":J23_5_0" dir="s" state="m"/>
     <connection from="-E42" to="-E46" fromLane="1" toLane="2" via=":J23_6_0" dir="l" state="m"/>
     <connection from="-E42" to="-E46" fromLane="2" toLane="3" via=":J23_6_1" dir="l" state="m"/>
-    <connection from="-E43" to="E65" fromLane="0" toLane="0" via=":J14_4_0" tl="J14" linkIndex="4" dir="r" state="O"/>
-    <connection from="-E43" to="-E37" fromLane="1" toLane="1" via=":J14_5_0" tl="J14" linkIndex="5" dir="s" state="O"/>
-    <connection from="-E43" to="-E37" fromLane="2" toLane="2" via=":J14_5_1" tl="J14" linkIndex="6" dir="s" state="O"/>
-    <connection from="-E43" to="-E38" fromLane="3" toLane="2" via=":J14_7_0" tl="J14" linkIndex="7" dir="l" state="o"/>
+    <connection from="-E43" to="E65" fromLane="0" toLane="0" via=":J14_4_0" tl="high_tech_bayview" linkIndex="4" dir="r" state="O"/>
+    <connection from="-E43" to="-E37" fromLane="1" toLane="1" via=":J14_5_0" tl="high_tech_bayview" linkIndex="5" dir="s" state="O"/>
+    <connection from="-E43" to="-E37" fromLane="2" toLane="2" via=":J14_5_1" tl="high_tech_bayview" linkIndex="6" dir="s" state="O"/>
+    <connection from="-E43" to="-E38" fromLane="3" toLane="2" via=":J14_7_0" tl="high_tech_bayview" linkIndex="7" dir="l" state="o"/>
     <connection from="-E44" to="-E43" fromLane="0" toLane="0" via=":J24_0_0" dir="s" state="M"/>
     <connection from="-E44" to="-E43" fromLane="1" toLane="1" via=":J24_0_1" dir="s" state="M"/>
     <connection from="-E44" to="-E43" fromLane="2" toLane="2" via=":J24_0_2" dir="s" state="M"/>
@@ -6352,10 +6379,10 @@
     <connection from="-E47" to="-E46" fromLane="0" toLane="0" via=":J23_1_0" dir="s" state="M"/>
     <connection from="-E47" to="-E46" fromLane="1" toLane="1" via=":J23_1_1" dir="s" state="M"/>
     <connection from="-E47" to="E42" fromLane="2" toLane="2" via=":J23_3_0" dir="l" state="m"/>
-    <connection from="-E48" to="-E51" fromLane="0" toLane="0" via=":J35_14_0" tl="J35" linkIndex="14" dir="r" state="O"/>
-    <connection from="-E48" to="E37" fromLane="1" toLane="1" via=":J35_15_0" tl="J35" linkIndex="15" dir="s" state="O"/>
-    <connection from="-E48" to="E37" fromLane="2" toLane="2" via=":J35_15_1" tl="J35" linkIndex="16" dir="s" state="O"/>
-    <connection from="-E48" to="E121" fromLane="3" toLane="0" via=":J35_17_0" tl="J35" linkIndex="17" dir="l" state="o"/>
+    <connection from="-E48" to="-E51" fromLane="0" toLane="0" via=":J35_14_0" tl="briggs_bayview" linkIndex="14" dir="r" state="O"/>
+    <connection from="-E48" to="E37" fromLane="1" toLane="1" via=":J35_15_0" tl="briggs_bayview" linkIndex="15" dir="s" state="O"/>
+    <connection from="-E48" to="E37" fromLane="2" toLane="2" via=":J35_15_1" tl="briggs_bayview" linkIndex="16" dir="s" state="O"/>
+    <connection from="-E48" to="E121" fromLane="3" toLane="0" via=":J35_17_0" tl="briggs_bayview" linkIndex="17" dir="l" state="o"/>
     <connection from="-E49" to="E142" fromLane="0" toLane="0" via=":J118_2_0" dir="r" state="M"/>
     <connection from="-E49" to="-E140" fromLane="0" toLane="0" via=":J118_3_0" dir="s" state="m"/>
     <connection from="-E49" to="-E140" fromLane="0" toLane="1" via=":J118_3_1" dir="s" state="m"/>
@@ -6390,10 +6417,10 @@
     <connection from="-E62" to="E24" fromLane="0" toLane="1" via=":J55_3_0" dir="l" state="m"/>
     <connection from="-E64" to="-E62" fromLane="0" toLane="0" via=":J57_0_0" dir="s" state="M"/>
     <connection from="-E64" to="E63" fromLane="1" toLane="0" via=":J57_1_0" dir="l" state="M"/>
-    <connection from="-E65" to="-E37" fromLane="0" toLane="0" via=":J14_0_0" tl="J14" linkIndex="0" dir="r" state="O"/>
-    <connection from="-E65" to="-E38" fromLane="0" toLane="1" via=":J14_1_0" tl="J14" linkIndex="1" dir="s" state="o"/>
-    <connection from="-E65" to="-E38" fromLane="0" toLane="2" via=":J14_1_1" tl="J14" linkIndex="2" dir="s" state="o"/>
-    <connection from="-E65" to="E43" fromLane="1" toLane="2" via=":J14_3_0" tl="J14" linkIndex="3" dir="l" state="o"/>
+    <connection from="-E65" to="-E37" fromLane="0" toLane="0" via=":J14_0_0" tl="high_tech_bayview" linkIndex="0" dir="r" state="O"/>
+    <connection from="-E65" to="-E38" fromLane="0" toLane="1" via=":J14_1_0" tl="high_tech_bayview" linkIndex="1" dir="s" state="o"/>
+    <connection from="-E65" to="-E38" fromLane="0" toLane="2" via=":J14_1_1" tl="high_tech_bayview" linkIndex="2" dir="s" state="o"/>
+    <connection from="-E65" to="E43" fromLane="1" toLane="2" via=":J14_3_0" tl="high_tech_bayview" linkIndex="3" dir="l" state="o"/>
     <connection from="-E66" to="E326" fromLane="0" toLane="0" via=":J54_4_0" dir="r" state="M"/>
     <connection from="-E66" to="-E106" fromLane="0" toLane="0" via=":J54_5_0" dir="s" state="M"/>
     <connection from="-E66" to="-E65" fromLane="1" toLane="0" via=":J54_6_0" dir="l" state="m"/>
@@ -6437,19 +6464,19 @@
     <connection from="-E77" to="E70" fromLane="0" toLane="0" via=":J42_3_0" dir="r" state="M"/>
     <connection from="-E77" to="E236" fromLane="1" toLane="0" via=":J42_4_0" dir="s" state="M"/>
     <connection from="-E77" to="E236" fromLane="2" toLane="1" via=":J42_4_1" dir="s" state="M"/>
-    <connection from="-E78" to="-E77" fromLane="0" toLane="0" via=":J44_0_0" tl="J44" linkIndex="0" dir="r" state="O"/>
-    <connection from="-E78" to="-E7" fromLane="1" toLane="1" via=":J44_1_0" tl="J44" linkIndex="1" dir="s" state="o"/>
-    <connection from="-E78" to="-E7" fromLane="2" toLane="2" via=":J44_1_1" tl="J44" linkIndex="2" dir="s" state="o"/>
-    <connection from="-E78" to="E111" fromLane="3" toLane="3" via=":J44_3_0" tl="J44" linkIndex="3" dir="l" state="o"/>
+    <connection from="-E78" to="-E77" fromLane="0" toLane="0" via=":J44_0_0" tl="16th_leslie" linkIndex="0" dir="r" state="O"/>
+    <connection from="-E78" to="-E7" fromLane="1" toLane="1" via=":J44_1_0" tl="16th_leslie" linkIndex="1" dir="s" state="o"/>
+    <connection from="-E78" to="-E7" fromLane="2" toLane="2" via=":J44_1_1" tl="16th_leslie" linkIndex="2" dir="s" state="o"/>
+    <connection from="-E78" to="E111" fromLane="3" toLane="3" via=":J44_3_0" tl="16th_leslie" linkIndex="3" dir="l" state="o"/>
     <connection from="-E79" to="E196" fromLane="0" toLane="0" via=":J121_2_0" dir="r" state="M"/>
     <connection from="-E79" to="-E192" fromLane="0" toLane="0" via=":J121_3_0" dir="s" state="m"/>
     <connection from="-E8" to="E4" fromLane="0" toLane="1" via=":J1_3_0" dir="r" state="m"/>
     <connection from="-E8" to="E178" fromLane="0" toLane="0" via=":J1_4_0" dir="s" state="m"/>
     <connection from="-E8" to="-E55" fromLane="0" toLane="2" via=":J1_5_0" dir="l" state="m"/>
-    <connection from="-E9" to="E1" fromLane="0" toLane="0" via=":J15_3_0" tl="J15" linkIndex="3" dir="r" state="O"/>
-    <connection from="-E9" to="-E44" fromLane="1" toLane="1" via=":J15_4_0" tl="J15" linkIndex="4" dir="s" state="O"/>
-    <connection from="-E9" to="-E44" fromLane="2" toLane="2" via=":J15_4_1" tl="J15" linkIndex="5" dir="s" state="O"/>
-    <connection from="-E9" to="E183" fromLane="3" toLane="2" via=":J15_6_0" tl="J15" linkIndex="6" dir="l" state="o"/>
+    <connection from="-E9" to="E1" fromLane="0" toLane="0" via=":J15_3_0" tl="hwy7_bayview" linkIndex="3" dir="r" state="O"/>
+    <connection from="-E9" to="-E44" fromLane="1" toLane="1" via=":J15_4_0" tl="hwy7_bayview" linkIndex="4" dir="s" state="O"/>
+    <connection from="-E9" to="-E44" fromLane="2" toLane="2" via=":J15_4_1" tl="hwy7_bayview" linkIndex="5" dir="s" state="O"/>
+    <connection from="-E9" to="E183" fromLane="3" toLane="2" via=":J15_6_0" tl="hwy7_bayview" linkIndex="6" dir="l" state="o"/>
     <connection from="E0" to="E229" fromLane="0" toLane="0" via=":J156_0_0" dir="s" state="M"/>
     <connection from="E0" to="E229" fromLane="1" toLane="1" via=":J156_0_1" dir="s" state="M"/>
     <connection from="E0" to="E229" fromLane="2" toLane="2" via=":J156_0_2" dir="s" state="M"/>
@@ -6459,38 +6486,38 @@
     <connection from="E106" to="-E65" fromLane="1" toLane="1" via=":J54_11_1" dir="r" state="M"/>
     <connection from="E106" to="E66" fromLane="1" toLane="0" via=":J54_13_0" dir="s" state="M"/>
     <connection from="E106" to="E326" fromLane="2" toLane="0" via=":J54_14_0" dir="l" state="m"/>
-    <connection from="E111" to="E140" fromLane="0" toLane="0" via=":J95_18_0" tl="J95" linkIndex="18" dir="r" state="O"/>
-    <connection from="E111" to="E140" fromLane="0" toLane="1" via=":J95_18_1" tl="J95" linkIndex="19" dir="r" state="O"/>
-    <connection from="E111" to="E129" fromLane="1" toLane="1" via=":J95_20_0" tl="J95" linkIndex="20" dir="s" state="O"/>
-    <connection from="E111" to="E129" fromLane="2" toLane="2" via=":J95_20_1" tl="J95" linkIndex="21" dir="s" state="O"/>
-    <connection from="E111" to="E144" fromLane="3" toLane="0" via=":J95_22_0" tl="J95" linkIndex="22" dir="l" state="o"/>
-    <connection from="E111" to="E144" fromLane="3" toLane="1" via=":J95_22_1" tl="J95" linkIndex="23" dir="l" state="o"/>
+    <connection from="E111" to="E140" fromLane="0" toLane="0" via=":J95_18_0" tl="beaver_leslie" linkIndex="18" dir="r" state="O"/>
+    <connection from="E111" to="E140" fromLane="0" toLane="1" via=":J95_18_1" tl="beaver_leslie" linkIndex="19" dir="r" state="O"/>
+    <connection from="E111" to="E129" fromLane="1" toLane="1" via=":J95_20_0" tl="beaver_leslie" linkIndex="20" dir="s" state="O"/>
+    <connection from="E111" to="E129" fromLane="2" toLane="2" via=":J95_20_1" tl="beaver_leslie" linkIndex="21" dir="s" state="O"/>
+    <connection from="E111" to="E144" fromLane="3" toLane="0" via=":J95_22_0" tl="beaver_leslie" linkIndex="22" dir="l" state="o"/>
+    <connection from="E111" to="E144" fromLane="3" toLane="1" via=":J95_22_1" tl="beaver_leslie" linkIndex="23" dir="l" state="o"/>
     <connection from="E121" to="E106" fromLane="0" toLane="0" via=":J58_5_0" dir="r" state="M"/>
     <connection from="E121" to="-E68" fromLane="0" toLane="0" via=":J58_6_0" dir="l" state="m"/>
-    <connection from="E129" to="-E142" fromLane="0" toLane="0" via=":J109_18_0" tl="J109" linkIndex="18" dir="r" state="O"/>
-    <connection from="E129" to="-E142" fromLane="0" toLane="1" via=":J109_18_1" tl="J109" linkIndex="19" dir="r" state="O"/>
-    <connection from="E129" to="E135" fromLane="1" toLane="1" via=":J109_20_0" tl="J109" linkIndex="20" dir="s" state="O"/>
-    <connection from="E129" to="E135" fromLane="2" toLane="2" via=":J109_20_1" tl="J109" linkIndex="21" dir="s" state="O"/>
-    <connection from="E129" to="E147" fromLane="3" toLane="0" via=":J109_22_0" tl="J109" linkIndex="22" dir="l" state="o"/>
-    <connection from="E129" to="E147" fromLane="3" toLane="1" via=":J109_22_1" tl="J109" linkIndex="23" dir="l" state="o"/>
+    <connection from="E129" to="-E142" fromLane="0" toLane="0" via=":J109_18_0" tl="wilmot_leslie" linkIndex="18" dir="r" state="O"/>
+    <connection from="E129" to="-E142" fromLane="0" toLane="1" via=":J109_18_1" tl="wilmot_leslie" linkIndex="19" dir="r" state="O"/>
+    <connection from="E129" to="E135" fromLane="1" toLane="1" via=":J109_20_0" tl="wilmot_leslie" linkIndex="20" dir="s" state="O"/>
+    <connection from="E129" to="E135" fromLane="2" toLane="2" via=":J109_20_1" tl="wilmot_leslie" linkIndex="21" dir="s" state="O"/>
+    <connection from="E129" to="E147" fromLane="3" toLane="0" via=":J109_22_0" tl="wilmot_leslie" linkIndex="22" dir="l" state="o"/>
+    <connection from="E129" to="E147" fromLane="3" toLane="1" via=":J109_22_1" tl="wilmot_leslie" linkIndex="23" dir="l" state="o"/>
     <connection from="E13" to="E17" fromLane="0" toLane="0" via=":J11_7_0" dir="r" state="m"/>
     <connection from="E13" to="E17" fromLane="1" toLane="1" via=":J11_7_1" dir="r" state="m"/>
     <connection from="E13" to="E19" fromLane="1" toLane="0" via=":J11_9_0" dir="s" state="m"/>
     <connection from="E13" to="-E5" fromLane="2" toLane="1" via=":J11_10_0" dir="l" state="m"/>
-    <connection from="E135" to="-E56" fromLane="0" toLane="0" via=":J110_10_0" tl="J110" linkIndex="10" dir="r" state="O"/>
-    <connection from="E135" to="-E235" fromLane="1" toLane="1" via=":J110_11_0" tl="J110" linkIndex="11" dir="s" state="O"/>
-    <connection from="E135" to="-E235" fromLane="2" toLane="2" via=":J110_11_1" tl="J110" linkIndex="12" dir="s" state="O"/>
-    <connection from="E135" to="E153" fromLane="3" toLane="1" via=":J110_13_0" tl="J110" linkIndex="13" dir="l" state="o"/>
+    <connection from="E135" to="-E56" fromLane="0" toLane="0" via=":J110_10_0" tl="pearce_leslie" linkIndex="10" dir="r" state="O"/>
+    <connection from="E135" to="-E235" fromLane="1" toLane="1" via=":J110_11_0" tl="pearce_leslie" linkIndex="11" dir="s" state="O"/>
+    <connection from="E135" to="-E235" fromLane="2" toLane="2" via=":J110_11_1" tl="pearce_leslie" linkIndex="12" dir="s" state="O"/>
+    <connection from="E135" to="E153" fromLane="3" toLane="1" via=":J110_13_0" tl="pearce_leslie" linkIndex="13" dir="l" state="o"/>
     <connection from="E14" to="E16" fromLane="0" toLane="0" via=":J6_4_0" dir="s" state="M"/>
     <connection from="E14" to="E18" fromLane="0" toLane="0" via=":J6_5_0" dir="l" state="m"/>
     <connection from="E140" to="E49" fromLane="0" toLane="0" via=":J118_6_0" dir="s" state="M"/>
     <connection from="E140" to="E142" fromLane="1" toLane="1" via=":J118_7_0" dir="l" state="M"/>
-    <connection from="E142" to="E135" fromLane="0" toLane="1" via=":J109_12_0" tl="J109" linkIndex="12" dir="r" state="o"/>
-    <connection from="E142" to="E135" fromLane="0" toLane="2" via=":J109_12_1" tl="J109" linkIndex="13" dir="r" state="o"/>
-    <connection from="E142" to="E147" fromLane="0" toLane="0" via=":J109_14_0" tl="J109" linkIndex="14" dir="s" state="o"/>
-    <connection from="E142" to="E147" fromLane="0" toLane="1" via=":J109_14_1" tl="J109" linkIndex="15" dir="s" state="o"/>
-    <connection from="E142" to="-E129" fromLane="1" toLane="1" via=":J109_16_0" tl="J109" linkIndex="16" dir="l" state="o"/>
-    <connection from="E142" to="-E129" fromLane="1" toLane="2" via=":J109_16_1" tl="J109" linkIndex="17" dir="l" state="o"/>
+    <connection from="E142" to="E135" fromLane="0" toLane="1" via=":J109_12_0" tl="wilmot_leslie" linkIndex="12" dir="r" state="o"/>
+    <connection from="E142" to="E135" fromLane="0" toLane="2" via=":J109_12_1" tl="wilmot_leslie" linkIndex="13" dir="r" state="o"/>
+    <connection from="E142" to="E147" fromLane="0" toLane="0" via=":J109_14_0" tl="wilmot_leslie" linkIndex="14" dir="s" state="o"/>
+    <connection from="E142" to="E147" fromLane="0" toLane="1" via=":J109_14_1" tl="wilmot_leslie" linkIndex="15" dir="s" state="o"/>
+    <connection from="E142" to="-E129" fromLane="1" toLane="1" via=":J109_16_0" tl="wilmot_leslie" linkIndex="16" dir="l" state="o"/>
+    <connection from="E142" to="-E129" fromLane="1" toLane="2" via=":J109_16_1" tl="wilmot_leslie" linkIndex="17" dir="l" state="o"/>
     <connection from="E143" to="-E76" fromLane="0" toLane="0" via=":J62_0_0" dir="s" state="m"/>
     <connection from="E143" to="-E76" fromLane="0" toLane="1" via=":J62_0_1" dir="s" state="m"/>
     <connection from="E143" to="-E78" fromLane="1" toLane="2" via=":J62_2_0" dir="l" state="m"/>
@@ -6583,42 +6610,42 @@
     <connection from="E17" to="E26" fromLane="0" toLane="0" via=":J25_8_0" dir="s" state="M"/>
     <connection from="E17" to="E26" fromLane="1" toLane="1" via=":J25_8_1" dir="s" state="M"/>
     <connection from="E17" to="-E22" fromLane="2" toLane="0" via=":J25_10_0" dir="l" state="m"/>
-    <connection from="E170" to="E172" fromLane="0" toLane="0" via=":J142_4_0" tl="J142" linkIndex="4" dir="s" state="O"/>
-    <connection from="E170" to="E172" fromLane="1" toLane="1" via=":J142_4_1" tl="J142" linkIndex="5" dir="s" state="O"/>
-    <connection from="E170" to="E172" fromLane="2" toLane="2" via=":J142_4_2" tl="J142" linkIndex="6" dir="s" state="O"/>
-    <connection from="E170" to="E171" fromLane="3" toLane="2" via=":J142_7_0" tl="J142" linkIndex="7" dir="l" state="o"/>
-    <connection from="E171" to="E9" fromLane="0" toLane="0" via=":J15_7_0" tl="J15" linkIndex="7" dir="r" state="O"/>
-    <connection from="E171" to="E1" fromLane="1" toLane="0" via=":J15_8_0" tl="J15" linkIndex="8" dir="s" state="o"/>
-    <connection from="E171" to="-E44" fromLane="2" toLane="3" via=":J15_9_0" tl="J15" linkIndex="9" dir="l" state="o"/>
-    <connection from="E172" to="E145" fromLane="0" toLane="0" via=":J56_8_0" tl="J56" linkIndex="8" dir="r" state="O"/>
-    <connection from="E172" to="E173" fromLane="0" toLane="0" via=":J56_9_0" tl="J56" linkIndex="9" dir="s" state="O"/>
-    <connection from="E172" to="E173" fromLane="1" toLane="1" via=":J56_9_1" tl="J56" linkIndex="10" dir="s" state="O"/>
-    <connection from="E172" to="E173" fromLane="2" toLane="2" via=":J56_9_2" tl="J56" linkIndex="11" dir="s" state="O"/>
-    <connection from="E172" to="-E24" fromLane="3" toLane="0" via=":J56_12_0" tl="J56" linkIndex="12" dir="l" state="o"/>
-    <connection from="E173" to="-E179" fromLane="0" toLane="0" via=":J74_8_0" tl="J74" linkIndex="8" dir="r" state="O"/>
-    <connection from="E173" to="E174" fromLane="0" toLane="0" via=":J74_9_0" tl="J74" linkIndex="9" dir="s" state="O"/>
-    <connection from="E173" to="E174" fromLane="1" toLane="1" via=":J74_9_1" tl="J74" linkIndex="10" dir="s" state="O"/>
-    <connection from="E173" to="E174" fromLane="2" toLane="2" via=":J74_9_2" tl="J74" linkIndex="11" dir="s" state="O"/>
-    <connection from="E173" to="-E63" fromLane="3" toLane="0" via=":J74_12_0" tl="J74" linkIndex="12" dir="l" state="o"/>
-    <connection from="E174" to="E175" fromLane="0" toLane="0" via=":J77_7_0" tl="J77" linkIndex="7" dir="s" state="O"/>
-    <connection from="E174" to="E175" fromLane="1" toLane="1" via=":J77_7_1" tl="J77" linkIndex="8" dir="s" state="O"/>
-    <connection from="E174" to="E175" fromLane="2" toLane="2" via=":J77_7_2" tl="J77" linkIndex="9" dir="s" state="O"/>
-    <connection from="E174" to="-E64" fromLane="3" toLane="1" via=":J77_10_0" tl="J77" linkIndex="10" dir="l" state="o"/>
+    <connection from="E170" to="E172" fromLane="0" toLane="0" via=":J142_4_0" tl="hwy7_bayview_connecting" linkIndex="4" dir="s" state="O"/>
+    <connection from="E170" to="E172" fromLane="1" toLane="1" via=":J142_4_1" tl="hwy7_bayview_connecting" linkIndex="5" dir="s" state="O"/>
+    <connection from="E170" to="E172" fromLane="2" toLane="2" via=":J142_4_2" tl="hwy7_bayview_connecting" linkIndex="6" dir="s" state="O"/>
+    <connection from="E170" to="E171" fromLane="3" toLane="2" via=":J142_7_0" tl="hwy7_bayview_connecting" linkIndex="7" dir="l" state="o"/>
+    <connection from="E171" to="E9" fromLane="0" toLane="0" via=":J15_7_0" tl="hwy7_bayview" linkIndex="7" dir="r" state="O"/>
+    <connection from="E171" to="E1" fromLane="1" toLane="0" via=":J15_8_0" tl="hwy7_bayview" linkIndex="8" dir="s" state="o"/>
+    <connection from="E171" to="-E44" fromLane="2" toLane="3" via=":J15_9_0" tl="hwy7_bayview" linkIndex="9" dir="l" state="o"/>
+    <connection from="E172" to="E145" fromLane="0" toLane="0" via=":J56_8_0" tl="hwy7_south_park" linkIndex="8" dir="r" state="O"/>
+    <connection from="E172" to="E173" fromLane="0" toLane="0" via=":J56_9_0" tl="hwy7_south_park" linkIndex="9" dir="s" state="O"/>
+    <connection from="E172" to="E173" fromLane="1" toLane="1" via=":J56_9_1" tl="hwy7_south_park" linkIndex="10" dir="s" state="O"/>
+    <connection from="E172" to="E173" fromLane="2" toLane="2" via=":J56_9_2" tl="hwy7_south_park" linkIndex="11" dir="s" state="O"/>
+    <connection from="E172" to="-E24" fromLane="3" toLane="0" via=":J56_12_0" tl="hwy7_south_park" linkIndex="12" dir="l" state="o"/>
+    <connection from="E173" to="-E179" fromLane="0" toLane="0" via=":J74_8_0" tl="hwy7_saddlecreek" linkIndex="8" dir="r" state="O"/>
+    <connection from="E173" to="E174" fromLane="0" toLane="0" via=":J74_9_0" tl="hwy7_saddlecreek" linkIndex="9" dir="s" state="O"/>
+    <connection from="E173" to="E174" fromLane="1" toLane="1" via=":J74_9_1" tl="hwy7_saddlecreek" linkIndex="10" dir="s" state="O"/>
+    <connection from="E173" to="E174" fromLane="2" toLane="2" via=":J74_9_2" tl="hwy7_saddlecreek" linkIndex="11" dir="s" state="O"/>
+    <connection from="E173" to="-E63" fromLane="3" toLane="0" via=":J74_12_0" tl="hwy7_saddlecreek" linkIndex="12" dir="l" state="o"/>
+    <connection from="E174" to="E175" fromLane="0" toLane="0" via=":J77_7_0" tl="hwy7_times" linkIndex="7" dir="s" state="O"/>
+    <connection from="E174" to="E175" fromLane="1" toLane="1" via=":J77_7_1" tl="hwy7_times" linkIndex="8" dir="s" state="O"/>
+    <connection from="E174" to="E175" fromLane="2" toLane="2" via=":J77_7_2" tl="hwy7_times" linkIndex="9" dir="s" state="O"/>
+    <connection from="E174" to="-E64" fromLane="3" toLane="1" via=":J77_10_0" tl="hwy7_times" linkIndex="10" dir="l" state="o"/>
     <connection from="E175" to="E75" fromLane="0" toLane="0" via=":J127_9_0" dir="r" state="M"/>
     <connection from="E175" to="E74" fromLane="0" toLane="1" via=":J127_10_0" dir="s" state="M"/>
     <connection from="E175" to="E74" fromLane="1" toLane="2" via=":J127_10_1" dir="s" state="M"/>
     <connection from="E175" to="E74" fromLane="2" toLane="3" via=":J127_10_2" dir="s" state="M"/>
     <connection from="E175" to="-E157" fromLane="3" toLane="1" via=":J127_13_0" dir="l" state="m"/>
-    <connection from="E177" to="E260" fromLane="0" toLane="0" via=":J129_10_0" tl="J129" linkIndex="10" dir="r" state="O"/>
-    <connection from="E177" to="E305" fromLane="0" toLane="0" via=":J129_11_0" tl="J129" linkIndex="11" dir="s" state="O"/>
-    <connection from="E177" to="E305" fromLane="1" toLane="1" via=":J129_11_1" tl="J129" linkIndex="12" dir="s" state="O"/>
-    <connection from="E177" to="E305" fromLane="2" toLane="2" via=":J129_11_2" tl="J129" linkIndex="13" dir="s" state="O"/>
-    <connection from="E177" to="-E339" fromLane="3" toLane="0" via=":J129_14_0" tl="J129" linkIndex="14" dir="l" state="o"/>
-    <connection from="E177" to="-E339" fromLane="3" toLane="1" via=":J129_14_1" tl="J129" linkIndex="15" dir="l" state="o"/>
-    <connection from="E177" to="-E339" fromLane="3" toLane="2" via=":J129_14_2" tl="J129" linkIndex="16" dir="l" state="o"/>
-    <connection from="E179" to="E174" fromLane="0" toLane="0" via=":J74_5_0" tl="J74" linkIndex="5" dir="r" state="o"/>
-    <connection from="E179" to="-E63" fromLane="0" toLane="0" via=":J74_6_0" tl="J74" linkIndex="6" dir="s" state="o"/>
-    <connection from="E179" to="-E173" fromLane="1" toLane="3" via=":J74_7_0" tl="J74" linkIndex="7" dir="l" state="o"/>
+    <connection from="E177" to="E260" fromLane="0" toLane="0" via=":J129_10_0" tl="hwy7_commerce_valley_east" linkIndex="10" dir="r" state="O"/>
+    <connection from="E177" to="E305" fromLane="0" toLane="0" via=":J129_11_0" tl="hwy7_commerce_valley_east" linkIndex="11" dir="s" state="O"/>
+    <connection from="E177" to="E305" fromLane="1" toLane="1" via=":J129_11_1" tl="hwy7_commerce_valley_east" linkIndex="12" dir="s" state="O"/>
+    <connection from="E177" to="E305" fromLane="2" toLane="2" via=":J129_11_2" tl="hwy7_commerce_valley_east" linkIndex="13" dir="s" state="O"/>
+    <connection from="E177" to="-E339" fromLane="3" toLane="0" via=":J129_14_0" tl="hwy7_commerce_valley_east" linkIndex="14" dir="l" state="o"/>
+    <connection from="E177" to="-E339" fromLane="3" toLane="1" via=":J129_14_1" tl="hwy7_commerce_valley_east" linkIndex="15" dir="l" state="o"/>
+    <connection from="E177" to="-E339" fromLane="3" toLane="2" via=":J129_14_2" tl="hwy7_commerce_valley_east" linkIndex="16" dir="l" state="o"/>
+    <connection from="E179" to="E174" fromLane="0" toLane="0" via=":J74_5_0" tl="hwy7_saddlecreek" linkIndex="5" dir="r" state="o"/>
+    <connection from="E179" to="-E63" fromLane="0" toLane="0" via=":J74_6_0" tl="hwy7_saddlecreek" linkIndex="6" dir="s" state="o"/>
+    <connection from="E179" to="-E173" fromLane="1" toLane="3" via=":J74_7_0" tl="hwy7_saddlecreek" linkIndex="7" dir="l" state="o"/>
     <connection from="E18" to="E27" fromLane="0" toLane="0" via=":J7_1_0" dir="r" state="M"/>
     <connection from="E183" to="E248" fromLane="0" toLane="0" via=":J217_0_0" dir="R" state="M"/>
     <connection from="E183" to="E285" fromLane="1" toLane="0" via=":J217_1_0" dir="s" state="M"/>
@@ -6628,39 +6655,39 @@
     <connection from="E192" to="E79" fromLane="0" toLane="0" via=":J121_4_0" dir="s" state="m"/>
     <connection from="E192" to="E196" fromLane="0" toLane="1" via=":J121_5_0" dir="l" state="m"/>
     <connection from="E192" to="E196" fromLane="0" toLane="2" via=":J121_5_1" dir="l" state="m"/>
-    <connection from="E196" to="E175" fromLane="0" toLane="0" via=":J77_4_0" tl="J77" linkIndex="4" dir="r" state="o"/>
-    <connection from="E196" to="-E64" fromLane="1" toLane="1" via=":J77_5_0" tl="J77" linkIndex="5" dir="s" state="o"/>
-    <connection from="E196" to="-E174" fromLane="2" toLane="3" via=":J77_6_0" tl="J77" linkIndex="6" dir="l" state="o"/>
-    <connection from="E199" to="E242" fromLane="0" toLane="1" via=":J131_12_0" tl="J131" linkIndex="12" dir="r" state="o"/>
-    <connection from="E199" to="E242" fromLane="0" toLane="2" via=":J131_12_1" tl="J131" linkIndex="13" dir="r" state="o"/>
-    <connection from="E199" to="-E205" fromLane="1" toLane="0" via=":J131_14_0" tl="J131" linkIndex="14" dir="s" state="o"/>
-    <connection from="E199" to="-E205" fromLane="1" toLane="1" via=":J131_14_1" tl="J131" linkIndex="15" dir="s" state="o"/>
-    <connection from="E199" to="-E202" fromLane="1" toLane="1" via=":J131_16_0" tl="J131" linkIndex="16" dir="l" state="o"/>
-    <connection from="E199" to="-E202" fromLane="1" toLane="2" via=":J131_16_1" tl="J131" linkIndex="17" dir="l" state="o"/>
+    <connection from="E196" to="E175" fromLane="0" toLane="0" via=":J77_4_0" tl="hwy7_times" linkIndex="4" dir="r" state="o"/>
+    <connection from="E196" to="-E64" fromLane="1" toLane="1" via=":J77_5_0" tl="hwy7_times" linkIndex="5" dir="s" state="o"/>
+    <connection from="E196" to="-E174" fromLane="2" toLane="3" via=":J77_6_0" tl="hwy7_times" linkIndex="6" dir="l" state="o"/>
+    <connection from="E199" to="E242" fromLane="0" toLane="1" via=":J131_12_0" tl="commerce_valley_leslie" linkIndex="12" dir="r" state="o"/>
+    <connection from="E199" to="E242" fromLane="0" toLane="2" via=":J131_12_1" tl="commerce_valley_leslie" linkIndex="13" dir="r" state="o"/>
+    <connection from="E199" to="-E205" fromLane="1" toLane="0" via=":J131_14_0" tl="commerce_valley_leslie" linkIndex="14" dir="s" state="o"/>
+    <connection from="E199" to="-E205" fromLane="1" toLane="1" via=":J131_14_1" tl="commerce_valley_leslie" linkIndex="15" dir="s" state="o"/>
+    <connection from="E199" to="-E202" fromLane="1" toLane="1" via=":J131_16_0" tl="commerce_valley_leslie" linkIndex="16" dir="l" state="o"/>
+    <connection from="E199" to="-E202" fromLane="1" toLane="2" via=":J131_16_1" tl="commerce_valley_leslie" linkIndex="17" dir="l" state="o"/>
     <connection from="E2" to="E14" fromLane="0" toLane="0" via=":J2_0_0" dir="l" state="M"/>
-    <connection from="E200" to="E202" fromLane="0" toLane="1" via=":J133_10_0" tl="J133" linkIndex="10" dir="r" state="o"/>
-    <connection from="E200" to="E202" fromLane="0" toLane="2" via=":J133_10_1" tl="J133" linkIndex="11" dir="r" state="o"/>
-    <connection from="E200" to="E228" fromLane="1" toLane="0" via=":J133_12_0" tl="J133" linkIndex="12" dir="s" state="o"/>
-    <connection from="E200" to="E228" fromLane="1" toLane="1" via=":J133_12_1" tl="J133" linkIndex="13" dir="s" state="o"/>
-    <connection from="E200" to="-E201" fromLane="2" toLane="1" via=":J133_14_0" tl="J133" linkIndex="14" dir="l" state="o"/>
-    <connection from="E200" to="-E201" fromLane="2" toLane="2" via=":J133_14_1" tl="J133" linkIndex="15" dir="l" state="o"/>
-    <connection from="E201" to="-E200" fromLane="0" toLane="0" via=":J133_16_0" tl="J133" linkIndex="16" dir="r" state="O"/>
-    <connection from="E201" to="E202" fromLane="1" toLane="1" via=":J133_17_0" tl="J133" linkIndex="17" dir="s" state="O"/>
-    <connection from="E201" to="E202" fromLane="2" toLane="2" via=":J133_17_1" tl="J133" linkIndex="18" dir="s" state="O"/>
-    <connection from="E201" to="E228" fromLane="3" toLane="0" via=":J133_19_0" tl="J133" linkIndex="19" dir="l" state="o"/>
-    <connection from="E201" to="E228" fromLane="3" toLane="1" via=":J133_19_1" tl="J133" linkIndex="20" dir="l" state="o"/>
-    <connection from="E202" to="-E199" fromLane="0" toLane="0" via=":J131_18_0" tl="J131" linkIndex="18" dir="r" state="O"/>
-    <connection from="E202" to="-E199" fromLane="0" toLane="1" via=":J131_18_1" tl="J131" linkIndex="19" dir="r" state="O"/>
-    <connection from="E202" to="E242" fromLane="1" toLane="1" via=":J131_20_0" tl="J131" linkIndex="20" dir="s" state="O"/>
-    <connection from="E202" to="E242" fromLane="2" toLane="2" via=":J131_20_1" tl="J131" linkIndex="21" dir="s" state="O"/>
-    <connection from="E202" to="-E205" fromLane="3" toLane="0" via=":J131_22_0" tl="J131" linkIndex="22" dir="l" state="o"/>
-    <connection from="E202" to="-E205" fromLane="3" toLane="1" via=":J131_22_1" tl="J131" linkIndex="23" dir="l" state="o"/>
-    <connection from="E205" to="-E202" fromLane="0" toLane="1" via=":J131_0_0" tl="J131" linkIndex="0" dir="r" state="o"/>
-    <connection from="E205" to="-E202" fromLane="0" toLane="2" via=":J131_0_1" tl="J131" linkIndex="1" dir="r" state="o"/>
-    <connection from="E205" to="-E199" fromLane="0" toLane="0" via=":J131_2_0" tl="J131" linkIndex="2" dir="s" state="o"/>
-    <connection from="E205" to="-E199" fromLane="0" toLane="1" via=":J131_2_1" tl="J131" linkIndex="3" dir="s" state="o"/>
-    <connection from="E205" to="E242" fromLane="1" toLane="1" via=":J131_4_0" tl="J131" linkIndex="4" dir="l" state="o"/>
-    <connection from="E205" to="E242" fromLane="1" toLane="2" via=":J131_4_1" tl="J131" linkIndex="5" dir="l" state="o"/>
+    <connection from="E200" to="E202" fromLane="0" toLane="1" via=":J133_10_0" tl="minthorn_leslie" linkIndex="10" dir="r" state="o"/>
+    <connection from="E200" to="E202" fromLane="0" toLane="2" via=":J133_10_1" tl="minthorn_leslie" linkIndex="11" dir="r" state="o"/>
+    <connection from="E200" to="E228" fromLane="1" toLane="0" via=":J133_12_0" tl="minthorn_leslie" linkIndex="12" dir="s" state="o"/>
+    <connection from="E200" to="E228" fromLane="1" toLane="1" via=":J133_12_1" tl="minthorn_leslie" linkIndex="13" dir="s" state="o"/>
+    <connection from="E200" to="-E201" fromLane="2" toLane="1" via=":J133_14_0" tl="minthorn_leslie" linkIndex="14" dir="l" state="o"/>
+    <connection from="E200" to="-E201" fromLane="2" toLane="2" via=":J133_14_1" tl="minthorn_leslie" linkIndex="15" dir="l" state="o"/>
+    <connection from="E201" to="-E200" fromLane="0" toLane="0" via=":J133_16_0" tl="minthorn_leslie" linkIndex="16" dir="r" state="O"/>
+    <connection from="E201" to="E202" fromLane="1" toLane="1" via=":J133_17_0" tl="minthorn_leslie" linkIndex="17" dir="s" state="O"/>
+    <connection from="E201" to="E202" fromLane="2" toLane="2" via=":J133_17_1" tl="minthorn_leslie" linkIndex="18" dir="s" state="O"/>
+    <connection from="E201" to="E228" fromLane="3" toLane="0" via=":J133_19_0" tl="minthorn_leslie" linkIndex="19" dir="l" state="o"/>
+    <connection from="E201" to="E228" fromLane="3" toLane="1" via=":J133_19_1" tl="minthorn_leslie" linkIndex="20" dir="l" state="o"/>
+    <connection from="E202" to="-E199" fromLane="0" toLane="0" via=":J131_18_0" tl="commerce_valley_leslie" linkIndex="18" dir="r" state="O"/>
+    <connection from="E202" to="-E199" fromLane="0" toLane="1" via=":J131_18_1" tl="commerce_valley_leslie" linkIndex="19" dir="r" state="O"/>
+    <connection from="E202" to="E242" fromLane="1" toLane="1" via=":J131_20_0" tl="commerce_valley_leslie" linkIndex="20" dir="s" state="O"/>
+    <connection from="E202" to="E242" fromLane="2" toLane="2" via=":J131_20_1" tl="commerce_valley_leslie" linkIndex="21" dir="s" state="O"/>
+    <connection from="E202" to="-E205" fromLane="3" toLane="0" via=":J131_22_0" tl="commerce_valley_leslie" linkIndex="22" dir="l" state="o"/>
+    <connection from="E202" to="-E205" fromLane="3" toLane="1" via=":J131_22_1" tl="commerce_valley_leslie" linkIndex="23" dir="l" state="o"/>
+    <connection from="E205" to="-E202" fromLane="0" toLane="1" via=":J131_0_0" tl="commerce_valley_leslie" linkIndex="0" dir="r" state="o"/>
+    <connection from="E205" to="-E202" fromLane="0" toLane="2" via=":J131_0_1" tl="commerce_valley_leslie" linkIndex="1" dir="r" state="o"/>
+    <connection from="E205" to="-E199" fromLane="0" toLane="0" via=":J131_2_0" tl="commerce_valley_leslie" linkIndex="2" dir="s" state="o"/>
+    <connection from="E205" to="-E199" fromLane="0" toLane="1" via=":J131_2_1" tl="commerce_valley_leslie" linkIndex="3" dir="s" state="o"/>
+    <connection from="E205" to="E242" fromLane="1" toLane="1" via=":J131_4_0" tl="commerce_valley_leslie" linkIndex="4" dir="l" state="o"/>
+    <connection from="E205" to="E242" fromLane="1" toLane="2" via=":J131_4_1" tl="commerce_valley_leslie" linkIndex="5" dir="l" state="o"/>
     <connection from="E21" to="E22" fromLane="0" toLane="0" via=":J28_4_0" dir="r" state="M"/>
     <connection from="E21" to="E31" fromLane="0" toLane="0" via=":J28_5_0" dir="s" state="M"/>
     <connection from="E213" to="E28" fromLane="0" toLane="0" via=":J33_5_0" dir="r" state="m"/>
@@ -6701,25 +6728,25 @@
     <connection from="E232" to="E233" fromLane="2" toLane="3" via=":J176_1_2" dir="s" state="M"/>
     <connection from="E232" to="E233" fromLane="3" toLane="4" via=":J176_1_3" dir="s" state="M"/>
     <connection from="E232" to="E233" fromLane="4" toLane="5" via=":J176_1_4" dir="s" state="M"/>
-    <connection from="E235" to="E153" fromLane="0" toLane="0" via=":J110_3_0" tl="J110" linkIndex="3" dir="r" state="O"/>
-    <connection from="E235" to="-E135" fromLane="1" toLane="1" via=":J110_4_0" tl="J110" linkIndex="4" dir="s" state="O"/>
-    <connection from="E235" to="-E135" fromLane="2" toLane="2" via=":J110_4_1" tl="J110" linkIndex="5" dir="s" state="O"/>
-    <connection from="E235" to="-E56" fromLane="3" toLane="1" via=":J110_6_0" tl="J110" linkIndex="6" dir="l" state="o"/>
-    <connection from="E24" to="-E172" fromLane="0" toLane="0" via=":J56_13_0" tl="J56" linkIndex="13" dir="r" state="o"/>
-    <connection from="E24" to="E145" fromLane="0" toLane="0" via=":J56_14_0" tl="J56" linkIndex="14" dir="s" state="o"/>
-    <connection from="E24" to="E173" fromLane="1" toLane="3" via=":J56_15_0" tl="J56" linkIndex="15" dir="l" state="o"/>
+    <connection from="E235" to="E153" fromLane="0" toLane="0" via=":J110_3_0" tl="pearce_leslie" linkIndex="3" dir="r" state="O"/>
+    <connection from="E235" to="-E135" fromLane="1" toLane="1" via=":J110_4_0" tl="pearce_leslie" linkIndex="4" dir="s" state="O"/>
+    <connection from="E235" to="-E135" fromLane="2" toLane="2" via=":J110_4_1" tl="pearce_leslie" linkIndex="5" dir="s" state="O"/>
+    <connection from="E235" to="-E56" fromLane="3" toLane="1" via=":J110_6_0" tl="pearce_leslie" linkIndex="6" dir="l" state="o"/>
+    <connection from="E24" to="-E172" fromLane="0" toLane="0" via=":J56_13_0" tl="hwy7_south_park" linkIndex="13" dir="r" state="o"/>
+    <connection from="E24" to="E145" fromLane="0" toLane="0" via=":J56_14_0" tl="hwy7_south_park" linkIndex="14" dir="s" state="o"/>
+    <connection from="E24" to="E173" fromLane="1" toLane="3" via=":J56_15_0" tl="hwy7_south_park" linkIndex="15" dir="l" state="o"/>
     <connection from="E242" to="E2430" fromLane="0" toLane="0" via=":J186_8_0" dir="s" state="M"/>
     <connection from="E242" to="E2430" fromLane="1" toLane="1" via=":J186_8_1" dir="s" state="M"/>
     <connection from="E242" to="E222" fromLane="3" toLane="0" via=":J186_10_0" dir="l" state="m"/>
     <connection from="E2430" to="E244" fromLane="0" toLane="0" via=":J187_2_0" dir="s" state="M"/>
     <connection from="E2430" to="E244" fromLane="1" toLane="1" via=":J187_2_1" dir="s" state="M"/>
     <connection from="E248" to="E318" fromLane="0" toLane="0" via=":J218_0_0" dir="s" state="M"/>
-    <connection from="E25" to="-E48" fromLane="0" toLane="0" via=":J12_11_0" tl="J12" linkIndex="4" dir="r" state="w"/>
-    <connection from="E25" to="E30" fromLane="0" toLane="0" via=":J12_12_0" tl="J12" linkIndex="4" dir="s" state="w"/>
-    <connection from="E25" to="E30" fromLane="1" toLane="1" via=":J12_12_1" tl="J12" linkIndex="4" dir="s" state="w"/>
-    <connection from="E25" to="E30" fromLane="2" toLane="2" via=":J12_12_2" tl="J12" linkIndex="4" dir="s" state="w"/>
-    <connection from="E25" to="E30" fromLane="3" toLane="3" via=":J12_12_3" tl="J12" linkIndex="4" dir="s" state="w"/>
-    <connection from="E25" to="-E28" fromLane="3" toLane="2" via=":J12_16_0" tl="J12" linkIndex="5" dir="l" state="w"/>
+    <connection from="E25" to="-E48" fromLane="0" toLane="0" via=":J12_11_0" tl="16th_bayview" linkIndex="4" dir="r" state="w"/>
+    <connection from="E25" to="E30" fromLane="0" toLane="0" via=":J12_12_0" tl="16th_bayview" linkIndex="4" dir="s" state="w"/>
+    <connection from="E25" to="E30" fromLane="1" toLane="1" via=":J12_12_1" tl="16th_bayview" linkIndex="4" dir="s" state="w"/>
+    <connection from="E25" to="E30" fromLane="2" toLane="2" via=":J12_12_2" tl="16th_bayview" linkIndex="4" dir="s" state="w"/>
+    <connection from="E25" to="E30" fromLane="3" toLane="3" via=":J12_12_3" tl="16th_bayview" linkIndex="4" dir="s" state="w"/>
+    <connection from="E25" to="-E28" fromLane="3" toLane="2" via=":J12_16_0" tl="16th_bayview" linkIndex="5" dir="l" state="w"/>
     <connection from="E251" to="E273" fromLane="0" toLane="0" via=":J197_0_0" dir="R" state="M"/>
     <connection from="E251" to="E273" fromLane="0" toLane="1" via=":J197_0_1" dir="R" state="M"/>
     <connection from="E251" to="E273" fromLane="1" toLane="2" via=":J197_0_2" dir="R" state="M"/>
@@ -6804,13 +6831,13 @@
     <connection from="E273" to="-E264" fromLane="0" toLane="0" via=":J206_0_0" dir="r" state="m"/>
     <connection from="E273" to="E265" fromLane="1" toLane="1" via=":J206_1_0" dir="l" state="m"/>
     <connection from="E273" to="E265" fromLane="2" toLane="2" via=":J206_1_1" dir="l" state="m"/>
-    <connection from="E28" to="-E25" fromLane="0" toLane="0" via=":J12_17_0" tl="J12" linkIndex="6" dir="r" state="w"/>
-    <connection from="E28" to="-E48" fromLane="1" toLane="1" via=":J12_18_0" tl="J12" linkIndex="6" dir="s" state="w"/>
-    <connection from="E28" to="-E48" fromLane="2" toLane="2" via=":J12_18_1" tl="J12" linkIndex="6" dir="s" state="w"/>
-    <connection from="E28" to="-E48" fromLane="2" toLane="3" via=":J12_18_2" tl="J12" linkIndex="6" dir="s" state="w"/>
-    <connection from="E28" to="E30" fromLane="3" toLane="3" via=":J12_21_0" tl="J12" linkIndex="7" dir="l" state="w"/>
-    <connection from="E285" to="E172" fromLane="0" toLane="2" via=":J142_8_0" tl="J142" linkIndex="8" dir="l" state="o"/>
-    <connection from="E285" to="E172" fromLane="1" toLane="3" via=":J142_8_1" tl="J142" linkIndex="9" dir="l" state="o"/>
+    <connection from="E28" to="-E25" fromLane="0" toLane="0" via=":J12_17_0" tl="16th_bayview" linkIndex="6" dir="r" state="w"/>
+    <connection from="E28" to="-E48" fromLane="1" toLane="1" via=":J12_18_0" tl="16th_bayview" linkIndex="6" dir="s" state="w"/>
+    <connection from="E28" to="-E48" fromLane="2" toLane="2" via=":J12_18_1" tl="16th_bayview" linkIndex="6" dir="s" state="w"/>
+    <connection from="E28" to="-E48" fromLane="2" toLane="3" via=":J12_18_2" tl="16th_bayview" linkIndex="6" dir="s" state="w"/>
+    <connection from="E28" to="E30" fromLane="3" toLane="3" via=":J12_21_0" tl="16th_bayview" linkIndex="7" dir="l" state="w"/>
+    <connection from="E285" to="E172" fromLane="0" toLane="2" via=":J142_8_0" tl="hwy7_bayview_connecting" linkIndex="8" dir="l" state="o"/>
+    <connection from="E285" to="E172" fromLane="1" toLane="3" via=":J142_8_1" tl="hwy7_bayview_connecting" linkIndex="9" dir="l" state="o"/>
     <connection from="E29" to="E41" fromLane="0" toLane="0" via=":J9_6_0" dir="r" state="M"/>
     <connection from="E29" to="E38" fromLane="0" toLane="1" via=":J9_7_0" dir="s" state="M"/>
     <connection from="E29" to="-E27" fromLane="1" toLane="0" via=":J9_8_0" dir="l" state="m"/>
@@ -6854,18 +6881,18 @@
     <connection from="E324" to="-E165" fromLane="1" toLane="1" via=":J139_1_1" dir="s" state="M"/>
     <connection from="E324" to="-E165" fromLane="2" toLane="2" via=":J139_1_2" dir="s" state="M"/>
     <connection from="E325" to="E230" fromLane="0" toLane="0" via=":J157_0_0" dir="s" state="M"/>
-    <connection from="E33" to="-E69" fromLane="0" toLane="0" via=":J38_8_0" tl="J38" linkIndex="8" dir="r" state="O"/>
-    <connection from="E33" to="E3" fromLane="1" toLane="1" via=":J38_9_0" tl="J38" linkIndex="9" dir="s" state="O"/>
-    <connection from="E33" to="E3" fromLane="2" toLane="2" via=":J38_9_1" tl="J38" linkIndex="10" dir="s" state="O"/>
-    <connection from="E33" to="E35" fromLane="3" toLane="0" via=":J38_11_0" tl="J38" linkIndex="11" dir="l" state="o"/>
+    <connection from="E33" to="-E69" fromLane="0" toLane="0" via=":J38_8_0" tl="16th_valleymede" linkIndex="8" dir="r" state="O"/>
+    <connection from="E33" to="E3" fromLane="1" toLane="1" via=":J38_9_0" tl="16th_valleymede" linkIndex="9" dir="s" state="O"/>
+    <connection from="E33" to="E3" fromLane="2" toLane="2" via=":J38_9_1" tl="16th_valleymede" linkIndex="10" dir="s" state="O"/>
+    <connection from="E33" to="E35" fromLane="3" toLane="0" via=":J38_11_0" tl="16th_valleymede" linkIndex="11" dir="l" state="o"/>
     <connection from="E336" to="E340" fromLane="0" toLane="0" via=":J274_0_0" dir="r" state="M"/>
     <connection from="E336" to="E339" fromLane="0" toLane="0" via=":J274_1_0" dir="s" state="M"/>
     <connection from="E336" to="E339" fromLane="1" toLane="1" via=":J274_1_1" dir="s" state="M"/>
     <connection from="E336" to="E339" fromLane="2" toLane="2" via=":J274_1_2" dir="s" state="M"/>
     <connection from="E336" to="E337" fromLane="2" toLane="0" via=":J274_4_0" dir="l" state="m"/>
-    <connection from="E339" to="-E177" fromLane="0" toLane="0" via=":J129_17_0" tl="J129" linkIndex="17" dir="r" state="o"/>
-    <connection from="E339" to="E260" fromLane="1" toLane="0" via=":J129_18_0" tl="J129" linkIndex="18" dir="s" state="o"/>
-    <connection from="E339" to="E305" fromLane="2" toLane="3" via=":J129_19_0" tl="J129" linkIndex="19" dir="l" state="o"/>
+    <connection from="E339" to="-E177" fromLane="0" toLane="0" via=":J129_17_0" tl="hwy7_commerce_valley_east" linkIndex="17" dir="r" state="o"/>
+    <connection from="E339" to="E260" fromLane="1" toLane="0" via=":J129_18_0" tl="hwy7_commerce_valley_east" linkIndex="18" dir="s" state="o"/>
+    <connection from="E339" to="E305" fromLane="2" toLane="3" via=":J129_19_0" tl="hwy7_commerce_valley_east" linkIndex="19" dir="l" state="o"/>
     <connection from="E34" to="-E35" fromLane="0" toLane="0" via=":J39_6_0" dir="r" state="M"/>
     <connection from="E34" to="E71" fromLane="0" toLane="0" via=":J39_7_0" dir="s" state="m"/>
     <connection from="E34" to="E36" fromLane="0" toLane="0" via=":J39_8_0" dir="l" state="m"/>
@@ -6875,13 +6902,13 @@
     <connection from="E35" to="E71" fromLane="0" toLane="0" via=":J39_3_0" dir="r" state="M"/>
     <connection from="E35" to="E36" fromLane="0" toLane="0" via=":J39_4_0" dir="s" state="M"/>
     <connection from="E35" to="-E34" fromLane="0" toLane="0" via=":J39_5_0" dir="l" state="m"/>
-    <connection from="E37" to="-E38" fromLane="0" toLane="0" via=":J14_11_0" tl="J14" linkIndex="11" dir="r" state="O"/>
-    <connection from="E37" to="E43" fromLane="1" toLane="1" via=":J14_12_0" tl="J14" linkIndex="12" dir="s" state="O"/>
-    <connection from="E37" to="E43" fromLane="2" toLane="2" via=":J14_12_1" tl="J14" linkIndex="13" dir="s" state="O"/>
-    <connection from="E37" to="E65" fromLane="3" toLane="1" via=":J14_14_0" tl="J14" linkIndex="14" dir="l" state="o"/>
-    <connection from="E38" to="E43" fromLane="0" toLane="0" via=":J14_8_0" tl="J14" linkIndex="8" dir="r" state="O"/>
-    <connection from="E38" to="E65" fromLane="1" toLane="1" via=":J14_9_0" tl="J14" linkIndex="9" dir="s" state="o"/>
-    <connection from="E38" to="-E37" fromLane="2" toLane="3" via=":J14_10_0" tl="J14" linkIndex="10" dir="l" state="o"/>
+    <connection from="E37" to="-E38" fromLane="0" toLane="0" via=":J14_11_0" tl="high_tech_bayview" linkIndex="11" dir="r" state="O"/>
+    <connection from="E37" to="E43" fromLane="1" toLane="1" via=":J14_12_0" tl="high_tech_bayview" linkIndex="12" dir="s" state="O"/>
+    <connection from="E37" to="E43" fromLane="2" toLane="2" via=":J14_12_1" tl="high_tech_bayview" linkIndex="13" dir="s" state="O"/>
+    <connection from="E37" to="E65" fromLane="3" toLane="1" via=":J14_14_0" tl="high_tech_bayview" linkIndex="14" dir="l" state="o"/>
+    <connection from="E38" to="E43" fromLane="0" toLane="0" via=":J14_8_0" tl="high_tech_bayview" linkIndex="8" dir="r" state="O"/>
+    <connection from="E38" to="E65" fromLane="1" toLane="1" via=":J14_9_0" tl="high_tech_bayview" linkIndex="9" dir="s" state="o"/>
+    <connection from="E38" to="-E37" fromLane="2" toLane="3" via=":J14_10_0" tl="high_tech_bayview" linkIndex="10" dir="l" state="o"/>
     <connection from="E39" to="-E45" fromLane="0" toLane="0" via=":J21_14_0" dir="r" state="M"/>
     <connection from="E39" to="E40" fromLane="1" toLane="1" via=":J21_15_0" dir="s" state="m"/>
     <connection from="E39" to="E40" fromLane="2" toLane="2" via=":J21_15_1" dir="s" state="m"/>
@@ -6909,10 +6936,10 @@
     <connection from="E43" to="E44" fromLane="0" toLane="1" via=":J24_13_0" dir="s" state="M"/>
     <connection from="E43" to="E44" fromLane="1" toLane="2" via=":J24_13_1" dir="s" state="M"/>
     <connection from="E43" to="E44" fromLane="2" toLane="3" via=":J24_13_2" dir="s" state="M"/>
-    <connection from="E44" to="E183" fromLane="0" toLane="0" via=":J15_10_0" tl="J15" linkIndex="10" dir="r" state="O"/>
-    <connection from="E44" to="E9" fromLane="1" toLane="1" via=":J15_11_0" tl="J15" linkIndex="11" dir="s" state="O"/>
-    <connection from="E44" to="E9" fromLane="2" toLane="2" via=":J15_11_1" tl="J15" linkIndex="12" dir="s" state="O"/>
-    <connection from="E44" to="E1" fromLane="3" toLane="0" via=":J15_13_0" tl="J15" linkIndex="13" dir="l" state="o"/>
+    <connection from="E44" to="E183" fromLane="0" toLane="0" via=":J15_10_0" tl="hwy7_bayview" linkIndex="10" dir="r" state="O"/>
+    <connection from="E44" to="E9" fromLane="1" toLane="1" via=":J15_11_0" tl="hwy7_bayview" linkIndex="11" dir="s" state="O"/>
+    <connection from="E44" to="E9" fromLane="2" toLane="2" via=":J15_11_1" tl="hwy7_bayview" linkIndex="12" dir="s" state="O"/>
+    <connection from="E44" to="E1" fromLane="3" toLane="0" via=":J15_13_0" tl="hwy7_bayview" linkIndex="13" dir="l" state="o"/>
     <connection from="E45" to="E40" fromLane="0" toLane="0" via=":J21_9_0" dir="r" state="M"/>
     <connection from="E45" to="E46" fromLane="1" toLane="1" via=":J21_10_0" dir="s" state="M"/>
     <connection from="E45" to="E46" fromLane="2" toLane="2" via=":J21_10_1" dir="s" state="M"/>
@@ -6928,11 +6955,11 @@
     <connection from="E47" to="-E43" fromLane="0" toLane="1" via=":J24_9_0" dir="l" state="m"/>
     <connection from="E47" to="-E43" fromLane="1" toLane="2" via=":J24_9_1" dir="l" state="m"/>
     <connection from="E47" to="-E43" fromLane="2" toLane="3" via=":J24_9_2" dir="l" state="m"/>
-    <connection from="E48" to="E30" fromLane="0" toLane="0" via=":J12_6_0" tl="J12" linkIndex="2" dir="r" state="w"/>
-    <connection from="E48" to="-E28" fromLane="1" toLane="0" via=":J12_7_0" tl="J12" linkIndex="2" dir="s" state="w"/>
-    <connection from="E48" to="-E28" fromLane="2" toLane="1" via=":J12_7_1" tl="J12" linkIndex="2" dir="s" state="w"/>
-    <connection from="E48" to="-E28" fromLane="3" toLane="2" via=":J12_7_2" tl="J12" linkIndex="2" dir="s" state="w"/>
-    <connection from="E48" to="-E25" fromLane="3" toLane="3" via=":J12_10_0" tl="J12" linkIndex="3" dir="l" state="w"/>
+    <connection from="E48" to="E30" fromLane="0" toLane="0" via=":J12_6_0" tl="16th_bayview" linkIndex="2" dir="r" state="w"/>
+    <connection from="E48" to="-E28" fromLane="1" toLane="0" via=":J12_7_0" tl="16th_bayview" linkIndex="2" dir="s" state="w"/>
+    <connection from="E48" to="-E28" fromLane="2" toLane="1" via=":J12_7_1" tl="16th_bayview" linkIndex="2" dir="s" state="w"/>
+    <connection from="E48" to="-E28" fromLane="3" toLane="2" via=":J12_7_2" tl="16th_bayview" linkIndex="2" dir="s" state="w"/>
+    <connection from="E48" to="-E25" fromLane="3" toLane="3" via=":J12_10_0" tl="16th_bayview" linkIndex="3" dir="l" state="w"/>
     <connection from="E49" to="E157" fromLane="0" toLane="0" via=":J119_4_0" dir="s" state="M"/>
     <connection from="E49" to="E157" fromLane="0" toLane="1" via=":J119_4_1" dir="s" state="M"/>
     <connection from="E49" to="E56" fromLane="1" toLane="1" via=":J119_6_0" dir="l" state="m"/>
@@ -6944,11 +6971,11 @@
     <connection from="E50" to="E51" fromLane="0" toLane="1" via=":J43_2_1" dir="s" state="M"/>
     <connection from="E50" to="E51" fromLane="0" toLane="2" via=":J43_2_2" dir="s" state="M"/>
     <connection from="E50" to="E53" fromLane="0" toLane="1" via=":J43_5_0" dir="l" state="m"/>
-    <connection from="E51" to="E37" fromLane="0" toLane="1" via=":J35_9_0" tl="J35" linkIndex="9" dir="r" state="o"/>
-    <connection from="E51" to="E37" fromLane="0" toLane="2" via=":J35_9_1" tl="J35" linkIndex="10" dir="r" state="o"/>
-    <connection from="E51" to="E121" fromLane="1" toLane="0" via=":J35_11_0" tl="J35" linkIndex="11" dir="s" state="o"/>
-    <connection from="E51" to="E48" fromLane="2" toLane="1" via=":J35_12_0" tl="J35" linkIndex="12" dir="l" state="o"/>
-    <connection from="E51" to="E48" fromLane="2" toLane="2" via=":J35_12_1" tl="J35" linkIndex="13" dir="l" state="o"/>
+    <connection from="E51" to="E37" fromLane="0" toLane="1" via=":J35_9_0" tl="briggs_bayview" linkIndex="9" dir="r" state="o"/>
+    <connection from="E51" to="E37" fromLane="0" toLane="2" via=":J35_9_1" tl="briggs_bayview" linkIndex="10" dir="r" state="o"/>
+    <connection from="E51" to="E121" fromLane="1" toLane="0" via=":J35_11_0" tl="briggs_bayview" linkIndex="11" dir="s" state="o"/>
+    <connection from="E51" to="E48" fromLane="2" toLane="1" via=":J35_12_0" tl="briggs_bayview" linkIndex="12" dir="l" state="o"/>
+    <connection from="E51" to="E48" fromLane="2" toLane="2" via=":J35_12_1" tl="briggs_bayview" linkIndex="13" dir="l" state="o"/>
     <connection from="E53" to="E25" fromLane="0" toLane="0" via=":J32_4_0" dir="r" state="m"/>
     <connection from="E53" to="E213" fromLane="0" toLane="0" via=":J32_5_0" dir="s" state="m"/>
     <connection from="E53" to="E213" fromLane="1" toLane="1" via=":J32_5_1" dir="s" state="m"/>
@@ -6961,9 +6988,9 @@
     <connection from="E55" to="E4" fromLane="1" toLane="1" via=":J1_7_0" dir="s" state="M"/>
     <connection from="E55" to="E4" fromLane="2" toLane="2" via=":J1_7_1" dir="s" state="M"/>
     <connection from="E55" to="E178" fromLane="3" toLane="0" via=":J1_9_0" dir="l" state="m"/>
-    <connection from="E56" to="-E235" fromLane="0" toLane="0" via=":J110_7_0" tl="J110" linkIndex="7" dir="r" state="O"/>
-    <connection from="E56" to="E153" fromLane="0" toLane="0" via=":J110_8_0" tl="J110" linkIndex="8" dir="s" state="o"/>
-    <connection from="E56" to="-E135" fromLane="1" toLane="3" via=":J110_9_0" tl="J110" linkIndex="9" dir="l" state="o"/>
+    <connection from="E56" to="-E235" fromLane="0" toLane="0" via=":J110_7_0" tl="pearce_leslie" linkIndex="7" dir="r" state="O"/>
+    <connection from="E56" to="E153" fromLane="0" toLane="0" via=":J110_8_0" tl="pearce_leslie" linkIndex="8" dir="s" state="o"/>
+    <connection from="E56" to="-E135" fromLane="1" toLane="3" via=":J110_9_0" tl="pearce_leslie" linkIndex="9" dir="l" state="o"/>
     <connection from="E57" to="E58" fromLane="0" toLane="0" via=":J49_0_0" dir="s" state="M"/>
     <connection from="E57" to="-E61" fromLane="0" toLane="0" via=":J49_1_0" dir="l" state="m"/>
     <connection from="E58" to="E59" fromLane="0" toLane="0" via=":J50_0_0" dir="l" state="M"/>
@@ -6976,13 +7003,13 @@
     <connection from="E60" to="E61" fromLane="0" toLane="0" via=":J52_1_0" dir="l" state="M"/>
     <connection from="E61" to="-E57" fromLane="0" toLane="0" via=":J49_2_0" dir="r" state="M"/>
     <connection from="E61" to="E58" fromLane="0" toLane="0" via=":J49_3_0" dir="l" state="m"/>
-    <connection from="E63" to="-E173" fromLane="0" toLane="0" via=":J74_13_0" tl="J74" linkIndex="13" dir="r" state="o"/>
-    <connection from="E63" to="-E179" fromLane="0" toLane="0" via=":J74_14_0" tl="J74" linkIndex="14" dir="s" state="o"/>
-    <connection from="E63" to="-E179" fromLane="0" toLane="1" via=":J74_14_1" tl="J74" linkIndex="15" dir="s" state="o"/>
-    <connection from="E63" to="E174" fromLane="0" toLane="3" via=":J74_16_0" tl="J74" linkIndex="16" dir="l" state="o"/>
-    <connection from="E64" to="-E174" fromLane="0" toLane="0" via=":J77_11_0" tl="J77" linkIndex="11" dir="r" state="o"/>
-    <connection from="E64" to="-E196" fromLane="0" toLane="0" via=":J77_12_0" tl="J77" linkIndex="12" dir="s" state="o"/>
-    <connection from="E64" to="E175" fromLane="1" toLane="3" via=":J77_13_0" tl="J77" linkIndex="13" dir="l" state="o"/>
+    <connection from="E63" to="-E173" fromLane="0" toLane="0" via=":J74_13_0" tl="hwy7_saddlecreek" linkIndex="13" dir="r" state="o"/>
+    <connection from="E63" to="-E179" fromLane="0" toLane="0" via=":J74_14_0" tl="hwy7_saddlecreek" linkIndex="14" dir="s" state="o"/>
+    <connection from="E63" to="-E179" fromLane="0" toLane="1" via=":J74_14_1" tl="hwy7_saddlecreek" linkIndex="15" dir="s" state="o"/>
+    <connection from="E63" to="E174" fromLane="0" toLane="3" via=":J74_16_0" tl="hwy7_saddlecreek" linkIndex="16" dir="l" state="o"/>
+    <connection from="E64" to="-E174" fromLane="0" toLane="0" via=":J77_11_0" tl="hwy7_times" linkIndex="11" dir="r" state="o"/>
+    <connection from="E64" to="-E196" fromLane="0" toLane="0" via=":J77_12_0" tl="hwy7_times" linkIndex="12" dir="s" state="o"/>
+    <connection from="E64" to="E175" fromLane="1" toLane="3" via=":J77_13_0" tl="hwy7_times" linkIndex="13" dir="l" state="o"/>
     <connection from="E65" to="E66" fromLane="0" toLane="0" via=":J54_8_0" dir="r" state="m"/>
     <connection from="E65" to="E326" fromLane="0" toLane="0" via=":J54_9_0" dir="s" state="m"/>
     <connection from="E65" to="-E106" fromLane="1" toLane="0" via=":J54_10_0" dir="l" state="m"/>
@@ -6994,14 +7021,14 @@
     <connection from="E68" to="-E121" fromLane="0" toLane="0" via=":J58_0_0" dir="r" state="M"/>
     <connection from="E68" to="E106" fromLane="0" toLane="1" via=":J58_1_0" dir="s" state="M"/>
     <connection from="E68" to="E106" fromLane="0" toLane="2" via=":J58_1_1" dir="s" state="M"/>
-    <connection from="E69" to="E3" fromLane="0" toLane="0" via=":J38_4_0" tl="J38" linkIndex="4" dir="r" state="O"/>
-    <connection from="E69" to="E35" fromLane="1" toLane="0" via=":J38_5_0" tl="J38" linkIndex="5" dir="s" state="o"/>
-    <connection from="E69" to="-E33" fromLane="2" toLane="1" via=":J38_6_0" tl="J38" linkIndex="6" dir="l" state="o"/>
-    <connection from="E69" to="-E33" fromLane="2" toLane="2" via=":J38_6_1" tl="J38" linkIndex="7" dir="l" state="o"/>
-    <connection from="E7" to="E111" fromLane="0" toLane="0" via=":J44_8_0" tl="J44" linkIndex="8" dir="r" state="O"/>
-    <connection from="E7" to="E78" fromLane="1" toLane="1" via=":J44_9_0" tl="J44" linkIndex="9" dir="s" state="o"/>
-    <connection from="E7" to="E78" fromLane="2" toLane="2" via=":J44_9_1" tl="J44" linkIndex="10" dir="s" state="o"/>
-    <connection from="E7" to="-E77" fromLane="3" toLane="3" via=":J44_11_0" tl="J44" linkIndex="11" dir="l" state="o"/>
+    <connection from="E69" to="E3" fromLane="0" toLane="0" via=":J38_4_0" tl="16th_valleymede" linkIndex="4" dir="r" state="O"/>
+    <connection from="E69" to="E35" fromLane="1" toLane="0" via=":J38_5_0" tl="16th_valleymede" linkIndex="5" dir="s" state="o"/>
+    <connection from="E69" to="-E33" fromLane="2" toLane="1" via=":J38_6_0" tl="16th_valleymede" linkIndex="6" dir="l" state="o"/>
+    <connection from="E69" to="-E33" fromLane="2" toLane="2" via=":J38_6_1" tl="16th_valleymede" linkIndex="7" dir="l" state="o"/>
+    <connection from="E7" to="E111" fromLane="0" toLane="0" via=":J44_8_0" tl="16th_leslie" linkIndex="8" dir="r" state="O"/>
+    <connection from="E7" to="E78" fromLane="1" toLane="1" via=":J44_9_0" tl="16th_leslie" linkIndex="9" dir="s" state="o"/>
+    <connection from="E7" to="E78" fromLane="2" toLane="2" via=":J44_9_1" tl="16th_leslie" linkIndex="10" dir="s" state="o"/>
+    <connection from="E7" to="-E77" fromLane="3" toLane="3" via=":J44_11_0" tl="16th_leslie" linkIndex="11" dir="l" state="o"/>
     <connection from="E70" to="E76" fromLane="0" toLane="0" via=":J60_2_0" dir="r" state="M"/>
     <connection from="E70" to="E76" fromLane="0" toLane="1" via=":J60_2_1" dir="r" state="M"/>
     <connection from="E70" to="E76" fromLane="0" toLane="2" via=":J60_2_2" dir="r" state="M"/>
@@ -7013,12 +7040,12 @@
     <connection from="E73" to="-E3" fromLane="1" toLane="2" via=":J34_10_2" dir="r" state="m"/>
     <connection from="E73" to="E7" fromLane="1" toLane="2" via=":J34_13_0" dir="l" state="m"/>
     <connection from="E73" to="E7" fromLane="1" toLane="3" via=":J34_13_1" dir="l" state="m"/>
-    <connection from="E74" to="E201" fromLane="0" toLane="0" via=":J114_12_0" tl="J114" linkIndex="12" dir="r" state="O"/>
-    <connection from="E74" to="E177" fromLane="0" toLane="0" via=":J114_13_0" tl="J114" linkIndex="13" dir="s" state="O"/>
-    <connection from="E74" to="E177" fromLane="1" toLane="1" via=":J114_13_1" tl="J114" linkIndex="14" dir="s" state="O"/>
-    <connection from="E74" to="E177" fromLane="2" toLane="2" via=":J114_13_2" tl="J114" linkIndex="15" dir="s" state="O"/>
-    <connection from="E74" to="E177" fromLane="3" toLane="3" via=":J114_13_3" tl="J114" linkIndex="16" dir="s" state="O"/>
-    <connection from="E74" to="E235" fromLane="4" toLane="3" via=":J114_17_0" tl="J114" linkIndex="17" dir="l" state="o"/>
+    <connection from="E74" to="E201" fromLane="0" toLane="0" via=":J114_12_0" tl="hwy7_leslie" linkIndex="12" dir="r" state="O"/>
+    <connection from="E74" to="E177" fromLane="0" toLane="0" via=":J114_13_0" tl="hwy7_leslie" linkIndex="13" dir="s" state="O"/>
+    <connection from="E74" to="E177" fromLane="1" toLane="1" via=":J114_13_1" tl="hwy7_leslie" linkIndex="14" dir="s" state="O"/>
+    <connection from="E74" to="E177" fromLane="2" toLane="2" via=":J114_13_2" tl="hwy7_leslie" linkIndex="15" dir="s" state="O"/>
+    <connection from="E74" to="E177" fromLane="3" toLane="3" via=":J114_13_3" tl="hwy7_leslie" linkIndex="16" dir="s" state="O"/>
+    <connection from="E74" to="E235" fromLane="4" toLane="3" via=":J114_17_0" tl="hwy7_leslie" linkIndex="17" dir="l" state="o"/>
     <connection from="E75" to="-E79" fromLane="0" toLane="0" via=":J128_12_0" dir="r" state="M"/>
     <connection from="E75" to="E199" fromLane="0" toLane="1" via=":J128_13_0" dir="s" state="M"/>
     <connection from="E75" to="E200" fromLane="0" toLane="2" via=":J128_14_0" dir="l" state="m"/>
@@ -7027,10 +7054,10 @@
     <connection from="E76" to="-E78" fromLane="1" toLane="2" via=":J62_7_2" dir="r" state="M"/>
     <connection from="E76" to="-E143" fromLane="2" toLane="0" via=":J62_10_0" dir="s" state="m"/>
     <connection from="E76" to="-E143" fromLane="2" toLane="1" via=":J62_10_1" dir="s" state="m"/>
-    <connection from="E77" to="-E7" fromLane="0" toLane="0" via=":J44_12_0" tl="J44" linkIndex="12" dir="r" state="O"/>
-    <connection from="E77" to="E111" fromLane="1" toLane="1" via=":J44_13_0" tl="J44" linkIndex="13" dir="s" state="O"/>
-    <connection from="E77" to="E111" fromLane="2" toLane="2" via=":J44_13_1" tl="J44" linkIndex="14" dir="s" state="O"/>
-    <connection from="E77" to="E78" fromLane="3" toLane="3" via=":J44_15_0" tl="J44" linkIndex="15" dir="l" state="o"/>
+    <connection from="E77" to="-E7" fromLane="0" toLane="0" via=":J44_12_0" tl="16th_leslie" linkIndex="12" dir="r" state="O"/>
+    <connection from="E77" to="E111" fromLane="1" toLane="1" via=":J44_13_0" tl="16th_leslie" linkIndex="13" dir="s" state="O"/>
+    <connection from="E77" to="E111" fromLane="2" toLane="2" via=":J44_13_1" tl="16th_leslie" linkIndex="14" dir="s" state="O"/>
+    <connection from="E77" to="E78" fromLane="3" toLane="3" via=":J44_15_0" tl="16th_leslie" linkIndex="15" dir="l" state="o"/>
     <connection from="E78" to="-E143" fromLane="0" toLane="0" via=":J62_4_0" dir="r" state="M"/>
     <connection from="E78" to="-E76" fromLane="1" toLane="0" via=":J62_5_0" dir="l" state="M"/>
     <connection from="E78" to="-E76" fromLane="2" toLane="1" via=":J62_5_1" dir="l" state="M"/>
@@ -7040,6 +7067,10 @@
     <connection from="E79" to="E200" fromLane="0" toLane="2" via=":J128_8_2" dir="s" state="m"/>
     <connection from="E79" to="-E75" fromLane="0" toLane="1" via=":J128_11_0" dir="l" state="m"/>
     <connection from="E8" to="E50" fromLane="0" toLane="0" via=":J8_1_0" dir="l" state="M"/>
+    <connection from="E9" to="E319" fromLane="0" toLane="0" via=":J16_4_0" dir="r" state="M"/>
+    <connection from="E9" to="E264" fromLane="1" toLane="0" via=":J16_5_0" dir="s" state="M"/>
+    <connection from="E9" to="E264" fromLane="2" toLane="1" via=":J16_5_1" dir="s" state="M"/>
+    <connection from="E9" to="E264" fromLane="3" toLane="2" via=":J16_5_2" dir="s" state="M"/>
 
     <connection from=":J0_0" to="E322" fromLane="0" toLane="0" dir="R" state="M"/>
     <connection from=":J0_0" to="E322" fromLane="1" toLane="1" dir="R" state="M"/>
@@ -7548,6 +7579,14 @@
     <connection from=":J157_1" to="E230" fromLane="2" toLane="3" dir="s" state="M"/>
     <connection from=":J157_1" to="E230" fromLane="3" toLane="4" dir="s" state="M"/>
     <connection from=":J157_1" to="E230" fromLane="4" toLane="5" dir="s" state="M"/>
+    <connection from=":J16_0" to="-E9" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from=":J16_0" to="-E9" fromLane="1" toLane="1" dir="s" state="M"/>
+    <connection from=":J16_0" to="-E9" fromLane="2" toLane="2" dir="s" state="M"/>
+    <connection from=":J16_0" to="-E9" fromLane="3" toLane="3" dir="s" state="M"/>
+    <connection from=":J16_4" to="E319" fromLane="0" toLane="0" dir="r" state="M"/>
+    <connection from=":J16_5" to="E264" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from=":J16_5" to="E264" fromLane="1" toLane="1" dir="s" state="M"/>
+    <connection from=":J16_5" to="E264" fromLane="2" toLane="2" dir="s" state="M"/>
     <connection from=":J164_0" to="E263" fromLane="0" toLane="0" dir="R" state="M"/>
     <connection from=":J164_0" to="E263" fromLane="1" toLane="1" dir="R" state="M"/>
     <connection from=":J164_0" to="E263" fromLane="2" toLane="2" dir="R" state="M"/>
