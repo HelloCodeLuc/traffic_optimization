@@ -35,13 +35,14 @@ light_name_data = {
             "rutherford_dufferin"],
     "weight_test/weight_test.net.xml": ["main"],
     "simple_network/simple_network.net.xml": ["main1", "main2"],
-    "Hwy7_404_network/Hwy7_404.net.xml": []
+    "simple_network_actuated/simple_network_actuated.net.xml": ["main1", "main2"],
+    "Hwy7_404_network/Hwy7_404_network.net.xml": ["bayview_and_hwy7", "bayview_and_briggs", "bayview_and_blackmore", "bayview_and_16th", "hwy7_and_valleymede", "hwy7_and_saddlecreek", "hwy7_and_chalmers", "spadina_and_16th", "leslie_and_pearce", "leslie_and_wilmot", "leslie_and_beaver_creek", "leslie_and_16th", "leslie_and_commerce_valley", "leslie_and_minthorn", "leslie_and_hwy7", "hwy7_and_east_beaver_creek"]
     }
 
 gui_colour = "blue"
 timing_light_increment = 4
-num_batches = 16
-num_runs_per_batch = 6
+num_batches = 1
+num_runs_per_batch = 2
 max_steps = 1100
 max_num_of_runs_on_network = 1000
 num_of_greenlight_duplicate_limit = 200
@@ -51,7 +52,7 @@ stop_command = "STOP"
 phase = "start"
 weight_prefix = "weights"
 weight_change = 0.1
-weight_accuracy = 4
+weight_accuracy = 100
 max_weight = 100
 
 def main_loop(num_batches, num_runs_per_batch, network_selection, max_steps, phase, output_folder, restart):
