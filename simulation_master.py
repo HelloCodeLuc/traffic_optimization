@@ -35,8 +35,17 @@ light_name_data = {
             "rutherford_dufferin"],
     "weight_test/weight_test.net.xml": ["main"],
     "simple_network/simple_network.net.xml": ["main1", "main2"],
+<<<<<<< HEAD
     "simple_network_actuated/simple_network_actuated.net.xml": ["main1", "main2"],
     "Hwy7_404_network/Hwy7_404_network.net.xml": ["bayview_and_hwy7", "bayview_and_briggs", "bayview_and_blackmore", "bayview_and_16th", "hwy7_and_valleymede", "hwy7_and_saddlecreek", "hwy7_and_chalmers", "spadina_and_16th", "leslie_and_pearce", "leslie_and_wilmot", "leslie_and_beaver_creek", "leslie_and_16th", "leslie_and_commerce_valley", "leslie_and_minthorn", "leslie_and_hwy7", "hwy7_and_east_beaver_creek"]
+=======
+    "Hwy7_404_network/Hwy7_404_network.net.xml": ["16th_bayview", "16th_valleymede", "16th_leslie",
+            "briggs_bayview", "high_tech_bayview","hwy7_bayview",
+            "hwy7_bayview_connecting", "hwy7_south_park", "hwy_saddlecreek",
+            "hw7_times", "hwy7_leslie", "hwy7_ commerce_valley_east",
+            "commerce_valley_leslie", "minthorn_leslie", "pearce_leslie",
+            "wilmot_leslie", "beaver_leslie"]
+>>>>>>> 07ff384124d1211c6dfa3525c36f4f3b8d926a9f
     }
 
 gui_colour = "blue"
