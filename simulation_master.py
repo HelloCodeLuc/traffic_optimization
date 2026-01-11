@@ -35,17 +35,8 @@ light_name_data = {
             "rutherford_dufferin"],
     "weight_test/weight_test.net.xml": ["main"],
     "simple_network/simple_network.net.xml": ["main1", "main2"],
-<<<<<<< HEAD
     "simple_network_actuated/simple_network_actuated.net.xml": ["main1", "main2"],
-    "Hwy7_404_network/Hwy7_404_network.net.xml": ["bayview_and_hwy7", "bayview_and_briggs", "bayview_and_blackmore", "bayview_and_16th", "hwy7_and_valleymede", "hwy7_and_saddlecreek", "hwy7_and_chalmers", "spadina_and_16th", "leslie_and_pearce", "leslie_and_wilmot", "leslie_and_beaver_creek", "leslie_and_16th", "leslie_and_commerce_valley", "leslie_and_minthorn", "leslie_and_hwy7", "hwy7_and_east_beaver_creek"]
-=======
-    "Hwy7_404_network/Hwy7_404_network.net.xml": ["16th_bayview", "16th_valleymede", "16th_leslie",
-            "briggs_bayview", "high_tech_bayview","hwy7_bayview",
-            "hwy7_bayview_connecting", "hwy7_south_park", "hwy_saddlecreek",
-            "hw7_times", "hwy7_leslie", "hwy7_ commerce_valley_east",
-            "commerce_valley_leslie", "minthorn_leslie", "pearce_leslie",
-            "wilmot_leslie", "beaver_leslie"]
->>>>>>> 07ff384124d1211c6dfa3525c36f4f3b8d926a9f
+    "Hwy7_404_network/Hwy7_404_network.net.xml": ["bayview_and_hwy7", "bayview_and_briggs", "bayview_and_blackmore", "bayview_and_16th", "hwy7_and_valleymede", "hwy7_and_saddlecreek", "hwy7_and_chalmers", "spadina_and_16th", "leslie_and_pearce", "leslie_and_wilmot", "leslie_and_beaver_creek", "leslie_and_16th", "leslie_and_commerce_valley", "leslie_and_minthorn", "leslie_and_hwy7", "hwy7_and_east_beaver_creek", "hwy7_and_bayview"]
     }
 
 gui_colour = "blue"
@@ -74,7 +65,7 @@ def main_loop(num_batches, num_runs_per_batch, network_selection, max_steps, pha
                 network_prefix = os.path.dirname(network_name)  
                 network_selection = f"NETWORKS/{network_name}"
                 light_names = light_name_data[network_name]
-                print(network_name)
+                print(f"Network name: {network_name}")
                 print(light_names)
                 
                 # Read the JSON file  
@@ -85,12 +76,16 @@ def main_loop(num_batches, num_runs_per_batch, network_selection, max_steps, pha
                 weight_accuracy = data.get('weight_accuracy', 4)  # Defaults to 4 if not set                  
                 # Print the assigned values  
                 print(f"Weight Accuracy: {weight_accuracy}")  
+
             elif command == start_command:
                 parsed_string_without_extension = ""
                 if (restart == 0):
                     if not os.path.exists(output_folder):
                         os.makedirs(output_folder)
                         os.makedirs(f"{output_folder}/TRAIN_BLUETOOTH")
+                    if os.path.exists(f"NETWORKS/{network_prefix}/detectors.add.xml"):
+                        os.makedirs("out/detectors")
+                        shutil.copy2(f"NETWORKS/{network_prefix}/detectors.add.xml", f"out/detectors/detectors.add.xml")
 
                     # Input and output file paths
                     csv_file_edges = f'{output_folder}/GUI_edges.csv'

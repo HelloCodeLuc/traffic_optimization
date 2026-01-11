@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- generated on 2026-01-10 10:09:25 by Eclipse SUMO netedit Version 1.19.0
+<!-- generated on 2026-01-11 11:59:04 by Eclipse SUMO netedit Version 1.19.0
 <configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/neteditConfiguration.xsd">
 
     <input>
-        <sumo-net-file value="C:\Users\647va\.vscode\traffic_optimization\traffic_optimization-3\NETWORKS\Hwy7_404_network\Hwy7_404_network.net.xml"/>
+        <sumo-net-file value="C:\Users\Lucas\Lucas\traffic_optimization\traffic_optimization\NETWORKS\Hwy7_404_network\Hwy7_404_network.net.xml"/>
     </input>
 
     <output>
-        <output-file value="C:\Users\647va\.vscode\traffic_optimization\traffic_optimization-3\NETWORKS\Hwy7_404_network\Hwy7_404_network.net.xml"/>
+        <output-file value="C:\Users\Lucas\Lucas\traffic_optimization\traffic_optimization\NETWORKS\Hwy7_404_network\Hwy7_404_network.net.xml"/>
     </output>
 
     <processing>
@@ -1228,18 +1228,12 @@
         <lane id=":J157_1_4" index="4" speed="13.89" length="3.02" shape="-3390.25,-1881.30 -3387.59,-1879.92"/>
     </edge>
     <edge id=":J16_0" function="internal">
-        <lane id=":J16_0_0" index="0" speed="13.89" length="7.74" shape="-1822.73,-1208.10 -1822.64,-1205.72 -1821.81,-1204.11 -1820.97,-1202.50 -1820.89,-1200.12"/>
-        <lane id=":J16_0_1" index="1" speed="13.89" length="7.74" shape="-1822.73,-1208.10 -1824.04,-1200.68"/>
-        <lane id=":J16_0_2" index="2" speed="13.89" length="7.74" shape="-1825.88,-1208.66 -1827.19,-1201.25"/>
-        <lane id=":J16_0_3" index="3" speed="13.89" length="7.74" shape="-1829.03,-1209.21 -1830.34,-1201.81"/>
+        <lane id=":J16_0_0" index="0" speed="6.58" length="6.49" shape="-1842.94,-1204.07 -1842.84,-1205.80 -1843.20,-1207.31 -1844.02,-1208.60 -1845.29,-1209.68"/>
     </edge>
-    <edge id=":J16_4" function="internal">
-        <lane id=":J16_4_0" index="0" speed="6.58" length="6.49" shape="-1842.94,-1204.07 -1842.84,-1205.80 -1843.20,-1207.31 -1844.02,-1208.60 -1845.29,-1209.68"/>
-    </edge>
-    <edge id=":J16_5" function="internal">
-        <lane id=":J16_5_0" index="0" speed="13.89" length="7.50" shape="-1839.79,-1203.50 -1838.49,-1210.88"/>
-        <lane id=":J16_5_1" index="1" speed="13.89" length="7.50" shape="-1836.64,-1202.94 -1835.34,-1210.32"/>
-        <lane id=":J16_5_2" index="2" speed="13.89" length="7.50" shape="-1833.49,-1202.37 -1832.19,-1209.77"/>
+    <edge id=":J16_1" function="internal">
+        <lane id=":J16_1_0" index="0" speed="13.89" length="7.50" shape="-1839.79,-1203.50 -1838.49,-1210.88"/>
+        <lane id=":J16_1_1" index="1" speed="13.89" length="7.50" shape="-1836.64,-1202.94 -1835.34,-1210.32"/>
+        <lane id=":J16_1_2" index="2" speed="13.89" length="7.50" shape="-1833.49,-1202.37 -1832.19,-1209.77"/>
     </edge>
     <edge id=":J164_0" function="internal">
         <lane id=":J164_0_0" index="0" speed="13.89" length="58.12" shape="-2186.62,-1523.72 -2167.76,-1525.77 -2153.32,-1529.92 -2141.60,-1534.72 -2130.86,-1538.73"/>
@@ -3567,9 +3561,9 @@
         <lane id="-E8_0" index="0" speed="13.89" length="617.33" shape="-2845.62,-125.85 -3017.13,467.18"/>
     </edge>
     <edge id="-E80" from="J59" to="J62" priority="-1">
-        <lane id="-E80_0" index="0" speed="13.89" length="332.73" shape="570.49,1543.44 250.88,1450.92"/>
-        <lane id="-E80_1" index="1" speed="13.89" length="332.73" shape="571.38,1540.37 251.77,1447.84"/>
-        <lane id="-E80_2" index="2" speed="13.89" length="332.73" shape="572.27,1537.30 252.66,1444.77"/>
+        <lane id="-E80_0" index="0" speed="13.89" length="332.74" shape="570.50,1543.44 250.88,1450.92"/>
+        <lane id="-E80_1" index="1" speed="13.89" length="332.74" shape="571.39,1540.37 251.77,1447.84"/>
+        <lane id="-E80_2" index="2" speed="13.89" length="332.74" shape="572.28,1537.30 252.66,1444.77"/>
     </edge>
     <edge id="-E9" from="J16" to="J15" priority="-1">
         <lane id="-E9_0" index="0" speed="13.89" length="150.94" shape="-1820.89,-1200.12 -1847.48,-1051.54"/>
@@ -4412,9 +4406,9 @@
         <lane id="E8_0" index="0" speed="13.89" length="617.33" shape="-3020.20,466.29 -2848.70,-126.74"/>
     </edge>
     <edge id="E80" from="J62" to="J59" priority="-1">
-        <lane id="E80_0" index="0" speed="13.89" length="332.73" shape="255.33,1435.55 574.94,1528.08"/>
-        <lane id="E80_1" index="1" speed="13.89" length="332.73" shape="254.44,1438.62 574.05,1531.15"/>
-        <lane id="E80_2" index="2" speed="13.89" length="332.73" shape="253.55,1441.69 573.16,1534.22"/>
+        <lane id="E80_0" index="0" speed="13.89" length="332.74" shape="255.33,1435.55 574.94,1528.08"/>
+        <lane id="E80_1" index="1" speed="13.89" length="332.74" shape="254.44,1438.62 574.05,1531.15"/>
+        <lane id="E80_2" index="2" speed="13.89" length="332.74" shape="253.55,1441.69 573.16,1534.22"/>
     </edge>
     <edge id="E9" from="J15" to="J16" priority="-1">
         <lane id="E9_0" index="0" speed="13.89" length="150.94" shape="-1869.53,-1055.48 -1842.94,-1204.07"/>
@@ -4423,14 +4417,6 @@
         <lane id="E9_3" index="3" speed="13.89" length="150.94" shape="-1860.08,-1053.79 -1833.49,-1202.37"/>
     </edge>
 
-    <tlLogic id="J142" type="actuated" programID="0" offset="0">
-        <phase duration="7"  state="rrrrrrrGrr" minDur="7" maxDur="7"/>
-        <phase duration="3"  state="rrrrrrryrr"/>
-        <phase duration="30" state="GGGGGGGgrr" minDur="30" maxDur="30" name="green"/>
-        <phase duration="5"  state="yyyyyyyyrr"/>
-        <phase duration="10" state="GrrrrrrrGG" minDur="10" maxDur="19" name="red"/>
-        <phase duration="4"  state="yrrrrrrryy"/>
-    </tlLogic>
     <tlLogic id="bayview_and_16th" type="actuated" programID="0" offset="0">
         <phase duration="7"  state="rrrGrrrG" minDur="7" maxDur="7"/>
         <phase duration="3"  state="rrryrrry"/>
@@ -4440,6 +4426,22 @@
         <phase duration="3"  state="ryrrryrr"/>
         <phase duration="15" state="GgrrGgrr" minDur="15" maxDur="30" name="green"/>
         <phase duration="4"  state="yyrryyrr"/>
+        <param key="-E30_0" value="e1_2"/>
+        <param key="-E30_1" value="e1_0"/>
+        <param key="-E30_2" value="e1_1"/>
+        <param key="-E30_3" value="e1_3"/>
+        <param key="E25_0" value="e1_11"/>
+        <param key="E25_1" value="e1_10"/>
+        <param key="E25_2" value="e1_9"/>
+        <param key="E25_3" value="e1_8"/>
+        <param key="E28_0" value="e1_4"/>
+        <param key="E28_1" value="e1_5"/>
+        <param key="E28_2" value="e1_6"/>
+        <param key="E28_3" value="e1_7"/>
+        <param key="E48_0" value="e1_15"/>
+        <param key="E48_1" value="e1_14"/>
+        <param key="E48_2" value="e1_13"/>
+        <param key="E48_3" value="e1_12"/>
         <param key="barrier2Phases" value="2,6"/>
         <param key="barrierPhases" value="4,8"/>
         <param key="ring1" value="1,2,3,4"/>
@@ -4452,6 +4454,19 @@
         <phase duration="4.50"  state="rrrrryyyyrrrrryyyy"/>
         <phase duration="10" state="GGGggrrrrGGGggrrrr" minDur="10" maxDur="19" name="green"/>
         <phase duration="4.50"  state="yyyyyrrrryyyyyrrrr"/>
+        <param key="-E121_0" value="e1_16"/>
+        <param key="-E121_1" value="e1_17"/>
+        <param key="-E37_0" value="e1_21"/>
+        <param key="-E37_1" value="e1_20"/>
+        <param key="-E37_2" value="e1_19"/>
+        <param key="-E37_3" value="e1_18"/>
+        <param key="-E48_0" value="e1_25"/>
+        <param key="-E48_1" value="e1_26"/>
+        <param key="-E48_2" value="e1_27"/>
+        <param key="-E48_3" value="e1_28"/>
+        <param key="E51_0" value="e1_24"/>
+        <param key="E51_1" value="e1_23"/>
+        <param key="E51_2" value="e1_22"/>
     </tlLogic>
     <tlLogic id="bayview_and_briggs" type="actuated" programID="0" offset="0">
         <phase duration="7"  state="rrrrrrrGrrrrrrG" minDur="7" maxDur="7"/>
@@ -4462,6 +4477,19 @@
         <phase duration="3"  state="rrryrrrrrryrrrr"/>
         <phase duration="10" state="GGGgrrrrGGgrrrr" minDur="10" maxDur="19" name="green"/>
         <phase duration="3"  state="yyyyrrrryyyrrrr"/>
+        <param key="-E43_0" value="e1_41"/>
+        <param key="-E43_1" value="e1_40"/>
+        <param key="-E43_2" value="e1_39"/>
+        <param key="-E43_3" value="e1_37"/>
+        <param key="-E65_0" value="e1_30"/>
+        <param key="-E65_1" value="e1_29"/>
+        <param key="E37_0" value="e1_34"/>
+        <param key="E37_1" value="e1_33"/>
+        <param key="E37_2" value="e1_32"/>
+        <param key="E37_3" value="e1_31"/>
+        <param key="E38_0" value="e1_38"/>
+        <param key="E38_1" value="e1_36"/>
+        <param key="E38_2" value="e1_35"/>
     </tlLogic>
     <tlLogic id="bayview_and_hwy7" type="actuated" programID="0" offset="0">
         <phase duration="7"  state="rrrrrrGrrrrrrG" minDur="7" maxDur="7"/>
@@ -4472,6 +4500,38 @@
         <phase duration="3"  state="rryrrrrrryrrrr"/>
         <phase duration="10" state="GGgrrrrGGgGrrr" minDur="10" maxDur="19" name="red"/>
         <phase duration="4"  state="yyyrrrryyyyrrr"/>
+        <param key="-E1_0" value="e1_42"/>
+        <param key="-E1_1" value="e1_44"/>
+        <param key="-E9_0" value="e1_43"/>
+        <param key="-E9_1" value="e1_45"/>
+        <param key="-E9_2" value="e1_46"/>
+        <param key="-E9_3" value="e1_47"/>
+        <param key="E171_0" value="e1_54"/>
+        <param key="E171_1" value="e1_53"/>
+        <param key="E171_2" value="e1_52"/>
+        <param key="E44_0" value="e1_51"/>
+        <param key="E44_1" value="e1_50"/>
+        <param key="E44_2" value="e1_49"/>
+        <param key="E44_3" value="e1_48"/>
+    </tlLogic>
+    <tlLogic id="hwy7_and_bayview" type="actuated" programID="0" offset="0">
+        <phase duration="7"  state="rrrrrrrGrr" minDur="7" maxDur="7"/>
+        <phase duration="3"  state="rrrrrrryrr"/>
+        <phase duration="30" state="GGGGGGGgrr" minDur="30" maxDur="30" name="green"/>
+        <phase duration="5"  state="yyyyyyyyrr"/>
+        <phase duration="10" state="GrrrrrrrGG" minDur="10" maxDur="19" name="red"/>
+        <phase duration="4"  state="yrrrrrrryy"/>
+        <param key="-E172_0" value="e1_58"/>
+        <param key="-E172_1" value="e1_57"/>
+        <param key="-E172_2" value="e1_56"/>
+        <param key="-E172_3" value="e1_55"/>
+        <param key="E170_0" value="e1_65"/>
+        <param key="E170_1" value="e1_64"/>
+        <param key="E170_2" value="e1_63"/>
+        <param key="E170_3" value="e1_62"/>
+        <param key="E183_0" value="e1_61"/>
+        <param key="E183_1" value="e1_60"/>
+        <param key="E183_2" value="e1_59"/>
     </tlLogic>
     <tlLogic id="hwy7_and_chalmers" type="actuated" programID="0" offset="0">
         <phase duration="7"  state="rrrrGrrrrrrrGrrr" minDur="7" maxDur="35"/>
@@ -4480,6 +4540,18 @@
         <phase duration="3"  state="yyyyyrrryyyyyrrr"/>
         <phase duration="10" state="rrrrrGGgrrrrrGGg" minDur="10" maxDur="35" name="green"/>
         <phase duration="3"  state="rrrrryyyrrrrryyy"/>
+        <param key="-E145_0" value="e1_90"/>
+        <param key="-E145_1" value="e1_89"/>
+        <param key="-E173_0" value="e1_86"/>
+        <param key="-E173_1" value="e1_85"/>
+        <param key="-E173_2" value="e1_84"/>
+        <param key="-E173_3" value="e1_83"/>
+        <param key="E172_0" value="e1_79"/>
+        <param key="E172_1" value="e1_80"/>
+        <param key="E172_2" value="e1_81"/>
+        <param key="E172_3" value="e1_82"/>
+        <param key="E24_0" value="e1_87"/>
+        <param key="E24_1" value="e1_88"/>
     </tlLogic>
     <tlLogic id="hwy7_and_east_beaver_creek" type="actuated" programID="0" offset="49">
         <phase duration="6"  state="rrrrGrrrrrrrrrGGGrrr" minDur="5" maxDur="50"/>
@@ -4490,6 +4562,20 @@
         <phase duration="3"  state="rrrrrrrrryrrrrrrrrry"/>
         <phase duration="33" state="rrrrrGGGGgrrrrrrrGGg" minDur="5" maxDur="50" name="red"/>
         <phase duration="3"  state="rrrrryyyyyrrrrrrryyy"/>
+        <param key="-E260_0" value="e1_188"/>
+        <param key="-E260_1" value="e1_187"/>
+        <param key="-E260_2" value="e1_186"/>
+        <param key="-E305_0" value="e1_192"/>
+        <param key="-E305_1" value="e1_191"/>
+        <param key="-E305_2" value="e1_190"/>
+        <param key="-E305_3" value="e1_189"/>
+        <param key="E177_0" value="e1_199"/>
+        <param key="E177_1" value="e1_198"/>
+        <param key="E177_2" value="e1_197"/>
+        <param key="E177_3" value="e1_196"/>
+        <param key="E339_0" value="e1_195"/>
+        <param key="E339_1" value="e1_194"/>
+        <param key="E339_2" value="e1_193"/>
     </tlLogic>
     <tlLogic id="hwy7_and_saddlecreek" type="actuated" programID="0" offset="0">
         <phase duration="7"  state="rrrrGrrrrrrrGrrrr" minDur="7" maxDur="35"/>
@@ -4498,6 +4584,17 @@
         <phase duration="4.50"  state="yyyyyrrryyyyyrrrr"/>
         <phase duration="10" state="rrrrrGGgrrrrrGGGg" minDur="10" maxDur="35" name="red"/>
         <phase duration="3"  state="rrrrryyyrrrrryyyy"/>
+        <param key="-E174_0" value="e1_96"/>
+        <param key="-E174_1" value="e1_95"/>
+        <param key="-E174_2" value="e1_94"/>
+        <param key="-E174_3" value="e1_93"/>
+        <param key="E173_0" value="e1_101"/>
+        <param key="E173_1" value="e1_100"/>
+        <param key="E173_2" value="e1_99"/>
+        <param key="E173_3" value="e1_98"/>
+        <param key="E179_0" value="e1_92"/>
+        <param key="E179_1" value="e1_91"/>
+        <param key="E63_0" value="e1_97"/>
     </tlLogic>
     <tlLogic id="hwy7_and_valleymede" type="actuated" programID="0" offset="0">
         <phase duration="7"  state="rrrGrrrrrrGrrr" minDur="7" maxDur="35"/>
@@ -4508,6 +4605,19 @@
         <phase duration="3"  state="rrrrrryrrrrrry"/>
         <phase duration="10" state="rrrrGGgrrrrGGg" minDur="10" maxDur="35" name="red"/>
         <phase duration="3"  state="rrrryyyrrrryyy"/>
+        <param key="-E175_0" value="e1_105"/>
+        <param key="-E175_1" value="e1_104"/>
+        <param key="-E175_2" value="e1_103"/>
+        <param key="-E175_3" value="e1_102"/>
+        <param key="E174_0" value="e1_111"/>
+        <param key="E174_1" value="e1_110"/>
+        <param key="E174_2" value="e1_109"/>
+        <param key="E174_3" value="e1_108"/>
+        <param key="E196_0" value="e1_114"/>
+        <param key="E196_1" value="e1_113"/>
+        <param key="E196_2" value="e1_112"/>
+        <param key="E64_0" value="e1_107"/>
+        <param key="E64_1" value="e1_106"/>
     </tlLogic>
     <tlLogic id="leslie_and_16th" type="actuated" programID="0" offset="37">
         <phase duration="6"  state="rrrrrrrGrrrrrrrG" minDur="5" maxDur="50"/>
@@ -4518,6 +4628,22 @@
         <phase duration="3"  state="rrryrrrrrrryrrrr"/>
         <phase duration="33" state="GGGgGrrrGGGgGrrr" minDur="5" maxDur="50" name="green"/>
         <phase duration="3"  state="yyyyyrrryyyyyrrr"/>
+        <param key="-E111_0" value="e1_130"/>
+        <param key="-E111_1" value="e1_129"/>
+        <param key="-E111_2" value="e1_128"/>
+        <param key="-E111_3" value="e1_127"/>
+        <param key="-E78_0" value="e1_115"/>
+        <param key="-E78_1" value="e1_116"/>
+        <param key="-E78_2" value="e1_117"/>
+        <param key="-E78_3" value="e1_118"/>
+        <param key="E77_0" value="e1_122"/>
+        <param key="E77_1" value="e1_121"/>
+        <param key="E77_2" value="e1_120"/>
+        <param key="E77_3" value="e1_119"/>
+        <param key="E7_0" value="e1_126"/>
+        <param key="E7_1" value="e1_125"/>
+        <param key="E7_2" value="e1_124"/>
+        <param key="E7_3" value="e1_123"/>
     </tlLogic>
     <tlLogic id="leslie_and_beaver_creek" type="actuated" programID="0" offset="50">
         <phase duration="9"  state="rrrrrrrrrrGGrrrrrrrrrrGG" minDur="7" maxDur="7"/>
@@ -4528,6 +4654,20 @@
         <phase duration="3"  state="rrrrggrrrrrrGGGGggrrrrrr"/>
         <phase duration="41" state="GGGGggrrrrrrGGGGggrrrrrr" minDur="10" maxDur="19" name="green"/>
         <phase duration="4"  state="yyyyggrrrrrryyyyggrrrrrr"/>
+        <param key="-E129_0" value="e1_144"/>
+        <param key="-E129_1" value="e1_143"/>
+        <param key="-E129_2" value="e1_142"/>
+        <param key="-E129_3" value="e1_141"/>
+        <param key="-E140_0" value="e1_140"/>
+        <param key="-E140_1" value="e1_139"/>
+        <param key="-E140_2" value="e1_138"/>
+        <param key="-E144_0" value="e1_133"/>
+        <param key="-E144_1" value="e1_132"/>
+        <param key="-E144_2" value="e1_131"/>
+        <param key="E111_0" value="e1_137"/>
+        <param key="E111_1" value="e1_136"/>
+        <param key="E111_2" value="e1_135"/>
+        <param key="E111_3" value="e1_134"/>
     </tlLogic>
     <tlLogic id="leslie_and_commerce_valley" type="actuated" programID="0" offset="73">
         <phase duration="9"  state="rrrrrrrrrrGGrrrrrrrrrrGG" minDur="7" maxDur="7"/>
@@ -4538,6 +4678,18 @@
         <phase duration="3"  state="rrrryyrrrrrrrrrryyrrrrrr"/>
         <phase duration="37" state="GGGGggrrrrrrGGGGggrrrrrr" minDur="10" maxDur="19" name="green"/>
         <phase duration="4"  state="yyyyyyrrrrrryyyyyyrrrrrr"/>
+        <param key="-E242_0" value="e1_224"/>
+        <param key="-E242_1" value="e1_223"/>
+        <param key="-E242_2" value="e1_222"/>
+        <param key="-E242_3" value="e1_221"/>
+        <param key="E199_0" value="e1_220"/>
+        <param key="E199_1" value="e1_219"/>
+        <param key="E202_0" value="e1_218"/>
+        <param key="E202_1" value="e1_217"/>
+        <param key="E202_2" value="e1_216"/>
+        <param key="E202_3" value="e1_214"/>
+        <param key="E205_0" value="e1_213"/>
+        <param key="E205_1" value="e1_215"/>
     </tlLogic>
     <tlLogic id="leslie_and_hwy7" type="actuated" programID="0" offset="49">
         <phase duration="6"  state="rrrrrGrrrrrrrrrrrGrrrrrr" minDur="5" maxDur="50"/>
@@ -4546,6 +4698,23 @@
         <phase duration="3"  state="yyyyyyrrrrrryyyyyyrrrrrr"/>
         <phase duration="37" state="rrrrrrGGGGGgrrrrrrGGGGGg" minDur="5" maxDur="50" name="red"/>
         <phase duration="3"  state="rrrrrryyyyyyrrrrrryyyyyy"/>
+        <param key="-E177_0" value="e1_172"/>
+        <param key="-E177_1" value="e1_171"/>
+        <param key="-E177_2" value="e1_170"/>
+        <param key="-E177_3" value="e1_169"/>
+        <param key="-E201_0" value="e1_185"/>
+        <param key="-E201_1" value="e1_184"/>
+        <param key="-E201_2" value="e1_183"/>
+        <param key="-E201_3" value="e1_182"/>
+        <param key="-E235_0" value="e1_176"/>
+        <param key="-E235_1" value="e1_175"/>
+        <param key="-E235_2" value="e1_174"/>
+        <param key="-E235_3" value="e1_173"/>
+        <param key="E74_0" value="e1_181"/>
+        <param key="E74_1" value="e1_180"/>
+        <param key="E74_2" value="e1_179"/>
+        <param key="E74_3" value="e1_178"/>
+        <param key="E74_4" value="e1_177"/>
     </tlLogic>
     <tlLogic id="leslie_and_minthorn" type="actuated" programID="0" offset="75">
         <phase duration="9"  state="rrrrrrrrrGrrrrrrrrrGG" minDur="7" maxDur="7"/>
@@ -4554,6 +4723,19 @@
         <phase duration="4.50"  state="rrrrryyyygrrrrrryyygg"/>
         <phase duration="38" state="GGGggrrrrrGGGGggrrrrr" minDur="10" maxDur="19" name="green"/>
         <phase duration="4"  state="yyyyyrrrrryyyyyyrrrrr"/>
+        <param key="-E202_0" value="e1_212"/>
+        <param key="-E202_1" value="e1_211"/>
+        <param key="-E202_2" value="e1_210"/>
+        <param key="-E202_3" value="e1_209"/>
+        <param key="-E228_0" value="e1_201"/>
+        <param key="-E228_1" value="e1_200"/>
+        <param key="E200_0" value="e1_208"/>
+        <param key="E200_1" value="e1_207"/>
+        <param key="E200_2" value="e1_206"/>
+        <param key="E201_0" value="e1_205"/>
+        <param key="E201_1" value="e1_204"/>
+        <param key="E201_2" value="e1_203"/>
+        <param key="E201_3" value="e1_202"/>
     </tlLogic>
     <tlLogic id="leslie_and_pearce" type="actuated" programID="0" offset="131">
         <phase duration="6"  state="rrrrrrGrrrrrrG" minDur="5" maxDur="50"/>
@@ -4564,6 +4746,18 @@
         <phase duration="3"  state="rryrrrrrryrrrr"/>
         <phase duration="33" state="GGgrrrrGGgrrrr" minDur="5" maxDur="50" name="green"/>
         <phase duration="3"  state="yyyrrrryyyrrrr"/>
+        <param key="-E153_0" value="e1_158"/>
+        <param key="-E153_1" value="e1_157"/>
+        <param key="E135_0" value="e1_162"/>
+        <param key="E135_1" value="e1_161"/>
+        <param key="E135_2" value="e1_160"/>
+        <param key="E135_3" value="e1_159"/>
+        <param key="E235_0" value="e1_168"/>
+        <param key="E235_1" value="e1_167"/>
+        <param key="E235_2" value="e1_166"/>
+        <param key="E235_3" value="e1_165"/>
+        <param key="E56_0" value="e1_164"/>
+        <param key="E56_1" value="e1_163"/>
     </tlLogic>
     <tlLogic id="leslie_and_wilmot" type="actuated" programID="0" offset="6">
         <phase duration="9"  state="rrrrrrrrrrGGrrrrrrrrrrGG" minDur="7" maxDur="7"/>
@@ -4572,6 +4766,18 @@
         <phase duration="4.50"  state="rrrrrryyyyggrrrrrryyyygg"/>
         <phase duration="38" state="GGGGggrrrrrrGGGGggrrrrrr" minDur="10" maxDur="19" name="green"/>
         <phase duration="4"  state="yyyyggrrrrrryyyyggrrrrrr"/>
+        <param key="-E135_0" value="e1_156"/>
+        <param key="-E135_1" value="e1_155"/>
+        <param key="-E135_2" value="e1_154"/>
+        <param key="-E135_3" value="e1_153"/>
+        <param key="-E147_0" value="e1_146"/>
+        <param key="-E147_1" value="e1_145"/>
+        <param key="E129_0" value="e1_150"/>
+        <param key="E129_1" value="e1_149"/>
+        <param key="E129_2" value="e1_148"/>
+        <param key="E129_3" value="e1_147"/>
+        <param key="E142_0" value="e1_152"/>
+        <param key="E142_1" value="e1_151"/>
     </tlLogic>
     <tlLogic id="spadina_and_16th" type="actuated" programID="0" offset="0">
         <phase duration="7"  state="rrrGrrrrrrrGrrr" minDur="7" maxDur="7"/>
@@ -4580,6 +4786,19 @@
         <phase duration="4.50"  state="yyyyrrrryyyyrrr"/>
         <phase duration="10" state="rrrrGGggrrrrGGg" minDur="10" maxDur="19" name="red"/>
         <phase duration="4"  state="rrrryyryrrrryyy"/>
+        <param key="-E35_0" value="e1_71"/>
+        <param key="-E35_1" value="e1_70"/>
+        <param key="-E3_0" value="e1_66"/>
+        <param key="-E3_1" value="e1_67"/>
+        <param key="-E3_2" value="e1_68"/>
+        <param key="-E3_3" value="e1_69"/>
+        <param key="E33_0" value="e1_75"/>
+        <param key="E33_1" value="e1_74"/>
+        <param key="E33_2" value="e1_73"/>
+        <param key="E33_3" value="e1_72"/>
+        <param key="E69_0" value="e1_77"/>
+        <param key="E69_1" value="e1_78"/>
+        <param key="E69_2" value="e1_76"/>
     </tlLogic>
 
     <junction id="J0" type="priority" x="-3933.78" y="-2190.08" incLanes="E321_0 E321_1 E321_2 E321_3 E321_4 E321_5" intLanes=":J0_0_0 :J0_0_1 :J0_0_2 :J0_3_0 :J0_3_1 :J0_3_2 :J0_3_3 :J0_3_4" shape="-3894.60,-2167.75 -3886.68,-2181.65 -3886.20,-2183.04 -3884.79,-2192.54 -3890.39,-2193.12 -3894.69,-2193.24 -3898.25,-2193.35 -3901.65,-2193.87 -3905.48,-2195.26 -3910.29,-2197.95 -3920.55,-2181.72">
@@ -5085,15 +5304,11 @@
         <request index="4" response="000000" foes="000000" cont="0"/>
         <request index="5" response="000000" foes="000000" cont="0"/>
     </junction>
-    <junction id="J16" type="priority" x="-1831.77" y="-1202.91" incLanes="-E264_0 -E264_1 -E264_2 E9_0 E9_1 E9_2 E9_3" intLanes=":J16_0_0 :J16_0_1 :J16_0_2 :J16_0_3 :J16_4_0 :J16_5_0 :J16_5_1 :J16_5_2" shape="-1821.16,-1207.82 -1840.06,-1211.16 -1841.27,-1209.83 -1842.21,-1209.72 -1843.09,-1209.96 -1843.72,-1210.53 -1843.89,-1211.44 -1846.30,-1208.42 -1845.10,-1207.33 -1844.73,-1206.68 -1844.50,-1205.97 -1844.43,-1205.19 -1844.52,-1204.35 -1819.32,-1199.84 -1819.63,-1202.80 -1820.83,-1204.85 -1821.22,-1206.11">
-        <request index="0" response="00000000" foes="00000000" cont="0"/>
-        <request index="1" response="00000000" foes="00000000" cont="0"/>
-        <request index="2" response="00000000" foes="00000000" cont="0"/>
-        <request index="3" response="00000000" foes="00000000" cont="0"/>
-        <request index="4" response="00000000" foes="00000000" cont="0"/>
-        <request index="5" response="00000000" foes="00000000" cont="0"/>
-        <request index="6" response="00000000" foes="00000000" cont="0"/>
-        <request index="7" response="00000000" foes="00000000" cont="0"/>
+    <junction id="J16" type="priority" x="-1831.77" y="-1202.91" incLanes="-E264_0 -E264_1 -E264_2 E9_0 E9_1 E9_2 E9_3" intLanes=":J16_0_0 :J16_1_0 :J16_1_1 :J16_1_2" shape="-1821.16,-1207.82 -1840.06,-1211.16 -1841.27,-1209.83 -1842.21,-1209.72 -1843.09,-1209.96 -1843.72,-1210.53 -1843.89,-1211.44 -1846.30,-1208.42 -1845.10,-1207.33 -1844.73,-1206.68 -1844.50,-1205.97 -1844.43,-1205.19 -1844.52,-1204.35 -1819.32,-1199.84 -1819.63,-1202.80 -1820.83,-1204.85 -1821.22,-1206.11">
+        <request index="0" response="0000" foes="0000" cont="0"/>
+        <request index="1" response="0000" foes="0000" cont="0"/>
+        <request index="2" response="0000" foes="0000" cont="0"/>
+        <request index="3" response="0000" foes="0000" cont="0"/>
     </junction>
     <junction id="J164" type="priority" x="-2217.38" y="-1505.37" incLanes="E230_0 E230_1 E230_2 E230_3 E230_4 E230_5" intLanes=":J164_0_0 :J164_0_1 :J164_0_2 :J164_3_0 :J164_3_1 :J164_3_2 :J164_3_3 :J164_3_4" shape="-2126.91,-1514.41 -2128.50,-1530.33 -2128.64,-1531.05 -2131.31,-1540.27 -2142.01,-1536.79 -2150.78,-1533.44 -2158.62,-1530.41 -2166.54,-1527.91 -2175.55,-1526.15 -2186.66,-1525.31 -2186.19,-1506.12 -2174.85,-1506.77 -2165.25,-1507.98 -2156.51,-1509.56 -2147.78,-1511.29 -2138.21,-1512.98">
         <request index="0" response="00000000" foes="00000000" cont="0"/>
@@ -6181,10 +6396,10 @@
     <connection from="-E17" to="-E5" fromLane="1" toLane="0" via=":J11_4_0" dir="s" state="M"/>
     <connection from="-E17" to="-E5" fromLane="2" toLane="1" via=":J11_4_1" dir="s" state="M"/>
     <connection from="-E17" to="-E13" fromLane="3" toLane="0" via=":J11_6_0" dir="l" state="m"/>
-    <connection from="-E172" to="E171" fromLane="0" toLane="0" via=":J142_0_0" tl="J142" linkIndex="0" dir="r" state="O"/>
-    <connection from="-E172" to="E317" fromLane="1" toLane="0" via=":J142_1_0" tl="J142" linkIndex="1" dir="s" state="O"/>
-    <connection from="-E172" to="E317" fromLane="2" toLane="1" via=":J142_1_1" tl="J142" linkIndex="2" dir="s" state="O"/>
-    <connection from="-E172" to="E317" fromLane="3" toLane="2" via=":J142_1_2" tl="J142" linkIndex="3" dir="s" state="O"/>
+    <connection from="-E172" to="E171" fromLane="0" toLane="0" via=":J142_0_0" tl="hwy7_and_bayview" linkIndex="0" dir="r" state="O"/>
+    <connection from="-E172" to="E317" fromLane="1" toLane="0" via=":J142_1_0" tl="hwy7_and_bayview" linkIndex="1" dir="s" state="O"/>
+    <connection from="-E172" to="E317" fromLane="2" toLane="1" via=":J142_1_1" tl="hwy7_and_bayview" linkIndex="2" dir="s" state="O"/>
+    <connection from="-E172" to="E317" fromLane="3" toLane="2" via=":J142_1_2" tl="hwy7_and_bayview" linkIndex="3" dir="s" state="O"/>
     <connection from="-E173" to="-E24" fromLane="0" toLane="0" via=":J56_0_0" tl="hwy7_and_chalmers" linkIndex="0" dir="r" state="O"/>
     <connection from="-E173" to="-E172" fromLane="0" toLane="0" via=":J56_1_0" tl="hwy7_and_chalmers" linkIndex="1" dir="s" state="O"/>
     <connection from="-E173" to="-E172" fromLane="1" toLane="1" via=":J56_1_1" tl="hwy7_and_chalmers" linkIndex="2" dir="s" state="O"/>
@@ -6661,10 +6876,10 @@
     <connection from="E17" to="E26" fromLane="0" toLane="0" via=":J25_8_0" dir="s" state="M"/>
     <connection from="E17" to="E26" fromLane="1" toLane="1" via=":J25_8_1" dir="s" state="M"/>
     <connection from="E17" to="-E22" fromLane="2" toLane="0" via=":J25_10_0" dir="l" state="m"/>
-    <connection from="E170" to="E172" fromLane="0" toLane="0" via=":J142_4_0" tl="J142" linkIndex="4" dir="s" state="O"/>
-    <connection from="E170" to="E172" fromLane="1" toLane="1" via=":J142_4_1" tl="J142" linkIndex="5" dir="s" state="O"/>
-    <connection from="E170" to="E172" fromLane="2" toLane="2" via=":J142_4_2" tl="J142" linkIndex="6" dir="s" state="O"/>
-    <connection from="E170" to="E171" fromLane="3" toLane="2" via=":J142_7_0" tl="J142" linkIndex="7" dir="l" state="o"/>
+    <connection from="E170" to="E172" fromLane="0" toLane="0" via=":J142_4_0" tl="hwy7_and_bayview" linkIndex="4" dir="s" state="O"/>
+    <connection from="E170" to="E172" fromLane="1" toLane="1" via=":J142_4_1" tl="hwy7_and_bayview" linkIndex="5" dir="s" state="O"/>
+    <connection from="E170" to="E172" fromLane="2" toLane="2" via=":J142_4_2" tl="hwy7_and_bayview" linkIndex="6" dir="s" state="O"/>
+    <connection from="E170" to="E171" fromLane="3" toLane="2" via=":J142_7_0" tl="hwy7_and_bayview" linkIndex="7" dir="l" state="o"/>
     <connection from="E171" to="E9" fromLane="0" toLane="0" via=":J15_7_0" tl="bayview_and_hwy7" linkIndex="7" dir="r" state="O"/>
     <connection from="E171" to="E1" fromLane="1" toLane="0" via=":J15_8_0" tl="bayview_and_hwy7" linkIndex="8" dir="s" state="o"/>
     <connection from="E171" to="-E44" fromLane="2" toLane="3" via=":J15_9_0" tl="bayview_and_hwy7" linkIndex="9" dir="l" state="o"/>
@@ -6887,8 +7102,8 @@
     <connection from="E28" to="-E48" fromLane="2" toLane="2" via=":J12_18_1" tl="bayview_and_16th" linkIndex="6" dir="s" state="w"/>
     <connection from="E28" to="-E48" fromLane="2" toLane="3" via=":J12_18_2" tl="bayview_and_16th" linkIndex="6" dir="s" state="w"/>
     <connection from="E28" to="E30" fromLane="3" toLane="3" via=":J12_21_0" tl="bayview_and_16th" linkIndex="7" dir="l" state="w"/>
-    <connection from="E285" to="E172" fromLane="0" toLane="2" via=":J142_8_0" tl="J142" linkIndex="8" dir="l" state="o"/>
-    <connection from="E285" to="E172" fromLane="1" toLane="3" via=":J142_8_1" tl="J142" linkIndex="9" dir="l" state="o"/>
+    <connection from="E285" to="E172" fromLane="0" toLane="2" via=":J142_8_0" tl="hwy7_and_bayview" linkIndex="8" dir="l" state="o"/>
+    <connection from="E285" to="E172" fromLane="1" toLane="3" via=":J142_8_1" tl="hwy7_and_bayview" linkIndex="9" dir="l" state="o"/>
     <connection from="E29" to="E41" fromLane="0" toLane="0" via=":J9_6_0" dir="r" state="M"/>
     <connection from="E29" to="E38" fromLane="0" toLane="1" via=":J9_7_0" dir="s" state="M"/>
     <connection from="E29" to="-E27" fromLane="1" toLane="0" via=":J9_8_0" dir="l" state="m"/>
@@ -7120,10 +7335,10 @@
     <connection from="E79" to="E200" fromLane="0" toLane="2" via=":J128_8_2" dir="s" state="m"/>
     <connection from="E79" to="-E75" fromLane="0" toLane="1" via=":J128_11_0" dir="l" state="m"/>
     <connection from="E8" to="E50" fromLane="0" toLane="0" via=":J8_1_0" dir="l" state="M"/>
-    <connection from="E9" to="E319" fromLane="0" toLane="0" via=":J16_4_0" dir="r" state="M"/>
-    <connection from="E9" to="E264" fromLane="1" toLane="0" via=":J16_5_0" dir="s" state="M"/>
-    <connection from="E9" to="E264" fromLane="2" toLane="1" via=":J16_5_1" dir="s" state="M"/>
-    <connection from="E9" to="E264" fromLane="3" toLane="2" via=":J16_5_2" dir="s" state="M"/>
+    <connection from="E9" to="E319" fromLane="0" toLane="0" via=":J16_0_0" dir="r" state="M"/>
+    <connection from="E9" to="E264" fromLane="1" toLane="0" via=":J16_1_0" dir="s" state="M"/>
+    <connection from="E9" to="E264" fromLane="2" toLane="1" via=":J16_1_1" dir="s" state="M"/>
+    <connection from="E9" to="E264" fromLane="3" toLane="2" via=":J16_1_2" dir="s" state="M"/>
 
     <connection from=":J0_0" to="E322" fromLane="0" toLane="0" dir="R" state="M"/>
     <connection from=":J0_0" to="E322" fromLane="1" toLane="1" dir="R" state="M"/>
@@ -7632,14 +7847,10 @@
     <connection from=":J157_1" to="E230" fromLane="2" toLane="3" dir="s" state="M"/>
     <connection from=":J157_1" to="E230" fromLane="3" toLane="4" dir="s" state="M"/>
     <connection from=":J157_1" to="E230" fromLane="4" toLane="5" dir="s" state="M"/>
-    <connection from=":J16_0" to="-E9" fromLane="0" toLane="0" dir="s" state="M"/>
-    <connection from=":J16_0" to="-E9" fromLane="1" toLane="1" dir="s" state="M"/>
-    <connection from=":J16_0" to="-E9" fromLane="2" toLane="2" dir="s" state="M"/>
-    <connection from=":J16_0" to="-E9" fromLane="3" toLane="3" dir="s" state="M"/>
-    <connection from=":J16_4" to="E319" fromLane="0" toLane="0" dir="r" state="M"/>
-    <connection from=":J16_5" to="E264" fromLane="0" toLane="0" dir="s" state="M"/>
-    <connection from=":J16_5" to="E264" fromLane="1" toLane="1" dir="s" state="M"/>
-    <connection from=":J16_5" to="E264" fromLane="2" toLane="2" dir="s" state="M"/>
+    <connection from=":J16_0" to="E319" fromLane="0" toLane="0" dir="r" state="M"/>
+    <connection from=":J16_1" to="E264" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from=":J16_1" to="E264" fromLane="1" toLane="1" dir="s" state="M"/>
+    <connection from=":J16_1" to="E264" fromLane="2" toLane="2" dir="s" state="M"/>
     <connection from=":J164_0" to="E263" fromLane="0" toLane="0" dir="R" state="M"/>
     <connection from=":J164_0" to="E263" fromLane="1" toLane="1" dir="R" state="M"/>
     <connection from=":J164_0" to="E263" fromLane="2" toLane="2" dir="R" state="M"/>
