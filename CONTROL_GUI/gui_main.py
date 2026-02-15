@@ -30,14 +30,14 @@ button_width, button_height = 60, 30
 buttons = {
     "RUN": pygame.Rect(2*figure_width + offset*10, offset*2, button_width, button_height),
     "DEMO": pygame.Rect(2*figure_width + offset*13, offset*2, button_width, button_height),
-    "C": pygame.Rect(2*figure_width + offset*16, offset*2, button_width, button_height)
+    "RESTART": pygame.Rect(2*figure_width + offset*16, offset*2, button_width, button_height)
 }
 
 # Store button click state (for shadow effect)
-button_pressed = {"RUN": False, "DEMO": False, "C": False}
+button_pressed = {"RUN": False, "DEMO": False, "RESTART": False}
 
 # Store hover state
-button_hovered = {"RUN": False, "DEMO": False, "C": False}
+button_hovered = {"RUN": False, "DEMO": False, "RESTART": False}
 
 # # Path to the output file
 output_file = '../REFERENCE_DATA/output.good/network_averages.txt'
@@ -695,6 +695,11 @@ def gui_main(gui_colour, max_steps, output_dir, num_batches, num_runs_per_batch,
                             button_pressed[label] = True  # Set button to pressed state
                             # append_to_queue(queue_message)  # Append to the queue file
                             basic_utilities.demo_sumo_gui(selected_network, max_steps, output_dir)
+                        elif label == "RESTART" :
+                            button_pressed[label] = True
+                            simulation_state = "RUN"
+                            queue_message = "RESTART"
+                            append_to_queue(queue_message)
                         else:
                             button_pressed[label] = True  # Set button to pressed state
                             append_to_queue(queue_message)  # Append to the queue file

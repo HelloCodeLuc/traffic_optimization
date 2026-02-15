@@ -77,8 +77,53 @@ def main_loop(num_batches, num_runs_per_batch, network_selection, max_steps, pha
                 # Print the assigned values  
                 print(f"Weight Accuracy: {weight_accuracy}")  
 
+
+            elif command == "RESTART":
+                parsed_string_without_extension = ""
+                last_run_restart = True
+                last_run_dir = basic_utilities.last_run_folder("out")
+                last_run_network = basic_utilities.last_run_network(f"out/{last_run_dir}/TRAIN_BLUETOOTH", ".timing.net.xml")
+                if (restart == 0):
+                    if not os.path.exists(output_folder):
+                        os.makedirs(output_folder)
+                        os.makedirs(f"{output_folder}/TRAIN_BLUETOOTH")
+
+                    # Input and output file paths
+                    csv_file_edges = f'{output_folder}/GUI_edges.csv'
+                    csv_file_junctions = f'{output_folder}/GUI_junction_coordinates.csv'
+                    # Run the function
+                    basic_utilities.extract_network_edges(network_selection, csv_file_edges)
+                    basic_utilities.extract_network_junctions(network_selection, csv_file_junctions)
+
+                    output_data_file = os.path.join(output_folder, "TRAIN_BLUETOOTH/output_data.txt")
+                    parsed_string = network_selection.split("/")[-1]
+                    parsed_string_without_extension = parsed_string.replace(".net.xml", "")
+                    bluetooth_network_with_timing = os.path.join(output_folder, f"TRAIN_BLUETOOTH/{parsed_string_without_extension}.timing.net.xml")
+                    phase = "bluetooth"
+                    bluetooth_lib.bluetooth_training(phase, bluetooth_network_with_timing, output_folder, output_data_file, max_num_of_runs_on_network, num_batches, num_runs_per_batch, network_selection, 
+                                                    max_steps, bluetooth_network_with_timing, light_names, timing_light_increment,  
+                                                    num_of_greenlight_duplicate_limit, average_speed_n_steps, weight_prefix, weight_change, weight_accuracy, max_weight, last_run_restart, last_run_dir, last_run_network)
+
+                    # sys.exit()
+                    os.makedirs(f"{output_folder}/TRAIN_OPTIMIZATION")
+                    shutil.copy2 (f'{output_folder}/TRAIN_BLUETOOTH/GUI_average_speeds.csv' , f'{output_folder}/TRAIN_OPTIMIZATION/GUI_average_speeds.start.csv')
+                else: 
+                    parsed_string_without_extension = basic_utilities.find_timing_file_prefix(output_folder)
+
+                phase = "optimize"
+                output_data_file = os.path.join(output_folder, "TRAIN_OPTIMIZATION/output_data.txt")
+                network_averages = os.path.join(output_folder, "TRAIN_OPTIMIZATION/network_averages.txt")
+                network_with_timing = os.path.join(output_folder, f"TRAIN_OPTIMIZATION/{parsed_string_without_extension}.timing.net.xml")
+
+                optimize_timing_lib.optimize_timing_main (phase, output_folder, output_data_file, max_num_of_runs_on_network, num_batches, num_runs_per_batch, network_selection, 
+                                                max_steps, network_with_timing, light_names, timing_light_increment, network_averages, 
+                                                num_of_greenlight_duplicate_limit, average_speed_n_steps, restart)
+                command = "STOP"
+
+
             elif command == start_command:
                 parsed_string_without_extension = ""
+                last_run_restart = False
                 if (restart == 0):
                     if not os.path.exists(output_folder):
                         os.makedirs(output_folder)
@@ -101,7 +146,7 @@ def main_loop(num_batches, num_runs_per_batch, network_selection, max_steps, pha
                     phase = "bluetooth"
                     bluetooth_lib.bluetooth_training(phase, bluetooth_network_with_timing, output_folder, output_data_file, max_num_of_runs_on_network, num_batches, num_runs_per_batch, network_selection, 
                                                     max_steps, bluetooth_network_with_timing, light_names, timing_light_increment,  
-                                                    num_of_greenlight_duplicate_limit, average_speed_n_steps, weight_prefix, weight_change, weight_accuracy, max_weight)
+                                                    num_of_greenlight_duplicate_limit, average_speed_n_steps, weight_prefix, weight_change, weight_accuracy, max_weight, last_run_restart)
 
                     # sys.exit()
                     os.makedirs(f"{output_folder}/TRAIN_OPTIMIZATION")

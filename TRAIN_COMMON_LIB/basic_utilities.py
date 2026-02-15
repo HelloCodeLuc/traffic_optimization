@@ -669,3 +669,24 @@ def demo_sumo_gui(network_selection, max_steps, output_folder):
     subprocess.Popen(sumo_cmd)
     print("Exited the loop")
     # traci.close()
+
+def last_run_folder(output_dir):
+    valid_folders = []
+
+    for f in os.listdir(output_dir):
+        full_path = os.path.join(output_dir, f)
+        if os.path.isdir(full_path):
+            try:
+                datetime.strptime(f, "%Y_%m_%d_%H_%M_%S")
+                valid_folders.append(f)
+            except ValueError:
+                pass  # Ignore non-matching folders
+
+    latest_folder = max(valid_folders)
+    return latest_folder
+
+def last_run_network(folder_path, extension):
+    for file in os.listdir(folder_path):
+        if file.lower().endswith(extension.lower()):
+            return os.path.join(folder_path, file)
+    return None
