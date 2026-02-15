@@ -24,7 +24,6 @@ def network_timings(network_template, target_net_file, light_names, timing_light
                                            "green_up", "green_down",
                                            "green_up", "green_down",
                                            "green_up", "green_down",
-                                           "green_up", "green_down",
                                            "offset_pos", "offset_neg"])
 
             # print (f"Light:{light_names[random_light]} : Action:{random_action}")
@@ -162,6 +161,186 @@ def network_timings(network_template, target_net_file, light_names, timing_light
         file.close()
     return green_light_and_offset_timings
 
+
+def network_timings_with_actuated(
+    network_template,
+    target_net_file,
+    light_names,
+    timing_light_increment,
+    previous_greenlight_timings,
+    previous_greenlight_timings_file,
+    network_averages,
+    num_of_greenlight_duplicate_limit
+):
+    import os, random, shutil, re
+    import xml.etree.ElementTree as ET
+
+    if os.path.exists(target_net_file):
+
+        new_greenlight_timings_unique = False
+        num_of_greenlight_duplicates = 0
+
+        while not new_greenlight_timings_unique:
+
+            random_light = random.randint(0, len(light_names) - 1)
+            random_action = random.choice([
+                "green_up", "green_down",
+                "green_up", "green_down",
+                "green_up", "green_down",
+                "green_up", "green_down",
+                "offset_pos", "offset_neg"
+            ])
+
+            comment_pattern = f"{light_names[random_light]}"
+            lines_after_comment = basic_utilities.extract_lines_after_comment(
+                target_net_file, comment_pattern
+            )
+
+            modified_lines = []
+            is_actuated = False
+
+            # Detect actuated logic
+            for line in lines_after_comment:
+                if '<tlLogic' in line and 'type="actuated"' in line:
+                    is_actuated = True
+                    break
+
+            for line in lines_after_comment:
+                root = None
+
+                if random_action in ["green_up", "green_down"]:
+
+                    # -------- FIXED TIMING --------
+                    if not is_actuated and 'name="green"' in line:
+                        root = ET.fromstring(line)
+                        duration = int(root.get("duration"))
+                        delta = timing_light_increment if random_action == "green_up" else -timing_light_increment
+                        line = line.replace(f'duration="{duration}"', f'duration="{duration + delta}"')
+
+                    elif not is_actuated and 'name="red"' in line:
+                        root = ET.fromstring(line)
+                        duration = int(root.get("duration"))
+                        delta = -timing_light_increment if random_action == "green_up" else timing_light_increment
+                        line = line.replace(f'duration="{duration}"', f'duration="{duration + delta}"')
+
+                    # -------- ACTUATED TIMING --------
+                    elif is_actuated and 'name="green"' in line:
+                        root = ET.fromstring(line)
+                        min_d = int(root.get("minDur"))
+                        max_d = int(root.get("maxDur"))
+                        delta = timing_light_increment if random_action == "green_up" else -timing_light_increment
+
+                        line = (
+                            line.replace(f'minDur="{min_d}"', f'minDur="{min_d + delta}"')
+                                .replace(f'maxDur="{max_d}"', f'maxDur="{max_d + delta}"')
+                        )
+
+                    elif is_actuated and 'name="red"' in line:
+                        root = ET.fromstring(line)
+                        min_d = int(root.get("minDur"))
+                        max_d = int(root.get("maxDur"))
+                        delta = -timing_light_increment if random_action == "green_up" else timing_light_increment
+
+                        line = (
+                            line.replace(f'minDur="{min_d}"', f'minDur="{min_d + delta}"')
+                                .replace(f'maxDur="{max_d}"', f'maxDur="{max_d + delta}"')
+                        )
+
+                # -------- OFFSET --------
+                elif "offset" in random_action and 'offset=' in line:
+                    offset_match = re.search(r'offset="(-?\d+)"', line)
+                    if offset_match:
+                        offset = int(offset_match.group(1))
+                        delta = timing_light_increment if random_action == "offset_pos" else -timing_light_increment
+                        line = line.replace(
+                            f'offset="{offset}"',
+                            f'offset="{offset + delta}"'
+                        )
+
+                modified_lines.append(line)
+
+            basic_utilities.create_target_net_xml_temp(
+                comment_pattern, target_net_file, modified_lines
+            )
+
+            # -------- BUILD TIMING SIGNATURE --------
+            green_light_and_offset_timings = ""
+
+            with open(f"{target_net_file}.temp", "r") as file:
+                for line in file:
+
+                    if 'name="green"' in line:
+                        root = ET.fromstring(line)
+                        if root.get("minDur") is not None:
+                            val = f"{root.get('minDur')}:{root.get('maxDur')}"
+                        else:
+                            val = root.get("duration")
+
+                        green_light_and_offset_timings = (
+                            val if green_light_and_offset_timings == ""
+                            else f"{green_light_and_offset_timings}:{val}"
+                        )
+
+                    elif 'offset=' in line:
+                        offset_match = re.search(r'offset="(-?\d+)"', line)
+                        if offset_match:
+                            val = offset_match.group(1)
+                            green_light_and_offset_timings = (
+                                val if green_light_and_offset_timings == ""
+                                else f"{green_light_and_offset_timings}:{val}"
+                            )
+
+            green_light_and_offset_timings = green_light_and_offset_timings.strip(":")
+
+            with open(previous_greenlight_timings_file, "a") as f:
+                f.write(f"{green_light_and_offset_timings}\n")
+
+            if green_light_and_offset_timings not in previous_greenlight_timings:
+                previous_greenlight_timings[green_light_and_offset_timings] = 1
+                new_greenlight_timings_unique = True
+            else:
+                num_of_greenlight_duplicates += 1
+                with open(network_averages, "a") as f:
+                    f.write(f"Duplicate New Green Light Timing: {green_light_and_offset_timings}\n")
+
+                if num_of_greenlight_duplicates == num_of_greenlight_duplicate_limit:
+                    with open("out/command_queue.txt", "w") as f:
+                        f.write("STOP")
+                    break
+
+    else:
+        shutil.copy2(network_template, target_net_file)
+        shutil.copy2(network_template, f"{target_net_file}.temp")
+
+        green_light_and_offset_timings = ""
+
+        with open(f"{target_net_file}.temp", "r") as file:
+            for line in file:
+                if 'name="green"' in line:
+                    root = ET.fromstring(line)
+                    if root.get("minDur") is not None:
+                        val = f"{root.get('minDur')}:{root.get('maxDur')}"
+                    else:
+                        val = root.get("duration")
+
+                    green_light_and_offset_timings = (
+                        val if green_light_and_offset_timings == ""
+                        else f"{green_light_and_offset_timings}:{val}"
+                    )
+
+                elif 'offset=' in line:
+                    offset_match = re.search(r'offset="(-?\d+)"', line)
+                    if offset_match:
+                        val = offset_match.group(1)
+                        green_light_and_offset_timings = (
+                            val if green_light_and_offset_timings == ""
+                            else f"{green_light_and_offset_timings}:{val}"
+                        )
+
+    return green_light_and_offset_timings
+
+
+
 def calculate_overall_average_for_given_network(output_data_file, network_averages, greenlight_timings):
     total = 0.0
     count = 0
@@ -249,7 +428,7 @@ def optimize_timing_main (phase, output_folder, output_data_file, max_num_of_run
     for net_index in range(max_num_of_runs_on_network):
         greenlight_timings = ""
         if (debug == 0):
-            greenlight_timings = network_timings(network_selection, network_with_timing, light_names, timing_light_increment, previous_greenlight_timings, previous_greenlight_timings_file, network_averages, num_of_greenlight_duplicate_limit)
+            greenlight_timings = network_timings_with_actuated(network_selection, network_with_timing, light_names, timing_light_increment, previous_greenlight_timings, previous_greenlight_timings_file, network_averages, num_of_greenlight_duplicate_limit)
 
         basic_utilities.batched_run_sumo(phase, num_batches, num_runs_per_batch, output_folder, network_with_timing, max_steps, current_directory, average_speed_n_steps, speed_limit, output_data_file, network_selection, debug)
 

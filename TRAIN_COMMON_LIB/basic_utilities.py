@@ -236,22 +236,36 @@ def generate_random_trips_weighted(network_selection, trip_file, max_steps, seed
 
     subprocess.call(cmd, shell=True)
 
-# Generate the SUMO configuration file with the given template
+
 def generate_sumo_config(network_selection, config_file, current_directory, max_steps, route_files):
+    print(f"network selection in config is: {network_selection}")
+    
+    # Check just the filename, not the full path
+    network_name = os.path.basename(network_selection)
+    output_directory = os.path.dirname(os.path.dirname(network_selection))
+    print(output_directory)
+    
+    if network_name in ["Hwy7_404_network.net.xml", "Hwy7_404_network.net.xml.temp",
+                        "Hwy7_404_network.timing.net.xml", "Hwy7_404_network.timing.net.xml.temp"]:
+        additional_line = f'        <additional-files value="{current_directory}/out/detectors/detectors.add.xml"/>' #THIS IS HARDCODED, MUST FIX WHEN ANOTHER ACTUATED NETWORK IS ADDED.
+    else:
+        additional_line = ""
+    
     config_template = f"""<configuration>
     <input>
         <net-file value="{current_directory}/{network_selection}"/>
         <route-files value="{current_directory}/{route_files}"/>
+{additional_line}
     </input>
     <time>
         <begin value="0"/>
         <end value="{max_steps}"/>
     </time>
 </configuration>"""
-    # print (f"DEBUG INSIDE 4 {config_file}")
+    
     with open(config_file, 'w') as f:
         f.write(config_template)
-    f.close()
+
 
 #creates a new network file with changed traffic light changes to run simulations from
 #the comment pattern represents a specific traffic light label
@@ -655,3 +669,24 @@ def demo_sumo_gui(network_selection, max_steps, output_folder):
     subprocess.Popen(sumo_cmd)
     print("Exited the loop")
     # traci.close()
+
+def last_run_folder(output_dir):
+    valid_folders = []
+
+    for f in os.listdir(output_dir):
+        full_path = os.path.join(output_dir, f)
+        if os.path.isdir(full_path):
+            try:
+                datetime.strptime(f, "%Y_%m_%d_%H_%M_%S")
+                valid_folders.append(f)
+            except ValueError:
+                pass  # Ignore non-matching folders
+
+    latest_folder = max(valid_folders)
+    return latest_folder
+
+def last_run_network(folder_path, extension):
+    for file in os.listdir(folder_path):
+        if file.lower().endswith(extension.lower()):
+            return os.path.join(folder_path, file)
+    return None

@@ -12,7 +12,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), 'TRAIN_COMMON_LIB'))
 import basic_utilities
 from io import BytesIO
 import json
-import glob 
+import csv
 
 # Define colors
 WHITE = (255, 255, 255)
@@ -30,14 +30,14 @@ button_width, button_height = 60, 30
 buttons = {
     "RUN": pygame.Rect(2*figure_width + offset*10, offset*2, button_width, button_height),
     "DEMO": pygame.Rect(2*figure_width + offset*13, offset*2, button_width, button_height),
-    "C": pygame.Rect(2*figure_width + offset*16, offset*2, button_width, button_height)
+    "RESTART": pygame.Rect(2*figure_width + offset*16, offset*2, button_width, button_height)
 }
 
 # Store button click state (for shadow effect)
-button_pressed = {"RUN": False, "DEMO": False, "C": False}
+button_pressed = {"RUN": False, "DEMO": False, "RESTART": False}
 
 # Store hover state
-button_hovered = {"RUN": False, "DEMO": False, "C": False}
+button_hovered = {"RUN": False, "DEMO": False, "RESTART": False}
 
 # # Path to the output file
 output_file = '../REFERENCE_DATA/output.good/network_averages.txt'
@@ -191,55 +191,101 @@ def my_plot(output_data_file):
     return plot_surface
 
 # #
-def my_bluetooth(junction_coordinates_file, junction_bluetooth_csv_file, average_speeds_file, network_file, network_averages, road_width, lane_spacing_factor):
+def my_bluetooth(junction_coordinates_file, junction_bluetooth_csv_file,
+                 average_speeds_file, network_file, network_averages,
+                 road_width, lane_spacing_factor):
 
-    # Read input files
-    file_name = "RESOURCES/CONNECTING_TWO_POINTS/GUI_junction_coordinates.csv"
-    junction_coordinates = bluetooth_gui_lib.read_GUI_junction_coordinates(junction_coordinates_file)
+    junction_coordinates = bluetooth_gui_lib.read_GUI_junction_coordinates(
+        junction_coordinates_file
+    )
 
-    file_path = "RESOURCES/CONNECTING_TWO_POINTS/GUI_average_speeds.csv"
     edge_data = bluetooth_gui_lib.read_edge_data(average_speeds_file)
 
-    # Create Matplotlib figure
     fig, ax = plt.subplots(figsize=(4, 4))
     ax.set_aspect('equal')
     ax.set_facecolor('black')
 
-    # Set a black border around the figure
-    fig.patch.set_edgecolor('black')
-    fig.patch.set_linewidth(2)  # Border thickness
-
-    # Remove extra padding
     plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
 
-    # Draw roads and nodes
     for edge in edge_data:
         from_node = edge['from_node']
-        to_node = edge['to_node']
-        point1 = junction_coordinates[from_node]
-        point2 = junction_coordinates[to_node]
-        # average_speed = edge['average_speed']
-        bluetooth_gui_lib.draw_two_way_road(ax, point1, point2, road_width, lane_spacing_factor, edge_data, junction_bluetooth_csv_file)
-            
-    # Draw nodes
-    if network_file != "":
-        coord_differences = plot_timing_changes.coordinates_to_diff_of_offset_and_greenlight (f"NETWORKS/{network_file}", junction_coordinates_file, network_averages)
+        to_node   = edge['to_node']
+        avg_speed = float(edge['average_speed'])
 
-        for node_position in junction_coordinates.values():
-            bluetooth_gui_lib.draw_node(ax, node_position, coord_differences)
-    else:
-        for node_position in junction_coordinates.values():
-            bluetooth_gui_lib.draw_node(ax, node_position, None)
+        p1 = junction_coordinates[from_node]
+        p2 = junction_coordinates[to_node]
 
-    # Remove axis labels and ticks
+        bluetooth_gui_lib.draw_two_way_road(
+            ax,
+            p1,
+            p2,
+            road_width,
+            lane_spacing_factor,
+            avg_speed
+        )
+
+    for node_position in junction_coordinates.values():
+        bluetooth_gui_lib.draw_node(ax, node_position, None)
+
     ax.set_xticks([])
     ax.set_yticks([])
     ax.set_frame_on(False)
 
-    # Convert Matplotlib figure to Pygame surface
     pygame_surface = bluetooth_gui_lib.fig_to_pygame(fig)
     plt.close(fig)
     return pygame_surface
+
+
+# def my_bluetooth_old(junction_coordinates_file, junction_bluetooth_csv_file, average_speeds_file, network_file, network_averages, road_width, lane_spacing_factor):
+
+#     # Read input files
+#     file_name = "RESOURCES/CONNECTING_TWO_POINTS/GUI_junction_coordinates.csv"
+#     junction_coordinates = bluetooth_gui_lib.read_GUI_junction_coordinates(junction_coordinates_file)
+
+#     file_path = "RESOURCES/CONNECTING_TWO_POINTS/GUI_average_speeds.csv"
+#     edge_data = bluetooth_gui_lib.read_edge_data(average_speeds_file)
+
+#     # Create Matplotlib figure
+#     fig, ax = plt.subplots(figsize=(4, 4))
+#     ax.set_aspect('equal')
+#     ax.set_facecolor('black')
+
+#     # Set a black border around the figure
+#     fig.patch.set_edgecolor('black')
+#     fig.patch.set_linewidth(2)  # Border thickness
+
+#     # Remove extra padding
+#     plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
+
+#     # Draw roads and nodes
+#     for edge in edge_data:
+#         from_node = edge['from_node']
+#         to_node = edge['to_node']
+#         point1 = junction_coordinates[from_node]
+#         point2 = junction_coordinates[to_node]
+#         # average_speed = edge['average_speed']
+#         bluetooth_gui_lib.draw_two_way_road(ax, point1, point2, road_width, lane_spacing_factor, edge_data, junction_bluetooth_csv_file)
+            
+#     # Draw nodes
+#     if network_file != "":
+#         coord_differences = plot_timing_changes.coordinates_to_diff_of_offset_and_greenlight (f"NETWORKS/{network_file}", junction_coordinates_file, network_averages)
+
+#         for node_position in junction_coordinates.values():
+#             bluetooth_gui_lib.draw_node(ax, node_position, coord_differences)
+#     else:
+#         for node_position in junction_coordinates.values():
+#             bluetooth_gui_lib.draw_node(ax, node_position, None)
+
+#     # Remove axis labels and ticks
+#     ax.set_xticks([])
+#     ax.set_yticks([])
+#     ax.set_frame_on(False)
+
+#     # Convert Matplotlib figure to Pygame surface
+#     pygame_surface = bluetooth_gui_lib.fig_to_pygame(fig)
+#     plt.close(fig)
+#     return pygame_surface
+    
 
 # Function to check if the file has been updated
 def has_file_updated(file_path, last_mod_time):
@@ -649,6 +695,11 @@ def gui_main(gui_colour, max_steps, output_dir, num_batches, num_runs_per_batch,
                             button_pressed[label] = True  # Set button to pressed state
                             # append_to_queue(queue_message)  # Append to the queue file
                             basic_utilities.demo_sumo_gui(selected_network, max_steps, output_dir)
+                        elif label == "RESTART" :
+                            button_pressed[label] = True
+                            simulation_state = "RUN"
+                            queue_message = "RESTART"
+                            append_to_queue(queue_message)
                         else:
                             button_pressed[label] = True  # Set button to pressed state
                             append_to_queue(queue_message)  # Append to the queue file

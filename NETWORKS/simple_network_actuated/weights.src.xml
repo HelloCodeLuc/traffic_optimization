@@ -1,0 +1,10 @@
+<edgedata>
+  <interval begin="0" end="100">
+    <edge id="-E0" value="2.0"/>
+    <edge id="-E5" value="2.0"/>
+    <edge id="-E3" value="2.0"/>
+    <edge id="-E6" value="2.0"/>
+    <edge id="-E4" value="2.0"/>
+    <edge id="-E1" value="2.0"/>
+  </interval>
+</edgedata>

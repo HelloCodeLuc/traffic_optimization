@@ -1,0 +1,5 @@
+{  
+    "weight_accuracy": 40,  
+    "road_width": 3,  
+    "lane_spacing_factor": 8
+}
