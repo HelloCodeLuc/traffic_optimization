@@ -82,7 +82,9 @@ def main_loop(num_batches, num_runs_per_batch, network_selection, max_steps, pha
                 parsed_string_without_extension = ""
                 last_run_restart = True
                 last_run_dir = basic_utilities.last_run_folder("out")
-                last_run_network = basic_utilities.last_run_network(f"out/{last_run_dir}/TRAIN_BLUETOOTH", ".timing.net.xml")
+                last_run_network = basic_utilities.last_run_network(f"out/{last_run_dir}/TRAIN_OPTIMIZATION", ".timing.net.xml")
+                if last_run_network == None:
+                    last_run_network = basic_utilities.last_run_network(f"out/{last_run_dir}/TRAIN_BLUETOOTH", ".timing.net.xml")
                 if (restart == 0):
                     if not os.path.exists(output_folder):
                         os.makedirs(output_folder)
