@@ -36,10 +36,9 @@ the net file should be ready.
 
 you may now click the "my_config-file.sumocfg" to run the simulation and confirm it is correct
 
+Restart feature usage:
+  If the last sim you want to restart has reached optimization phase, set weight accuracy to a high value (>100) so that it only cycles bluetooth phase once. This will be fixed in future patches. Once GUI is open, select the same network as the last sim and click restart. Simulations should begin to run from where they left off in a new output folder. 
 
-TODO : dismantle simulation_lib.py
-TODO : make simulation batch small and quick and get to plot results quickly
-TODO : get the plot to work
 TODO : move the running of the random_trips script to be from the out/<date>/TRAIN_OPTMIZATION folder, no more trips.trips.xml at the top
 TODO : move the plot to be dynamically part of the GUI
 
